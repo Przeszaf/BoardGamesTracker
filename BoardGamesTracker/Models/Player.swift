@@ -8,16 +8,37 @@
 
 import UIKit
 
-class Player {
+class Player: Equatable {
+
+    //MARK: - Player attributes
     var name: String
-    var birthDate: Date?
     var lastTimePlayed: Date?
     var timesPlayed: Int
+    let playerID: String
     
-    init(name: String, birthDate: Date?) {
+    var gamesPlayed = [String: [String]]()
+    
+    //MARK: - Initializers
+    init(name: String) {
         self.name = name
-        self.birthDate = birthDate
         lastTimePlayed = nil
         timesPlayed = 0
+        playerID = NSUUID().uuidString
+    }
+    
+    //MARK: - Functions
+    func addMatch(gameID: String, matchID: String) {
+        if gamesPlayed[gameID] == nil {
+            gamesPlayed[gameID] = [matchID]
+        } else {
+            gamesPlayed[gameID]?.append(matchID)
+        }
+    }
+    
+    //MARK: - Conforming to protocols
+    
+    //Equatable protocol
+    static func ==(lhs: Player, rhs: Player) -> Bool {
+        return lhs.playerID == rhs.playerID
     }
 }

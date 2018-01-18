@@ -1,5 +1,5 @@
 //
-//  BoardGame.swift
+//  Game.swift
 //  BoardGamesTracker
 //
 //  Created by Przemyslaw Szafulski on 09/01/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BoardGame: Equatable, CustomStringConvertible {
+class Game: Equatable, CustomStringConvertible {
     
     
     //MARK: Board game attributes
@@ -18,13 +18,17 @@ class BoardGame: Equatable, CustomStringConvertible {
     var gameType: String?
     var timesPlayed: Int
     var lastTimePlayed: Date?
-    
     let gameId: String
+    
+    var matches = [Match]()
     
     
     //MARK: - Conforming to protocols
     var description: String
     
+    static func ==(lhs: Game, rhs: Game) -> Bool {
+        return lhs.gameId == rhs.gameId
+    }
     //MARK: - Initializers
     init(name: String, maxNoOfPlayers: Int, maxNoOfTeams: Int?, gameType: String?) {
         gameId = NSUUID().uuidString
@@ -37,10 +41,6 @@ class BoardGame: Equatable, CustomStringConvertible {
         description = "Name: \(name), max number of players: \(maxNoOfPlayers), max number of teams: \(maxNoOfTeams ?? 0), game type: \(gameType ?? "None"), times played: \(timesPlayed)"
     }
     
-    //MARK: - Conforming to protocols
-    static func ==(lhs: BoardGame, rhs: BoardGame) -> Bool {
-        return lhs.gameId == rhs.gameId
-    }
     
     
     
