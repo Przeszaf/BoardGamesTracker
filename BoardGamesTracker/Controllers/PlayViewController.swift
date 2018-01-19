@@ -10,7 +10,7 @@ import UIKit
 
 class PlayViewController: UIViewController {
     
-    var boardGameStore: BoardGameStore!
+    var gameStore: GameStore!
     
     @IBOutlet var navigationBar: UINavigationItem!
     
@@ -23,10 +23,10 @@ class PlayViewController: UIViewController {
         switch segue.identifier {
         case "addGame"?:
            let addGameController = segue.destination as! AddGameViewController
-            addGameController.boardGameStore = boardGameStore
+            addGameController.gameStore = gameStore
         case "allGames"?:
             let gamesViewController = segue.destination as! GamesViewController
-            gamesViewController.boardGameStore = boardGameStore
+            gamesViewController.gameStore = gameStore
         default:
             preconditionFailure("Wrong segue identifier")
             

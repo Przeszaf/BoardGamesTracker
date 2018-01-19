@@ -11,16 +11,16 @@ import UIKit
 
 class GamesViewController: UITableViewController {
     
-    var boardGameStore: BoardGameStore!
+    var gameStore: GameStore!
     
     //MARK: Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "gamesViewCell", for: indexPath)
-        cell.textLabel?.text = boardGameStore.allBoardGames[indexPath.row].name
+        cell.textLabel?.text = gameStore.allGames[indexPath.row].name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return boardGameStore.allBoardGames.count
+        return gameStore.allGames.count
     }
 }

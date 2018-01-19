@@ -10,9 +10,9 @@ import UIKit
 
 class AddGameViewController: UIViewController, UITextFieldDelegate {
     
-    var boardGameStore: BoardGameStore!
+    var gameStore: GameStore!
     
-    //MARK: Text fields and switch
+    //MARK: - Text fields and switch
     @IBOutlet var nameField: UITextField!
     @IBOutlet var maxPlayersField: UITextField!
     @IBOutlet var maxTeamsField: UITextField!
@@ -38,17 +38,22 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func addGameButtonPressed(_ sender: UIButton) {
-        let boardGame = BoardGame(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, maxNoOfTeams: nil, gameType: nil)
-        boardGameStore.addGame(boardGame)
+        
+        if maxPlayersField.text == "" || nameField.text == "" {
+            
+        } else {
+            let boardGame = Game(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, maxNoOfTeams: nil, gameType: nil)
+            gameStore.addGame(boardGame)
+        }
     }
     
     //MARK: - Text field delegate methods
     
+    //
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == nameField {
             return true
         }
-        
         if textField == maxPlayersField {
             if (Int(string) != nil && range.upperBound < 2 || string == "" ) {
                 return true
