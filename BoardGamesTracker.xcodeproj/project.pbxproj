@@ -15,12 +15,14 @@
 		0C58DBF220051219009FD235 /* BoardGamesTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DBF120051219009FD235 /* BoardGamesTrackerUITests.swift */; };
 		0C58DC00200512E3009FD235 /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DBFF200512E3009FD235 /* PlayViewController.swift */; };
 		0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0120051F4F009FD235 /* AddGameViewController.swift */; };
-		0C58DC0720052811009FD235 /* BoardGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0620052811009FD235 /* BoardGame.swift */; };
-		0C58DC0920052A43009FD235 /* BoardGameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0820052A43009FD235 /* BoardGameStore.swift */; };
+		0C58DC0720052811009FD235 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0620052811009FD235 /* Game.swift */; };
+		0C58DC0920052A43009FD235 /* GameStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0820052A43009FD235 /* GameStore.swift */; };
 		0C58DC0B20052AF0009FD235 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0A20052AF0009FD235 /* Player.swift */; };
 		0C58DC0D20052BD0009FD235 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0C20052BD0009FD235 /* Match.swift */; };
-		0CB8B2CB2007B53100B63148 /* GamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* GamesViewController.swift */; };
-		0CB8B2CD2007B55E00B63148 /* GameDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CC2007B55E00B63148 /* GameDetailsViewController.swift */; };
+		0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4020110E3200D301B0 /* PlayerStore.swift */; };
+		0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4220110EA800D301B0 /* MatchStore.swift */; };
+		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
+		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,12 +57,14 @@
 		0C58DBF320051219009FD235 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0C58DBFF200512E3009FD235 /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
 		0C58DC0120051F4F009FD235 /* AddGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGameViewController.swift; sourceTree = "<group>"; };
-		0C58DC0620052811009FD235 /* BoardGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGame.swift; sourceTree = "<group>"; };
-		0C58DC0820052A43009FD235 /* BoardGameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardGameStore.swift; sourceTree = "<group>"; };
+		0C58DC0620052811009FD235 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		0C58DC0820052A43009FD235 /* GameStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStore.swift; sourceTree = "<group>"; };
 		0C58DC0A20052AF0009FD235 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0C58DC0C20052BD0009FD235 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
-		0CB8B2CA2007B53100B63148 /* GamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesViewController.swift; sourceTree = "<group>"; };
-		0CB8B2CC2007B55E00B63148 /* GameDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDetailsViewController.swift; sourceTree = "<group>"; };
+		0C884E4020110E3200D301B0 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
+		0C884E4220110EA800D301B0 /* MatchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStore.swift; sourceTree = "<group>"; };
+		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
+		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,10 +147,12 @@
 		0C58DC032005264E009FD235 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0C58DC0620052811009FD235 /* BoardGame.swift */,
-				0C58DC0820052A43009FD235 /* BoardGameStore.swift */,
+				0C58DC0620052811009FD235 /* Game.swift */,
+				0C58DC0820052A43009FD235 /* GameStore.swift */,
 				0C58DC0A20052AF0009FD235 /* Player.swift */,
+				0C884E4020110E3200D301B0 /* PlayerStore.swift */,
 				0C58DC0C20052BD0009FD235 /* Match.swift */,
+				0C884E4220110EA800D301B0 /* MatchStore.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -155,9 +161,9 @@
 			isa = PBXGroup;
 			children = (
 				0C58DBFF200512E3009FD235 /* PlayViewController.swift */,
-				0CB8B2CA2007B53100B63148 /* GamesViewController.swift */,
+				0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */,
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
-				0CB8B2CC2007B55E00B63148 /* GameDetailsViewController.swift */,
+				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -296,15 +302,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0CB8B2CB2007B53100B63148 /* GamesViewController.swift in Sources */,
-				0CB8B2CD2007B55E00B63148 /* GameDetailsViewController.swift in Sources */,
-				0C58DC0720052811009FD235 /* BoardGame.swift in Sources */,
-				0C58DC0920052A43009FD235 /* BoardGameStore.swift in Sources */,
+				0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */,
+				0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */,
+				0C58DC0720052811009FD235 /* Game.swift in Sources */,
+				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
 				0C58DC00200512E3009FD235 /* PlayViewController.swift in Sources */,
 				0C58DC0B20052AF0009FD235 /* Player.swift in Sources */,
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
+				0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */,
 				0C58DC0D20052BD0009FD235 /* Match.swift in Sources */,
+				0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

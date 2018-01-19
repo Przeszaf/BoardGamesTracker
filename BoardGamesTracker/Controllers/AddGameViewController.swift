@@ -37,7 +37,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    @IBAction func addGameButtonPressed(_ sender: UIButton) {
+    @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
         if maxPlayersField.text == "" || nameField.text == "" {
             

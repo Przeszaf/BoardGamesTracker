@@ -25,7 +25,7 @@ class PlayViewController: UIViewController {
            let addGameController = segue.destination as! AddGameViewController
             addGameController.gameStore = gameStore
         case "allGames"?:
-            let gamesViewController = segue.destination as! GamesViewController
+            let gamesViewController = segue.destination as! AllGamesViewController
             gamesViewController.gameStore = gameStore
         default:
             preconditionFailure("Wrong segue identifier")

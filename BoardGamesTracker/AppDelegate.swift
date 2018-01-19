@@ -17,9 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         let gameStore = GameStore()
-        let navController = window!.rootViewController as! UINavigationController
-        let playController = navController.topViewController! as! PlayViewController
-        playController.gameStore = gameStore
+        let tabBarController = window?.rootViewController as! UITabBarController
+        let navController = tabBarController.viewControllers?[0] as! UINavigationController
+        let allGamesController = navController.topViewController as! AllGamesViewController
+        
+        allGamesController.gameStore = gameStore
         return true
     }
 
