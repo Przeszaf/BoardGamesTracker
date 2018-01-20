@@ -10,7 +10,7 @@ import UIKit
 
 class Match: Equatable {
     //MARK: - Match attributes
-    var boardGame: Game
+    var game: Game
     var winners: [Player]
     var winnersPoints: [Int]?
     var loosers: [Player]
@@ -20,8 +20,8 @@ class Match: Equatable {
     let matchID: String
     
     //MARK: - Initializers
-    init(boardGame: Game, winners: [Player], loosers: [Player]) {
-        self.boardGame = boardGame
+    init(game: Game, winners: [Player], loosers: [Player]) {
+        self.game = game
         self.winners = winners
         self.loosers = loosers
         date = Date()

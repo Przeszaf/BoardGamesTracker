@@ -6,4 +6,13 @@
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class AddPlayerViewController: UIViewController {
+    
+    @IBOutlet var field: UITextField!
+    
+    @IBAction func btn(_ sender: Any) {
+        field.shake()
+    }
+}

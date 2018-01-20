@@ -6,4 +6,8 @@
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+class AllPlayersViewController: UITableViewController {
+    
+}
