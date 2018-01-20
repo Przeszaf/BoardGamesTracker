@@ -40,7 +40,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
         if maxPlayersField.text == "" || nameField.text == "" {
-            
+            maxPlayersField.shake()
         } else {
             let boardGame = Game(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, maxNoOfTeams: nil, gameType: nil)
             gameStore.addGame(boardGame)
