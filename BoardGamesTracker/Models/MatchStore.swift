@@ -8,17 +8,20 @@
 
 import UIKit
 
-//MARK: - Variables
-var allMatches = [Match]()
+class MatchStore {
+    
+    //MARK: - Variables
+    var allMatches = [Match]()
 
-//MARK: - Functions
-func addMatch(_ match: Match) {
-    allMatches.append(match)
-}
-
-@discardableResult func removeMatch(_ match: Match) -> Match {
-    if let index = allMatches.index(of: match) {
-        allMatches.remove(at: index)
+    //MARK: - Functions
+    func addMatch(_ match: Match) {
+        allMatches.append(match)
     }
-    return match
+
+    @discardableResult func removeMatch(_ match: Match) -> Match {
+        if let index = allMatches.index(of: match) {
+            allMatches.remove(at: index)
+        }
+        return match
+    }
 }

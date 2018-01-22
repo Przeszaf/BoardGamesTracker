@@ -9,6 +9,7 @@
 import UIKit
 
 class Match: Equatable {
+    
     //MARK: - Match attributes
     var game: Game
     var winners: [Player]

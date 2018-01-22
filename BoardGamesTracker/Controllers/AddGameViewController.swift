@@ -39,8 +39,10 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
-        if maxPlayersField.text == "" || nameField.text == "" {
+        if maxPlayersField.text == "" {
             maxPlayersField.shake()
+        } else if nameField.text == ""{
+            nameField.shake()
         } else {
             let boardGame = Game(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, maxNoOfTeams: nil, gameType: nil)
             gameStore.addGame(boardGame)
@@ -49,7 +51,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Text field delegate methods
     
-    //
+    //Taking care of correct inputs to textFields
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == nameField {
             return true

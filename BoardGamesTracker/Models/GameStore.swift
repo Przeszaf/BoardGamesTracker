@@ -9,6 +9,7 @@
 import UIKit
 
 class GameStore {
+    
     //MARK: - Variables
     var allGames = [Game]()
     

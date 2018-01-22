@@ -13,15 +13,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
+    let matchStore = MatchStore()
+    let gameStore = GameStore()
+    let playerStore = PlayerStore()
+    
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let gameStore = GameStore()
+        
+        
+        //Using AppDelegate to create store object models in view controllers.
+        
         let tabBarController = window?.rootViewController as! UITabBarController
-        let navController = tabBarController.viewControllers?[0] as! UINavigationController
-        let allGamesController = navController.topViewController as! AllGamesViewController
+        
+        let navControllerMatches = tabBarController.viewControllers?[0] as! UINavigationController
+        let allMatchesController = navControllerMatches.topViewController as! AllMatchesViewController
+        
+        let navControllerGames = tabBarController.viewControllers?[1] as! UINavigationController
+        let allGamesController = navControllerGames.topViewController as! AllGamesViewController
+        
+        let navControllerPlayers = tabBarController.viewControllers?[2] as! UINavigationController
+        let allPlayersController = navControllerPlayers.topViewController as! AllPlayersViewController
         
         allGamesController.gameStore = gameStore
+        allPlayersController.playerStore = playerStore
+        allMatchesController.matchStore = matchStore
         return true
     }
 

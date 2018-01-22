@@ -62,10 +62,10 @@
             </objects>
             <point key="canvasLocation" x="1062" y="-1551"/>
         </scene>
-        <!--Table View Controller-->
+        <!--All Players View Controller-->
         <scene sceneID="8Ij-0K-cZf">
             <objects>
-                <tableViewController id="tKn-c8-Fnz" sceneMemberID="viewController">
+                <tableViewController id="tKn-c8-Fnz" customClass="AllPlayersViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="cfW-r5-4OI">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,51 +86,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="lc8-zq-1DT">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="XdP-bZ-RbB">
-                            <connections>
-                                <segue destination="DsD-Km-OJa" kind="show" id="L9L-sI-9aO"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="XdP-bZ-RbB"/>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95u-o1-V2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2018" y="-1552"/>
-        </scene>
-        <!--Add Player View Controller-->
-        <scene sceneID="8YV-ir-eUE">
-            <objects>
-                <viewController id="DsD-Km-OJa" customClass="AddPlayerViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="dcy-3L-MUM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jtW-Zg-k0J">
-                                <rect key="frame" x="139" y="277" width="97" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuM-yY-ppy">
-                                <rect key="frame" x="164" y="160" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="btn:" destination="DsD-Km-OJa" eventType="touchUpInside" id="Aob-GP-gpN"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="WRk-aU-fsi"/>
-                    </view>
-                    <connections>
-                        <outlet property="field" destination="jtW-Zg-k0J" id="Uhb-wh-qIu"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NWL-kW-UMs" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2862" y="-1552"/>
         </scene>
         <!--Matches-->
         <scene sceneID="7Zr-hO-xhS">
@@ -149,10 +110,10 @@
             </objects>
             <point key="canvasLocation" x="1062" y="-673"/>
         </scene>
-        <!--Table View Controller-->
+        <!--All Matches View Controller-->
         <scene sceneID="zVo-fw-pjY">
             <objects>
-                <tableViewController id="Qa8-Su-V1S" sceneMemberID="viewController">
+                <tableViewController id="Qa8-Su-V1S" customClass="AllMatchesViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OpU-19-7ZT">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -172,7 +133,9 @@
                             <outlet property="delegate" destination="Qa8-Su-V1S" id="WhN-rT-PDv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XJK-Sn-3mh"/>
+                    <navigationItem key="navigationItem" id="XJK-Sn-3mh">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="ICm-5m-3c7"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pdg-5D-EzJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -323,8 +286,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="lQj-pi-DKJ" kind="relationship" relationship="viewControllers" id="L8t-7I-5R3"/>
                         <segue destination="ppJ-vc-uIc" kind="relationship" relationship="viewControllers" id="lXv-rd-RY9"/>
+                        <segue destination="lQj-pi-DKJ" kind="relationship" relationship="viewControllers" id="L8t-7I-5R3"/>
                         <segue destination="Chr-p4-LSC" kind="relationship" relationship="viewControllers" id="k3V-iJ-lKW"/>
                     </connections>
                 </tabBarController>

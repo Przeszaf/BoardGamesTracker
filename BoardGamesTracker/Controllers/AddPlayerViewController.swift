@@ -10,9 +10,5 @@ import UIKit
 
 class AddPlayerViewController: UIViewController {
     
-    @IBOutlet var field: UITextField!
-    
-    @IBAction func btn(_ sender: Any) {
-        field.shake()
-    }
+
 }

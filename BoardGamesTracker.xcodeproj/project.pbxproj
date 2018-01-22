@@ -19,9 +19,9 @@
 		0C58DC0B20052AF0009FD235 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0A20052AF0009FD235 /* Player.swift */; };
 		0C58DC0D20052BD0009FD235 /* Match.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DC0C20052BD0009FD235 /* Match.swift */; };
 		0C5C33272012635B00626E6A /* AddPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C33262012635B00626E6A /* AddPlayerViewController.swift */; };
-		0C5C33292012636400626E6A /* AllMatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C33282012636400626E6A /* AllMatchesViewController.swift */; };
 		0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C332A2012637400626E6A /* AllPlayersViewController.swift */; };
 		0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C332C201265C700626E6A /* ExtensionUITextField.swift */; };
+		0C5C332F2016504600626E6A /* AllMatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C332E2016504600626E6A /* AllMatchesViewController.swift */; };
 		0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4020110E3200D301B0 /* PlayerStore.swift */; };
 		0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4220110EA800D301B0 /* MatchStore.swift */; };
 		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
@@ -64,9 +64,9 @@
 		0C58DC0A20052AF0009FD235 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0C58DC0C20052BD0009FD235 /* Match.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Match.swift; sourceTree = "<group>"; };
 		0C5C33262012635B00626E6A /* AddPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerViewController.swift; sourceTree = "<group>"; };
-		0C5C33282012636400626E6A /* AllMatchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesViewController.swift; sourceTree = "<group>"; };
 		0C5C332A2012637400626E6A /* AllPlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPlayersViewController.swift; sourceTree = "<group>"; };
 		0C5C332C201265C700626E6A /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
+		0C5C332E2016504600626E6A /* AllMatchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesViewController.swift; sourceTree = "<group>"; };
 		0C884E4020110E3200D301B0 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
 		0C884E4220110EA800D301B0 /* MatchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStore.swift; sourceTree = "<group>"; };
 		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +171,7 @@
 				0C5C33262012635B00626E6A /* AddPlayerViewController.swift */,
 				0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */,
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
-				0C5C33282012636400626E6A /* AllMatchesViewController.swift */,
+				0C5C332E2016504600626E6A /* AllMatchesViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
@@ -313,13 +313,13 @@
 			files = (
 				0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */,
 				0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */,
-				0C5C33292012636400626E6A /* AllMatchesViewController.swift in Sources */,
 				0C58DC0720052811009FD235 /* Game.swift in Sources */,
 				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
 				0C58DC0B20052AF0009FD235 /* Player.swift in Sources */,
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
 				0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */,
+				0C5C332F2016504600626E6A /* AllMatchesViewController.swift in Sources */,
 				0C5C33272012635B00626E6A /* AddPlayerViewController.swift in Sources */,
 				0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */,
 				0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */,

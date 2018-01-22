@@ -20,7 +20,7 @@ class Game: Equatable, CustomStringConvertible {
     var lastTimePlayed: Date?
     let gameId: String
     
-    var matches = [Match]()
+//    var matches = [Match]()
     
     
     //MARK: - Conforming to protocols

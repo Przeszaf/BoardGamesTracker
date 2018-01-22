@@ -8,17 +8,20 @@
 
 import UIKit
 
-//MARK: - Variables
-var allPlayers = [Player]()
+class PlayerStore {
+    
+    //MARK: - Variables
+    var allPlayers = [Player]()
 
-//MARK: - Functions
-func addPlayer(_ player: Player) {
-    allPlayers.append(player)
-}
-
-@discardableResult func removePlayer(_ player: Player) -> Player {
-    if let index = allPlayers.index(of: player) {
-        allPlayers.remove(at: index)
+    //MARK: - Functions
+    func addPlayer(_ player: Player) {
+        allPlayers.append(player)
     }
-    return player
+
+    @discardableResult func removePlayer(_ player: Player) -> Player {
+        if let index = allPlayers.index(of: player) {
+            allPlayers.remove(at: index)
+        }
+        return player
+    }
 }
