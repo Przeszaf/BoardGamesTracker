@@ -23,7 +23,7 @@ class AllGamesViewController: UITableViewController {
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "gamesViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "gameViewCell", for: indexPath)
         cell.textLabel?.text = gameStore.allGames[indexPath.row].name
         return cell
     }

@@ -15,12 +15,13 @@ class Game: Equatable, CustomStringConvertible {
     var name: String
     var maxNoOfPlayers: Int
     var maxNoOfTeams: Int?
+    var maxNoOfPoints: Int?
     var gameType: String?
     var timesPlayed: Int
     var lastTimePlayed: Date?
     let gameId: String
     
-//    var matches = [Match]()
+    var matches = [Match]()
     
     
     //MARK: - Conforming to protocols
