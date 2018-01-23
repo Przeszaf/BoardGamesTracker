@@ -31,4 +31,13 @@ class AllPlayersViewController: UITableViewController {
         return playerStore.allPlayers.count
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "addPlayer"?:
+            let addPlayerViewController = segue.destination as! AddPlayerViewController
+            addPlayerViewController.playerStore = playerStore
+        default:
+            preconditionFailure("Wrong segue identifier")
+        }
+    }
 }

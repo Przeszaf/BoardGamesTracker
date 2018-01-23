@@ -10,6 +10,8 @@ import UIKit
 
 class AddPlayerViewController: UIViewController, UITextFieldDelegate {
     
+    var playerStore: PlayerStore!
+    
     //MARK: - Text field outlets
     @IBOutlet var nameField: UITextField!
     
@@ -30,5 +32,13 @@ class AddPlayerViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func addPlayerButtonPressed(_ sender: UIBarButtonItem) {
+        if nameField.text == "" {
+            nameField.shake()
+        } else {
+            let player = Player(name: nameField.text!)
+            playerStore.addPlayer(player)
+        }
+    }
     
 }

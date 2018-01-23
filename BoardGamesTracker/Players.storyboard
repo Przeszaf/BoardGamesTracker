@@ -36,7 +36,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="3Rh-Oh-bgE">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="playerViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="playerViewCell" id="3Rh-Oh-bgE">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Rh-Oh-bgE" id="ukN-JS-ahY">
@@ -53,7 +53,7 @@
                     <navigationItem key="navigationItem" id="lc8-zq-1DT">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="XdP-bZ-RbB">
                             <connections>
-                                <segue destination="Ywy-WD-Yja" kind="show" id="sd9-yN-rSn"/>
+                                <segue destination="Ywy-WD-Yja" kind="show" identifier="addPlayer" id="sd9-yN-rSn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -62,7 +62,7 @@
             </objects>
             <point key="canvasLocation" x="2018" y="-1552"/>
         </scene>
-        <!--Add Player View Controller-->
+        <!--Add Player-->
         <scene sceneID="TT3-9W-Z0b">
             <objects>
                 <viewController id="Ywy-WD-Yja" customClass="AddPlayerViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
@@ -101,6 +101,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wIu-Nh-bNq"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Add Player" id="vOK-yP-AOU">
+                        <barButtonItem key="rightBarButtonItem" title="Add!" id="xBN-SX-CLM">
+                            <connections>
+                                <action selector="addPlayerButtonPressed:" destination="Ywy-WD-Yja" id="DGn-A8-oEx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="nameField" destination="mGQ-ct-c66" id="XZp-xZ-fC2"/>
                     </connections>
