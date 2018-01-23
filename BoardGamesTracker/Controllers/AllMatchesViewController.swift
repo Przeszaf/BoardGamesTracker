@@ -34,4 +34,16 @@ class AllMatchesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return matchStore.allMatches.count
     }
+    
+    //MARK: - Managing segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "addMatch"?:
+            let addMatchController = segue.destination as! AddMatchViewController
+            addMatchController.gameStore = gameStore
+            addMatchController.matchStore = matchStore
+            addMatchController.playerStore = playerStore
+        default:
+            preconditionFailure("Wrong segue identifier")
+        }    }
 }
