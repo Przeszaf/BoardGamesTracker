@@ -12,7 +12,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     
     var gameStore: GameStore!
     
-    //MARK: - Text fields and switch
+    //MARK: - Text fields and switch outlets
     @IBOutlet var nameField: UITextField!
     @IBOutlet var maxPlayersField: UITextField!
     @IBOutlet var maxTeamsField: UITextField!
@@ -21,14 +21,14 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var areThereTeamsSwitch: UISwitch!
     
     
-    //MARK: - Overriden functions
+    //MARK: - Overriden UIViewController functions
     override func viewDidLoad() {
         nameField.delegate = self
         maxPlayersField.delegate = self
         maxTeamsField.delegate = self
     }
     
-    //MARK: - Switches and buttons
+    //MARK: - Switches and buttons functions
     @IBAction func areThereTeamsSwitchChanged(sender: UISwitch) {
         if sender.isOn {
             maxTeamsField.isEnabled = true
@@ -50,7 +50,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - Text field delegate methods
-    
     //Taking care of correct inputs to textFields
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == nameField {

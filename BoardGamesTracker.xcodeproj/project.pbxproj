@@ -26,6 +26,7 @@
 		0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4220110EA800D301B0 /* MatchStore.swift */; };
 		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
+		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		0C884E4220110EA800D301B0 /* MatchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStore.swift; sourceTree = "<group>"; };
 		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
+		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +123,7 @@
 		0C58DBD020051219009FD235 /* BoardGamesTracker */ = {
 			isa = PBXGroup;
 			children = (
-				0C5C332C201265C700626E6A /* ExtensionUITextField.swift */,
+				0CC8EF8420165E76009C9CF9 /* Extensions */,
 				0C58DC0520052663009FD235 /* Controllers */,
 				0C58DC032005264E009FD235 /* Models */,
 				0C58DBD520051219009FD235 /* Main.storyboard */,
@@ -175,6 +177,15 @@
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0CC8EF8420165E76009C9CF9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0C5C332C201265C700626E6A /* ExtensionUITextField.swift */,
+				0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */,
+				0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */,
 				0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */,
 				0C58DC0720052811009FD235 /* Game.swift in Sources */,
 				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,

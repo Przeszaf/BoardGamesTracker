@@ -12,6 +12,7 @@ class Match: Equatable {
     
     //MARK: - Match attributes
     var game: Game
+    var players: [Player]
     var winners: [Player]
     var winnersPoints: [Int]?
     var loosers: [Player]
@@ -27,6 +28,7 @@ class Match: Equatable {
         self.loosers = loosers
         date = Date()
         matchID = NSUUID().uuidString
+        players = winners + loosers
     }
     
     //MARK: - Conforming to protocols

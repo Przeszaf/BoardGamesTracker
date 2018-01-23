@@ -11,6 +11,8 @@ import UIKit
 class AllMatchesViewController: UITableViewController {
     
     var matchStore: MatchStore!
+    var gameStore: GameStore!
+    var playerStore: PlayerStore!
     
     
     //MARK: - Overriding functions

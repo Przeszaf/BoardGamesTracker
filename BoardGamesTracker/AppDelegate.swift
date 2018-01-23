@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         allGamesController.gameStore = gameStore
         allPlayersController.playerStore = playerStore
         allMatchesController.matchStore = matchStore
+        allMatchesController.gameStore = gameStore
+        allMatchesController.playerStore = playerStore
         return true
     }
 
