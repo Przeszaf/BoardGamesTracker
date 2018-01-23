@@ -25,7 +25,7 @@ class AllMatchesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "matchesViewCell", for: indexPath)
         cell.textLabel?.text = matchStore.allMatches[indexPath.row].game.name
-        cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date
+        cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date.toString()
         return cell
     }
     
