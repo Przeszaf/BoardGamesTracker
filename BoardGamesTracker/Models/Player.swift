@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Player: Equatable {
+class Player: Equatable, CustomStringConvertible {
 
     //MARK: - Player attributes
     var name: String
@@ -17,6 +17,11 @@ class Player: Equatable {
     let playerID: String
     
     var gamesPlayed = [String: [String]]()
+    
+    var description: String {
+        return name
+    }
+    
     
     //MARK: - Initializers
     init(name: String) {

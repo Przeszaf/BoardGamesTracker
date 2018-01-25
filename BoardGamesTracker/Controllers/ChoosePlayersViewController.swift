@@ -1,68 +1,74 @@
 //
-//  ChooseGameViewController.swift
+//  ChoosePlayersViewController.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 23/01/2018.
+//  Created by Przemyslaw Szafulski on 25/01/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 
 import UIKit
 
-class ChooseGameViewController: UITableViewController, UINavigationControllerDelegate {
+class ChoosePlayersViewController: UITableViewController, UINavigationControllerDelegate {
     
-    var gameStore: GameStore!
+    var playerStore: PlayerStore!
     
-    var selectedGame: Game?
+    var selectedPlayers: [Player]!
     
     //MARK: - Overriding UITablViewController functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.allowsMultipleSelection = false
+        self.tableView.allowsMultipleSelection = true
         navigationController?.delegate = self
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //If there is selectedGame, then select it
-        if let game = selectedGame, let gameIndex = gameStore.allGames.index(of: game) {
-            let index = IndexPath(row: gameIndex, section: 0)
-            tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
-            tableView.cellForRow(at: index)?.accessoryType = UITableViewCellAccessoryType.checkmark
+        if !selectedPlayers.isEmpty {
+            for player in selectedPlayers {
+                if let playerIndex = playerStore.allPlayers.index(of: player) {
+                    let index = IndexPath(row: playerIndex, section: 0)
+                    tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
+                    tableView.cellForRow(at: index)?.accessoryType = UITableViewCellAccessoryType.checkmark
+                }
+            }
         }
+        
     }
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "chooseGameViewCell", for: indexPath)
-        cell.textLabel?.text = gameStore.allGames[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
+        cell.textLabel?.text = playerStore.allPlayers[indexPath.row].name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameStore.allGames.count
+        return playerStore.allPlayers.count
     }
     
     //MARK: - Using TableViewDelegate functions
     
     //Making tick marks
     override func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath) {
-        selectedGame = gameStore.allGames[indexPath.row]
+                            didSelectRowAt indexPath: IndexPath) {
+        selectedPlayers.append(playerStore.allPlayers[indexPath.row])
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let player = playerStore.allPlayers[indexPath.row]
+        let index = selectedPlayers.index(of: player)
+        selectedPlayers.remove(at: index!)
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
     
     //MARK: - Using UINavigationControllerDelegate functions
     
-    //Passing chosen game to previous View Controller
+    //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            controller.selectedGame = selectedGame
+            controller.selectedPlayers = selectedPlayers
             controller.viewWillAppear(true)
         }
     }

@@ -10,6 +10,7 @@
 		0C2828E4201771C0009B8DBE /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E3201771C0009B8DBE /* Players.storyboard */; };
 		0C2828E7201771D6009B8DBE /* Matches.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E5201771D6009B8DBE /* Matches.storyboard */; };
 		0C2828E9201771E7009B8DBE /* Games.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E8201771E7009B8DBE /* Games.storyboard */; };
+		0C50B706201A348100BE7040 /* ChoosePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */; };
 		0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DBD120051219009FD235 /* AppDelegate.swift */; };
 		0C58DBD720051219009FD235 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C58DBD520051219009FD235 /* Main.storyboard */; };
 		0C58DBD920051219009FD235 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C58DBD820051219009FD235 /* Assets.xcassets */; };
@@ -54,6 +55,7 @@
 		0C2828E3201771C0009B8DBE /* Players.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		0C2828E6201771D6009B8DBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = BoardGamesTracker/Base.lproj/Matches.storyboard; sourceTree = "<group>"; };
 		0C2828E8201771E7009B8DBE /* Games.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Games.storyboard; sourceTree = "<group>"; };
+		0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlayersViewController.swift; sourceTree = "<group>"; };
 		0C58DBCE20051219009FD235 /* BoardGamesTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGamesTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C58DBD120051219009FD235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C58DBD620051219009FD235 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
 				0C5C332E2016504600626E6A /* AllMatchesViewController.swift */,
+				0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
@@ -348,6 +351,7 @@
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
 				0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */,
 				0C5C332F2016504600626E6A /* AllMatchesViewController.swift in Sources */,
+				0C50B706201A348100BE7040 /* ChoosePlayersViewController.swift in Sources */,
 				0C5C33272012635B00626E6A /* AddPlayerViewController.swift in Sources */,
 				0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */,
 				0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */,

@@ -25,7 +25,7 @@ class AllMatchesViewController: UITableViewController {
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "matchesViewCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "matchViewCell", for: indexPath)
         cell.textLabel?.text = matchStore.allMatches[indexPath.row].game.name
         cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date.toString()
         return cell
