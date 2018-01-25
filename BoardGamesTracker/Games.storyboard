@@ -40,8 +40,19 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="4n8-iY-0gQ" id="r5e-LR-0Uj"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="reh-ei-4E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="4n8-iY-0gQ">
+                    <connections>
+                        <outlet property="delegate" destination="HSc-kZ-ui5" id="n2C-bN-faV"/>
+                        <outlet property="searchContentsController" destination="HSc-kZ-ui5" id="i7m-pN-FQB"/>
+                        <outlet property="searchResultsDataSource" destination="HSc-kZ-ui5" id="SgJ-I5-nSx"/>
+                        <outlet property="searchResultsDelegate" destination="HSc-kZ-ui5" id="maq-uj-A1s"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2017" y="178"/>
         </scene>
@@ -82,7 +93,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Asf-ti-sL4">
+                                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Asf-ti-sL4">
                                                 <rect key="frame" x="91.5" y="0.0" width="267.5" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

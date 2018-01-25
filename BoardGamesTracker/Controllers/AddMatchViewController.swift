@@ -14,18 +14,21 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate {
     var gameStore: GameStore!
     var playerStore: PlayerStore!
     
+    
+    
     //MARK: - Variables needed to create a new match
     var chosenGame: Game?
     
     
     //MARK: - Text fields outlets
-    
     @IBOutlet var gameNameField: UITextField!
+    @IBOutlet var playersView: UITextView!
     
     //MARK: - UIViewController functions
     override func viewDidLoad() {
         super.viewDidLoad()
         gameNameField.delegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
