@@ -115,6 +115,12 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         maxPlayersField.text = String(myPickerDataPlayers[row])
     }
     
+    //If tapped outside of keyboard then end editing
+    override func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
     
     //PickerView Toolbar button functions
     @objc func donePicker() {
@@ -125,15 +131,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @objc func cancelPicker() {
         maxPlayersField.text = ""
         maxPlayersField.resignFirstResponder()
-    }
-    
-    
-    //MARK: - Other
-    //If tapped outside of keyboard then end editing
-    override func touchesBegan(_ touches: Set<UITouch>,
-                               with event: UIEvent?) {
-        view.endEditing(true)
-        super.touchesBegan(touches, with: event)
     }
     
 }

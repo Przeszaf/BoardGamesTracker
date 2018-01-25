@@ -29,7 +29,6 @@
 		0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4020110E3200D301B0 /* PlayerStore.swift */; };
 		0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4220110EA800D301B0 /* MatchStore.swift */; };
 		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
-		0C9CDF21201A2EDC00C4BE9C /* ChoosePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9CDF20201A2EDC00C4BE9C /* ChoosePlayersViewController.swift */; };
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 /* End PBXBuildFile section */
@@ -80,7 +79,6 @@
 		0C884E4020110E3200D301B0 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
 		0C884E4220110EA800D301B0 /* MatchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStore.swift; sourceTree = "<group>"; };
 		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
-		0C9CDF20201A2EDC00C4BE9C /* ChoosePlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlayersViewController.swift; sourceTree = "<group>"; };
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,7 +186,6 @@
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
 				0C5C332E2016504600626E6A /* AllMatchesViewController.swift */,
-				0C9CDF20201A2EDC00C4BE9C /* ChoosePlayersViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
@@ -351,7 +348,6 @@
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
 				0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */,
 				0C5C332F2016504600626E6A /* AllMatchesViewController.swift in Sources */,
-				0C9CDF21201A2EDC00C4BE9C /* ChoosePlayersViewController.swift in Sources */,
 				0C5C33272012635B00626E6A /* AddPlayerViewController.swift in Sources */,
 				0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */,
 				0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */,

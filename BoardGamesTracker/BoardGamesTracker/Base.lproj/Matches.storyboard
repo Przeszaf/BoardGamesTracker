@@ -90,34 +90,6 @@
             </objects>
             <point key="canvasLocation" x="3833" y="-673"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="KEe-GP-9po">
-            <objects>
-                <tableViewController id="ShZ-OR-2Sa" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FOW-jz-fyv">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="choosePlayersViewCell" id="iYc-Lg-BvZ">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iYc-Lg-BvZ" id="UlV-hh-s04">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="ShZ-OR-2Sa" id="yVH-b5-cnB"/>
-                            <outlet property="delegate" destination="ShZ-OR-2Sa" id="MmT-H2-1Ud"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6f0-pB-Sjb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="3833" y="-1388"/>
-        </scene>
         <!--Add Match-->
         <scene sceneID="478-Jd-2SD">
             <objects>
@@ -127,7 +99,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0Af-uJ-KCI">
-                                <rect key="frame" x="8" y="72" width="359" height="100"/>
+                                <rect key="frame" x="8" y="72" width="359" height="68"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cES-yv-B8S">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
@@ -147,20 +119,20 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="S1p-9d-NfF">
-                                        <rect key="frame" x="0.0" y="38" width="359" height="62"/>
+                                        <rect key="frame" x="0.0" y="38" width="359" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Players" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t9T-bj-Fgr">
-                                                <rect key="frame" x="0.0" y="0.0" width="55.5" height="62"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="55.5" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="qi5-Og-XJc">
-                                                <rect key="frame" x="63.5" y="0.0" width="295.5" height="62"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                            </textView>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OKp-IF-0f8">
+                                                <rect key="frame" x="63.5" y="0.0" width="295.5" height="30"/>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -177,9 +149,7 @@
                     <navigationItem key="navigationItem" title="Add Match" id="96x-jF-sgG"/>
                     <connections>
                         <outlet property="gameNameField" destination="lbr-7x-15k" id="zHe-cp-Dl2"/>
-                        <outlet property="playersView" destination="qi5-Og-XJc" id="JoA-iW-9gX"/>
                         <segue destination="r83-aN-Eof" kind="show" identifier="chooseGame" id="eNc-2q-e79"/>
-                        <segue destination="ShZ-OR-2Sa" kind="show" id="y6B-wP-orN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPu-Jr-eGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
