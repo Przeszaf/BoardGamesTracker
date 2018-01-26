@@ -18,7 +18,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     //MARK: - Text fields and switch outlets
     @IBOutlet var nameField: UITextField!
     @IBOutlet var maxPlayersField: UITextField!
-    @IBOutlet var maxTeamsField: UITextField!
     @IBOutlet var gameTypeField: UITextField!
 
     @IBOutlet var areThereTeamsSwitch: UISwitch!
@@ -28,7 +27,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     override func viewDidLoad() {
         nameField.delegate = self
         maxPlayersField.delegate = self
-        maxTeamsField.delegate = self
         
         picker = UIPickerView()
         
@@ -53,13 +51,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     }
     
     //MARK: - Switches and buttons functions
-    @IBAction func areThereTeamsSwitchChanged(sender: UISwitch) {
-        if sender.isOn {
-            maxTeamsField.isEnabled = true
-        } else {
-            maxTeamsField.isEnabled = false
-        }
-    }
     
     @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -68,8 +59,13 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         } else if nameField.text == ""{
             nameField.shake()
         } else {
-            let boardGame = Game(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, maxNoOfTeams: nil, gameType: nil)
-            gameStore.addGame(boardGame)
+            if maxPlayersField.text! == "99+" {
+                let boardGame = Game(name: nameField.text!, maxNoOfPlayers: 99, thereAreTeams: areThereTeamsSwitch.isOn)
+                gameStore.addGame(boardGame)
+            } else {
+                let boardGame = Game(name: nameField.text!, maxNoOfPlayers: Int(maxPlayersField.text!)!, thereAreTeams: areThereTeamsSwitch.isOn)
+                gameStore.addGame(boardGame)
+            }
         }
     }
     
@@ -79,12 +75,9 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         if textField == nameField {
             return true
         }
+        
         if textField == maxPlayersField {
             if (Int(string) != nil && range.upperBound < 2 || string == "" ) {
-                return true
-            }
-        } else if textField == maxTeamsField {
-            if (Int(string) != nil && range.upperBound < 1 || string == "" ) {
                 return true
             }
         }
@@ -98,7 +91,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return myPickerDataPlayers.count
+        return myPickerDataPlayers.count + 1
     }
     
     //
@@ -106,13 +99,21 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        return String(myPickerDataPlayers[row])
+        if row == myPickerDataPlayers.count {
+            return "99+"
+        } else {
+            return String(myPickerDataPlayers[row])
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
-        maxPlayersField.text = String(myPickerDataPlayers[row])
+        if row == myPickerDataPlayers.count {
+            maxPlayersField.text = "99+"
+        } else {
+            maxPlayersField.text = String(myPickerDataPlayers[row])
+        }
     }
     
     //If tapped outside of keyboard then end editing
@@ -124,7 +125,11 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     //PickerView Toolbar button functions
     @objc func donePicker() {
-        maxPlayersField.text = String(myPickerDataPlayers[picker.selectedRow(inComponent: 0)])
+        if picker.selectedRow(inComponent: 0) == myPickerDataPlayers.count {
+            maxPlayersField.text = "99+"
+        } else {
+            maxPlayersField.text = String(myPickerDataPlayers[picker.selectedRow(inComponent: 0)])
+        }
         maxPlayersField.resignFirstResponder()
     }
     

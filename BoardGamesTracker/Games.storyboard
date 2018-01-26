@@ -19,11 +19,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gameViewCell" rowHeight="67" id="5Qi-8K-xRu">
-                                <rect key="frame" x="0.0" y="28" width="375" height="67"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="gameViewCell" rowHeight="46" id="5Qi-8K-xRu">
+                                <rect key="frame" x="0.0" y="28" width="375" height="46"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5Qi-8K-xRu" id="RWv-Ij-avb">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="66.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="45.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -43,7 +43,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="reh-ei-4E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2017" y="178"/>
+            <point key="canvasLocation" x="2016.8" y="177.66116941529236"/>
         </scene>
         <!--Add game-->
         <scene sceneID="6wb-Hj-FyA">
@@ -96,7 +96,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="McH-ub-r5m">
-                                <rect key="frame" x="8" y="154" width="267" height="184"/>
+                                <rect key="frame" x="8" y="154" width="267" height="146"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gcP-20-DZq">
                                         <rect key="frame" x="0.0" y="0.0" width="267" height="30"/>
@@ -129,31 +129,11 @@
                                             </label>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Wsn-Ev-gdz">
                                                 <rect key="frame" x="218" y="0.0" width="51" height="31"/>
-                                                <connections>
-                                                    <action selector="areThereTeamsSwitchChangedWithSender:" destination="iqj-07-eZ4" eventType="valueChanged" id="izL-Hq-Euz"/>
-                                                </connections>
                                             </switch>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Nwl-Pc-5AF">
-                                        <rect key="frame" x="0.0" y="77" width="267" height="30"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Max no. of teams" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFc-N9-VDm">
-                                                <rect key="frame" x="0.0" y="0.0" width="209" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qJ8-0K-CgZ">
-                                                <rect key="frame" x="217" y="0.0" width="50" height="30"/>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ze7-Xh-MmT">
-                                        <rect key="frame" x="0.0" y="115" width="267" height="31"/>
+                                        <rect key="frame" x="0.0" y="77" width="267" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are there points?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7Y-FO-EQx">
                                                 <rect key="frame" x="0.0" y="0.0" width="218" height="31"/>
@@ -167,7 +147,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RYS-SM-31o">
-                                        <rect key="frame" x="0.0" y="154" width="267" height="30"/>
+                                        <rect key="frame" x="0.0" y="116" width="267" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Max no. of points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Tl-ge-Mvo">
                                                 <rect key="frame" x="0.0" y="0.0" width="213.5" height="30"/>
@@ -184,9 +164,6 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <constraints>
-                                    <constraint firstItem="o4q-kJ-ejl" firstAttribute="leading" secondItem="qJ8-0K-CgZ" secondAttribute="leading" id="lPO-E1-9RZ"/>
-                                </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -211,7 +188,6 @@
                         <outlet property="areThereTeamsSwitch" destination="Wsn-Ev-gdz" id="IMg-FY-Oaz"/>
                         <outlet property="gameTypeField" destination="Asf-ti-sL4" id="lVI-sg-qMn"/>
                         <outlet property="maxPlayersField" destination="o4q-kJ-ejl" id="0ZN-V8-rxN"/>
-                        <outlet property="maxTeamsField" destination="qJ8-0K-CgZ" id="fDM-mH-ILY"/>
                         <outlet property="nameField" destination="hcS-9O-ejr" id="2IP-tr-JiI"/>
                     </connections>
                 </viewController>
