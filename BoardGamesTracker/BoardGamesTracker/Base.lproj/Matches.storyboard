@@ -281,7 +281,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kaf-k7-D8h"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Add Match" id="96x-jF-sgG"/>
+                    <navigationItem key="navigationItem" title="Add Match" id="96x-jF-sgG">
+                        <barButtonItem key="rightBarButtonItem" title="Add!" id="uPT-nX-Tdu">
+                            <connections>
+                                <action selector="addMatchButtonPressed:" destination="3J2-60-qHH" id="eg9-88-OlU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="gameNameField" destination="lbr-7x-15k" id="zHe-cp-Dl2"/>
                         <outlet property="loosersNameView" destination="bNj-gh-8xs" id="pZw-A4-tm6"/>

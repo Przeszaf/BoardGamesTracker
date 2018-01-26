@@ -15,8 +15,8 @@ class Player: Equatable, CustomStringConvertible {
     var lastTimePlayed: Date?
     var timesPlayed: Int
     let playerID: String
-    
-    var gamesPlayed = [String: [String]]()
+    var gamesPlayed = [Game: [Match]]()
+    var gamesPlace = [Game: [Int]]()
     
     var description: String {
         return name
@@ -32,13 +32,16 @@ class Player: Equatable, CustomStringConvertible {
     }
     
     //MARK: - Functions
-    func addMatch(gameID: String, matchID: String) {
-        if gamesPlayed[gameID] == nil {
-            gamesPlayed[gameID] = [matchID]
+    func addMatch(game: Game, match: Match, place: Int) {
+        if gamesPlayed[game] == nil {
+            gamesPlayed[game] = [match]
+            gamesPlace[game] = [place]
         } else {
-            gamesPlayed[gameID]?.append(matchID)
+            gamesPlayed[game]?.append(match)
+            gamesPlace[game]?.append(place)
         }
     }
+    
     
     //MARK: - Conforming to protocols
     

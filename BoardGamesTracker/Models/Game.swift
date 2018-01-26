@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Game: Equatable {
+class Game: Equatable, Hashable {
+    
     
     
     //MARK: Board game attributes
@@ -27,6 +28,10 @@ class Game: Equatable {
     
     static func ==(lhs: Game, rhs: Game) -> Bool {
         return lhs.gameId == rhs.gameId
+    }
+    
+    var hashValue: Int {
+        return gameId.hashValue
     }
     
     //MARK: - Initializers

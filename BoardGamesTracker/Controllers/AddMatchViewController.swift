@@ -116,6 +116,26 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         }
     }
     
+    //MARK: - Button
+    
+    @IBAction func addMatchButtonPressed(_ sender: UIBarButtonItem) {
+        if let game = selectedGame {
+            if game.thereAreTeams && !winners.isEmpty && !loosers.isEmpty {
+                let match = Match(game: game, winners: winners, loosers: loosers)
+                game.matches.append(match)
+                matchStore.addMatch(match)
+                
+                for winner in winners {
+                    winner.addMatch(game: game, match: match, place: 1)
+                }
+                
+                for looser in loosers {
+                    looser.addMatch(game: game, match: match, place: 2)
+                }
+            }
+        }
+    }
+    
     //MARK: - Custom functions
     
     //Sets available players list for keys - either "loosers" or "winners"
