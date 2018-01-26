@@ -21,6 +21,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @IBOutlet var gameTypeField: UITextField!
 
     @IBOutlet var areThereTeamsSwitch: UISwitch!
+    @IBOutlet var areTherePointsSwitch: UISwitch!
     
     
     //MARK: - Overriden UIViewController functions
@@ -29,7 +30,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         maxPlayersField.delegate = self
         
         picker = UIPickerView()
-        
         picker.delegate = self
         maxPlayersField.inputView = picker
         
@@ -78,7 +78,11 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         
         if textField == maxPlayersField {
             if (Int(string) != nil && range.upperBound < 2 || string == "" ) {
-                return true
+                let numString = textField.text! + string
+                let num = Int(numString)!
+                if num >= 1 && num <= 20 {
+                    return true
+                }
             }
         }
         return false
