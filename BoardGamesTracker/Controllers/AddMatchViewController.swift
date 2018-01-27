@@ -17,12 +17,11 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     //MARK: - Variables needed to create a new match
     var selectedGame: Game?
     var selectedPlayers = [Player]()
-    
     var availablePlayers = [Player]()
     var winners = [Player]()
     var loosers = [Player]()
     
-    
+    var segueKey: String?
     //MARK: - Text fields outlets
     
     @IBOutlet var gameNameField: UITextField!
@@ -79,13 +78,13 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if textView == playersNameView {
-            performSegue(withIdentifier: "choosePlayers", sender: self)
+            segueKey = "all"
         } else if textView == winnersNameView {
-            performSegue(withIdentifier: "chooseWinners", sender: self)
+            segueKey = "winners"
         } else if textView == loosersNameView {
-            performSegue(withIdentifier: "chooseLoosers", sender: self)
+            segueKey = "loosers"
         }
-        
+        performSegue(withIdentifier: "choosePlayers", sender: self)
         return false
     }
     
@@ -98,19 +97,30 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
             chooseGameViewController.gameStore = gameStore
             chooseGameViewController.selectedGame = selectedGame
         case "choosePlayers"?:
-            let choosePlayersViewController = segue.destination as! ChoosePlayersViewController
-            choosePlayersViewController.playerStore = playerStore
-            choosePlayersViewController.selectedPlayers = selectedPlayers
-        case "chooseWinners"?:
-            setAvailablePlayers(forKey: "winners")
-            let controller = segue.destination as! ChooseWinnersViewController
-            controller.availablePlayers = availablePlayers
-            controller.winners = winners
-        case "chooseLoosers"?:
-            setAvailablePlayers(forKey: "loosers")
-            let controller = segue.destination as! ChooseLoosersViewController
-            controller.availablePlayers = availablePlayers
-            controller.loosers = loosers
+            let controller = segue.destination as! ChoosePlayersViewController
+            setAvailablePlayers()
+            switch segueKey {
+            case "all"?:
+                controller.availablePlayers = availablePlayers
+                controller.selectedPlayers = selectedPlayers
+                controller.key = segueKey
+            case "winners"?:
+                controller.availablePlayers = availablePlayers
+                controller.selectedPlayers = winners
+                controller.key = segueKey
+                if let game = selectedGame {
+                    controller.maxPlayers = game.maxNoOfPlayers - loosers.count
+                }
+            case "loosers"?:
+                controller.availablePlayers = availablePlayers
+                controller.selectedPlayers = loosers
+                controller.key = segueKey
+                if let game = selectedGame {
+                    controller.maxPlayers = game.maxNoOfPlayers - winners.count
+                }
+            default:
+                preconditionFailure("Wrong segue key")
+            }
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -139,13 +149,14 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     //MARK: - Custom functions
     
     //Sets available players list for keys - either "loosers" or "winners"
-    func setAvailablePlayers(forKey key: String) {
-        if key == "loosers" {
+    func setAvailablePlayers() {
+        availablePlayers = playerStore.allPlayers
+        if segueKey == "loosers" {
             for winner in winners {
                 let index = availablePlayers.index(of: winner)
                 availablePlayers.remove(at: index!)
             }
-        } else if key == "winners" {
+        } else if segueKey == "winners" {
             for looser in loosers {
                 let index = availablePlayers.index(of: looser)
                 availablePlayers.remove(at: index!)

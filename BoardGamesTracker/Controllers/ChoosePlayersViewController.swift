@@ -10,9 +10,10 @@ import UIKit
 
 class ChoosePlayersViewController: UITableViewController, UINavigationControllerDelegate {
     
-    var playerStore: PlayerStore!
-    
+    var availablePlayers: [Player]!
     var selectedPlayers: [Player]!
+    var key: String?
+    var maxPlayers: Int?
     
     //MARK: - Overriding UITablViewController functions
     override func viewDidLoad() {
@@ -26,7 +27,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
         
         if !selectedPlayers.isEmpty {
             for player in selectedPlayers {
-                if let playerIndex = playerStore.allPlayers.index(of: player) {
+                if let playerIndex = availablePlayers.index(of: player) {
                     let index = IndexPath(row: playerIndex, section: 0)
                     tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
                     tableView.cellForRow(at: index)?.accessoryType = UITableViewCellAccessoryType.checkmark
@@ -39,12 +40,12 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
-        cell.textLabel?.text = playerStore.allPlayers[indexPath.row].name
+        cell.textLabel?.text = availablePlayers[indexPath.row].name
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return playerStore.allPlayers.count
+        return availablePlayers.count
     }
     
     //MARK: - Using TableViewDelegate functions
@@ -52,12 +53,12 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     //Making tick marks
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
-        selectedPlayers.append(playerStore.allPlayers[indexPath.row])
+        selectedPlayers.append(availablePlayers[indexPath.row])
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let player = playerStore.allPlayers[indexPath.row]
+        let player = availablePlayers[indexPath.row]
         let index = selectedPlayers.index(of: player)
         selectedPlayers.remove(at: index!)
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
@@ -68,7 +69,16 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            controller.selectedPlayers = selectedPlayers
+            switch key {
+            case "all"?:
+                controller.selectedPlayers = selectedPlayers
+            case "winners"?:
+                controller.winners = selectedPlayers
+            case "loosers"?:
+                controller.loosers = selectedPlayers
+            default:
+                preconditionFailure("Wrong key!")
+            }
             controller.viewWillAppear(true)
         }
     }
