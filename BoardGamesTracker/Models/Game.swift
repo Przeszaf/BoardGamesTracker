@@ -14,6 +14,7 @@ class Game: Equatable, Hashable {
     
     //MARK: Board game attributes
     var name: String
+    var type: GameType
     var maxNoOfPlayers: Int
     var maxNoOfPoints: Int?
     var thereAreTeams: Bool
@@ -35,14 +36,25 @@ class Game: Equatable, Hashable {
     }
     
     //MARK: - Initializers
-    init(name: String, maxNoOfPlayers: Int, thereAreTeams: Bool) {
+    init(name: String, type: GameType, maxNoOfPlayers: Int, maxPoints: Int?) {
         gameId = NSUUID().uuidString
         self.name = name
+        self.type = type
         self.maxNoOfPlayers = maxNoOfPlayers
-        self.thereAreTeams = thereAreTeams
         timesPlayed = 0
         lastTimePlayed = nil
+        if type == .SoloWithPoints {
+            maxNoOfPoints = maxPoints!
+            thereAreTeams = false
+        } else if type == .TeamWithPlaces {
+            maxNoOfPoints = 0
+            thereAreTeams = true
+        } else {
+            maxNoOfPoints = 0
+            thereAreTeams = false
+        }
     }
+
     
     
     

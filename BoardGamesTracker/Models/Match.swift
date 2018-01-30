@@ -13,22 +13,28 @@ class Match: Equatable {
     //MARK: - Match attributes
     var game: Game
     var players: [Player]
-    var winners: [Player]
-    var winnersPoints: [Int]?
-    var loosers: [Player]
-    var loosersPoints: [Int]?
+    var playersPoints: [Int]?
+    var playersPlaces: [Int]?
     var date: Date
     
     let matchID: String
     
     //MARK: - Initializers
-    init(game: Game, winners: [Player], loosers: [Player]) {
+    init(game: Game, players: [Player], places: [Int]) {
         self.game = game
-        self.winners = winners
-        self.loosers = loosers
+        self.players = players
         date = Date()
         matchID = NSUUID().uuidString
-        players = winners + loosers
+        playersPlaces = places
+    }
+    
+    init(game: Game, players: [Player], playersPoints: [Int], playersPlaces: [Int]) {
+        self.game = game
+        self.players = players
+        self.playersPoints = playersPoints
+        self.playersPlaces = playersPlaces
+        date = Date()
+        matchID = NSUUID().uuidString
     }
     
     //MARK: - Conforming to protocols
@@ -37,5 +43,6 @@ class Match: Equatable {
     static func ==(lhs: Match, rhs: Match) -> Bool {
         return lhs.matchID == rhs.matchID
     }
+    
     
 }

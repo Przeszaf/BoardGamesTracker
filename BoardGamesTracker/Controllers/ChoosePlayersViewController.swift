@@ -12,6 +12,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     
     var availablePlayers: [Player]!
     var selectedPlayers: [Player]!
+    var deselectedPlayers = [Player]()
     var key: String?
     var maxPlayers: Int?
     
@@ -53,7 +54,11 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     //Making tick marks
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
-        selectedPlayers.append(availablePlayers[indexPath.row])
+        let player = availablePlayers[indexPath.row]
+        selectedPlayers.append(player)
+        if let index = deselectedPlayers.index(of: player) {
+            deselectedPlayers.remove(at: index)
+        }
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
     }
     
@@ -61,6 +66,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
         let player = availablePlayers[indexPath.row]
         let index = selectedPlayers.index(of: player)
         selectedPlayers.remove(at: index!)
+        deselectedPlayers.append(player)
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
     
@@ -72,6 +78,8 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
             switch key {
             case "all"?:
                 controller.selectedPlayers = selectedPlayers
+                controller.deselectedPlayers = deselectedPlayers
+                controller.setPlayersPoints()
             case "winners"?:
                 controller.winners = selectedPlayers
             case "loosers"?:
@@ -80,6 +88,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
                 preconditionFailure("Wrong key!")
             }
             controller.viewWillAppear(true)
+            
         }
     }
     

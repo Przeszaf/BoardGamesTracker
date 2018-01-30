@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Player: Equatable, CustomStringConvertible {
+class Player: Equatable, CustomStringConvertible, Hashable {
+    
 
     //MARK: - Player attributes
     var name: String
@@ -17,9 +18,14 @@ class Player: Equatable, CustomStringConvertible {
     let playerID: String
     var gamesPlayed = [Game: [Match]]()
     var gamesPlace = [Game: [Int]]()
+    var gamesPoints = [Game: [Int]]()
     
     var description: String {
         return name
+    }
+    
+    var hashValue: Int {
+        return playerID.hashValue
     }
     
     
@@ -32,13 +38,25 @@ class Player: Equatable, CustomStringConvertible {
     }
     
     //MARK: - Functions
-    func addMatch(game: Game, match: Match, place: Int) {
+    func addTeamMatch(game: Game, match: Match, place: Int) {
         if gamesPlayed[game] == nil {
             gamesPlayed[game] = [match]
             gamesPlace[game] = [place]
         } else {
             gamesPlayed[game]?.append(match)
             gamesPlace[game]?.append(place)
+        }
+    }
+    
+    func addSoloMatch(game: Game, match: Match, points: Int, place: Int) {
+        if gamesPlayed[game] == nil {
+            gamesPlayed[game] = [match]
+            gamesPlace[game] = [place]
+            gamesPoints[game] = [points]
+        } else {
+            gamesPlayed[game]?.append(match)
+            gamesPlace[game]?.append(place)
+            gamesPoints[game]?.append(points)
         }
     }
     

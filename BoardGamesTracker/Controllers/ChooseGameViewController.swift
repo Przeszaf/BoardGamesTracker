@@ -62,6 +62,9 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     //Passing chosen game to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
+            if controller.selectedGame != selectedGame {
+                controller.viewDidLoad()
+            }
             controller.selectedGame = selectedGame
             controller.viewWillAppear(true)
         }
