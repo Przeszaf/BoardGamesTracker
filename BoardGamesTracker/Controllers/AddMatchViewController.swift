@@ -183,13 +183,14 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
             }
             if game.type == .SoloWithPoints {
                 
-                let players = selectedPlayers
+                var players = selectedPlayers
                 var points = [Int]()
                 for player in players {
                     let point = playersPoints[player]
                     points.append(point!)
                 }
-                let places = calculatePlaces(points: points, order: "ascending")
+                sortPlayersPoints(players: &players, points: &points, order: "ascending")
+                let places = assignPlayersPlaces(points: points)
                 let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places)
                 game.matches.append(match)
                 matchStore.addMatch(match)
@@ -203,7 +204,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     //MARK: - Custom functions
     
-    //Sets available players list for keys - either "loosers" or "winners"
+    //Removes players that were already choosen as winners/loosers from available list of players to choose
     func setAvailablePlayers() {
         availablePlayers = playerStore.allPlayers
         if segueKey == "loosers" {
@@ -220,7 +221,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         
     }
     
-    //Updates playersPoints dictionary
+    //Updates playersPoints dictionary when new player is selected or deselected
     func setPlayersPoints() {
         for player in selectedPlayers {
             if playersPoints[player] == nil {
@@ -232,7 +233,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         }
     }
     
-    //Updates names
+    //Updates names of views
     func updateNames() {
         playersNameView.text = selectedPlayers.map{$0.name}.joined(separator: ", ")
         winnersNameView.text = winners.map{$0.name}.joined(separator: ", ")
@@ -244,36 +245,80 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         pointsView.text = string.joined(separator: ", ")
     }
     
-    //Calculate places from points
-    func calculatePlaces(points: [Int], order: String) -> [Int] {
-        var nums = points
-        var places = [Int](repeating: -1, count: points.count)
-        switch order {
+    
+    //Function sorts players by amount of points, either ascending or descending
+    func sortPlayersPoints(players: inout [Player], points: inout [Int], order key: String) {
+        var newPlayers = [Player]()
+        var newPoints = [Int]()
+        switch key {
         case "ascending":
-            for i in 1...nums.count {
-                let max = nums.max()!
-                let index = nums.index(of: max)!
-                nums[index] = -1
-                places[index] = i
+            for _ in 0..<players.count {
+                let max = points.max()!
+                let index = points.index(of: max)!
+                newPlayers.append(players[index])
+                newPoints.append(points[index])
+                points[index] = -1
             }
         case "descending":
-            for i in 1...nums.count {
-                let min = nums.min()!
-                let index = nums.index(of: min)!
-                nums[index] = 1000
-                places[index] = i
+            for _ in 0..<players.count {
+                let min = points.min()!
+                let index = points.index(of: min)!
+                newPlayers.append(players[index])
+                newPoints.append(points[index])
+                points[index] = 1000
             }
         default:
             preconditionFailure("Wrong order key")
         }
-        var placesWithTies = places
-        for i in 1..<places.count {
-            let indexCurrent = places.index(of: i)!
-            let indexNext = places.index(of: i+1)!
-            if points[indexCurrent] == points[indexNext] {
-                placesWithTies[indexNext] = placesWithTies[indexCurrent]
+        players = newPlayers
+        points = newPoints
+    }
+    
+    //Function takes points (sorted) as an argument and return places
+    func assignPlayersPlaces(points: [Int]) -> [Int] {
+        var places = [Int].init(repeating: 0, count: points.count)
+        places[0] = 1
+        for i in 1..<points.count {
+            print("points[i] = \(points[i]), points[i-1] = \(points[i-1])")
+            if points[i] == points[i-1] {
+                places[i] = places[i-1]
+            } else {
+                places[i] = i+1
             }
         }
-        return placesWithTies
+        return places
     }
+    
+//    //Calculate places from points
+//    func calculatePlaces(points: [Int], order: String) -> [Int] {
+//        var nums = points
+//        var places = [Int](repeating: -1, count: points.count)
+//        switch order {
+//        case "ascending":
+//            for i in 1...nums.count {
+//                let max = nums.max()!
+//                let index = nums.index(of: max)!
+//                nums[index] = -1
+//                places[index] = i
+//            }
+//        case "descending":
+//            for i in 1...nums.count {
+//                let min = nums.min()!
+//                let index = nums.index(of: min)!
+//                nums[index] = 1000
+//                places[index] = i
+//            }
+//        default:
+//            preconditionFailure("Wrong order key")
+//        }
+//        var placesWithTies = places
+//        for i in 1..<places.count {
+//            let indexCurrent = places.index(of: i)!
+//            let indexNext = places.index(of: i+1)!
+//            if points[indexCurrent] == points[indexNext] {
+//                placesWithTies[indexNext] = placesWithTies[indexCurrent]
+//            }
+//        }
+//        return placesWithTies
+//    }
 }

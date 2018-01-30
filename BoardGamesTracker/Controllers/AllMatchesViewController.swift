@@ -22,12 +22,22 @@ class AllMatchesViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 100
+    }
+    
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "matchViewCell", for: indexPath)
-        cell.textLabel?.text = matchStore.allMatches[indexPath.row].game.name
-        cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date.toString()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AllMatchesCell", for: indexPath) as! AllMatchesCell
+        cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game.name
+        cell.dateLabel.text = matchStore.allMatches[indexPath.row].date.toString()
+        cell.playersLabel.text = matchStore.allMatches[indexPath.row].players.map({$0.name}).joined(separator: ", ")
+//        cell.textLabel?.text = matchStore.allMatches[indexPath.row].game.name
+//        cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date.toString()
         return cell
     }
     
@@ -35,6 +45,7 @@ class AllMatchesViewController: UITableViewController {
         return matchStore.allMatches.count
     }
     
+        
     //MARK: - Managing segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {

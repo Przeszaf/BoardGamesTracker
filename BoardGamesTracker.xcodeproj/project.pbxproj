@@ -30,6 +30,7 @@
 		0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C332C201265C700626E6A /* ExtensionUITextField.swift */; };
 		0C5C332F2016504600626E6A /* AllMatchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5C332E2016504600626E6A /* AllMatchesViewController.swift */; };
 		0C7462B0201F4425000603C4 /* GameType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7462AF201F4425000603C4 /* GameType.swift */; };
+		0C7462B22020CFE1000603C4 /* AllMatchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7462B12020CFE1000603C4 /* AllMatchesCell.swift */; };
 		0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4020110E3200D301B0 /* PlayerStore.swift */; };
 		0C884E4320110EA800D301B0 /* MatchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4220110EA800D301B0 /* MatchStore.swift */; };
 		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
@@ -84,6 +85,7 @@
 		0C5C332C201265C700626E6A /* ExtensionUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionUITextField.swift; sourceTree = "<group>"; };
 		0C5C332E2016504600626E6A /* AllMatchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesViewController.swift; sourceTree = "<group>"; };
 		0C7462AF201F4425000603C4 /* GameType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameType.swift; sourceTree = "<group>"; };
+		0C7462B12020CFE1000603C4 /* AllMatchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllMatchesCell.swift; sourceTree = "<group>"; };
 		0C884E4020110E3200D301B0 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
 		0C884E4220110EA800D301B0 /* MatchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchStore.swift; sourceTree = "<group>"; };
 		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				0C029BA5201D016200E9F435 /* AddPointsCell.swift */,
+				0C7462B12020CFE1000603C4 /* AllMatchesCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				0C58DC0720052811009FD235 /* Game.swift in Sources */,
 				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
+				0C7462B22020CFE1000603C4 /* AllMatchesCell.swift in Sources */,
 				0C58DC0B20052AF0009FD235 /* Player.swift in Sources */,
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
 				0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */,
