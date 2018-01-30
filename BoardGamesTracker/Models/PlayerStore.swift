@@ -16,6 +16,7 @@ class PlayerStore {
     //MARK: - Functions
     func addPlayer(_ player: Player) {
         allPlayers.append(player)
+        allPlayers = allPlayers.sorted()
     }
 
     @discardableResult func removePlayer(_ player: Player) -> Player {
@@ -23,21 +24,5 @@ class PlayerStore {
             allPlayers.remove(at: index)
         }
         return player
-    }
-    
-    func sort() {
-        allPlayers.sort { (player1, player2) -> Bool in
-            if let date1 = player1.lastTimePlayed, let date2 = player2.lastTimePlayed {
-                if date1 < date2 {
-                    if player1.name < player2.name {
-                        return true
-                    }
-                }
-            }
-            if player1.name < player2.name {
-                return true
-            }
-            return false
-        }
     }
 }

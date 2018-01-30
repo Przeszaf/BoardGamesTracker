@@ -16,7 +16,7 @@ class GameStore {
     //MARK: - Functions
     func addGame(_ game: Game) {
         allGames.append(game)
-        sort()
+        allGames = allGames.sorted()
     }
     
     @discardableResult func removeGame(_ game: Game) -> Game {
@@ -25,19 +25,5 @@ class GameStore {
         }
         return game
     }
-    
-    func sort() {
-        allGames.sort { (game1, game2) -> Bool in
-            if let date1 = game1.lastTimePlayed, let date2 = game2.lastTimePlayed {
-                if date1 < date2 {
-                    if game1.name < game2.name {
-                        return true
-                    }
-                }
-            } else if game1.name < game2.name {
-                return true
-            }
-            return false
-        }
-    }
+
 }

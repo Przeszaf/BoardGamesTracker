@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Game: Equatable, Hashable {
+class Game: Equatable, Hashable, Comparable {
     
     
     
@@ -56,6 +56,28 @@ class Game: Equatable, Hashable {
     }
 
     
+    //Comparable protocol
+    static func <(lhs: Game, rhs: Game) -> Bool {
+        
+        //Game with date should be first
+        if rhs.lastTimePlayed == nil && lhs.lastTimePlayed != nil {
+            return true
+        }
+        
+        //Taking care of inputs with dates
+        if let date1 = lhs.lastTimePlayed, let date2 = rhs.lastTimePlayed {
+            if date1 > date2 {
+                return true
+            } else if date1 < date2 {
+                return false
+            }
+        }
+        //If the date is the same or there is no dates available, then sort by name
+        if lhs.name < rhs.name {
+            return true
+        }
+        return false
+    }
     
     
     

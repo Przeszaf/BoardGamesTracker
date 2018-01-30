@@ -8,7 +8,8 @@
 
 import UIKit
 
-class Player: Equatable, CustomStringConvertible, Hashable {
+class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
+    
     
 
     //MARK: - Player attributes
@@ -66,5 +67,29 @@ class Player: Equatable, CustomStringConvertible, Hashable {
     //Equatable protocol
     static func ==(lhs: Player, rhs: Player) -> Bool {
         return lhs.playerID == rhs.playerID
+    }
+    
+    //Comparable protocol
+    static func <(lhs: Player, rhs: Player) -> Bool {
+        
+        //Player with date should be first
+        if rhs.lastTimePlayed == nil && lhs.lastTimePlayed != nil {
+            return true
+        }
+        
+        //Taking care of inputs with dates
+        
+        if let date1 = lhs.lastTimePlayed, let date2 = rhs.lastTimePlayed {
+            if date1 > date2 {
+                return true
+            } else if date1 < date2 {
+                return false
+            }
+        }
+        //If the date is the same or there is no dates available, then sort by name
+        if lhs.name < rhs.name {
+            return true
+        }
+        return false
     }
 }
