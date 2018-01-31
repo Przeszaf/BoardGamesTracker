@@ -17,4 +17,11 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func toStringWithHour() -> String {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "DD-MM-YYYY HH:mm"
+        return dateFormatter.string(from: self)
+    }
+    
 }

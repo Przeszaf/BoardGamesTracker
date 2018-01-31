@@ -16,15 +16,21 @@ class AllGamesViewController: UITableViewController {
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
+        tableView.rowHeight = 50
     }
     
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "gameViewCell", for: indexPath)
-        cell.textLabel?.text = gameStore.allGames[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
+        cell.gameName.text = gameStore.allGames[indexPath.row].name
+        cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
+        cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
         return cell
     }
     
