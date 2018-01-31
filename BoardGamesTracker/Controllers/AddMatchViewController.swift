@@ -279,36 +279,4 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         return places
     }
     
-//    //Calculate places from points
-//    func calculatePlaces(points: [Int], order: String) -> [Int] {
-//        var nums = points
-//        var places = [Int](repeating: -1, count: points.count)
-//        switch order {
-//        case "ascending":
-//            for i in 1...nums.count {
-//                let max = nums.max()!
-//                let index = nums.index(of: max)!
-//                nums[index] = -1
-//                places[index] = i
-//            }
-//        case "descending":
-//            for i in 1...nums.count {
-//                let min = nums.min()!
-//                let index = nums.index(of: min)!
-//                nums[index] = 1000
-//                places[index] = i
-//            }
-//        default:
-//            preconditionFailure("Wrong order key")
-//        }
-//        var placesWithTies = places
-//        for i in 1..<places.count {
-//            let indexCurrent = places.index(of: i)!
-//            let indexNext = places.index(of: i+1)!
-//            if points[indexCurrent] == points[indexNext] {
-//                placesWithTies[indexNext] = placesWithTies[indexCurrent]
-//            }
-//        }
-//        return placesWithTies
-//    }
 }
