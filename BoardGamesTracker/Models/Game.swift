@@ -53,6 +53,18 @@ class Game: Equatable, Hashable, Comparable {
             thereAreTeams = false
         }
     }
+    
+    func addMatch(match: Match) {
+        if let date = lastTimePlayed {
+            if date < match.date {
+                lastTimePlayed = match.date
+            }
+        } else {
+            lastTimePlayed = match.date
+        }
+        timesPlayed += 1
+        matches.append(match)
+    }
 
     
     //Comparable protocol

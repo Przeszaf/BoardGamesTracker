@@ -16,6 +16,17 @@ class MatchStore {
     //MARK: - Functions
     func addMatch(_ match: Match) {
         allMatches.append(match)
+        match.game.addMatch(match: match)
+        
+        let game = match.game
+        let players = match.players
+        let places = match.playersPlaces
+        let points = match.playersPoints
+        for (i, player) in players.enumerated() {
+            player.addMatch(game: game, match: match, place: places?[i], points: points?[i])
+        }
+        //Add Player-Related attributes
+        
     }
 
     @discardableResult func removeMatch(_ match: Match) -> Match {
@@ -24,4 +35,6 @@ class MatchStore {
         }
         return match
     }
+    
+    
 }

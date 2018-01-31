@@ -87,11 +87,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         gameStore.addGame(game)
         gameStore.addGame(game2)
         
-        let match = Match(game: game2, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2])
-        let match2 = Match(game: game, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4])
+        let match = Match(game: game, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2])
+        let match2 = Match(game: game2, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4])
+        let match3 = Match(game: game, players: [player, player2, player3], playersPoints: nil, playersPlaces: [1, 1, 2])
         
         matchStore.addMatch(match)
         matchStore.addMatch(match2)
+        matchStore.addMatch(match3)
+        playerStore.allPlayers = playerStore.allPlayers.sorted()
     }
 
 }

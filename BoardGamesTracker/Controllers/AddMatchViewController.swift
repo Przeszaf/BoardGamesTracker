@@ -166,23 +166,18 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 
                 var places = [Int]()
                 let players = winners + loosers
-                
                 for _ in winners {
                     places.append(1)
                 }
-                
                 for _ in loosers {
                     places.append(2)
                 }
-                
                 let match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places)
                 
-                game.matches.append(match)
                 matchStore.addMatch(match)
                 
             }
             if game.type == .SoloWithPoints {
-                
                 var players = selectedPlayers
                 var points = [Int]()
                 for player in players {
@@ -192,12 +187,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 sortPlayersPoints(players: &players, points: &points, order: "ascending")
                 let places = assignPlayersPlaces(points: points)
                 let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places)
-                game.matches.append(match)
                 matchStore.addMatch(match)
-                
-                for (i, player) in players.enumerated() {
-                    player.addSoloMatch(game: game, match: match, points: points[i], place: places[i])
-                }
             }
         }
     }
