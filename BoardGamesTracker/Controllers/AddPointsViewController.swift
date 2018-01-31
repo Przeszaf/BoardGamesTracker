@@ -19,6 +19,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
+        tableView.allowsSelection = false
     }
     
     

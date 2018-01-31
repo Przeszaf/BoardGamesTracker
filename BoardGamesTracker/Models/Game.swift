@@ -21,7 +21,6 @@ class Game: Equatable, Hashable, Comparable {
     var timesPlayed: Int
     var lastTimePlayed: Date?
     let gameId: String
-    
     var matches = [Match]()
     
     

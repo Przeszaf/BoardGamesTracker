@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Match: Equatable {
+class Match: Equatable, Comparable {
     
     //MARK: - Match attributes
     var game: Game
@@ -20,15 +20,8 @@ class Match: Equatable {
     let matchID: String
     
     //MARK: - Initializers
-    init(game: Game, players: [Player], places: [Int]) {
-        self.game = game
-        self.players = players
-        date = Date()
-        matchID = NSUUID().uuidString
-        playersPlaces = places
-    }
     
-    init(game: Game, players: [Player], playersPoints: [Int], playersPlaces: [Int]) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?) {
         self.game = game
         self.players = players
         self.playersPoints = playersPoints
@@ -42,6 +35,22 @@ class Match: Equatable {
     //Equatable protocol
     static func ==(lhs: Match, rhs: Match) -> Bool {
         return lhs.matchID == rhs.matchID
+    }
+    
+    //Comparable protocol
+    static func <(lhs: Match, rhs: Match) -> Bool {
+        
+        //Taking care of inputs with dates
+        if lhs.date > rhs.date {
+            return true
+        } else if lhs.date < rhs.date {
+            return false
+        }
+        //If the date is the same, then sort by name
+        if lhs.game.name < rhs.game.name {
+            return true
+        }
+        return false
     }
     
     

@@ -175,7 +175,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                     places.append(2)
                 }
                 
-                let match = Match(game: game, players: players, places: places)
+                let match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places)
                 
                 game.matches.append(match)
                 matchStore.addMatch(match)

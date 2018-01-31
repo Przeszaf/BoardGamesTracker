@@ -40,6 +40,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         allMatchesController.matchStore = matchStore
         allMatchesController.gameStore = gameStore
         allMatchesController.playerStore = playerStore
+        
+        addMatches()
+        
         return true
     }
 
@@ -65,6 +68,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    //MARK: - Custom functions
+    func addMatches() {
+        let player = Player(name: "przemek")
+        let player2 = Player(name: "Daria")
+        let player3 = Player(name: "Koksu")
+        let player4 = Player(name: "Igor")
+        
+        
+        playerStore.addPlayer(player)
+        playerStore.addPlayer(player2)
+        playerStore.addPlayer(player3)
+        playerStore.addPlayer(player4)
+        
+        let game = Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, maxPoints: nil)
+        let game2 = Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12, maxPoints: 34)
+        
+        gameStore.addGame(game)
+        gameStore.addGame(game2)
+        
+        let match = Match(game: game2, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2])
+        let match2 = Match(game: game, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4])
+        
+        matchStore.addMatch(match)
+        matchStore.addMatch(match2)
+    }
 
 }
 

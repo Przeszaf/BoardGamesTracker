@@ -17,7 +17,8 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     var lastTimePlayed: Date?
     var timesPlayed: Int
     let playerID: String
-    var gamesPlayed = [Game: [Match]]()
+    var gamesPlayed = [Game]()
+    var matchesPlayed = [Game: [Match]]()
     var gamesPlace = [Game: [Int]]()
     var gamesPoints = [Game: [Int]]()
     
@@ -32,7 +33,7 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     
     //MARK: - Initializers
     init(name: String) {
-        self.name = name
+        self.name = name.capitalized
         lastTimePlayed = nil
         timesPlayed = 0
         playerID = NSUUID().uuidString
@@ -40,22 +41,24 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     
     //MARK: - Functions
     func addTeamMatch(game: Game, match: Match, place: Int) {
-        if gamesPlayed[game] == nil {
-            gamesPlayed[game] = [match]
+        if matchesPlayed[game] == nil {
+            gamesPlayed.append(game)
+            matchesPlayed[game] = [match]
             gamesPlace[game] = [place]
         } else {
-            gamesPlayed[game]?.append(match)
+            matchesPlayed[game]?.append(match)
             gamesPlace[game]?.append(place)
         }
     }
     
     func addSoloMatch(game: Game, match: Match, points: Int, place: Int) {
-        if gamesPlayed[game] == nil {
-            gamesPlayed[game] = [match]
+        if matchesPlayed[game] == nil {
+            gamesPlayed.append(game)
+            matchesPlayed[game] = [match]
             gamesPlace[game] = [place]
             gamesPoints[game] = [points]
         } else {
-            gamesPlayed[game]?.append(match)
+            matchesPlayed[game]?.append(match)
             gamesPlace[game]?.append(place)
             gamesPoints[game]?.append(points)
         }
