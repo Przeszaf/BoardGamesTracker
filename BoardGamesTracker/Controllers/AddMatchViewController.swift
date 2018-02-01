@@ -164,6 +164,8 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         if let game = selectedGame {
             if game.type == .TeamWithPlaces && !winners.isEmpty && !loosers.isEmpty {
                 
+                createSuccessAlert(with: "Created \(game.name)")
+                clearFields()
                 var places = [Int]()
                 let players = winners + loosers
                 for _ in winners {
@@ -177,14 +179,11 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 matchStore.addMatch(match)
                 
             }
-            if game.type == .SoloWithPoints {
+            if game.type == .SoloWithPoints && !selectedPlayers.isEmpty && !playersPoints.isEmpty {
+                createSuccessAlert(with: "Created \(game.name)")
+                clearFields()
                 var players = selectedPlayers
-                var points = [Int]()
-                for player in players {
-                    let point = playersPoints[player]
-                    points.append(point!)
-                }
-                sortPlayersPoints(players: &players, points: &points, order: "ascending")
+                let points = sortPlayersPoints(players: &players, order: "ascending")
                 let places = assignPlayersPlaces(points: points)
                 let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places)
                 matchStore.addMatch(match)
@@ -237,7 +236,12 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     
     //Function sorts players by amount of points, either ascending or descending
-    func sortPlayersPoints(players: inout [Player], points: inout [Int], order key: String) {
+    func sortPlayersPoints(players: inout [Player], order key: String) -> [Int] {
+        var points = [Int]()
+        for player in players {
+            let point = playersPoints[player]
+            points.append(point!)
+        }
         var newPlayers = [Player]()
         var newPoints = [Int]()
         switch key {
@@ -261,7 +265,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
             preconditionFailure("Wrong order key")
         }
         players = newPlayers
-        points = newPoints
+        return newPoints
     }
     
     //Function takes points (sorted) as an argument and return places
@@ -269,7 +273,6 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         var places = [Int].init(repeating: 0, count: points.count)
         places[0] = 1
         for i in 1..<points.count {
-            print("points[i] = \(points[i]), points[i-1] = \(points[i-1])")
             if points[i] == points[i-1] {
                 places[i] = places[i-1]
             } else {
@@ -277,6 +280,27 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
             }
         }
         return places
+    }
+    
+    func createSuccessAlert(with string: String) {
+        let alert = UIAlertController(title: "Success!", message: string, preferredStyle: .alert)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
+        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
+        self.present(alert, animated: true, completion: nil)
+        let time = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            alert.dismiss(animated: true, completion: {
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+        }
+    }
+    
+    func clearFields() {
+        gameNameField.text = ""
+        playersNameView.text = ""
+        winnersNameView.text = ""
+        loosersNameView.text = ""
+        pointsView.text = ""
     }
     
 }

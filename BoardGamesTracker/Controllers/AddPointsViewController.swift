@@ -50,6 +50,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
             controller.playersPoints = playersPoints
+            _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, order: "ascending")
             controller.updateNames()
         }
     }

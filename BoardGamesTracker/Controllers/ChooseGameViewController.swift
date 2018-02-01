@@ -19,6 +19,8 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = false
         navigationController?.delegate = self
+        tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
+        tableView.rowHeight = 50
     }
     
     
@@ -35,8 +37,10 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "chooseGameViewCell", for: indexPath)
-        cell.textLabel?.text = gameStore.allGames[indexPath.row].name
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
+        cell.gameName.text = gameStore.allGames[indexPath.row].name
+        cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
+        cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
         return cell
     }
     
@@ -51,6 +55,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
                    didSelectRowAt indexPath: IndexPath) {
         selectedGame = gameStore.allGames[indexPath.row]
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
+        navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

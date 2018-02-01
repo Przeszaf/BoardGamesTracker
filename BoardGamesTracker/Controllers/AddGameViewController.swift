@@ -82,7 +82,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             maxPoints = nil
         } else if areTherePointsSwitch.isOn {
             gameType = .SoloWithPoints
-            print("Created game with points")
         }
         
         if let type = gameType, let name = nameField.text  {
@@ -143,7 +142,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
                 }
             }
         }
-        
         return false
     }
     

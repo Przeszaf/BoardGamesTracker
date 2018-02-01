@@ -35,9 +35,17 @@ class AllMatchesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllMatchesCell", for: indexPath) as! AllMatchesCell
         cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game.name
         cell.dateLabel.text = matchStore.allMatches[indexPath.row].date.toString()
-        cell.playersLabel.text = matchStore.allMatches[indexPath.row].players.map({$0.name}).joined(separator: ", ")
-//        cell.textLabel?.text = matchStore.allMatches[indexPath.row].game.name
-//        cell.detailTextLabel?.text = matchStore.allMatches[indexPath.row].date.toString()
+        
+        var string = [String]()
+        let players = matchStore.allMatches[indexPath.row].players
+        if let points = matchStore.allMatches[indexPath.row].playersPoints {
+            for (i, player) in players.enumerated() {
+                string.append("\(player.name): \(points[i])")
+            }
+            cell.playersLabel.text = string.joined(separator: ", ")
+        } else {
+            cell.playersLabel.text = matchStore.allMatches[indexPath.row].players.map{$0.name}.joined(separator: ", ")
+        }
         return cell
     }
     

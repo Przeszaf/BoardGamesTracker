@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -50,71 +49,11 @@
                             <outlet property="delegate" destination="tKn-c8-Fnz" id="ohO-fb-3Vk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="lc8-zq-1DT">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="XdP-bZ-RbB">
-                            <connections>
-                                <segue destination="Ywy-WD-Yja" kind="show" identifier="addPlayer" id="sd9-yN-rSn"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="lc8-zq-1DT"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95u-o1-V2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2018" y="-1552"/>
-        </scene>
-        <!--Add Player-->
-        <scene sceneID="TT3-9W-Z0b">
-            <objects>
-                <viewController id="Ywy-WD-Yja" customClass="AddPlayerViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="aFp-yr-nKL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="1Te-hG-wPF">
-                                <rect key="frame" x="8" y="72" width="359" height="30"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qMO-g6-j85">
-                                        <rect key="frame" x="0.0" y="0.0" width="359" height="30"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iHO-gc-vXC">
-                                                <rect key="frame" x="0.0" y="0.0" width="45" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mGQ-ct-c66">
-                                                <rect key="frame" x="53" y="0.0" width="306" height="30"/>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="1Te-hG-wPF" firstAttribute="top" secondItem="wIu-Nh-bNq" secondAttribute="top" constant="8" id="0AJ-OU-osh"/>
-                            <constraint firstItem="wIu-Nh-bNq" firstAttribute="trailing" secondItem="1Te-hG-wPF" secondAttribute="trailing" constant="8" id="1b1-ET-jtp"/>
-                            <constraint firstItem="1Te-hG-wPF" firstAttribute="leading" secondItem="wIu-Nh-bNq" secondAttribute="leading" constant="8" id="xbj-d7-4JA"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="wIu-Nh-bNq"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Add Player" id="vOK-yP-AOU">
-                        <barButtonItem key="rightBarButtonItem" title="Add!" id="xBN-SX-CLM">
-                            <connections>
-                                <action selector="addPlayerButtonPressed:" destination="Ywy-WD-Yja" id="DGn-A8-oEx"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="nameField" destination="mGQ-ct-c66" id="XZp-xZ-fC2"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="udx-ff-Ggf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2984.8000000000002" y="-1551.2743628185908"/>
         </scene>
     </scenes>
 </document>
