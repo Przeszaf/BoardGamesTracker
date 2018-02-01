@@ -16,7 +16,7 @@ class PlayerStore {
     //MARK: - Functions
     func addPlayer(_ player: Player) {
         allPlayers.append(player)
-        allPlayers = allPlayers.sorted()
+        allPlayers.sort()
     }
 
     @discardableResult func removePlayer(_ player: Player) -> Player {

@@ -16,7 +16,7 @@ class GameStore {
     //MARK: - Functions
     func addGame(_ game: Game) {
         allGames.append(game)
-        allGames = allGames.sorted()
+        allGames.sort()
     }
     
     @discardableResult func removeGame(_ game: Game) -> Game {

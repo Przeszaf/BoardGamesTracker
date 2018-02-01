@@ -94,7 +94,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         matchStore.addMatch(match)
         matchStore.addMatch(match2)
         matchStore.addMatch(match3)
-        playerStore.allPlayers = playerStore.allPlayers.sorted()
+        playerStore.allPlayers.sort()
+        
+
     }
 
 }

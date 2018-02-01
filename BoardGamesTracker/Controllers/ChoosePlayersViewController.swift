@@ -77,13 +77,13 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
         if let controller = viewController as? AddMatchViewController {
             switch key {
             case "all"?:
-                controller.selectedPlayers = selectedPlayers
-                controller.deselectedPlayers = deselectedPlayers
+                controller.selectedPlayers = selectedPlayers.sorted()
+                controller.deselectedPlayers = deselectedPlayers.sorted()
                 controller.setPlayersPoints()
             case "winners"?:
-                controller.winners = selectedPlayers
+                controller.winners = selectedPlayers.sorted()
             case "loosers"?:
-                controller.loosers = selectedPlayers
+                controller.loosers = selectedPlayers.sorted()
             default:
                 preconditionFailure("Wrong key!")
             }

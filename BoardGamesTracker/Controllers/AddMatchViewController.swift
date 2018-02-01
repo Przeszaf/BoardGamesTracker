@@ -175,7 +175,6 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                     places.append(2)
                 }
                 let match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places)
-                
                 matchStore.addMatch(match)
                 
             }
@@ -189,6 +188,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 matchStore.addMatch(match)
             }
         }
+        playerStore.allPlayers.sort()
     }
     
     //MARK: - Custom functions

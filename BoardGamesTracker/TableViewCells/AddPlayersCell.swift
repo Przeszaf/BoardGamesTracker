@@ -27,6 +27,7 @@ class AddPlayersCell: UITableViewCell {
         playerName.frame = CGRect(x: 20, y: 5, width: frame.width * 2 / 3, height: 30)
         addButton.frame = CGRect(x: playerName.frame.width + 5, y: 5, width: frame.width * 1 / 3 - 5, height: 30)
         playerName.keyboardType = UIKeyboardType.alphabet
+        playerName.placeholder = "Your name"
     }
     
     

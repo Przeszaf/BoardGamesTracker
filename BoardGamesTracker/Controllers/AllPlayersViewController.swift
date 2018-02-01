@@ -25,6 +25,13 @@ class AllPlayersViewController: UITableViewController {
         tableView.register(AddPlayersCell.self, forCellReuseIdentifier: "AddPlayersCell")
         tableView.rowHeight = 50
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButton))
+        
+        let view = UIView(frame: CGRect(x: 50, y: 100, width: tableView.frame.width, height: 300))
+        view.backgroundColor = UIColor.lightGray
+        let label = UILabel(frame: CGRect(x: 50, y: 0, width: 100, height: 40))
+        label.text = "STATISTICS"
+        view.addSubview(label)
+        tableView.tableHeaderView = view
     }
     
     
@@ -42,6 +49,7 @@ class AllPlayersViewController: UITableViewController {
         return cell
     }
     
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addingPlayer {
             return playerStore.allPlayers.count + 1
@@ -51,9 +59,6 @@ class AllPlayersViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "addPlayer"?:
-            let addPlayerViewController = segue.destination as! AddPlayerViewController
-            addPlayerViewController.playerStore = playerStore
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -66,7 +71,7 @@ class AllPlayersViewController: UITableViewController {
         } else {
             let player = Player(name: cell.playerName.text!)
             playerStore.addPlayer(player)
-            playerStore.allPlayers = playerStore.allPlayers.sorted()
+            playerStore.allPlayers.sort()
             addingPlayer = false
             cell.playerName.text = ""
             tableView.reloadData()
@@ -77,7 +82,7 @@ class AllPlayersViewController: UITableViewController {
         addingPlayer = true
         tableView.reloadData()
         DispatchQueue.main.async {
-            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0), at: .bottom, animated: true)
+            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count - 1, section: 0), at: .top, animated: false)
             let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
             cell.playerName.becomeFirstResponder()
         }
