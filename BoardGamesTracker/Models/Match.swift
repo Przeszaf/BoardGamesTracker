@@ -11,7 +11,7 @@ import UIKit
 class Match: Equatable, Comparable {
     
     //MARK: - Match attributes
-    var game: Game
+    var game: Game?
     var players: [Player]
     var playersPoints: [Int]?
     var playersPlaces: [Int]?
@@ -47,11 +47,19 @@ class Match: Equatable, Comparable {
             return false
         }
         //If the date is the same, then sort by name
-        if lhs.game.name < rhs.game.name {
+        if lhs.game!.name < rhs.game!.name {
             return true
         }
         return false
     }
     
+    //MARK: - Functions
+    func removeGame() {
+        for player in players {
+            player.removeGame(game: game!)
+        }
+        players.removeAll()
+        game = nil
+    }
     
 }

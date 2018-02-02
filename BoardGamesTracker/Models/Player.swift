@@ -74,6 +74,22 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         }
     }
     
+    func removeGame(game: Game) {
+        if let index = gamesPlayed.index(of: game), let count = matchesPlayed[game]?.count, let date = matchesPlayed[game]?.last?.date {
+            gamesPlayed.remove(at: index)
+            timesPlayed -= count
+            if lastTimePlayed == date {
+                if let lastGame = gamesPlayed.first, let lastMatch = matchesPlayed[lastGame]?.first {
+                    lastTimePlayed = lastMatch.date
+                }
+            }
+            matchesPlayed[game] = nil
+            gamesPlace[game] = nil
+            gamesPoints[game] = nil
+        }
+        
+    }
+    
     
     //MARK: - Conforming to protocols
     

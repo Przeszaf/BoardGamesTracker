@@ -25,49 +25,17 @@ class Game: Equatable, Hashable, Comparable {
     
     
     //MARK: - Conforming to protocols
-    
+    //Equatable
     static func ==(lhs: Game, rhs: Game) -> Bool {
         return lhs.gameId == rhs.gameId
     }
-    
+    //Hashable
     var hashValue: Int {
         return gameId.hashValue
     }
     
-    //MARK: - Initializers
-    init(name: String, type: GameType, maxNoOfPlayers: Int, maxPoints: Int?) {
-        gameId = NSUUID().uuidString
-        self.name = name
-        self.type = type
-        self.maxNoOfPlayers = maxNoOfPlayers
-        timesPlayed = 0
-        lastTimePlayed = nil
-        if type == .SoloWithPoints {
-            maxNoOfPoints = maxPoints!
-            thereAreTeams = false
-        } else if type == .TeamWithPlaces {
-            maxNoOfPoints = 0
-            thereAreTeams = true
-        } else {
-            maxNoOfPoints = 0
-            thereAreTeams = false
-        }
-    }
     
-    func addMatch(match: Match) {
-        if let date = lastTimePlayed {
-            if date < match.date {
-                lastTimePlayed = match.date
-            }
-        } else {
-            lastTimePlayed = match.date
-        }
-        timesPlayed += 1
-        matches.append(match)
-    }
-
-    
-    //Comparable protocol
+    //Comparable
     static func <(lhs: Game, rhs: Game) -> Bool {
         
         //Game with date should be first
@@ -89,6 +57,47 @@ class Game: Equatable, Hashable, Comparable {
         }
         return false
     }
+    
+    //MARK: - Initializers
+    init(name: String, type: GameType, maxNoOfPlayers: Int, maxPoints: Int?) {
+        gameId = NSUUID().uuidString
+        self.name = name
+        self.type = type
+        self.maxNoOfPlayers = maxNoOfPlayers
+        timesPlayed = 0
+        lastTimePlayed = nil
+        if type == .SoloWithPoints {
+            maxNoOfPoints = maxPoints!
+            thereAreTeams = false
+        } else if type == .TeamWithPlaces {
+            maxNoOfPoints = 0
+            thereAreTeams = true
+        } else {
+            maxNoOfPoints = 0
+            thereAreTeams = false
+        }
+    }
+    //MARK: - Functions
+    func addMatch(match: Match) {
+        if let date = lastTimePlayed {
+            if date < match.date {
+                lastTimePlayed = match.date
+            }
+        } else {
+            lastTimePlayed = match.date
+        }
+        timesPlayed += 1
+        matches.append(match)
+    }
+
+    
+    func removeGame() {
+        for match in matches {
+            match.removeGame()
+        }
+        matches.removeAll()
+    }
+    
     
     
     

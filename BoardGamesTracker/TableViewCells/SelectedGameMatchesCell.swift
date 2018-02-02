@@ -24,7 +24,7 @@ class SelectedGameMatchesCell: UITableViewCell {
         dateLabel.font = UIFont.systemFont(ofSize: 10)
         gameNameLabel.numberOfLines = 0
         playersLabel.numberOfLines = 0
-        playersLabel.font = UIFont.systemFont(ofSize: 100)
+        playersLabel.font = UIFont.systemFont(ofSize: 14)
     }
     
     
@@ -37,7 +37,7 @@ class SelectedGameMatchesCell: UITableViewCell {
         playersLabel.translatesAutoresizingMaskIntoConstraints = false
         
         gameNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -5).isActive = true
-        gameNameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 5).isActive = true
+        gameNameLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20).isActive = true
         gameNameLabel.trailingAnchor.constraint(equalTo: playersLabel.leadingAnchor, constant: -5).isActive = true
         gameNameLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor).isActive = true
         
@@ -45,7 +45,7 @@ class SelectedGameMatchesCell: UITableViewCell {
         dateLabel.trailingAnchor.constraint(equalTo: gameNameLabel.trailingAnchor).isActive = true
         
         playersLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: frame.width/2 - 30).isActive = true
-        playersLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        playersLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20).isActive = true
         playersLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
         playersLabel.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
     }

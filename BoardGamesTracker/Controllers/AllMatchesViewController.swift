@@ -33,7 +33,7 @@ class AllMatchesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
 //        let cell = tableView.dequeueReusableCell(withIdentifier: "AllMatchesCell", for: indexPath) as! AllMatchesCell
-        cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game.name
+        cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game!.name
         cell.dateLabel.text = matchStore.allMatches[indexPath.row].date.toString()
         cell.playersLabel.text = playersString(indexPath: indexPath)
         
@@ -47,8 +47,7 @@ class AllMatchesViewController: UITableViewController {
     //Setting correct height of row
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = playersString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 30, font: UIFont.systemFont(ofSize: 100)) + 10
-        print(height)
+        let height = playersString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 10, font: UIFont.systemFont(ofSize: 14)) + 10
         if height > 44 {
             return height
         }

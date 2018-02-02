@@ -13,14 +13,14 @@ extension Date {
     func toString() -> String {
         let dateFormatter = DateFormatter()
         
-        dateFormatter.dateFormat = "DD-MM-YYYY"
+        dateFormatter.dateFormat = "dd-MM-yyyy"
         return dateFormatter.string(from: self)
     }
     
     func toStringWithHour() -> String {
         let dateFormatter = DateFormatter()
         
-        dateFormatter.dateFormat = "DD-MM-YYYY HH:mm"
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
         return dateFormatter.string(from: self)
     }
     

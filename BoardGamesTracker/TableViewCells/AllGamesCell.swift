@@ -31,7 +31,7 @@ class AllGamesCell: UITableViewCell {
         
         gameName.frame = CGRect(x: 20, y: 5, width: frame.width, height: 30)
         gameDate.frame = CGRect(x: 20, y: gameName.frame.height + 5, width: frame.width/2, height: 10)
-        gameTimesPlayed.frame = CGRect(x: frame.width * 3 / 4, y: gameName.frame.height + 5, width: frame.width/4, height: 10)
+        gameTimesPlayed.frame = CGRect(x: frame.width * 3 / 4 - 10, y: gameName.frame.height + 5, width: frame.width/4 + 10, height: 10)
     }
     
     required init?(coder aDecoder: NSCoder) {

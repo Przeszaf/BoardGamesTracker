@@ -21,7 +21,9 @@ class GameStore {
     
     @discardableResult func removeGame(_ game: Game) -> Game {
         if let index = allGames.index(of: game) {
+            game.removeGame()
             allGames.remove(at: index)
+            allGames.sort()
         }
         return game
     }
