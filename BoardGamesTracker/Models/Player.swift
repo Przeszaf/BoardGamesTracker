@@ -39,6 +39,8 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         playerID = NSUUID().uuidString
     }
     
+    
+    //MARK: - Functions
     func addMatch(game: Game, match: Match, place: Int?, points: Int?) {
         if game.type == .SoloWithPoints {
             addSoloMatch(game: game, match: match, points: points!, place: place!)
@@ -49,7 +51,7 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         lastTimePlayed = match.date
     }
     
-    //MARK: - Functions
+    
     private func addTeamMatch(game: Game, match: Match, place: Int) {
         if matchesPlayed[game] == nil {
             gamesPlayed.append(game)
@@ -81,13 +83,37 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
             if lastTimePlayed == date {
                 if let lastGame = gamesPlayed.first, let lastMatch = matchesPlayed[lastGame]?.first {
                     lastTimePlayed = lastMatch.date
+                } else {
+                    lastTimePlayed = nil
                 }
             }
             matchesPlayed[game] = nil
             gamesPlace[game] = nil
             gamesPoints[game] = nil
         }
-        
+    }
+    
+    func removeMatch(match: Match) {
+        let game = match.game!
+        if let index = gamesPlayed.index(of: game) {
+            if gamesPlayed[index].matches.isEmpty {
+                gamesPlayed.remove(at: index)
+            }
+        }
+        if let index = matchesPlayed[game]?.index(of: match) {
+            matchesPlayed[game]?.remove(at: index)
+            gamesPlace[game]?.remove(at: index)
+            gamesPoints[game]?.remove(at: index)
+        }
+        gamesPlayed.sort()
+        if lastTimePlayed == match.date {
+            if let lastGame = gamesPlayed.first, let lastMatch = matchesPlayed[lastGame]?.first {
+                lastTimePlayed = lastMatch.date
+            } else {
+                lastTimePlayed = nil
+            }
+        }
+        timesPlayed -= 1
     }
     
     

@@ -18,7 +18,7 @@ class AllMatchesViewController: UITableViewController {
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         tableView.reloadData()
     }
     
@@ -26,13 +26,13 @@ class AllMatchesViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
     }
     
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "AllMatchesCell", for: indexPath) as! AllMatchesCell
         cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game!.name
         cell.dateLabel.text = matchStore.allMatches[indexPath.row].date.toString()
         cell.playersLabel.text = playersString(indexPath: indexPath)
@@ -44,14 +44,49 @@ class AllMatchesViewController: UITableViewController {
         return matchStore.allMatches.count
     }
     
-    //Setting correct height of row
+    //MARK: - UITableViewDelegate
     
+    //Setting correct height of row
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height = playersString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 10, font: UIFont.systemFont(ofSize: 14)) + 10
         if height > 44 {
             return height
         }
         return 44
+    }
+    
+    //Deletions
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let match = matchStore.allMatches[indexPath.row]
+            let title = "Are you sure you want to delete 1 match of \(match.game!.name)?"
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                print("I'm in deletions table view")
+                if let index = self.gameStore.allGames.index(of: match.game!) {
+                    print("Index is \(index)")
+                    self.gameStore.allGames[index].removeMatch(match: match)
+                }
+                self.matchStore.removeMatch(match)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
+            alert.addAction(deleteAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
+        if isEditing {
+            setEditing(false, animated: true)
+            sender.title = "Edit"
+            tableView.reloadData()
+        } else {
+            setEditing(true, animated: true)
+            sender.title = "Done"
+            tableView.reloadData()
+        }
     }
     
     //MARK: - Managing segue
@@ -67,6 +102,7 @@ class AllMatchesViewController: UITableViewController {
         }
         
     }
+    
     
     
     //Getting string to put into playersField - depends on game

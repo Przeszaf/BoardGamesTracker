@@ -92,7 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let match2 = Match(game: game2, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4])
         let match3 = Match(game: game, players: [player, player2, player3], playersPoints: nil, playersPlaces: [1, 1, 2])
         
-        
+        match.date = Date(timeIntervalSince1970: 500)
+        match2.date = Date(timeIntervalSinceReferenceDate: 0)
         matchStore.addMatch(match)
         matchStore.addMatch(match2)
         matchStore.addMatch(match3)

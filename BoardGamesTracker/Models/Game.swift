@@ -92,10 +92,24 @@ class Game: Equatable, Hashable, Comparable {
 
     
     func removeGame() {
+        lastTimePlayed = nil
         for match in matches {
             match.removeGame()
         }
         matches.removeAll()
+    }
+    
+    func removeMatch(match: Match) {
+        if lastTimePlayed == match.date {
+            if !matches.isEmpty {
+                lastTimePlayed = matches.first!.date
+            }
+        }
+        if let index = matches.index(of: match) {
+            matches.remove(at: index)
+        }
+        match.removeMatch()
+        timesPlayed -= 1
     }
     
     

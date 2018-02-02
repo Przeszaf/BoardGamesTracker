@@ -62,4 +62,13 @@ class Match: Equatable, Comparable {
         game = nil
     }
     
+    func removeMatch() {
+        for player in players {
+            print("Removing match for \(player.name)")
+            player.removeMatch(match: self)
+        }
+        players.removeAll()
+        game = nil
+    }
+    
 }

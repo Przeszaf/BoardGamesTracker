@@ -44,8 +44,17 @@ class AllPlayersViewController: UITableViewController {
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllPlayersCell", for: indexPath) as! AllPlayersCell
         cell.playerName.text = playerStore.allPlayers[indexPath.row].name
-        cell.playerDate.text = playerStore.allPlayers[indexPath.row].lastTimePlayed?.toStringWithHour()
-        cell.playerTimesPlayed.text = "\(playerStore.allPlayers[indexPath.row].timesPlayed) times played"
+        if let lastTimePlayed = playerStore.allPlayers[indexPath.row].lastTimePlayed {
+            cell.playerDate.text = lastTimePlayed.toStringWithHour()
+        } else {
+            cell.playerDate.text = "0000-00-00"
+        }
+        let timesPlayed = playerStore.allPlayers[indexPath.row].timesPlayed
+        if timesPlayed == 0 {
+            cell.playerTimesPlayed.text = "Never played yet"
+        } else {
+            cell.playerTimesPlayed.text = "\(playerStore.allPlayers[indexPath.row].timesPlayed) times played"
+        }
         return cell
     }
     

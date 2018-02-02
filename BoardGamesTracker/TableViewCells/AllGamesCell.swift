@@ -10,7 +10,7 @@ import UIKit
 
 class AllGamesCell: UITableViewCell {
     
-    var gameName =  UILabel()
+    var gameName =  UITextView()
     var gameDate = UILabel()
     var gameTimesPlayed = UILabel()
     
@@ -23,13 +23,15 @@ class AllGamesCell: UITableViewCell {
         gameDate.font = UIFont.systemFont(ofSize: 10)
         gameDate.textColor = UIColor.darkGray
         gameTimesPlayed.font = UIFont.systemFont(ofSize: 10)
+        gameName.font = UIFont.systemFont(ofSize: 17)
+        gameName.isEditable = false
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        gameName.frame = CGRect(x: 20, y: 5, width: frame.width, height: 30)
+        gameName.frame = CGRect(x: 15, y: 5, width: frame.width, height: 30)
         gameDate.frame = CGRect(x: 20, y: gameName.frame.height + 5, width: frame.width/2, height: 10)
         gameTimesPlayed.frame = CGRect(x: frame.width * 3 / 4 - 10, y: gameName.frame.height + 5, width: frame.width/4 + 10, height: 10)
     }

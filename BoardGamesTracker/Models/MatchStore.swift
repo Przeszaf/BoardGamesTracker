@@ -25,6 +25,7 @@ class MatchStore {
         for (i, player) in players.enumerated() {
             player.addMatch(game: game!, match: match, place: places?[i], points: points?[i])
         }
+        allMatches.sort()
         //Add Player-Related attributes
         
     }
