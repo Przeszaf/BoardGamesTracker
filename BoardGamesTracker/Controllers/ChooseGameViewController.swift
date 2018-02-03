@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChooseGameViewController: UITableViewController, UINavigationControllerDelegate {
+class ChooseGameViewController: UITableViewController, UINavigationControllerDelegate, UITextViewDelegate {
     
     var gameStore: GameStore!
     
@@ -19,7 +19,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = false
         navigationController?.delegate = self
-        tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
+        tableView.register(ChooseGameCell.self, forCellReuseIdentifier: "ChooseGameCell")
         tableView.rowHeight = 50
     }
     
@@ -27,7 +27,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //If there is selectedGame, then select it
+//        If there is selectedGame, then select it
         if let game = selectedGame, let gameIndex = gameStore.allGames.index(of: game) {
             let index = IndexPath(row: gameIndex, section: 0)
             tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
@@ -37,7 +37,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseGameCell", for: indexPath) as! ChooseGameCell
         cell.gameName.text = gameStore.allGames[indexPath.row].name
         cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
@@ -74,5 +74,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
             controller.viewWillAppear(true)
         }
     }
+    
+    
     
 }
