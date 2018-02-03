@@ -16,6 +16,7 @@ class AllPlayersViewController: UITableViewController {
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        playerStore.allPlayers.sort()
         tableView.reloadData()
     }
     

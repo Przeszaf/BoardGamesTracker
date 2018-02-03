@@ -173,7 +173,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0Af-uJ-KCI">
-                                <rect key="frame" x="8" y="28" width="375" height="194"/>
+                                <rect key="frame" x="8" y="72" width="375" height="194"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cES-yv-B8S">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
@@ -320,7 +320,6 @@
                         <segue destination="r83-aN-Eof" kind="show" identifier="chooseGame" id="eNc-2q-e79"/>
                         <segue destination="JEr-pJ-ija" kind="show" identifier="choosePlayers" id="afa-uS-2UH"/>
                         <segue destination="EIQ-Hs-cUz" kind="show" identifier="addPoints" id="aym-cc-CMA"/>
-                        <segue destination="Qa8-Su-V1S" kind="show" identifier="matchAdded" id="YXi-g9-3un"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPu-Jr-eGL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -328,8 +327,4 @@
             <point key="canvasLocation" x="2972" y="-672.41379310344837"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="1mv-SH-TOk"/>
-        <segue reference="YXi-g9-3un"/>
-    </inferredMetricsTieBreakers>
 </document>
