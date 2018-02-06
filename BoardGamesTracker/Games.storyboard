@@ -96,7 +96,7 @@
                                 </constraints>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="McH-ub-r5m">
-                                <rect key="frame" x="8" y="154" width="267" height="185"/>
+                                <rect key="frame" x="8" y="154" width="267" height="147"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="gcP-20-DZq">
                                         <rect key="frame" x="0.0" y="0.0" width="267" height="30"/>
@@ -152,28 +152,8 @@
                                             </switch>
                                         </subviews>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="RYS-SM-31o">
-                                        <rect key="frame" x="0.0" y="116" width="267" height="30"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Max no. of points" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Tl-ge-Mvo">
-                                                <rect key="frame" x="0.0" y="0.0" width="209" height="30"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NQG-II-iaD">
-                                                <rect key="frame" x="217" y="0.0" width="50" height="30"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="50" id="ggh-hR-OQb"/>
-                                                </constraints>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                                            </textField>
-                                        </subviews>
-                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qp1-sZ-h5v">
-                                        <rect key="frame" x="0.0" y="154" width="267" height="31"/>
+                                        <rect key="frame" x="0.0" y="116" width="267" height="31"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are there places?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7e0-Lh-DVY">
                                                 <rect key="frame" x="0.0" y="0.0" width="218" height="31"/>
@@ -216,7 +196,6 @@
                         <outlet property="areThereTeamsSwitch" destination="Wsn-Ev-gdz" id="IMg-FY-Oaz"/>
                         <outlet property="gameTypeField" destination="Asf-ti-sL4" id="lVI-sg-qMn"/>
                         <outlet property="maxPlayersField" destination="o4q-kJ-ejl" id="0ZN-V8-rxN"/>
-                        <outlet property="maxPointsField" destination="NQG-II-iaD" id="FfC-jl-ucf"/>
                         <outlet property="nameField" destination="hcS-9O-ejr" id="2IP-tr-JiI"/>
                     </connections>
                 </viewController>

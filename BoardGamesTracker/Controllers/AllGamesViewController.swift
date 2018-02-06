@@ -85,6 +85,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //If there is no text, then display alert and do not allow to end editing
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.layoutIfNeeded()
         if textView.text == "" {
             let alert = UIAlertController(title: nil, message: "Game name must have at least 1 character.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))

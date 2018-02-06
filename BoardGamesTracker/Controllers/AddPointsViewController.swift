@@ -20,6 +20,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         super.viewDidLoad()
         navigationController?.delegate = self
         tableView.allowsSelection = false
+        tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
     }
     
     
@@ -27,15 +28,15 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
         let player = availablePlayers[indexPath.row]
-        cell.nameLabel.text = player.name
+        cell.playerNameLabel.text = player.name
         if playersPoints[player] == 0 {
-            cell.pointsField.text = ""
+            cell.playerPointsField.text = ""
         } else {
-            cell.pointsField.text = "\(playersPoints[player] ?? 0)"
+            cell.playerPointsField.text = "\(playersPoints[player] ?? 0)"
         }
-        cell.pointsField.delegate = self
-        cell.pointsField.tag = indexPath.row
-        cell.nameLabel.tag = indexPath.row
+        cell.playerPointsField.delegate = self
+        cell.playerPointsField.tag = indexPath.row
+        cell.playerNameLabel.tag = indexPath.row
         return cell
     }
     

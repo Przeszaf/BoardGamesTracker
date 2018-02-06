@@ -82,8 +82,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         playerStore.addPlayer(player3)
         playerStore.addPlayer(player4)
         
-        let game = Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, maxPoints: nil)
-        let game2 = Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12, maxPoints: 34)
+        let game = Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10)
+        let game2 = Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12)
         
         gameStore.addGame(game)
         gameStore.addGame(game2)

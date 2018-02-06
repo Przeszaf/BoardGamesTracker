@@ -16,8 +16,8 @@ class Game: Equatable, Hashable, Comparable {
     var name: String
     var type: GameType
     var maxNoOfPlayers: Int
-    var maxNoOfPoints: Int?
     var thereAreTeams: Bool
+    var thereArePoints: Bool
     var timesPlayed: Int
     var lastTimePlayed: Date?
     let gameId: String
@@ -59,7 +59,7 @@ class Game: Equatable, Hashable, Comparable {
     }
     
     //MARK: - Initializers
-    init(name: String, type: GameType, maxNoOfPlayers: Int, maxPoints: Int?) {
+    init(name: String, type: GameType, maxNoOfPlayers: Int) {
         gameId = NSUUID().uuidString
         self.name = name
         self.type = type
@@ -67,13 +67,13 @@ class Game: Equatable, Hashable, Comparable {
         timesPlayed = 0
         lastTimePlayed = nil
         if type == .SoloWithPoints {
-            maxNoOfPoints = maxPoints!
+            thereArePoints = true
             thereAreTeams = false
         } else if type == .TeamWithPlaces {
-            maxNoOfPoints = 0
+            thereArePoints = false
             thereAreTeams = true
         } else {
-            maxNoOfPoints = 0
+            thereArePoints = false
             thereAreTeams = false
         }
     }

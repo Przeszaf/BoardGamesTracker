@@ -19,7 +19,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @IBOutlet var nameField: UITextField!
     @IBOutlet var maxPlayersField: UITextField!
     @IBOutlet var gameTypeField: UITextField!
-    @IBOutlet var maxPointsField: UITextField!
     
     @IBOutlet var areThereTeamsSwitch: UISwitch!
     @IBOutlet var areTherePointsSwitch: UISwitch!
@@ -31,7 +30,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     override func viewDidLoad() {
         nameField.delegate = self
         maxPlayersField.delegate = self
-        maxPointsField.delegate = self
         
         picker = UIPickerView()
         picker.delegate = self
@@ -51,12 +49,8 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
         var maxPlayers = 0
-        var maxPoints: Int?
         var gameType: GameType?
         
-        if let points = Int(maxPointsField.text!) {
-            maxPoints = points
-        }
         
         if maxPlayersField.text! == "99+" {
             maxPlayers = 99
@@ -79,13 +73,12 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         
         if areThereTeamsSwitch.isOn {
             gameType = .TeamWithPlaces
-            maxPoints = nil
         } else if areTherePointsSwitch.isOn {
             gameType = .SoloWithPoints
         }
         
         if let type = gameType, let name = nameField.text  {
-            let game = Game(name: name, type: type, maxNoOfPlayers: maxPlayers, maxPoints: maxPoints)
+            let game = Game(name: name, type: type, maxNoOfPlayers: maxPlayers)
             gameStore.addGame(game)
         }
     }
@@ -104,13 +97,10 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             areThereTeamsSwitch.isEnabled = false
             areTherePlacesSwitch.isOn = true
             areTherePlacesSwitch.isEnabled = false
-            maxPointsField.isEnabled = true
             gameTypeField.text = "Solo game with points."
         } else {
             areTherePointsSwitch.isEnabled = true
             areThereTeamsSwitch.isEnabled = true
-            maxPointsField.isEnabled = false
-            maxPointsField.text = ""
             gameTypeField.text = ""
         }
     }
@@ -133,15 +123,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             }
         }
         
-        if textField == maxPointsField {
-            if (Int(string) != nil && range.upperBound < 3 || string == "" ) {
-                let numString = textField.text! + string
-                let num = Int(numString)!
-                if num >= 1 && num <= 999 {
-                    return true
-                }
-            }
-        }
         return false
     }
     

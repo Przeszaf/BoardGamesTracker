@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class AddMatchViewController: UIViewController, UITextViewDelegate {
     
     var matchStore: MatchStore!
     var gameStore: GameStore!
@@ -35,21 +35,22 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     //MARK: - Outlets: text fields and stack views
     
-    @IBOutlet var gameNameField: UITextField!
-    @IBOutlet var playersNameView: UITextView!
-    @IBOutlet var winnersNameView: UITextView!
-    @IBOutlet var loosersNameView: UITextView!
-    @IBOutlet var pointsView: UITextView!
+    var gameNameView: UITextView!
+    var playersNameView: UITextView!
+    var winnersNameView: UITextView!
+    var loosersNameView: UITextView!
+    var pointsView: UITextView!
     
-    @IBOutlet var playersStackView: UIStackView!
-    @IBOutlet var winnersStackView: UIStackView!
-    @IBOutlet var loosersStackView: UIStackView!
-    @IBOutlet var pointsStackView: UIStackView!
+    var playersStackView: UIStackView!
+    var winnersStackView: UIStackView!
+    var loosersStackView: UIStackView!
+    var pointsStackView: UIStackView!
     
     //MARK: - UIViewController functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        gameNameField.delegate = self
+        loadView()
+        gameNameView.delegate = self
         playersNameView.delegate = self
         winnersNameView.delegate = self
         loosersNameView.delegate = self
@@ -65,7 +66,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gameNameField.text = selectedGame?.name
+        gameNameView.text = selectedGame?.name
         availablePlayers = playerStore.allPlayers
         
         //Update visibility of stack views
@@ -79,7 +80,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         if selectedGame?.thereAreTeams == true {
             winnersStackView.isHidden = false
             loosersStackView.isHidden = false
-        } else if selectedGame?.maxNoOfPoints != nil {
+        } else if selectedGame?.thereArePoints == true {
             playersStackView.isHidden = false
             pointsStackView.isHidden = false
         }
@@ -87,11 +88,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     
     //MARK: - UITextField and UITextView delegate functions
     
-    //Pressing the text field or text view will perform a segue
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        performSegue(withIdentifier: "chooseGame", sender: self)
-        return false
-    }
+    //Pressing the text view will perform a segue
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         if textView == playersNameView {
@@ -107,6 +104,8 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
                 performSegue(withIdentifier: "addPoints", sender: self)
             } else if textView == playersNameView || textView == loosersNameView || textView == winnersNameView {
                 performSegue(withIdentifier: "choosePlayers", sender: self)
+            } else if textView == gameNameView {
+                performSegue(withIdentifier: "chooseGame", sender: self)
             }
         }
         date = Date()
@@ -235,7 +234,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     
-    //Function sorts players by amount of points, either ascending or descending
+    //Function sorts players by amount of points, either ascending or descending, returning the points array
     func sortPlayersPoints(players: inout [Player], order key: String) -> [Int] {
         var points = [Int]()
         for player in players {
@@ -268,7 +267,7 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
         return newPoints
     }
     
-    //Function takes points (sorted) as an argument and return places
+    //Function takes points array (sorted) as an argument and return places
     func assignPlayersPlaces(points: [Int]) -> [Int] {
         var places = [Int].init(repeating: 0, count: points.count)
         places[0] = 1
@@ -296,11 +295,33 @@ class AddMatchViewController: UIViewController, UITextFieldDelegate, UITextViewD
     }
     
     func clearFields() {
-        gameNameField.text = ""
+        gameNameView.text = ""
         playersNameView.text = ""
         winnersNameView.text = ""
         loosersNameView.text = ""
         pointsView.text = ""
+    }
+    
+    override func loadView() {
+        super.loadView()
+        let myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        view.addSubview(myView)
+        myView.translatesAutoresizingMaskIntoConstraints = false
+        myView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        myView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+        myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
+        myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+        
+        gameNameView = myView.gameTextView
+        playersNameView = myView.playersTextView
+        pointsView = myView.pointsTextView
+        winnersNameView = myView.winnersTextView
+        loosersNameView = myView.loosersTextView
+        
+        playersStackView = myView.playersStackView
+        pointsStackView = myView.pointsStackView
+        winnersStackView = myView.winnersStackView
+        loosersStackView = myView.loosersStackView
     }
     
 }
