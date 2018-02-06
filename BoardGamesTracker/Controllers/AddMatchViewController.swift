@@ -10,7 +10,6 @@ import UIKit
 
 class AddMatchViewController: UIViewController, UITextViewDelegate {
     
-    var matchStore: MatchStore!
     var gameStore: GameStore!
     var playerStore: PlayerStore!
     
@@ -31,7 +30,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var deselectedPlayers = [Player]()
     
     //Workaround of double segues
-    var date = Date()
+    var date = Date(timeIntervalSinceNow: -1)
     
     //MARK: - Outlets: text fields and stack views
     
@@ -99,7 +98,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             segueKey = "loosers"
         }
         //Workaround - double segues
-        if Float(date.timeIntervalSinceNow) < -1.0 {
+        if Float(date.timeIntervalSinceNow) < -0.1 {
             if textView == pointsView {
                 performSegue(withIdentifier: "addPoints", sender: self)
             } else if textView == playersNameView || textView == loosersNameView || textView == winnersNameView {
@@ -174,8 +173,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                     places.append(2)
                 }
                 let match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places)
-                matchStore.addMatch(match)
-                
+                game.addMatch(match: match)
             }
             if game.type == .SoloWithPoints && !selectedPlayers.isEmpty && !playersPoints.isEmpty {
                 createSuccessAlert(with: "Created \(game.name)")
@@ -184,7 +182,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                 let points = sortPlayersPoints(players: &players, order: "ascending")
                 let places = assignPlayersPlaces(points: points)
                 let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places)
-                matchStore.addMatch(match)
+                game.addMatch(match: match)
             }
         }
         playerStore.allPlayers.sort()

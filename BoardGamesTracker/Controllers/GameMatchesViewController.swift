@@ -8,11 +8,10 @@
 
 import UIKit
 
-class AllMatchesViewController: UITableViewController {
+class GameMatchesViewController: UITableViewController {
     
-    var matchStore: MatchStore!
+    var game: Game!
     var gameStore: GameStore!
-    var playerStore: PlayerStore!
     
     
     //MARK: - Overriding functions
@@ -26,22 +25,22 @@ class AllMatchesViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
     }
     
     
     //MARK: - Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
-        cell.gameNameLabel.text = matchStore.allMatches[indexPath.row].game!.name
-        cell.dateLabel.text = matchStore.allMatches[indexPath.row].date.toString()
+        cell.gameNameLabel.text = game.name
+        cell.dateLabel.text = game.lastTimePlayed?.toString()
         cell.playersLabel.text = playersString(indexPath: indexPath)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return matchStore.allMatches.count
+        return game.matches.count
     }
     
     //MARK: - UITableViewDelegate
@@ -58,7 +57,7 @@ class AllMatchesViewController: UITableViewController {
     //Deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let match = matchStore.allMatches[indexPath.row]
+            let match = game.matches[indexPath.row]
             let title = "Are you sure you want to delete 1 match of \(match.game!.name)?"
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -69,7 +68,6 @@ class AllMatchesViewController: UITableViewController {
                     print("Index is \(index)")
                     self.gameStore.allGames[index].removeMatch(match: match)
                 }
-                self.matchStore.removeMatch(match)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)
@@ -90,31 +88,19 @@ class AllMatchesViewController: UITableViewController {
     }
     
     //MARK: - Managing segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "addMatch"?:
-            let addMatchController = segue.destination as! AddMatchViewController
-            addMatchController.gameStore = gameStore
-            addMatchController.matchStore = matchStore
-            addMatchController.playerStore = playerStore
-        default:
-            preconditionFailure("Wrong segue identifier")
-        }
-        
-    }
     
     
     
     //Getting string to put into playersField - depends on game
     func playersString(indexPath: IndexPath) -> String {
         var string = [String]()
-        let players = matchStore.allMatches[indexPath.row].players
-        if let points = matchStore.allMatches[indexPath.row].playersPoints, let places = matchStore.allMatches[indexPath.row].playersPlaces {
+        let players = game.matches[indexPath.row].players
+        if let points = game.matches[indexPath.row].playersPoints, let places = game.matches[indexPath.row].playersPlaces {
             for (i, player) in players.enumerated() {
                 string.append("\(places[i]). \(player.name): \(points[i])")
             }
             return string.joined(separator: ", ")
         }
-        return matchStore.allMatches[indexPath.row].players.map{$0.name}.joined(separator: ", ")
+        return game.matches[indexPath.row].players.map{$0.name}.joined(separator: ", ")
     }
 }

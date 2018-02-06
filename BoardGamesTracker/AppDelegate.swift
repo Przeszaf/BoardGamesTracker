@@ -13,7 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let matchStore = MatchStore()
     let gameStore = GameStore()
     let playerStore = PlayerStore()
     
@@ -27,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabBarController = window?.rootViewController as! UITabBarController
         
         let navControllerMatches = tabBarController.viewControllers?[0] as! UINavigationController
-        let allMatchesController = navControllerMatches.topViewController as! AllMatchesViewController
+        let allMatchesController = navControllerMatches.topViewController as! HomeViewController
         
         let navControllerGames = tabBarController.viewControllers?[1] as! UINavigationController
         let allGamesController = navControllerGames.topViewController as! AllGamesViewController
@@ -36,9 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let allPlayersController = navControllerPlayers.topViewController as! AllPlayersViewController
         
         allGamesController.gameStore = gameStore
-        allGamesController.matchStore = matchStore
         allPlayersController.playerStore = playerStore
-        allMatchesController.matchStore = matchStore
         allMatchesController.gameStore = gameStore
         allMatchesController.playerStore = playerStore
         
@@ -94,9 +91,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         match.date = Date(timeIntervalSince1970: 500)
         match2.date = Date(timeIntervalSinceReferenceDate: 0)
-        matchStore.addMatch(match)
-        matchStore.addMatch(match2)
-        matchStore.addMatch(match3)
+        
+        match.game?.addMatch(match: match)
+        match2.game?.addMatch(match: match2)
+        match3.game?.addMatch(match: match3)
         playerStore.allPlayers.sort()
         
 

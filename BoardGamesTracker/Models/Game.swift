@@ -23,6 +23,10 @@ class Game: Equatable, Hashable, Comparable {
     let gameId: String
     var matches = [Match]()
     
+    //MARK: - Board game statistics
+    var pointsArray = [Int]()
+    var averagePoints = 0.0
+    
     
     //MARK: - Conforming to protocols
     //Equatable
@@ -88,6 +92,15 @@ class Game: Equatable, Hashable, Comparable {
         }
         timesPlayed += 1
         matches.append(match)
+        for (i, player) in match.players.enumerated() {
+            player.addMatch(game: self, match: match, place: match.playersPlaces?[i], points: match.playersPoints?[i])
+        }
+        if let points = match.playersPoints {
+            averagePoints = calcAveragePoints(points: points)
+            pointsArray += points
+        }
+        pointsArray.sort()
+        print(averagePoints)
     }
 
     
@@ -113,6 +126,15 @@ class Game: Equatable, Hashable, Comparable {
     }
     
     
+    
+    func calcAveragePoints(points: [Int]) -> Double {
+        var sum = averagePoints * Double(pointsArray.count)
+        for point in points {
+            sum += Double(point)
+        }
+        let newAverage = sum / (Double(pointsArray.count) + Double(points.count))
+        return newAverage
+    }
     
     
 }

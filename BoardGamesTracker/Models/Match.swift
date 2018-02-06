@@ -70,5 +70,6 @@ class Match: Equatable, Comparable {
         players.removeAll()
         game = nil
     }
+
     
 }

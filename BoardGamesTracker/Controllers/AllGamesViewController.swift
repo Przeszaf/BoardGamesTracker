@@ -12,7 +12,6 @@ import UIKit
 class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     var gameStore: GameStore!
-    var matchStore: MatchStore!
     
     var currentCell: Int?
     
@@ -38,8 +37,10 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         cell.gameName.tag = indexPath.row
         if isEditing {
             cell.gameName.isEditable = true
+            cell.gameName.isUserInteractionEnabled = true
         } else {
             cell.gameName.isEditable = false
+            cell.gameName.isUserInteractionEnabled = false
         }
         return cell
     }
@@ -62,9 +63,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                for match in matches {
-                    self.matchStore.removeMatch(match)
-                }
                 self.gameStore.removeGame(game)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
@@ -74,7 +72,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     }
     
     //Managing edit of gameName
-    
     //Update game name if text changes
     func textViewDidChange(_ textView: UITextView) {
         gameStore.allGames[textView.tag].name = textView.text
@@ -101,12 +98,25 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         return height
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if !isEditing {
+            performSegue(withIdentifier: "showGameDetails", sender: indexPath.row)
+            return nil
+        }
+        return indexPath
+    }
+    
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "addGame"?:
             let addGameController = segue.destination as! AddGameViewController
             addGameController.gameStore = gameStore
+        case "showGameDetails"?:
+            let index = sender as! Int
+            let controller = segue.destination as! GameMatchesViewController
+            controller.game = gameStore.allGames[index]
+            controller.gameStore = gameStore
         default:
             preconditionFailure("Wrong segue identifier")
         }

@@ -21,37 +21,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Qa8-Su-V1S" kind="relationship" relationship="rootViewController" id="RE4-bC-beO"/>
+                        <segue destination="KHN-59-fKE" kind="relationship" relationship="rootViewController" id="bRY-Sw-IkB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hgk-nu-K4v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1062" y="-673"/>
-        </scene>
-        <!--All Matches-->
-        <scene sceneID="zVo-fw-pjY">
-            <objects>
-                <tableViewController id="Qa8-Su-V1S" customClass="AllMatchesViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OpU-19-7ZT">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <connections>
-                            <outlet property="dataSource" destination="Qa8-Su-V1S" id="W4l-Ze-lNY"/>
-                            <outlet property="delegate" destination="Qa8-Su-V1S" id="WhN-rT-PDv"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="All Matches" id="XJK-Sn-3mh">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ICm-5m-3c7">
-                            <connections>
-                                <segue destination="3J2-60-qHH" kind="show" identifier="addMatch" id="1mv-SH-TOk"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pdg-5D-EzJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2016.8" y="-673.31334332833592"/>
         </scene>
         <!--Choose Players View Controller-->
         <scene sceneID="xDo-Gg-b1T">
@@ -163,6 +138,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="piq-zb-fTD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3852" y="68.815592203898049"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="PJv-u6-WKc">
+            <objects>
+                <viewController id="KHN-59-fKE" customClass="HomeViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="SUP-Zc-fYi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iN9-yF-5UE">
+                                <rect key="frame" x="150" y="191" width="75" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add Match"/>
+                                <connections>
+                                    <action selector="addMatchButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="Zp7-7c-v5B"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qCJ-i2-4EQ"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Home" id="aZV-f1-Ost"/>
+                    <connections>
+                        <segue destination="3J2-60-qHH" kind="show" identifier="addMatch" id="OE1-XZ-EPt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tl6-py-UMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2034" y="-672"/>
         </scene>
         <!--Add Match-->
         <scene sceneID="478-Jd-2SD">
