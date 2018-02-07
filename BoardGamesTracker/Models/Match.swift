@@ -64,7 +64,6 @@ class Match: Equatable, Comparable {
     
     func removeMatch() {
         for player in players {
-            print("Removing match for \(player.name)")
             player.removeMatch(match: self)
         }
         players.removeAll()

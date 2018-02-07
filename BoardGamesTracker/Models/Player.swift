@@ -49,6 +49,7 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         }
         timesPlayed += 1
         lastTimePlayed = match.date
+        gamesPlayed.sort()
     }
     
     

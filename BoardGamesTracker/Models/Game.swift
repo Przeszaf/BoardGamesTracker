@@ -100,7 +100,6 @@ class Game: Equatable, Hashable, Comparable {
             pointsArray += points
         }
         pointsArray.sort()
-        print(averagePoints)
     }
 
     
