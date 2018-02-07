@@ -14,7 +14,7 @@
         <!--Home-->
         <scene sceneID="7Zr-hO-xhS">
             <objects>
-                <navigationController storyboardIdentifier="Matches" id="ppJ-vc-uIc" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Home" id="ppJ-vc-uIc" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" id="ERT-PL-pJ3"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bJt-8x-2Wg">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

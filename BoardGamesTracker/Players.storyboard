@@ -35,7 +35,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="playerViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="playerViewCell" id="3Rh-Oh-bgE">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="playerViewCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="3Rh-Oh-bgE">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Rh-Oh-bgE" id="ukN-JS-ahY">
@@ -50,10 +50,41 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="lc8-zq-1DT"/>
+                    <connections>
+                        <segue destination="oPT-Oz-NjU" kind="show" identifier="showPlayerDetails" id="bsR-Qz-H5i"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95u-o1-V2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2018" y="-1552"/>
+        </scene>
+        <!--Player Details View Controller-->
+        <scene sceneID="bpG-fJ-cjr">
+            <objects>
+                <tableViewController id="oPT-Oz-NjU" customClass="PlayerDetailsViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="2Tr-Jg-03w">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="PlayerDetailsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="DK1-yj-ByA">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DK1-yj-ByA" id="V3V-ZI-bqy">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="oPT-Oz-NjU" id="tRd-hr-VIK"/>
+                            <outlet property="delegate" destination="oPT-Oz-NjU" id="dq1-JK-CJV"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kYm-Jl-tA5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2927" y="-1552"/>
         </scene>
     </scenes>
 </document>

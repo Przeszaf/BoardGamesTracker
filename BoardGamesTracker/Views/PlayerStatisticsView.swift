@@ -1,14 +1,14 @@
 //
-//  AddMatchView.swift
+//  PlayerStatisticsView.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 06/02/2018.
+//  Created by Przemyslaw Szafulski on 07/02/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 
 import UIKit
 
-class AddMatchView: UIView {
+class PlayerStatisticsView: UIView {
     
     //MARK: - All Stack views needed
     var verticalStackView = UIStackView()
@@ -70,7 +70,6 @@ class AddMatchView: UIView {
         loosersLabel.text = "Loosers"
         
         
-        //Width of label is set to maximum of widths of strings + 8
         let width = max(gameLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), playersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), pointsLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), winnersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), loosersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)))
         
         gameLabel.widthAnchor.constraint(equalToConstant: width + 8).isActive = true
@@ -131,5 +130,3 @@ class AddMatchView: UIView {
         pointsStackView.addArrangedSubview(pointsTextView)
     }
 }
-
-

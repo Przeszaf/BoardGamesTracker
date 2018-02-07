@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let match = Match(game: game, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2])
         let match2 = Match(game: game2, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4])
-        let match3 = Match(game: game, players: [player, player2, player3], playersPoints: nil, playersPlaces: [1, 1, 2])
+        let match3 = Match(game: game, players: [player, player2], playersPoints: nil, playersPlaces: [1, 1, 2])
         
         match.date = Date(timeIntervalSince1970: 500)
         match2.date = Date(timeIntervalSinceReferenceDate: 0)
@@ -96,7 +96,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         match2.game?.addMatch(match: match2)
         match3.game?.addMatch(match: match3)
         playerStore.allPlayers.sort()
-        
 
     }
 

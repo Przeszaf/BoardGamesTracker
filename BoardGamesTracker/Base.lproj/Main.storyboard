@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="5bs-6d-mjo">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad10_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -39,10 +39,10 @@
             </objects>
             <point key="canvasLocation" x="700" y="-847"/>
         </scene>
-        <!--Matches-->
+        <!--Home-->
         <scene sceneID="cdt-ap-b2a">
             <objects>
-                <viewControllerPlaceholder storyboardName="Matches" referencedIdentifier="Matches" id="Hej-8e-yTa" sceneMemberID="viewController">
+                <viewControllerPlaceholder storyboardName="Home" referencedIdentifier="Home" id="Hej-8e-yTa" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Matches" id="wEP-Ha-gSm"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NpZ-eB-EbT" userLabel="First Responder" sceneMemberID="firstResponder"/>

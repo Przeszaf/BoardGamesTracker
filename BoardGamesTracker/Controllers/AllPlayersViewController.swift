@@ -26,13 +26,6 @@ class AllPlayersViewController: UITableViewController {
         tableView.register(AddPlayersCell.self, forCellReuseIdentifier: "AddPlayersCell")
         tableView.rowHeight = 50
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButton))
-        
-        let view = UIView(frame: CGRect(x: 50, y: 100, width: tableView.frame.width, height: 300))
-        view.backgroundColor = UIColor.lightGray
-        let label = UILabel(frame: CGRect(x: 50, y: 0, width: 100, height: 40))
-        label.text = "STATISTICS"
-        view.addSubview(label)
-        tableView.tableHeaderView = view
     }
     
     
@@ -67,8 +60,18 @@ class AllPlayersViewController: UITableViewController {
         return playerStore.allPlayers.count
     }
     
+    
+    //MARK: - Segues
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "showPlayerDetails", sender: indexPath.row)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
+        case "showPlayerDetails"?:
+            let index = sender as! Int
+            let controller = segue.destination as! PlayerDetailsViewController
+            controller.player = playerStore.allPlayers[index]
         default:
             preconditionFailure("Wrong segue identifier")
         }
