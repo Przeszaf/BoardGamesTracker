@@ -48,10 +48,10 @@
             </objects>
             <point key="canvasLocation" x="1929" y="178"/>
         </scene>
-        <!--Game Matches View Controller-->
+        <!--Game Details View Controller-->
         <scene sceneID="nyJ-Lh-EU6">
             <objects>
-                <tableViewController id="f80-Io-GNP" customClass="GameMatchesViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="f80-Io-GNP" customClass="GameDetailsViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="7r3-h0-vCJ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
