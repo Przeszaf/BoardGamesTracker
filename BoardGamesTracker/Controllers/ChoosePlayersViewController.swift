@@ -79,7 +79,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
             case "all"?:
                 controller.selectedPlayers = selectedPlayers.sorted()
                 controller.deselectedPlayers = deselectedPlayers.sorted()
-                controller.setPlayersPoints()
+                controller.updateDictionary()
             case "winners"?:
                 controller.winners = selectedPlayers.sorted()
             case "loosers"?:

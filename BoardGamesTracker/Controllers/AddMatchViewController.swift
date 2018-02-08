@@ -219,7 +219,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             }
         case "addPoints"?:
             let controller = segue.destination as! AddPointsViewController
-            setPlayersPoints()
+            updateDictionary()
             controller.availablePlayers = selectedPlayers
             controller.playersPoints = playersPoints
         default:
@@ -279,7 +279,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     }
     
     //Updates playersPoints dictionary when new player is selected or deselected
-    func setPlayersPoints() {
+    func updateDictionary() {
         for player in selectedPlayers {
             if playersPoints[player] == nil {
                 playersPoints[player] = 0
