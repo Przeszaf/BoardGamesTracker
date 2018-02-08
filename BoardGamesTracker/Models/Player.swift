@@ -131,6 +131,8 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         //Player with date should be first
         if rhs.lastTimePlayed == nil && lhs.lastTimePlayed != nil {
             return true
+        } else if lhs.lastTimePlayed == nil && rhs.lastTimePlayed != nil {
+            return false
         }
         
         //Taking care of inputs with dates
