@@ -48,11 +48,18 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
             addTeamMatch(game: game, match: match, place: place!)
         }
         timesPlayed += 1
-        lastTimePlayed = match.date
+        if let date = lastTimePlayed {
+            if date < match.date {
+                lastTimePlayed = match.date
+            }
+        } else {
+            lastTimePlayed = match.date
+        }
         gamesPlayed.sort()
     }
     
     
+    //Team Match with correct values
     private func addTeamMatch(game: Game, match: Match, place: Int) {
         if matchesPlayed[game] == nil {
             gamesPlayed.append(game)
@@ -64,6 +71,7 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         }
     }
     
+    //Adds solo match
     private func addSoloMatch(game: Game, match: Match, points: Int, place: Int) {
         if matchesPlayed[game] == nil {
             gamesPlayed.append(game)
@@ -77,8 +85,10 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         }
     }
     
+    //Removing game
     func removeGame(game: Game) {
-        if let index = gamesPlayed.index(of: game), let count = matchesPlayed[game]?.count, let date = matchesPlayed[game]?.last?.date {
+        //Gets index of game, count of matches played by player and date of newest game
+        if let index = gamesPlayed.index(of: game), let count = matchesPlayed[game]?.count, let date = matchesPlayed[game]?.first?.date {
             gamesPlayed.remove(at: index)
             timesPlayed -= count
             if lastTimePlayed == date {
@@ -136,7 +146,6 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
         }
         
         //Taking care of inputs with dates
-        
         if let date1 = lhs.lastTimePlayed, let date2 = rhs.lastTimePlayed {
             if date1 > date2 {
                 return true
