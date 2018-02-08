@@ -230,33 +230,76 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     //MARK: - Button
     
     @IBAction func addMatchButtonPressed(_ sender: UIBarButtonItem) {
-        if let game = selectedGame {
-            if game.type == .TeamWithPlaces && !winners.isEmpty && !loosers.isEmpty {
-                
-                createSuccessAlert(with: "Created \(game.name)")
-                clearFields()
-                var places = [Int]()
-                let players = winners + loosers
-                for _ in winners {
-                    places.append(1)
-                }
-                for _ in loosers {
-                    places.append(2)
-                }
-                let match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places)
-                game.addMatch(match: match)
+        guard let game = selectedGame else {
+            createFailureAlert(with: "Choose a game")
+            return
+        }
+        
+        var places = [Int]()
+        var players = [Player]()
+        var points = [Int]()
+        var match: Match?
+        
+        if game.type == .TeamWithPlaces {
+            if winners.isEmpty {
+                createFailureAlert(with: "Winners field cannot be empty!")
+                return
+            } else if loosers.isEmpty {
+                createFailureAlert(with: "Loosers field cannot be empty")
+                return
             }
-            if game.type == .SoloWithPoints && !selectedPlayers.isEmpty && !playersPoints.isEmpty {
-                createSuccessAlert(with: "Created \(game.name)")
-                clearFields()
-                var players = selectedPlayers
-                let points = sortPlayersPoints(players: &players, order: "ascending")
-                let places = assignPlayersPlaces(points: points)
-                let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places)
-                game.addMatch(match: match)
+            
+            players = winners + loosers
+            for _ in winners {
+                places.append(1)
+            }
+            for _ in loosers {
+                places.append(2)
             }
         }
-        playerStore.allPlayers.sort()
+        
+        if game.type == .SoloWithPoints  {
+            if selectedPlayers.isEmpty {
+                createFailureAlert(with: "Players field cannot be empty!")
+                return
+            } else if !arePointsAssigned() {
+                createFailureAlert(with: "All players must have points assigned!")
+                return
+            }
+            
+            players = selectedPlayers
+            points = sortPlayersPoints(players: &players, order: "ascending")
+            places = assignPlayersPlaces(points: points)
+        }
+        
+        if time == TimeInterval(exactly: 60) {
+            let alert = createAlert(title: "Sure?", message: "Do you want to create a match with time of 1 minute only?")
+            let alertAction = UIAlertAction(title: "Yes!", style: .default, handler: { (action) in
+                if game.type == .TeamWithPlaces {
+                    match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!)
+                } else if game.type == .SoloWithPoints {
+                    match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!)
+                }
+                game.addMatch(match: match!)
+                self.createSuccessAlert(with: "Created \(game.name)")
+                self.clearFields()
+                return
+            })
+            let alertCancel = UIAlertAction(title: "No!", style: .cancel, handler: nil)
+            alert.addAction(alertAction)
+            alert.addAction(alertCancel)
+            present(alert, animated: true, completion: {
+                return
+            })
+        }
+        if game.type == .TeamWithPlaces {
+            match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!)
+        } else if game.type == .SoloWithPoints {
+            match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!)
+        }
+        game.addMatch(match: match!)
+        createSuccessAlert(with: "Created \(game.name)")
+        return
     }
     
     //MARK: - Custom functions
@@ -350,10 +393,19 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         return places
     }
     
+    func arePointsAssigned() -> Bool {
+        for player in selectedPlayers {
+            if playersPoints[player] == 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+    //MARK: - Alerts
+    
     func createSuccessAlert(with string: String) {
-        let alert = UIAlertController(title: "Success!", message: string, preferredStyle: .alert)
-        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
-        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
+        let alert = createAlert(title: "Success!", message: string)
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
@@ -364,14 +416,19 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     }
     
     func createFailureAlert(with string: String) {
-        let alert = UIAlertController(title: "Failure!", message: string, preferredStyle: .alert)
-        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
-        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
+        let alert = createAlert(title: "Failure!", message: string)
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
             alert.dismiss(animated: true, completion: nil)
         }
+    }
+    
+    func createAlert(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
+        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
+        return alert
     }
     
     func clearFields() {
@@ -382,8 +439,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         pointsTextView.text = ""
     }
     
-    //MARK: - Picker toolbar
-    
+    //MARK: - Picker toolbar functions
     func createToolbar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -406,22 +462,25 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         if picker.datePickerMode == .countDownTimer {
             time = picker.countDownDuration
             timeTextView.text = time?.toString()
+            timeTextView.resignFirstResponder()
         } else if picker.datePickerMode == .dateAndTime {
             date = picker.date
             dateTextView.text = date?.toStringWithHour()
+            dateTextView.resignFirstResponder()
         }
-        resignFirstResponder()
     }
     
     @objc func cancelPicker() {
         if picker.datePickerMode == .countDownTimer {
             time = TimeInterval(exactly: 60)
             timeTextView.text = time?.toString()
+            timeTextView.resignFirstResponder()
         } else if picker.datePickerMode == .dateAndTime {
             date = Date()
             dateTextView.text = date?.toStringWithHour()
+            dateTextView.resignFirstResponder()
         }
-        resignFirstResponder()
+        picker.resignFirstResponder()
     }
     
     @objc func pickerChanged(_ sender: UIDatePicker) {

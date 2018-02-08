@@ -26,6 +26,8 @@ class Game: Equatable, Hashable, Comparable {
     //MARK: - Board game statistics
     var pointsArray = [Int]()
     var averagePoints = 0.0
+    var totalTime = TimeInterval(exactly: 0)
+    var averageTime = TimeInterval(exactly: 0)
     
     
     //MARK: - Conforming to protocols
@@ -83,6 +85,7 @@ class Game: Equatable, Hashable, Comparable {
     }
     //MARK: - Functions
     func addMatch(match: Match) {
+        //Check date, if the match is newer then update it
         if let date = lastTimePlayed {
             if date < match.date {
                 lastTimePlayed = match.date
@@ -92,14 +95,20 @@ class Game: Equatable, Hashable, Comparable {
         }
         timesPlayed += 1
         matches.append(match)
+        
+        //Add match to each player
         for (i, player) in match.players.enumerated() {
             player.addMatch(game: self, match: match, place: match.playersPlaces?[i], points: match.playersPoints?[i])
         }
+        //If there are points, then append pointsArray and sort it
         if let points = match.playersPoints {
             averagePoints = calcAveragePoints(points: points)
             pointsArray += points
         }
         pointsArray.sort()
+        //Calculate total and average time of game
+        totalTime = totalTime! + match.time
+        averageTime = totalTime! / Double(matches.count)
     }
 
     

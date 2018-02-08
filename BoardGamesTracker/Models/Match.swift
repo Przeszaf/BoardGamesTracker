@@ -16,17 +16,19 @@ class Match: Equatable, Comparable {
     var playersPoints: [Int]?
     var playersPlaces: [Int]?
     var date: Date
+    var time: TimeInterval
     
     let matchID: String
     
     //MARK: - Initializers
     
-    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval) {
         self.game = game
         self.players = players
         self.playersPoints = playersPoints
         self.playersPlaces = playersPlaces
-        date = Date()
+        self.date = date
+        self.time = time
         matchID = NSUUID().uuidString
     }
     
