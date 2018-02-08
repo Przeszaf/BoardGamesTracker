@@ -35,7 +35,7 @@ class PlayerDetailsViewController: UITableViewController {
         let playersInMatch = player.matchesPlayed[game]![indexPath.row].players
         print(playersInMatch.map{$0.name}.joined(separator: ", "))
         cell.playersLabel.text = playersInMatch.map{$0.name}.joined(separator: ", ")
-        cell.dateLabel.text = player.matchesPlayed[game]?.first?.date.toStringWithHour()
+        cell.dateLabel.text = player.matchesPlayed[game]?[indexPath.row].date.toStringWithHour()
         cell.placeLabel.text = String(player.gamesPlace[game]![indexPath.row])
         return cell
     }
