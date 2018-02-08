@@ -15,7 +15,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     
     
     
-    //MARK: - Overriding UITablViewController functions
+    //MARK: - UITableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
@@ -24,7 +24,9 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     }
     
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView
+    
+    //MARK
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
         let player = availablePlayers[indexPath.row]
@@ -45,7 +47,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     }
     
 
-    //MARK: - Using UINavigationControllerDelegate functions
+    //MARK: - UINavigationControllerDelegate
     
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
@@ -56,8 +58,9 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         }
     }
     
-    //MARK: - Using UITextFieldDelegate functions
+    //MARK: - UITextFieldDelegate
     
+    //Points have to be number between 1 and 999
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let tag = textField.tag
         let person = availablePlayers[tag]

@@ -26,7 +26,9 @@ class PlayerDetailsViewController: UITableViewController {
     }
     
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView
+    
+    //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerDetailsCell", for: indexPath) as! PlayerDetailsCell
         let game = player.gamesPlayed[indexPath.section]

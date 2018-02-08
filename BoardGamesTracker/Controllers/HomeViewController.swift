@@ -13,11 +13,14 @@ class HomeViewController: UIViewController {
     var gameStore: GameStore!
     var playerStore: PlayerStore!
     
+    
+    //MARK: - Buttons
+    
     @IBAction func addMatchButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "addMatch", sender: self)
     }
     
-    
+    //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "addMatch"?:

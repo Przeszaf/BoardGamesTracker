@@ -27,13 +27,16 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
     }
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - TableView functions
+    
+    //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
         cell.gameName.text = gameStore.allGames[indexPath.row].name
         cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
         cell.gameName.delegate = self
+        //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row
         if isEditing {
             cell.gameName.isEditable = true
@@ -49,7 +52,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         return gameStore.allGames.count
     }
     
-    //MARK: - tableView and textView functions
     
     //Deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -71,7 +73,24 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         }
     }
     
-    //Managing edit of gameName
+    //Setting correct height of table - depends on length of game name
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = CGFloat(40 + gameStore.allGames[indexPath.row].name.count)
+        print(height)
+        return height
+    }
+    
+    //Perform segue when selects row and if it is not in editing mode
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        if !isEditing {
+            performSegue(withIdentifier: "showGameDetails", sender: indexPath.row)
+            return nil
+        }
+        return indexPath
+    }
+    
+    //MARK: - TextView functions
+    
     //Update game name if text changes
     func textViewDidChange(_ textView: UITextView) {
         gameStore.allGames[textView.tag].name = textView.text
@@ -80,7 +99,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         tableView.endUpdates()
     }
     
-    //If there is no text, then display alert and do not allow to end editing
+    //If there is no text in game name TextView, then display alert and do not allow to end editing
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.layoutIfNeeded()
         if textView.text == "" {
@@ -92,19 +111,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         return true
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = CGFloat(40 + gameStore.allGames[indexPath.row].name.count)
-        print(height)
-        return height
-    }
-    
-    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if !isEditing {
-            performSegue(withIdentifier: "showGameDetails", sender: indexPath.row)
-            return nil
-        }
-        return indexPath
-    }
     
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,6 +119,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             let addGameController = segue.destination as! AddGameViewController
             addGameController.gameStore = gameStore
         case "showGameDetails"?:
+            //sender is indexPath.row, so now we can pass correct game to view controller
             let index = sender as! Int
             let controller = segue.destination as! GameDetailsViewController
             controller.game = gameStore.allGames[index]
@@ -129,7 +136,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         if let cell = currentCell {
             name = gameStore.allGames[cell].name
         }
-        //If name is null, then do not let end editing mode.
+        //If name is null, then do not let it end editing mode.
         if isEditing && name != "" {
             setEditing(false, animated: true)
             sender.title = "Edit"

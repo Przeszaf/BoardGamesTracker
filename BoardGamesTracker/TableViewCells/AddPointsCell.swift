@@ -8,10 +8,11 @@
 
 import UIKit
 
+//Cell used to add points to players
+
 class AddPointsCell: UITableViewCell {
     
     var playerNameLabel = UILabel()
-    
     var playerPointsField = UITextField()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

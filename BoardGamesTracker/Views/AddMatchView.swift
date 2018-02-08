@@ -57,6 +57,7 @@ class AddMatchView: UIView {
         verticalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         verticalStackView.spacing = 8
         
+        //All labes have the same leading and trailing anchors
         gameLabel.leadingAnchor.constraint(equalTo: playersLabel.leadingAnchor).isActive = true
         playersLabel.leadingAnchor.constraint(equalTo: pointsLabel.leadingAnchor).isActive = true
         pointsLabel.leadingAnchor.constraint(equalTo: winnersLabel.leadingAnchor).isActive = true
@@ -81,7 +82,7 @@ class AddMatchView: UIView {
         timeLabel.text = "Time"
         
         
-        //Width of label is set to maximum of widths of strings + 8
+        //Width of labels is set to width of longest string in labels + 8
         let width = max(gameLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), playersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), pointsLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), winnersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), loosersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)),dateLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), timeLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)))
         
         gameLabel.widthAnchor.constraint(equalToConstant: width + 8).isActive = true

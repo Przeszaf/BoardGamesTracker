@@ -87,10 +87,11 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     
     //Removing game
     func removeGame(game: Game) {
-        //Gets index of game, count of matches played by player and date of newest game
+        //Gets index of game, count of matches played by given player and date of newest game
         if let index = gamesPlayed.index(of: game), let count = matchesPlayed[game]?.count, let date = matchesPlayed[game]?.first?.date {
             gamesPlayed.remove(at: index)
             timesPlayed -= count
+            //If the game included last game played by player, then update lastTimePlayed Date
             if lastTimePlayed == date {
                 if let lastGame = gamesPlayed.first, let lastMatch = matchesPlayed[lastGame]?.first {
                     lastTimePlayed = lastMatch.date
@@ -98,6 +99,7 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
                     lastTimePlayed = nil
                 }
             }
+            //Remove game from dictionary
             matchesPlayed[game] = nil
             gamesPlace[game] = nil
             gamesPoints[game] = nil
@@ -105,18 +107,22 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     }
     
     func removeMatch(match: Match) {
-        let game = match.game!
-        if let index = gamesPlayed.index(of: game) {
-            if gamesPlayed[index].matches.isEmpty {
-                gamesPlayed.remove(at: index)
-            }
-        }
+        guard let game = match.game else { return }
         if let index = matchesPlayed[game]?.index(of: match) {
             matchesPlayed[game]?.remove(at: index)
             gamesPlace[game]?.remove(at: index)
             gamesPoints[game]?.remove(at: index)
         }
+        
+        //If there are no matches of this game played by player, then delete game from its gamesPlayed array
+        if matchesPlayed[game]!.isEmpty {
+            guard let index = gamesPlayed.index(of: game) else { return }
+            gamesPlayed.remove(at: index)
+        }
+        
         gamesPlayed.sort()
+        
+        //If it was last match played, then update date
         if lastTimePlayed == match.date {
             if let lastGame = gamesPlayed.first, let lastMatch = matchesPlayed[lastGame]?.first {
                 lastTimePlayed = lastMatch.date

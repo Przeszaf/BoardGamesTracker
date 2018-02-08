@@ -10,6 +10,7 @@ import UIKit
 
 extension Date {
     
+    //Used to get string from Date
     func toString() -> String {
         let dateFormatter = DateFormatter()
         

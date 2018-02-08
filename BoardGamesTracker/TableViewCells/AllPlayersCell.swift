@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Cell used to display all players 
 class AllPlayersCell: UITableViewCell {
     
     var playerName =  UILabel()

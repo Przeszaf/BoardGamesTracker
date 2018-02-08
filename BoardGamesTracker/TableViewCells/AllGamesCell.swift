@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Cell used to display all games
 class AllGamesCell: UITableViewCell {
     
     var gameName =  UITextView()

@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Cell used to display player details
 class PlayerDetailsCell: UITableViewCell {
     
     var playersLabel = UILabel()

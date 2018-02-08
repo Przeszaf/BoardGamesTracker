@@ -8,8 +8,8 @@
 
 import UIKit
 
+//Custom TextView with TextField-like look
 class AddMatchTextView: UITextView {
-    
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)

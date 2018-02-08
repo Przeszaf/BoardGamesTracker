@@ -28,6 +28,7 @@ class Match: Equatable, Comparable {
         self.playersPoints = playersPoints
         self.playersPlaces = playersPlaces
         self.date = date
+        print(date.toStringWithHour())
         self.time = time
         matchID = NSUUID().uuidString
     }
@@ -56,6 +57,7 @@ class Match: Equatable, Comparable {
     }
     
     //MARK: - Functions
+    
     func removeGame() {
         for player in players {
             player.removeGame(game: game!)

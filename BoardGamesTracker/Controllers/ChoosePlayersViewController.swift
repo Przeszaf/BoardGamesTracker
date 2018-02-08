@@ -16,7 +16,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     var key: String?
     var maxPlayers: Int?
     
-    //MARK: - Overriding UITablViewController functions
+    //MARK: - UITableViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = true
@@ -26,11 +26,13 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //Select players that are passed from previous view controller
         if !selectedPlayers.isEmpty {
             for player in selectedPlayers {
                 if let playerIndex = availablePlayers.index(of: player) {
                     let index = IndexPath(row: playerIndex, section: 0)
                     tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
+                    //set tick mark
                     tableView.cellForRow(at: index)?.accessoryType = UITableViewCellAccessoryType.checkmark
                 }
             }
@@ -38,7 +40,9 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
         
     }
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView
+    
+    //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
         cell.textLabel?.text = availablePlayers[indexPath.row].name
@@ -70,7 +74,7 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
     
-    //MARK: - Using UINavigationControllerDelegate functions
+    //MARK: - UINavigationControllerDelegate
     
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {

@@ -28,6 +28,7 @@ class GameDetailsViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
         
+        //Creating game statistics view
         let view = GameStatisticsView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 160))
         view.backgroundColor = UIColor.white
         view.totalMatchesLabel.text = "Total matches: 8"
@@ -42,12 +43,14 @@ class GameDetailsViewController: UITableViewController {
     }
     
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView
+    
+    //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
         cell.gameNameLabel.text = game.name
         cell.dateLabel.text = game.lastTimePlayed?.toStringWithHour()
-        cell.playersLabel.text = playersString(indexPath: indexPath)
+        cell.playersLabel.text = playersToString(indexPath: indexPath)
         
         return cell
     }
@@ -56,11 +59,10 @@ class GameDetailsViewController: UITableViewController {
         return game.matches.count
     }
     
-    //MARK: - UITableViewDelegate
     
     //Setting correct height of row
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = playersString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 10, font: UIFont.systemFont(ofSize: 14)) + 10
+        let height = playersToString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 10, font: UIFont.systemFont(ofSize: 14)) + 10
         if height > 44 {
             return height
         }
@@ -86,6 +88,9 @@ class GameDetailsViewController: UITableViewController {
         }
     }
     
+    //MARK: - Buttons
+    
+    //Button set to toggle editing mode
     @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
         if isEditing {
             setEditing(false, animated: true)
@@ -98,12 +103,11 @@ class GameDetailsViewController: UITableViewController {
         }
     }
     
-    //MARK: - Managing segue
-    
-    
+
+    //MARK: - Other
     
     //Getting string to put into playersField - depends on game
-    func playersString(indexPath: IndexPath) -> String {
+    func playersToString(indexPath: IndexPath) -> String {
         var string = [String]()
         let players = game.matches[indexPath.row].players
         if let points = game.matches[indexPath.row].playersPoints, let places = game.matches[indexPath.row].playersPlaces {

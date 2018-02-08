@@ -35,7 +35,9 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         }
     }
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView
+    
+    //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseGameCell", for: indexPath) as! ChooseGameCell
         cell.gameName.text = gameStore.allGames[indexPath.row].name
@@ -47,8 +49,6 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return gameStore.allGames.count
     }
-    
-    //MARK: - Using TableViewDelegate functions
     
     //Making tick marks
     override func tableView(_ tableView: UITableView,
@@ -62,7 +62,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
     
-    //MARK: - Using UINavigationControllerDelegate functions
+    //MARK: - UINavigationControllerDelegate
     
     //Passing chosen game to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {

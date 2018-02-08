@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Cell that is used when adding player
 class AddPlayersCell: UITableViewCell {
     
     var playerName =  UITextField()

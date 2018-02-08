@@ -8,6 +8,7 @@
 
 import UIKit
 
+//Cell to display matches of given game
 class SelectedGameMatchesCell: UITableViewCell {
     
     var gameNameLabel = UILabel()

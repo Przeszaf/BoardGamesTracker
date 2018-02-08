@@ -10,6 +10,7 @@ import UIKit
 
 extension TimeInterval {
     
+    //Used to get string from time interval
     func toString() -> String {
         let time = Int(self)
         let seconds = time % 60

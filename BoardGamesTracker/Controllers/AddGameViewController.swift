@@ -24,7 +24,6 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @IBOutlet var areTherePointsSwitch: UISwitch!
     @IBOutlet var areTherePlacesSwitch: UISwitch!
     
-    //MARK: - Variables needed to create game
     
     //MARK: - Overriden UIViewController functions
     override func viewDidLoad() {
@@ -107,6 +106,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     
     //MARK: - Text field delegate methods
+    
     //Taking care of correct inputs to textFields
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == nameField {
@@ -126,8 +126,9 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         return false
     }
     
-    //MARK: - UIPickerView DataSource and Delegate methods
+    //MARK: - UIPickerView
     
+    //UIPicker DataSource
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -136,7 +137,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         return myPickerDataPlayers.count + 1
     }
     
-    //
+    
     
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
@@ -148,6 +149,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         }
     }
     
+    //UIPickerView delegate
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
@@ -158,15 +160,8 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         }
     }
     
-    //If tapped outside of keyboard then end editing
-    override func touchesBegan(_ touches: Set<UITouch>,
-                               with event: UIEvent?) {
-        view.endEditing(true)
-        super.touchesBegan(touches, with: event)
-    }
     
     //MARK: - Creating toolbar
-    
     func createToolbar() -> UIToolbar {
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -195,6 +190,15 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @objc func cancelPicker() {
         maxPlayersField.text = ""
         maxPlayersField.resignFirstResponder()
+    }
+    
+    //MARK: - Other
+    
+    //If tapped outside of keyboard then end editing
+    override func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
     }
     
 }

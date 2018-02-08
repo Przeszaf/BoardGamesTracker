@@ -9,6 +9,7 @@
 
 import UIKit
 
+//Cell used to display games
 class ChooseGameCell: UITableViewCell {
     
     var gameName =  UILabel()
