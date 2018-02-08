@@ -16,7 +16,6 @@ class AllPlayersViewController: UITableViewController {
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        playerStore.allPlayers.sort()
         tableView.reloadData()
     }
     
@@ -84,7 +83,6 @@ class AllPlayersViewController: UITableViewController {
         } else {
             let player = Player(name: cell.playerName.text!)
             playerStore.addPlayer(player)
-            playerStore.allPlayers.sort()
             addingPlayer = false
             cell.playerName.text = ""
             tableView.reloadData()
