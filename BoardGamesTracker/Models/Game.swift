@@ -26,8 +26,8 @@ class Game: Equatable, Hashable, Comparable {
     //MARK: - Board game statistics
     var pointsArray = [Int]()
     var averagePoints = 0.0
-    var totalTime = TimeInterval(exactly: 0)
-    var averageTime = TimeInterval(exactly: 0)
+    var totalTime = TimeInterval(exactly: 0)!
+    var averageTime = TimeInterval(exactly: 0)!
     
     
     //MARK: - Conforming to protocols
@@ -57,6 +57,7 @@ class Game: Equatable, Hashable, Comparable {
                 return false
             }
         }
+        
         //If the date is the same or there is no dates available, then sort by name
         if lhs.name < rhs.name {
             return true
@@ -107,11 +108,11 @@ class Game: Equatable, Hashable, Comparable {
         }
         pointsArray.sort()
         //Calculate total and average time of game
-        totalTime = totalTime! + match.time
-        averageTime = totalTime! / Double(matches.count)
+        totalTime = totalTime + match.time
+        averageTime = totalTime / Double(matches.count)
     }
 
-    
+    //Removes game and all associated matches
     func removeGame() {
         lastTimePlayed = nil
         for match in matches {
@@ -120,21 +121,45 @@ class Game: Equatable, Hashable, Comparable {
         matches.removeAll()
     }
     
+    //Removes single match
     func removeMatch(match: Match) {
+        
+        //If the newest match was removed, then update date
         if lastTimePlayed == match.date {
             if !matches.isEmpty {
                 lastTimePlayed = matches.first!.date
+            } else {
+                lastTimePlayed = nil
             }
         }
+        
+        //If it was match with points, then delete it from points array
+        //and calculate new average
+        if let points = match.playersPoints {
+            for point in points {
+                let index = pointsArray.index(of: point)
+                pointsArray.remove(at: index!)
+            }
+            averagePoints = calcAveragePoints(points: [])
+        }
+        
+        
+        //Remove match from matches list
         if let index = matches.index(of: match) {
             matches.remove(at: index)
         }
+        
+        //Decrease total time and calculate new average
+        totalTime = totalTime - match.time
+        averageTime = totalTime / Double(matches.count)
+        
+        //Calls function removeMatch
         match.removeMatch()
         timesPlayed -= 1
     }
     
     
-    
+    //Calculates average points
     func calcAveragePoints(points: [Int]) -> Double {
         var sum = averagePoints * Double(pointsArray.count)
         for point in points {
