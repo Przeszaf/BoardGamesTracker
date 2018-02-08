@@ -17,6 +17,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var selectedGame: Game?
     var selectedPlayers = [Player]()
     var availablePlayers = [Player]()
+    var date: Date?
+    var time: TimeInterval?
     
     //Used to pass correct values to ChoosePlayersViewController
     var segueKey: String?
@@ -30,7 +32,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var deselectedPlayers = [Player]()
     
     //Workaround of double segues
-    var date = Date(timeIntervalSinceNow: -1)
+    var dateSinceSegue = Date(timeIntervalSinceNow: -1)
+    
+    //Pickers
+    let picker = UIDatePicker()
     
     //MARK: - Outlets: text fields and stack views
     
@@ -55,9 +60,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         super.viewDidLoad()
         loadView()
         
-        let datePicker = UIDatePicker()
-        let timePicker = UIDatePicker()
-        timePicker.datePickerMode = .countDownTimer
         
         gameTextView.delegate = self
         playersTextView.delegate = self
@@ -67,8 +69,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         dateTextView.delegate = self
         timeTextView.delegate = self
         
-        dateTextView.inputView = datePicker
-        timeTextView.inputView = timePicker
         
         
         //At the beginning hide all stack views
@@ -78,6 +78,17 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         pointsStackView.isHidden = true
         dateStackView.isHidden = true
         timeStackView.isHidden = true
+        
+        dateTextView.inputView = picker
+        timeTextView.inputView = picker
+        picker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
+        
+        date = Date()
+        time = TimeInterval(exactly: 60)
+        
+        let toolbar = createToolbar()
+        dateTextView.inputAccessoryView = toolbar
+        timeTextView.inputAccessoryView = toolbar
         
     }
     
@@ -98,6 +109,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         if let game = selectedGame {
             dateStackView.isHidden = false
             timeStackView.isHidden = false
+            dateTextView.text = date?.toStringWithHour()
+            timeTextView.text = time?.toString()
             if game.type == .TeamWithPlaces {
                 winnersStackView.isHidden = false
                 loosersStackView.isHidden = false
@@ -106,6 +119,32 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                 pointsStackView.isHidden = false
             }
         }
+    }
+    
+    override func loadView() {
+        super.loadView()
+        let myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        view.addSubview(myView)
+        myView.translatesAutoresizingMaskIntoConstraints = false
+        myView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
+        myView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
+        myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
+        myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+        
+        gameTextView = myView.gameTextView
+        playersTextView = myView.playersTextView
+        pointsTextView = myView.pointsTextView
+        winnersTextView = myView.winnersTextView
+        loosersTextView = myView.loosersTextView
+        dateTextView = myView.dateTextView
+        timeTextView = myView.timeTextView
+        
+        playersStackView = myView.playersStackView
+        pointsStackView = myView.pointsStackView
+        winnersStackView = myView.winnersStackView
+        loosersStackView = myView.loosersStackView
+        dateStackView = myView.dateStackView
+        timeStackView = myView.timeStackView
     }
     
     //MARK: - UITextField and UITextView delegate functions
@@ -121,7 +160,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             segueKey = "loosers"
         }
         //Workaround - double segues
-        if Float(date.timeIntervalSinceNow) < -0.1 {
+        if Float(dateSinceSegue.timeIntervalSinceNow) < -0.1 {
             if textView == pointsTextView {
                 performSegue(withIdentifier: "addPoints", sender: self)
             } else if textView == playersTextView || textView == loosersTextView || textView == winnersTextView {
@@ -130,7 +169,16 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                 performSegue(withIdentifier: "chooseGame", sender: self)
             }
         }
-        date = Date()
+        dateSinceSegue = Date()
+        
+        if textView == dateTextView {
+            picker.datePickerMode = .dateAndTime
+            picker.maximumDate = Date()
+            return true
+        } else if textView == timeTextView {
+            picker.datePickerMode = .countDownTimer
+            return true
+        }
         return false
         
     }
@@ -315,6 +363,17 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    func createFailureAlert(with string: String) {
+        let alert = UIAlertController(title: "Failure!", message: string, preferredStyle: .alert)
+        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
+        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
+        self.present(alert, animated: true, completion: nil)
+        let time = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
+    
     func clearFields() {
         gameTextView.text = ""
         playersTextView.text = ""
@@ -323,30 +382,54 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         pointsTextView.text = ""
     }
     
-    override func loadView() {
-        super.loadView()
-        let myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-        view.addSubview(myView)
-        myView.translatesAutoresizingMaskIntoConstraints = false
-        myView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
-        myView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
-        myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
-        myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+    //MARK: - Picker toolbar
+    
+    func createToolbar() -> UIToolbar {
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        toolBar.sizeToFit()
         
-        gameTextView = myView.gameTextView
-        playersTextView = myView.playersTextView
-        pointsTextView = myView.pointsTextView
-        winnersTextView = myView.winnersTextView
-        loosersTextView = myView.loosersTextView
-        dateTextView = myView.dateTextView
-        timeTextView = myView.timeTextView
-        
-        playersStackView = myView.playersStackView
-        pointsStackView = myView.pointsStackView
-        winnersStackView = myView.winnersStackView
-        loosersStackView = myView.loosersStackView
-        dateStackView = myView.dateStackView
-        timeStackView = myView.timeStackView
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        return toolBar
+    }
+    
+    
+    
+    //PickerView Toolbar button functions
+    @objc func donePicker() {
+        if picker.datePickerMode == .countDownTimer {
+            time = picker.countDownDuration
+            timeTextView.text = time?.toString()
+        } else if picker.datePickerMode == .dateAndTime {
+            date = picker.date
+            dateTextView.text = date?.toStringWithHour()
+        }
+        resignFirstResponder()
+    }
+    
+    @objc func cancelPicker() {
+        if picker.datePickerMode == .countDownTimer {
+            time = TimeInterval(exactly: 60)
+            timeTextView.text = time?.toString()
+        } else if picker.datePickerMode == .dateAndTime {
+            date = Date()
+            dateTextView.text = date?.toStringWithHour()
+        }
+        resignFirstResponder()
+    }
+    
+    @objc func pickerChanged(_ sender: UIDatePicker) {
+        if sender.datePickerMode == .countDownTimer {
+            timeTextView.text = sender.countDownDuration.toString()
+        } else if sender.datePickerMode == .dateAndTime {
+            dateTextView.text = sender.date.toStringWithHour()
+        }
     }
     
     
