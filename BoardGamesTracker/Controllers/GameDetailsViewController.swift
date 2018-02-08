@@ -46,7 +46,7 @@ class GameDetailsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
         cell.gameNameLabel.text = game.name
-        cell.dateLabel.text = game.lastTimePlayed?.toString()
+        cell.dateLabel.text = game.lastTimePlayed?.toStringWithHour()
         cell.playersLabel.text = playersString(indexPath: indexPath)
         
         return cell
