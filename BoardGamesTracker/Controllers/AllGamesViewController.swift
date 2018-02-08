@@ -114,7 +114,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             addGameController.gameStore = gameStore
         case "showGameDetails"?:
             let index = sender as! Int
-            let controller = segue.destination as! GameMatchesViewController
+            let controller = segue.destination as! GameDetailsViewController
             controller.game = gameStore.allGames[index]
             controller.gameStore = gameStore
         default:
