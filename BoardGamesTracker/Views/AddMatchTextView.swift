@@ -13,9 +13,12 @@ class AddMatchTextView: UITextView {
     
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
-        backgroundColor = UIColor.lightGray
         isScrollEnabled = false
         font = UIFont.systemFont(ofSize: 17)
+        layer.cornerRadius = 5
+        layer.borderColor = UIColor.gray.withAlphaComponent(0.5).cgColor
+        layer.borderWidth = 0.5
+        clipsToBounds = true
     }
     
     required init?(coder aDecoder: NSCoder) {
