@@ -34,38 +34,56 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Outlets: text fields and stack views
     
-    var gameNameView: UITextView!
-    var playersNameView: UITextView!
-    var winnersNameView: UITextView!
-    var loosersNameView: UITextView!
-    var pointsView: UITextView!
+    var gameTextView: UITextView!
+    var playersTextView: UITextView!
+    var winnersTextView: UITextView!
+    var loosersTextView: UITextView!
+    var pointsTextView: UITextView!
+    var dateTextView: UITextView!
+    var timeTextView: UITextView!
     
     var playersStackView: UIStackView!
     var winnersStackView: UIStackView!
     var loosersStackView: UIStackView!
     var pointsStackView: UIStackView!
+    var dateStackView: UIStackView!
+    var timeStackView: UIStackView!
+    
     
     //MARK: - UIViewController functions
     override func viewDidLoad() {
         super.viewDidLoad()
         loadView()
-        gameNameView.delegate = self
-        playersNameView.delegate = self
-        winnersNameView.delegate = self
-        loosersNameView.delegate = self
-        pointsView.delegate = self
+        
+        let datePicker = UIDatePicker()
+        let timePicker = UIDatePicker()
+        timePicker.datePickerMode = .countDownTimer
+        
+        gameTextView.delegate = self
+        playersTextView.delegate = self
+        winnersTextView.delegate = self
+        loosersTextView.delegate = self
+        pointsTextView.delegate = self
+        dateTextView.delegate = self
+        timeTextView.delegate = self
+        
+        dateTextView.inputView = datePicker
+        timeTextView.inputView = timePicker
+        
         
         //At the beginning hide all stack views
         playersStackView.isHidden = true
         winnersStackView.isHidden = true
         loosersStackView.isHidden = true
         pointsStackView.isHidden = true
+        dateStackView.isHidden = true
+        timeStackView.isHidden = true
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gameNameView.text = selectedGame?.name
+        gameTextView.text = selectedGame?.name
         availablePlayers = playerStore.allPlayers
         
         //Update visibility of stack views
@@ -73,15 +91,20 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         winnersStackView.isHidden = true
         loosersStackView.isHidden = true
         pointsStackView.isHidden = true
+        dateStackView.isHidden = true
+        timeStackView.isHidden = true
         
         updateNames()
-        
-        if selectedGame?.thereAreTeams == true {
-            winnersStackView.isHidden = false
-            loosersStackView.isHidden = false
-        } else if selectedGame?.thereArePoints == true {
-            playersStackView.isHidden = false
-            pointsStackView.isHidden = false
+        if let game = selectedGame {
+            dateStackView.isHidden = false
+            timeStackView.isHidden = false
+            if game.type == .TeamWithPlaces {
+                winnersStackView.isHidden = false
+                loosersStackView.isHidden = false
+            } else if game.type == .SoloWithPoints {
+                playersStackView.isHidden = false
+                pointsStackView.isHidden = false
+            }
         }
     }
     
@@ -90,20 +113,20 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     //Pressing the text view will perform a segue
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        if textView == playersNameView {
+        if textView == playersTextView {
             segueKey = "all"
-        } else if textView == winnersNameView {
+        } else if textView == winnersTextView {
             segueKey = "winners"
-        } else if textView == loosersNameView {
+        } else if textView == loosersTextView {
             segueKey = "loosers"
         }
         //Workaround - double segues
         if Float(date.timeIntervalSinceNow) < -0.1 {
-            if textView == pointsView {
+            if textView == pointsTextView {
                 performSegue(withIdentifier: "addPoints", sender: self)
-            } else if textView == playersNameView || textView == loosersNameView || textView == winnersNameView {
+            } else if textView == playersTextView || textView == loosersTextView || textView == winnersTextView {
                 performSegue(withIdentifier: "choosePlayers", sender: self)
-            } else if textView == gameNameView {
+            } else if textView == gameTextView {
                 performSegue(withIdentifier: "chooseGame", sender: self)
             }
         }
@@ -221,14 +244,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     
     //Updates names of views
     func updateNames() {
-        playersNameView.text = selectedPlayers.map{$0.name}.joined(separator: ", ")
-        winnersNameView.text = winners.map{$0.name}.joined(separator: ", ")
-        loosersNameView.text = loosers.map{$0.name}.joined(separator: ", ")
+        playersTextView.text = selectedPlayers.map{$0.name}.joined(separator: ", ")
+        winnersTextView.text = winners.map{$0.name}.joined(separator: ", ")
+        loosersTextView.text = loosers.map{$0.name}.joined(separator: ", ")
         var string = [String]()
         for player in selectedPlayers {
             string.append("\(player.name): \(playersPoints[player]!)")
         }
-        pointsView.text = string.joined(separator: ", ")
+        pointsTextView.text = string.joined(separator: ", ")
     }
     
     
@@ -293,11 +316,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     }
     
     func clearFields() {
-        gameNameView.text = ""
-        playersNameView.text = ""
-        winnersNameView.text = ""
-        loosersNameView.text = ""
-        pointsView.text = ""
+        gameTextView.text = ""
+        playersTextView.text = ""
+        winnersTextView.text = ""
+        loosersTextView.text = ""
+        pointsTextView.text = ""
     }
     
     override func loadView() {
@@ -310,16 +333,21 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
         myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
         
-        gameNameView = myView.gameTextView
-        playersNameView = myView.playersTextView
-        pointsView = myView.pointsTextView
-        winnersNameView = myView.winnersTextView
-        loosersNameView = myView.loosersTextView
+        gameTextView = myView.gameTextView
+        playersTextView = myView.playersTextView
+        pointsTextView = myView.pointsTextView
+        winnersTextView = myView.winnersTextView
+        loosersTextView = myView.loosersTextView
+        dateTextView = myView.dateTextView
+        timeTextView = myView.timeTextView
         
         playersStackView = myView.playersStackView
         pointsStackView = myView.pointsStackView
         winnersStackView = myView.winnersStackView
         loosersStackView = myView.loosersStackView
+        dateStackView = myView.dateStackView
+        timeStackView = myView.timeStackView
     }
+    
     
 }
