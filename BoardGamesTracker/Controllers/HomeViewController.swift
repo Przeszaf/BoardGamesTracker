@@ -12,12 +12,41 @@ class HomeViewController: UIViewController {
     
     var gameStore: GameStore!
     var playerStore: PlayerStore!
+    var timer: MyTimer!
     
+    
+    @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var startButton: UIButton!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        timer.label = timeLabel
+        timeLabel.text = timer.time.toStringWithSeconds()
+        if timer.isRunning {
+            startButton.setTitle("Stop", for: .normal)
+        }
+    }
     
     //MARK: - Buttons
     
     @IBAction func addMatchButtonPressed(_ sender: UIButton) {
         performSegue(withIdentifier: "addMatch", sender: self)
+    }
+    
+    @IBAction func startTimerButtonPressed(_ sender: UIButton) {
+        if sender.currentTitle == "Start" {
+            timer.runTimer()
+            startButton.setTitle("Stop", for: .normal)
+        } else if sender.currentTitle == "Stop" {
+            timer.stopTimer()
+            startButton.setTitle("Start", for: .normal)
+        }
+    }
+    
+    @IBAction func resetTimerButtonPressed(_ sender: UIButton) {
+        timer.resetTimer()
+        startButton.setTitle("Start", for: .normal)
     }
     
     //MARK: - Segues

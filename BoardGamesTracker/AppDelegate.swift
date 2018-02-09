@@ -16,17 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let gameStore = GameStore()
     let playerStore = PlayerStore()
     
+    var timer = MyTimer()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        
+        timer = MyTimer()
         //Using AppDelegate to create store object models in view controllers.
         
         let tabBarController = window?.rootViewController as! UITabBarController
         
         let navControllerMatches = tabBarController.viewControllers?[0] as! UINavigationController
-        let allMatchesController = navControllerMatches.topViewController as! HomeViewController
+        let homeController = navControllerMatches.topViewController as! HomeViewController
         
         let navControllerGames = tabBarController.viewControllers?[1] as! UINavigationController
         let allGamesController = navControllerGames.topViewController as! AllGamesViewController
@@ -36,8 +37,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         allGamesController.gameStore = gameStore
         allPlayersController.playerStore = playerStore
-        allMatchesController.gameStore = gameStore
-        allMatchesController.playerStore = playerStore
+        homeController.gameStore = gameStore
+        homeController.playerStore = playerStore
+        homeController.timer = timer
         
         addMatches()
         
@@ -52,10 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        timer.saveTimer()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        timer.loadTimer()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -87,8 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let match = Match(game: game, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2], date: Date(), time: TimeInterval(exactly: 2400)!)
         let match2 = Match(game: game2, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4], date: Date(), time: TimeInterval(exactly: 3600)!)
-        let match3 = Match(game: game, players: [player, player2], playersPoints: nil, playersPlaces: [1, 1, 2], date: Date(), time: TimeInterval(exactly: 2580)!)
-        
+        let match3 = Match(game: game, players: [player, player2], playersPoints: nil, playersPlaces: [1, 1, 2], date: Date.init(timeIntervalSince1970: 0), time: TimeInterval(exactly: 2580)!)
         
         match.game?.addMatch(match: match)
         match2.game?.addMatch(match: match2)
