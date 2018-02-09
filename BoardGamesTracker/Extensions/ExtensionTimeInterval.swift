@@ -11,14 +11,19 @@ import UIKit
 extension TimeInterval {
     
     //Used to get string from time interval
+    func toStringWithSeconds() -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.zeroFormattingBehavior = .pad
+        formatter.unitsStyle = .positional
+        return formatter.string(from: self)!
+    }
+    
     func toString() -> String {
-        let time = Int(self)
-        let seconds = time % 60
-        let minutes = (time/60) % 60
-        let hours = time/3600
-        if seconds == 0 {
-            return "\(hours)h \(minutes)m"
-        }
-        return "\(hours)h \(minutes)m \(seconds)s"
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute]
+        formatter.zeroFormattingBehavior = .default
+        formatter.unitsStyle = .abbreviated
+        return formatter.string(from: self)!
     }
 }
