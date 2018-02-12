@@ -13,8 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let gameStore = GameStore()
     let playerStore = PlayerStore()
+    let gameStore = GameStore()
     
     var timer = MyTimer()
     
@@ -42,7 +42,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         homeController.playerStore = playerStore
         homeController.timer = timer
         
-        addMatches()
+        gameStore.playerStore = playerStore
+        gameStore.setPlayerStore()
+        
         
         return true
     }
@@ -56,6 +58,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         timer.saveTimer()
+        
+        if gameStore.save() && playerStore.save() {
+            print("Successfully saved all files")
+        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -69,36 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    }
-
-    //MARK: - Custom functions
-    func addMatches() {
-        let player = Player(name: "przemek")
-        let player2 = Player(name: "Daria")
-        let player3 = Player(name: "Koksu")
-        let player4 = Player(name: "Igor")
-        
-        
-        playerStore.addPlayer(player)
-        playerStore.addPlayer(player2)
-        playerStore.addPlayer(player3)
-        playerStore.addPlayer(player4)
-        
-        let game = Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10)
-        let game2 = Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12)
-        
-        gameStore.addGame(game)
-        gameStore.addGame(game2)
-        
-        let match = Match(game: game, players: playerStore.allPlayers, playersPoints: nil, playersPlaces: [1, 1, 2, 2], date: Date(), time: TimeInterval(exactly: 2400)!)
-        let match2 = Match(game: game2, players: playerStore.allPlayers, playersPoints: [30, 25, 20, 14], playersPlaces: [1, 2, 3, 4], date: Date(), time: TimeInterval(exactly: 3600)!)
-        let match3 = Match(game: game, players: [player, player2], playersPoints: nil, playersPlaces: [1, 1, 2], date: Date.init(timeIntervalSince1970: 0), time: TimeInterval(exactly: 2580)!)
-        
-        match.game?.addMatch(match: match)
-        match2.game?.addMatch(match: match2)
-        match3.game?.addMatch(match: match3)
-        playerStore.allPlayers.sort()
-
     }
 
 }

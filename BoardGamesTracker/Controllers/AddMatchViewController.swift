@@ -294,6 +294,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                 game.addMatch(match: match!)
                 self.createSuccessAlert(with: "Created \(game.name)")
                 self.clearFields()
+                self.playerStore.allPlayers.sort()
             })
             //If it was error, the game is not created
             let alertCancel = UIAlertAction(title: "No!", style: .cancel, handler: nil)
@@ -310,6 +311,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         }
         game.addMatch(match: match!)
         createSuccessAlert(with: "Created \(game.name)")
+        playerStore.allPlayers.sort()
         return
     }
     
@@ -394,7 +396,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     //Function takes points array (MUST BE SORTED!!) as an argument and return places
     func assignPlayersPlaces(points: [Int]) -> [Int] {
         
-        if points.sorted() != points {
+        if points.sorted(by: {$0 > $1}) != points {
             preconditionFailure("Points not sorted when assigning places!")
         }
         

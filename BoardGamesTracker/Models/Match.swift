@@ -8,7 +8,29 @@
 
 import UIKit
 
-class Match: Equatable, Comparable {
+class Match: NSObject, Comparable, NSCoding {
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(game, forKey: "game")
+        aCoder.encode(players, forKey: "players")
+        aCoder.encode(playersPoints, forKey: "playersPoints")
+        aCoder.encode(playersPlaces, forKey: "playersPlaces")
+        aCoder.encode(date, forKey: "date")
+        aCoder.encode(time, forKey: "time")
+        aCoder.encode(matchID, forKey: "matchID")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        game = aDecoder.decodeObject(forKey: "game") as? Game
+        players = aDecoder.decodeObject(forKey: "players") as! [Player]
+        playersPoints = aDecoder.decodeObject(forKey: "playersPoints") as? [Int]
+        playersPlaces = aDecoder.decodeObject(forKey: "playersPlaces") as? [Int]
+        date = aDecoder.decodeObject(forKey: "date") as! Date
+        time = aDecoder.decodeDouble(forKey: "time")
+        matchID = aDecoder.decodeObject(forKey: "matchID") as! String
+        super.init()
+    }
+    
     
     //MARK: - Match attributes
     var game: Game?

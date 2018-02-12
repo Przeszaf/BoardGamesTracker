@@ -8,7 +8,41 @@
 
 import UIKit
 
-class Game: Equatable, Hashable, Comparable {
+class Game: NSObject, Comparable, NSCoding {
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(type.rawValue, forKey: "type")
+        aCoder.encode(maxNoOfPlayers, forKey: "maxNoOfPlayers")
+        aCoder.encode(thereAreTeams, forKey: "thereAreTeams")
+        aCoder.encode(thereArePoints, forKey: "thereArePoints")
+        aCoder.encode(timesPlayed, forKey: "timesPlayed")
+        aCoder.encode(lastTimePlayed, forKey: "lastTimePlayed")
+        aCoder.encode(gameID, forKey: "gameID")
+        aCoder.encode(matches, forKey: "matches")
+        aCoder.encode(pointsArray, forKey: "pointsArray")
+        aCoder.encode(averagePoints, forKey: "averagePoints")
+        aCoder.encode(totalTime, forKey: "totalTime")
+        aCoder.encode(averageTime, forKey: "averageTime")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        name = aDecoder.decodeObject(forKey: "name") as! String
+        type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
+        maxNoOfPlayers = aDecoder.decodeInteger(forKey: "maxNoOfPlayers")
+        thereAreTeams = aDecoder.decodeBool(forKey: "thereAreTeams")
+        thereArePoints = aDecoder.decodeBool(forKey: "thereArePoints")
+        timesPlayed = aDecoder.decodeInteger(forKey: "timesPlayed")
+        lastTimePlayed = aDecoder.decodeObject(forKey: "lastTimePlayed") as? Date
+        gameID = aDecoder.decodeObject(forKey: "gameID") as! String
+        matches = aDecoder.decodeObject(forKey: "matches") as! [Match]
+        pointsArray = aDecoder.decodeObject(forKey: "pointsArray") as! [Int]
+        averagePoints = aDecoder.decodeDouble(forKey: "averagePoints")
+        totalTime = aDecoder.decodeDouble(forKey: "totalTime")
+        averageTime = aDecoder.decodeDouble(forKey: "averageTime")
+        super.init()
+    }
+    
     
     
     
@@ -20,7 +54,7 @@ class Game: Equatable, Hashable, Comparable {
     var thereArePoints: Bool
     var timesPlayed: Int
     var lastTimePlayed: Date?
-    let gameId: String
+    let gameID: String
     var matches = [Match]()
     
     //MARK: - Board game statistics
@@ -33,11 +67,11 @@ class Game: Equatable, Hashable, Comparable {
     //MARK: - Conforming to protocols
     //Equatable
     static func ==(lhs: Game, rhs: Game) -> Bool {
-        return lhs.gameId == rhs.gameId
+        return lhs.gameID == rhs.gameID
     }
     //Hashable
-    var hashValue: Int {
-        return gameId.hashValue
+    override var hashValue: Int {
+        return gameID.hashValue
     }
     
     
@@ -69,7 +103,7 @@ class Game: Equatable, Hashable, Comparable {
     
     //MARK: - Initializers
     init(name: String, type: GameType, maxNoOfPlayers: Int) {
-        gameId = NSUUID().uuidString
+        gameID = NSUUID().uuidString
         self.name = name
         self.type = type
         self.maxNoOfPlayers = maxNoOfPlayers

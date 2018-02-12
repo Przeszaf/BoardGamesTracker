@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum GameType {
+enum GameType: Int {
     case TeamWithPlaces
     case SoloWithPoints
 }

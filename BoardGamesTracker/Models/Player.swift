@@ -8,7 +8,23 @@
 
 import UIKit
 
-class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
+class Player: NSObject, Comparable, NSCoding {
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(lastTimePlayed, forKey: "lastTimePlayed")
+        aCoder.encode(timesPlayed, forKey: "timesPlayed")
+        aCoder.encode(playerID, forKey: "playerID")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        name = aDecoder.decodeObject(forKey: "name") as! String
+        lastTimePlayed = aDecoder.decodeObject(forKey: "lastTimePlayed") as? Date
+        timesPlayed = aDecoder.decodeInteger(forKey: "timesPlayed")
+        playerID = aDecoder.decodeObject(forKey: "playerID") as! String
+        super.init()
+    }
+    
     
     
 
@@ -22,11 +38,11 @@ class Player: Equatable, CustomStringConvertible, Hashable, Comparable {
     var gamesPlace = [Game: [Int]]()
     var gamesPoints = [Game: [Int]]()
     
-    var description: String {
+    override var description: String {
         return name
     }
     
-    var hashValue: Int {
+    override var hashValue: Int {
         return playerID.hashValue
     }
     

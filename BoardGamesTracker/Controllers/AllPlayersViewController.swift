@@ -105,7 +105,7 @@ class AllPlayersViewController: UITableViewController {
         tableView.reloadData()
         DispatchQueue.main.async {
             //If add button in bar is touched, then scroll to bottom and make the new cell a first responder
-            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count - 1, section: 0), at: .top, animated: false)
+            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0), at: .top, animated: false)
             let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
             cell.playerName.becomeFirstResponder()
         }
