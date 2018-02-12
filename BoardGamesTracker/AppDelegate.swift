@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         timer = MyTimer()
+        timer.loadTimer()
         //Using AppDelegate to create store object models in view controllers.
         
         let tabBarController = window?.rootViewController as! UITabBarController

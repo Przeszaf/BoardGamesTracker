@@ -155,18 +155,43 @@
                                     <action selector="addMatchButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="Zp7-7c-v5B"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="taM-8L-nAO">
+                                <rect key="frame" x="122" y="383" width="34" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startTimerButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="fot-Rc-Tfn"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24L-81-XG3">
+                                <rect key="frame" x="223" y="383" width="39" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Reset"/>
+                                <connections>
+                                    <action selector="resetTimerButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="dVa-xS-M7m"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHQ-57-dgF">
+                                <rect key="frame" x="150" y="343" width="104" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="qCJ-i2-4EQ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="aZV-f1-Ost"/>
                     <connections>
+                        <outlet property="startButton" destination="taM-8L-nAO" id="jUD-gY-4Uy"/>
+                        <outlet property="timeLabel" destination="XHQ-57-dgF" id="vVd-36-ahc"/>
                         <segue destination="3J2-60-qHH" kind="show" identifier="addMatch" id="OE1-XZ-EPt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tl6-py-UMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2034" y="-672"/>
+            <point key="canvasLocation" x="2032.8" y="-672.41379310344837"/>
         </scene>
         <!--Add Match-->
         <scene sceneID="478-Jd-2SD">
