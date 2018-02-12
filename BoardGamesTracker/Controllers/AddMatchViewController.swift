@@ -294,15 +294,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
                 game.addMatch(match: match!)
                 self.createSuccessAlert(with: "Created \(game.name)")
                 self.clearFields()
-                return
             })
             //If it was error, the game is not created
             let alertCancel = UIAlertAction(title: "No!", style: .cancel, handler: nil)
             alert.addAction(alertAction)
             alert.addAction(alertCancel)
-            present(alert, animated: true, completion: {
-                return
-            })
+            present(alert, animated: true, completion: nil)
+            return
         }
         //If there are no errors, then create games and display success alert
         if game.type == .TeamWithPlaces {
