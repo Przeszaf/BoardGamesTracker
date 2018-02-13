@@ -21,6 +21,7 @@ class AddPointsCell: UITableViewCell {
         self.contentView.addSubview(playerNameLabel)
         self.contentView.addSubview(playerPointsField)
         playerPointsField.borderStyle = .roundedRect
+        playerPointsField.keyboardType = .numberPad
     }
 
     override func layoutSubviews() {

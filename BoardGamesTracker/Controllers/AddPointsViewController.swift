@@ -12,7 +12,8 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     
     var availablePlayers: [Player]!
     var playersPoints: [Player: Int]!
-    
+    var toolbar: UIToolbar!
+    var currentRow: Int?
     
     
     //MARK: - UITableViewController
@@ -21,6 +22,11 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         navigationController?.delegate = self
         tableView.allowsSelection = false
         tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
+        
+        let leftButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButton))
+
+        let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(doneButton))
+        toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
     }
     
     
@@ -38,7 +44,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         }
         cell.playerPointsField.delegate = self
         cell.playerPointsField.tag = indexPath.row
-        cell.playerNameLabel.tag = indexPath.row
+        cell.playerPointsField.inputAccessoryView = toolbar
         return cell
     }
     
@@ -79,8 +85,27 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         return false
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        currentRow = textField.tag
+        return true
+    }
     
-
+    //Keyboard Toolbar button functions
+    @objc func doneButton() {
+        if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: 0)) as? AddPointsCell {
+            let textField = nextCell.playerPointsField
+            textField.becomeFirstResponder()
+            tableView.scrollToRow(at: IndexPath(row: row + 1, section: 0), at: .middle, animated: true)
+        } else if let firstCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddPointsCell {
+            let textField = firstCell.playerPointsField
+            textField.becomeFirstResponder()
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
+        }
+    }
+    
+    @objc func cancelButton() {
+        
+    }
     
     
 }
