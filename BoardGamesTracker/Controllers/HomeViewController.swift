@@ -56,6 +56,9 @@ class HomeViewController: UIViewController {
             let addMatchController = segue.destination as! AddMatchViewController
             addMatchController.gameStore = gameStore
             addMatchController.playerStore = playerStore
+            if timer.time > 60 {
+                addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
+            }
         default:
             preconditionFailure("Wrong segue identifier")
         }

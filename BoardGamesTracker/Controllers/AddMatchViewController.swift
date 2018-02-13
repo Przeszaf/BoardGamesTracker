@@ -84,7 +84,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         picker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
         
         date = Date()
-        time = TimeInterval(exactly: 60)
+        if time == nil {
+            time = TimeInterval(exactly: 60)
+        }
         
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
