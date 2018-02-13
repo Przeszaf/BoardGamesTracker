@@ -38,9 +38,12 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         areTherePlacesSwitch.isOn = true
         
         //Creating picker toolbar
-        let toolBar = createToolbar()
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         
-        maxPlayersField.inputAccessoryView = toolBar
+        let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
+        
+        maxPlayersField.inputAccessoryView = toolbar
     }
     
     //MARK: - Switches and buttons functions
@@ -60,13 +63,13 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         }
         
         if maxPlayersField.text == "" {
-            maxPlayersField.shake()
+            createFailureAlert(with: "Max players cannot be empty!")
             return
         } else if nameField.text == ""{
-            nameField.shake()
+            createFailureAlert(with: "Name cannot be empty")
             return
         } else if !areThereTeamsSwitch.isOn && !areTherePointsSwitch.isOn {
-            maxPlayersField.shake()
+            createFailureAlert(with: "Must turn switch on.")
             return
         }
         
@@ -79,6 +82,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         if let type = gameType, let name = nameField.text  {
             let game = Game(name: name, type: type, maxNoOfPlayers: maxPlayers)
             gameStore.addGame(game)
+            createSuccessAlert(with: "Created \(game.name)!")
         }
     }
     
@@ -161,21 +165,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     }
     
     
-    //MARK: - Creating toolbar
-    func createToolbar() -> UIToolbar {
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-        toolBar.sizeToFit()
-        
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        return toolBar
-    }
+    //MARK: - Toolbar
     
     //PickerView Toolbar button functions
     @objc func donePicker() {
@@ -190,6 +180,27 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @objc func cancelPicker() {
         maxPlayersField.text = ""
         maxPlayersField.resignFirstResponder()
+    }
+    
+    //MARK: - Alerts
+    
+    //Success alert with given string that disappears after 1 second and pops to previous controller
+    func createSuccessAlert(with string: String) {
+        let alert = MyAlerts.createAlert(title: "Success!", message: string)
+        self.present(alert, animated: true, completion: nil)
+        let time = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            alert.dismiss(animated: true, completion: {
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+        }
+    }
+    
+    //Failure alert with string that disappears after 1 second
+    func createFailureAlert(with string: String) {
+        let alert = MyAlerts.createAlert(title: "Failure!", message: string)
+        alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: - Other

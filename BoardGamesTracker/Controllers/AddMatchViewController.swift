@@ -86,7 +86,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         date = Date()
         time = TimeInterval(exactly: 60)
         
-        let toolbar = createToolbar()
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
+        let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         dateTextView.inputAccessoryView = toolbar
         timeTextView.inputAccessoryView = toolbar
         
@@ -283,7 +285,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         //If time is set to 1 minute (i.e. it wasn't changed by user) then ask if
         //user want to create this game
         if time == TimeInterval(exactly: 60) {
-            let alert = createAlert(title: "Sure?", message: "Do you want to create a match with time of 1 minute only?")
+            let alert = MyAlerts.createAlert(title: "Sure?", message: "Do you want to create a match with time of 1 minute only?")
             //If it wants, then match is created
             let alertAction = UIAlertAction(title: "Yes!", style: .default, handler: { (action) in
                 if game.type == .TeamWithPlaces {
@@ -428,17 +430,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Alerts
     
-    //Creates custom alert
-    func createAlert(title: String, message: String) -> UIAlertController {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
-        alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
-        return alert
-    }
-    
     //Success alert with given string that disappears after 1 second and pops to previous controller
     func createSuccessAlert(with string: String) {
-        let alert = createAlert(title: "Success!", message: string)
+        let alert = MyAlerts.createAlert(title: "Success!", message: string)
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
@@ -447,14 +441,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             })
         }
     }
+    
     //Failure alert with string that disappears after 1 second
     func createFailureAlert(with string: String) {
-        let alert = createAlert(title: "Failure!", message: string)
+        let alert = MyAlerts.createAlert(title: "Failure!", message: string)
+        alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        let time = DispatchTime.now() + 1
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            alert.dismiss(animated: true, completion: nil)
-        }
     }
     
     //Clears fields of textViews
@@ -467,25 +459,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     }
     
     //MARK: - Picker's toolbar
-    
-    //Creates toolbar
-    func createToolbar() -> UIToolbar {
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-        toolBar.sizeToFit()
-        
-        //Creates 3 toolbar items - Done, space (empty field) and Cancel
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        return toolBar
-    }
-    
-    
     
     //PickerView Toolbar button functions
     
