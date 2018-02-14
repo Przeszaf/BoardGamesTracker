@@ -178,6 +178,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zG-Kr-iwB">
+                                <rect key="frame" x="169" y="486" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="MAP!"/>
+                                <connections>
+                                    <action selector="showMapButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="nJO-Uu-sXo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="qCJ-i2-4EQ"/>
@@ -187,11 +195,27 @@
                         <outlet property="startButton" destination="taM-8L-nAO" id="jUD-gY-4Uy"/>
                         <outlet property="timeLabel" destination="XHQ-57-dgF" id="vVd-36-ahc"/>
                         <segue destination="3J2-60-qHH" kind="show" identifier="addMatch" id="OE1-XZ-EPt"/>
+                        <segue destination="Bkg-WK-mJ5" kind="show" identifier="showMap" id="DtA-rw-tDt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tl6-py-UMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2032.8" y="-672.41379310344837"/>
+        </scene>
+        <!--Map View Controller-->
+        <scene sceneID="RUJ-iS-Shj">
+            <objects>
+                <viewController id="Bkg-WK-mJ5" customClass="MapViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d23-z7-x1z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Wgb-4C-GLX"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ttV-DV-9NR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2033" y="69"/>
         </scene>
         <!--Add Match-->
         <scene sceneID="478-Jd-2SD">

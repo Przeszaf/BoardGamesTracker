@@ -12,7 +12,6 @@ class AllPlayersViewController: UITableViewController {
     
     var playerStore: PlayerStore!
     var addingPlayer = false
-    var currentCell: Int?
     
     var toolbar: UIToolbar!
     

@@ -42,8 +42,14 @@
 		0C7462BE202377EC000603C4 /* SelectedGameMatchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C7462BD202377EC000603C4 /* SelectedGameMatchesCell.swift */; };
 		0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E4020110E3200D301B0 /* PlayerStore.swift */; };
 		0C884E45201112C700D301B0 /* AddMatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C884E44201112C700D301B0 /* AddMatchViewController.swift */; };
+		0C92A0EB2033435500EE194B /* MyToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0EA2033435500EE194B /* MyToolbar.swift */; };
+		0C92A0ED20334D2C00EE194B /* MyAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0EC20334D2C00EE194B /* MyAlerts.swift */; };
+		0C92A0F120345B9A00EE194B /* CLLocationManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0F020345B9A00EE194B /* CLLocationManagerExtension.swift */; };
+		0C92A0F32034694600EE194B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0F22034694600EE194B /* MapViewController.swift */; };
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
+		0CCA0F862031A33500D52421 /* ExtensionTimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */; };
+		0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F872031A33F00D52421 /* MyTimer.swift */; };
 		0CEA092B202384E50081F56A /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA092A202384E50081F56A /* StringExtension.swift */; };
 		0CF859A42026313600D5F602 /* ChooseGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF859A32026313600D5F602 /* ChooseGameCell.swift */; };
 /* End PBXBuildFile section */
@@ -107,8 +113,14 @@
 		0C7462BD202377EC000603C4 /* SelectedGameMatchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedGameMatchesCell.swift; sourceTree = "<group>"; };
 		0C884E4020110E3200D301B0 /* PlayerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerStore.swift; sourceTree = "<group>"; };
 		0C884E44201112C700D301B0 /* AddMatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchViewController.swift; sourceTree = "<group>"; };
+		0C92A0EA2033435500EE194B /* MyToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyToolbar.swift; sourceTree = "<group>"; };
+		0C92A0EC20334D2C00EE194B /* MyAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAlerts.swift; sourceTree = "<group>"; };
+		0C92A0F020345B9A00EE194B /* CLLocationManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationManagerExtension.swift; sourceTree = "<group>"; };
+		0C92A0F22034694600EE194B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTimeInterval.swift; sourceTree = "<group>"; };
+		0CCA0F872031A33F00D52421 /* MyTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTimer.swift; sourceTree = "<group>"; };
 		0CEA092A202384E50081F56A /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CF859A32026313600D5F602 /* ChooseGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGameCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -194,7 +206,10 @@
 				0C58DBD520051219009FD235 /* Main.storyboard */,
 				0C2828E8201771E7009B8DBE /* Games.storyboard */,
 				0C2828E5201771D6009B8DBE /* Home.storyboard */,
+				0C92A0EA2033435500EE194B /* MyToolbar.swift */,
 				0C2828E3201771C0009B8DBE /* Players.storyboard */,
+				0CCA0F872031A33F00D52421 /* MyTimer.swift */,
+				0C92A0EC20334D2C00EE194B /* MyAlerts.swift */,
 				0C58DBD120051219009FD235 /* AppDelegate.swift */,
 				0C58DBD820051219009FD235 /* Assets.xcassets */,
 				0C58DBDA20051219009FD235 /* LaunchScreen.storyboard */,
@@ -224,11 +239,11 @@
 		0C58DC032005264E009FD235 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0C58DC0620052811009FD235 /* Game.swift */,
 				0C58DC0820052A43009FD235 /* GameStore.swift */,
-				0C58DC0A20052AF0009FD235 /* Player.swift */,
-				0C884E4020110E3200D301B0 /* PlayerStore.swift */,
+				0C58DC0620052811009FD235 /* Game.swift */,
 				0C7462AF201F4425000603C4 /* GameType.swift */,
+				0C884E4020110E3200D301B0 /* PlayerStore.swift */,
+				0C58DC0A20052AF0009FD235 /* Player.swift */,
 				0C58DC0C20052BD0009FD235 /* Match.swift */,
 			);
 			path = Models;
@@ -238,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				0C5C332A2012637400626E6A /* AllPlayersViewController.swift */,
+				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0C1A6AC4202A0D9E000A4983 /* PlayerDetailsViewController.swift */,
 				0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */,
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
@@ -256,7 +272,9 @@
 			children = (
 				0C5C332C201265C700626E6A /* ExtensionUITextField.swift */,
 				0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */,
+				0C92A0F020345B9A00EE194B /* CLLocationManagerExtension.swift */,
 				0CEA092A202384E50081F56A /* StringExtension.swift */,
+				0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -405,8 +423,10 @@
 				0C5AA38D20177B0E00C94FF6 /* ChooseGameViewController.swift in Sources */,
 				0C58DC0720052811009FD235 /* Game.swift in Sources */,
 				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,
+				0CCA0F862031A33500D52421 /* ExtensionTimeInterval.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
 				0CEA092B202384E50081F56A /* StringExtension.swift in Sources */,
+				0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */,
 				0C58DC0B20052AF0009FD235 /* Player.swift in Sources */,
 				0C58DC0220051F4F009FD235 /* AddGameViewController.swift in Sources */,
 				0C5C332B2012637400626E6A /* AllPlayersViewController.swift in Sources */,
@@ -415,13 +435,17 @@
 				0C1A6ABB2029F9F7000A4983 /* AddMatchView.swift in Sources */,
 				0C029BA3201CFFC800E9F435 /* AddPointsViewController.swift in Sources */,
 				0C1A6AC7202B3A93000A4983 /* PlayerDetailsCell.swift in Sources */,
+				0C92A0EB2033435500EE194B /* MyToolbar.swift in Sources */,
 				0C7462BA20233C24000603C4 /* AllPlayersCell.swift in Sources */,
 				0C029BA6201D016200E9F435 /* AddPointsCell.swift in Sources */,
 				0CF859A42026313600D5F602 /* ChooseGameCell.swift in Sources */,
 				0C7462B0201F4425000603C4 /* GameType.swift in Sources */,
 				0C1A6ABF202A0101000A4983 /* HomeViewController.swift in Sources */,
 				0C7462BC20233E19000603C4 /* AddPlayersCell.swift in Sources */,
+				0C92A0F120345B9A00EE194B /* CLLocationManagerExtension.swift in Sources */,
+				0C92A0F32034694600EE194B /* MapViewController.swift in Sources */,
 				0C7462B82021FA4F000603C4 /* AllGamesCell.swift in Sources */,
+				0C92A0ED20334D2C00EE194B /* MyAlerts.swift in Sources */,
 				0C50B706201A348100BE7040 /* ChoosePlayersViewController.swift in Sources */,
 				0C1A6AC1202A0C54000A4983 /* GameStatisticsView.swift in Sources */,
 				0C1A6AC5202A0D9E000A4983 /* PlayerDetailsViewController.swift in Sources */,
@@ -602,11 +626,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EH34GD9XC3;
 				INFOPLIST_FILE = BoardGamesTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.przeszaf.BoardGamesTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -616,11 +643,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = EH34GD9XC3;
 				INFOPLIST_FILE = BoardGamesTracker/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.przeszaf.BoardGamesTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

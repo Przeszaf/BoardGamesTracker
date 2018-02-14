@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
     
@@ -34,6 +35,11 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: "addMatch", sender: self)
     }
     
+    @IBAction func showMapButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "showMap", sender: self)
+    }
+    
+    
     @IBAction func startTimerButtonPressed(_ sender: UIButton) {
         if sender.currentTitle == "Start" {
             timer.runTimer()
@@ -59,6 +65,20 @@ class HomeViewController: UIViewController {
             if timer.time > 60 {
                 addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
             }
+        case "showMap"?:
+            var locations = [CLLocation]()
+            var matches = [Match]()
+            for game in gameStore.allGames {
+                for match in game.matches {
+                    if let location = match.location {
+                        locations.append(location)
+                        matches.append(match)
+                    }
+                }
+            }
+            let controller = segue.destination as! MapViewController
+            controller.locations = locations
+            controller.matches = matches
         default:
             preconditionFailure("Wrong segue identifier")
         }
