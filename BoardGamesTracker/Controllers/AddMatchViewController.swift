@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import CoreLocation
 
-class AddMatchViewController: UIViewController, UITextViewDelegate {
+class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
     
     var gameStore: GameStore!
     var playerStore: PlayerStore!
+    
+    var locationManager = CLLocationManager()
     
     //MARK: - Variables needed to create a new match
     var selectedGame: Game?
@@ -19,6 +22,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var availablePlayers = [Player]()
     var date: Date?
     var time: TimeInterval?
+    var location: CLLocation?
     
     //Used to pass correct values to ChoosePlayersViewController
     var segueKey: String?
@@ -46,6 +50,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var pointsTextView: UITextView!
     var dateTextView: UITextView!
     var timeTextView: UITextView!
+    var locationTextView: UITextView!
     
     var playersStackView: UIStackView!
     var winnersStackView: UIStackView!
@@ -53,13 +58,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
     var pointsStackView: UIStackView!
     var dateStackView: UIStackView!
     var timeStackView: UIStackView!
-    
+    var locationStackView: UIStackView!
     
     //MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         loadView()
-        
         
         gameTextView.delegate = self
         playersTextView.delegate = self
@@ -70,7 +74,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         timeTextView.delegate = self
         
         
-        
         //At the beginning hide all stack views
         playersStackView.isHidden = true
         winnersStackView.isHidden = true
@@ -79,14 +82,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         dateStackView.isHidden = true
         timeStackView.isHidden = true
         
+        locationStackView.isHidden = false
+        
         dateTextView.inputView = picker
         timeTextView.inputView = picker
         picker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
-        
-        date = Date()
-        if time == nil {
-            time = TimeInterval(exactly: 60)
-        }
         
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
@@ -94,6 +94,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         dateTextView.inputAccessoryView = toolbar
         timeTextView.inputAccessoryView = toolbar
         
+        date = Date()
+        if time == nil {
+            time = TimeInterval(exactly: 60)
+        }
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -142,6 +151,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         loosersTextView = myView.loosersTextView
         dateTextView = myView.dateTextView
         timeTextView = myView.timeTextView
+        locationTextView = myView.locationTextView
         
         playersStackView = myView.playersStackView
         pointsStackView = myView.pointsStackView
@@ -149,6 +159,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         loosersStackView = myView.loosersStackView
         dateStackView = myView.dateStackView
         timeStackView = myView.timeStackView
+        locationStackView = myView.locationStackView
     }
     
     //MARK: - UITextView
@@ -291,9 +302,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             //If it wants, then match is created
             let alertAction = UIAlertAction(title: "Yes!", style: .default, handler: { (action) in
                 if game.type == .TeamWithPlaces {
-                    match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!)
+                    match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
                 } else if game.type == .SoloWithPoints {
-                    match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!)
+                    match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
                 }
                 game.addMatch(match: match!)
                 self.createSuccessAlert(with: "Created \(game.name)")
@@ -309,9 +320,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
         }
         //If there are no errors, then create games and display success alert
         if game.type == .TeamWithPlaces {
-            match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!)
+            match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         } else if game.type == .SoloWithPoints {
-            match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!)
+            match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         }
         game.addMatch(match: match!)
         createSuccessAlert(with: "Created \(game.name)")
@@ -361,6 +372,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             string.append("\(player.name): \(playersPoints[player]!)")
         }
         pointsTextView.text = string.joined(separator: ", ")
+        locationManager.locationToString(location: location, textView: locationTextView)
     }
     
     
@@ -502,6 +514,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate {
             dateTextView.text = sender.date.toStringWithHour()
             date = sender.date
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.first
+        updateNames()
     }
     
     

@@ -19,6 +19,7 @@ class AddMatchView: UIView {
     var pointsStackView = UIStackView()
     var dateStackView = UIStackView()
     var timeStackView = UIStackView()
+    var locationStackView = UIStackView()
     
     //MARK: - All labels
     var gameLabel = UILabel()
@@ -28,6 +29,7 @@ class AddMatchView: UIView {
     var pointsLabel = UILabel()
     var dateLabel = UILabel()
     var timeLabel = UILabel()
+    var locationLabel = UILabel()
     
     //MARK: - All text views
     var gameTextView = AddMatchTextView()
@@ -37,6 +39,7 @@ class AddMatchView: UIView {
     var pointsTextView = AddMatchTextView()
     var dateTextView = AddMatchTextView()
     var timeTextView = AddMatchTextView()
+    var locationTextView = AddMatchTextView()
     
     
     override init(frame: CGRect) {
@@ -63,7 +66,8 @@ class AddMatchView: UIView {
         pointsLabel.leadingAnchor.constraint(equalTo: winnersLabel.leadingAnchor).isActive = true
         winnersLabel.leadingAnchor.constraint(equalTo: loosersLabel.leadingAnchor).isActive = true
         loosersLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor).isActive = true
-        dateLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor).isActive = false
+        dateLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor).isActive = true
+        timeLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
         playersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
@@ -71,6 +75,7 @@ class AddMatchView: UIView {
         winnersLabel.trailingAnchor.constraint(equalTo: loosersLabel.trailingAnchor).isActive = true
         loosersLabel.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
+        timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
         
         
         gameLabel.text = "Name"
@@ -80,10 +85,13 @@ class AddMatchView: UIView {
         loosersLabel.text = "Loosers"
         dateLabel.text = "Date"
         timeLabel.text = "Time"
+        locationLabel.text = "Location"
+        
+        locationTextView.isEditable = false
         
         
         //Width of labels is set to width of longest string in labels + 8
-        let width = max(gameLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), playersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), pointsLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), winnersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), loosersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)),dateLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), timeLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)))
+        let width = max(gameLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), playersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), pointsLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), winnersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), loosersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)),dateLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), timeLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), locationLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)))
         
         gameLabel.widthAnchor.constraint(equalToConstant: width + 8).isActive = true
         
@@ -125,6 +133,10 @@ class AddMatchView: UIView {
         timeStackView.translatesAutoresizingMaskIntoConstraints = false
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         timeTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        locationStackView.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationTextView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -157,6 +169,10 @@ class AddMatchView: UIView {
         verticalStackView.addArrangedSubview(timeStackView)
         timeStackView.addArrangedSubview(timeLabel)
         timeStackView.addArrangedSubview(timeTextView)
+        
+        verticalStackView.addArrangedSubview(locationStackView)
+        locationStackView.addArrangedSubview(locationLabel)
+        locationStackView.addArrangedSubview(locationTextView)
         
     }
 }

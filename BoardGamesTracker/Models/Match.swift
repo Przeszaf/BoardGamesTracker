@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class Match: NSObject, Comparable, NSCoding {
     
@@ -18,6 +19,7 @@ class Match: NSObject, Comparable, NSCoding {
         aCoder.encode(date, forKey: "date")
         aCoder.encode(time, forKey: "time")
         aCoder.encode(matchID, forKey: "matchID")
+        aCoder.encode(location, forKey: "location")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,6 +30,7 @@ class Match: NSObject, Comparable, NSCoding {
         date = aDecoder.decodeObject(forKey: "date") as! Date
         time = aDecoder.decodeDouble(forKey: "time")
         matchID = aDecoder.decodeObject(forKey: "matchID") as! String
+        location = aDecoder.decodeObject(forKey: "location") as? CLLocation
         super.init()
     }
     
@@ -39,19 +42,20 @@ class Match: NSObject, Comparable, NSCoding {
     var playersPlaces: [Int]?
     var date: Date
     var time: TimeInterval
+    var location: CLLocation?
     
     let matchID: String
     
     //MARK: - Initializers
     
-    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval, location: CLLocation?) {
         self.game = game
         self.players = players
         self.playersPoints = playersPoints
         self.playersPlaces = playersPlaces
         self.date = date
-        print(date.toStringWithHour())
         self.time = time
+        self.location = location
         matchID = NSUUID().uuidString
     }
     
