@@ -12,6 +12,9 @@ class AllPlayersViewController: UITableViewController {
     
     var playerStore: PlayerStore!
     var addingPlayer = false
+    var currentCell: Int?
+    
+    var toolbar: UIToolbar!
     
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
@@ -27,6 +30,12 @@ class AllPlayersViewController: UITableViewController {
         tableView.rowHeight = 50
         //Adding right bar button
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonBar))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonBar(_:)))
+        
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addPlayer))
+        
+        toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
     }
     
     
@@ -36,6 +45,7 @@ class AllPlayersViewController: UITableViewController {
         if indexPath.row == playerStore.allPlayers.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddPlayersCell", for: indexPath) as! AddPlayersCell
             cell.addButton.addTarget(self, action: #selector(addPlayer), for: .touchUpInside)
+            cell.playerName.inputAccessoryView = toolbar
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllPlayersCell", for: indexPath) as! AllPlayersCell
@@ -46,7 +56,7 @@ class AllPlayersViewController: UITableViewController {
         if let lastTimePlayed = playerStore.allPlayers[indexPath.row].lastTimePlayed {
             cell.playerDate.text = lastTimePlayed.toStringWithHour()
         } else {
-            cell.playerDate.text = "0000-00-00"
+            cell.playerDate.text = "00-00-0000"
         }
         
         //How many times played
@@ -109,5 +119,58 @@ class AllPlayersViewController: UITableViewController {
             let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
             cell.playerName.becomeFirstResponder()
         }
+    }
+    
+    //MARK: - Deletions
+    
+    @IBAction func editButtonBar(_ sender: UIBarButtonItem) {
+        //If name is null, then do not let it end editing mode.
+        if isEditing {
+            setEditing(false, animated: true)
+            sender.title = "Edit"
+            tableView.reloadData()
+        } else {
+            setEditing(true, animated: true)
+            sender.title = "Done"
+            tableView.reloadData()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if indexPath.row == playerStore.allPlayers.count {
+            return false
+        }
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let player = playerStore.allPlayers[indexPath.row]
+            if player.timesPlayed != 0 {
+                let alert = MyAlerts.createAlert(title: "Failure!", message: "You cannot delete player with matches. Delete matches first.")
+                let action = UIAlertAction(title: "Ok!", style: .cancel, handler: nil)
+                alert.addAction(action)
+                present(alert, animated: true, completion: nil)
+                return
+            }
+            let title = "Are you sure you want to delete \(player.name)?"
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                self.playerStore.removePlayer(player)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
+            alert.addAction(deleteAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    @objc func cancelButtonPressed() {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: playerStore.allPlayers.count, section: 0)) as? AddPlayersCell else { return }
+        addingPlayer = false
+        cell.playerName.text = ""
+        cell.resignFirstResponder()
+        tableView.reloadData()
     }
 }
