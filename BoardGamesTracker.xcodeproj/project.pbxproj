@@ -47,6 +47,7 @@
 		0C92A0F120345B9A00EE194B /* CLLocationManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0F020345B9A00EE194B /* CLLocationManagerExtension.swift */; };
 		0C92A0F32034694600EE194B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0F22034694600EE194B /* MapViewController.swift */; };
 		0C92A0F92035E6D300EE194B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0C92A0F82035E6D300EE194B /* Podfile */; };
+		0C92A0FB2035F54F00EE194B /* PlayerDetailsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0FA2035F54F00EE194B /* PlayerDetailsSectionView.swift */; };
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 		0CCA0F862031A33500D52421 /* ExtensionTimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */; };
@@ -120,6 +121,7 @@
 		0C92A0F020345B9A00EE194B /* CLLocationManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLLocationManagerExtension.swift; sourceTree = "<group>"; };
 		0C92A0F22034694600EE194B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		0C92A0F82035E6D300EE194B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0C92A0FA2035F54F00EE194B /* PlayerDetailsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsSectionView.swift; sourceTree = "<group>"; };
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTimeInterval.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				0C1A6ABA2029F9F7000A4983 /* AddMatchView.swift */,
 				0C1A6AC0202A0C54000A4983 /* GameStatisticsView.swift */,
 				0C1A6AC8202B4C18000A4983 /* PlayerStatisticsView.swift */,
+				0C92A0FA2035F54F00EE194B /* PlayerDetailsSectionView.swift */,
 				0C1A6ABC2029FA0B000A4983 /* AddMatchTextView.swift */,
 			);
 			path = Views;
@@ -263,15 +266,15 @@
 			isa = PBXGroup;
 			children = (
 				0C5C332A2012637400626E6A /* AllPlayersViewController.swift */,
-				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0C1A6AC4202A0D9E000A4983 /* PlayerDetailsViewController.swift */,
 				0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */,
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
 				0C5C332E2016504600626E6A /* GameDetailsViewController.swift */,
-				0C1A6ABE202A0101000A4983 /* HomeViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
 				0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */,
 				0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */,
+				0C1A6ABE202A0101000A4983 /* HomeViewController.swift */,
+				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 			);
 			path = Controllers;
@@ -503,6 +506,7 @@
 			files = (
 				0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */,
 				0C1A6ABD2029FA0B000A4983 /* AddMatchTextView.swift in Sources */,
+				0C92A0FB2035F54F00EE194B /* PlayerDetailsSectionView.swift in Sources */,
 				0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */,
 				0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */,
 				0C5AA38D20177B0E00C94FF6 /* ChooseGameViewController.swift in Sources */,
