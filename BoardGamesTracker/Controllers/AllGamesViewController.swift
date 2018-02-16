@@ -75,9 +75,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //Setting correct height of table - depends on length of game name
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = CGFloat(40 + gameStore.allGames[indexPath.row].name.count)
-        print(height)
-        return height
+        let height = gameStore.allGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+            return height + heightOfDate + 20
+        }
+        return height + 35
     }
     
     //Perform segue when selects row and if it is not in editing mode
@@ -111,6 +113,14 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         return true
     }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
     
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -133,8 +143,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
         var name = " "
         //If there is a cell already chosen, then get name of game
-        if let cell = currentCell {
-            name = gameStore.allGames[cell].name
+        if let row = currentCell, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AllGamesCell {
+            name = cell.gameName.text
         }
         //If name is null, then do not let it end editing mode.
         if isEditing && name != "" {

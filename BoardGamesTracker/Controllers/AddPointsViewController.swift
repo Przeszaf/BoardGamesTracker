@@ -23,8 +23,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         tableView.allowsSelection = false
         tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
         
-        let leftButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButton))
-
+        let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(hideButton))
         let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(doneButton))
         toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
     }
@@ -103,8 +102,11 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         }
     }
     
-    @objc func cancelButton() {
-        
+    @objc func hideButton() {
+        if let row = currentRow, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AddPointsCell {
+            let textField = cell.playerPointsField
+            textField.resignFirstResponder()
+        }
     }
     
     

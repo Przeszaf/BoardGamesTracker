@@ -32,9 +32,9 @@ class AllGamesCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        gameName.frame = CGRect(x: 15, y: 5, width: frame.width-15, height: 30)
-        gameDate.frame = CGRect(x: 20, y: gameName.frame.height + 5, width: frame.width/2, height: 10)
-        gameTimesPlayed.frame = CGRect(x: frame.width * 3 / 4 - 10, y: gameName.frame.height + 5, width: frame.width/4 + 10, height: 10)
+        gameName.frame = CGRect(x: 15, y: 5, width: frame.width - 50, height: frame.height - 25)
+        gameDate.frame = CGRect(x: 20, y: frame.height - 20, width: frame.width/2, height: 14)
+        gameTimesPlayed.frame = CGRect(x: frame.width * 2 / 3, y: frame.height - 20, width: frame.width/3, height: 10)
     }
     
     required init?(coder aDecoder: NSCoder) {

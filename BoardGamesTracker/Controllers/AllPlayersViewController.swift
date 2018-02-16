@@ -8,10 +8,11 @@
 
 import UIKit
 
-class AllPlayersViewController: UITableViewController {
+class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     var playerStore: PlayerStore!
     var addingPlayer = false
+    var currentCell: Int?
     
     var toolbar: UIToolbar!
     
@@ -29,16 +30,17 @@ class AllPlayersViewController: UITableViewController {
         tableView.rowHeight = 50
         //Adding right bar button
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonBar))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonBar(_:)))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAddingPlayerButtonPressed))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addPlayer))
         
         toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
     }
     
     
-    //MARK: - Conforming to UITableViewDataSource protocol
+    //MARK: - UITableView - conforming etc
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //If we want to add new player, then create additional cell
         if indexPath.row == playerStore.allPlayers.count {
@@ -47,8 +49,8 @@ class AllPlayersViewController: UITableViewController {
             cell.playerName.inputAccessoryView = toolbar
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AllPlayersCell", for: indexPath) as! AllPlayersCell
         
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AllPlayersCell", for: indexPath) as! AllPlayersCell
         cell.playerName.text = playerStore.allPlayers[indexPath.row].name
         
         //Get last time played
@@ -65,6 +67,16 @@ class AllPlayersViewController: UITableViewController {
         } else {
             cell.playerTimesPlayed.text = "\(playerStore.allPlayers[indexPath.row].timesPlayed) times played"
         }
+        //Make playerName textView editable if table is editing and vice versa
+        if isEditing {
+            cell.playerName.isEditable = true
+            cell.playerName.isUserInteractionEnabled = true
+        } else {
+            cell.playerName.isEditable = false
+            cell.playerName.isUserInteractionEnabled = false
+        }
+        cell.playerName.delegate = self
+        cell.playerName.tag = indexPath.row
         return cell
     }
     
@@ -76,6 +88,15 @@ class AllPlayersViewController: UITableViewController {
         return playerStore.allPlayers.count
     }
     
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let heightOfName = playerStore.allPlayers[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        if let heightOfDate = playerStore.allPlayers[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+            return heightOfDate + heightOfName + 20
+        }
+        return heightOfName + 35
+        
+    }
     
     //MARK: - Segues
     
@@ -94,6 +115,22 @@ class AllPlayersViewController: UITableViewController {
         }
     }
     
+    //MARK: - Adding new players
+    
+    @IBAction func addButtonBar() {
+        if isEditing {
+            return
+        }
+        addingPlayer = true
+        tableView.reloadData()
+        DispatchQueue.main.async {
+            //If add button in bar is touched, then scroll to bottom and make the new cell a first responder
+            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0), at: .top, animated: false)
+            let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
+            cell.playerName.becomeFirstResponder()
+        }
+    }
+    
     @IBAction func addPlayer() {
         let cell = tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
         
@@ -109,22 +146,27 @@ class AllPlayersViewController: UITableViewController {
         }
     }
     
-    @IBAction func addButtonBar() {
-        addingPlayer = true
+    
+    @objc func cancelAddingPlayerButtonPressed() {
+        guard let cell = tableView.cellForRow(at: IndexPath(row: playerStore.allPlayers.count, section: 0)) as? AddPlayersCell else { return }
+        addingPlayer = false
+        cell.playerName.text = ""
+        cell.resignFirstResponder()
         tableView.reloadData()
-        DispatchQueue.main.async {
-            //If add button in bar is touched, then scroll to bottom and make the new cell a first responder
-            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0), at: .top, animated: false)
-            let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
-            cell.playerName.becomeFirstResponder()
-        }
     }
     
     //MARK: - Deletions
     
-    @IBAction func editButtonBar(_ sender: UIBarButtonItem) {
+    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
+        addingPlayer = false
+        tableView.reloadData()
+        var name = " "
+        //If there is a cell already chosen, then get name of game
+        if let row = currentCell, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AllPlayersCell {
+            name = cell.playerName.text
+        }
         //If name is null, then do not let it end editing mode.
-        if isEditing {
+        if isEditing && name != "" {
             setEditing(false, animated: true)
             sender.title = "Edit"
             tableView.reloadData()
@@ -135,12 +177,7 @@ class AllPlayersViewController: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.row == playerStore.allPlayers.count {
-            return false
-        }
-        return true
-    }
+    //Deletions
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -165,11 +202,34 @@ class AllPlayersViewController: UITableViewController {
         }
     }
     
-    @objc func cancelButtonPressed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: playerStore.allPlayers.count, section: 0)) as? AddPlayersCell else { return }
-        addingPlayer = false
-        cell.playerName.text = ""
-        cell.resignFirstResponder()
-        tableView.reloadData()
+    //MARK: - Editing
+    
+    //Update game name if text changes
+    func textViewDidChange(_ textView: UITextView) {
+        playerStore.allPlayers[textView.tag].name = textView.text
+        currentCell = textView.tag
+        tableView.beginUpdates()
+        tableView.endUpdates()
     }
+    
+    //If there is no text in game name TextView, then display alert and do not allow to end editing
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        textView.layoutIfNeeded()
+        if textView.text == "" {
+            let alert = UIAlertController(title: nil, message: "Player name must have at least 1 character.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return false
+        }
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
 }
