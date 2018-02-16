@@ -31,7 +31,7 @@ class MapViewController: UIViewController {
         
         manager.cellSize = nil
         manager.maxZoomLevel = 17
-        manager.minCountForClustering = 3
+        manager.minCountForClustering = 2
         manager.shouldRemoveInvisibleAnnotations = false
         manager.clusterPosition = .nearCenter
 
@@ -43,9 +43,7 @@ class MapViewController: UIViewController {
             annotations.append(annotation)
         }
         manager.add(annotations)
-        
         manager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
-//        mapView.showAnnotations(annotations, animated: true)
     }
 }
 
@@ -66,16 +64,16 @@ class MapViewController: UIViewController {
         } else {
             guard let annotation = annotation as? Annotation, let style = annotation.style else { return nil }
             let identifier = "Pin"
-            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+            var view = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
             if let view = view {
                 view.annotation = annotation
             } else {
-                view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             }
             if #available(iOS 9.0, *), case let .color(color, _) = style {
-                view?.tintColor = color
+                view?.pinTintColor = color
             } else {
-                view?.tintColor = .green
+                view?.pinTintColor = .green
             }
             return view
         }
@@ -130,7 +128,6 @@ class BorderedClusterAnnotationView: ClusterAnnotationView {
     
     override func configure(with style: ClusterAnnotationStyle) {
         super.configure(with: style)
-        
         switch style {
         case .image:
             layer.borderWidth = 0
