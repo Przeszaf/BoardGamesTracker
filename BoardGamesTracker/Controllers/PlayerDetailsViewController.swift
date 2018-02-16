@@ -11,6 +11,7 @@ import UIKit
 class PlayerDetailsViewController: UITableViewController {
     
     var player: Player!
+    var expandedSections = [Int]()
     
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
@@ -42,17 +43,44 @@ class PlayerDetailsViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let game = player.gamesPlayed[section]
-        return player.matchesPlayed[game]!.count
+        if expandedSections.index(of: section) != nil {
+            let game = player.gamesPlayed[section]
+            return player.matchesPlayed[game]!.count
+        }
+        return 0
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return player.gamesPlayed.count
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let game = player.gamesPlayed[section]
-        return "\(player.gamesPlayed[section].name) - \(player.matchesPlayed[game]!.count) matches"
+        let view = PlayerDetailsSectionView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 80))
+        view.titleLabel.text = "\(player.gamesPlayed[section].name) - \(player.matchesPlayed[game]!.count) matches"
+        view.expandButton.tag = section
+        view.expandButton.addTarget(self, action: #selector(expandButtonTapped(_:)), for: .touchUpInside)
+        if expandedSections.index(of: section) != nil {
+            view.expandButton.setImage(UIImage.init(named: "collapse_arrow"), for: .normal)
+        } else {
+            view.expandButton.setImage(UIImage.init(named: "expand_arrow"), for: .normal)
+        }
+        return view
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 70
+    }
+    
+    @objc func expandButtonTapped(_ button: UIButton) {
+        if let index = expandedSections.index(of: button.tag){
+            expandedSections.remove(at: index)
+            tableView.reloadSections(IndexSet([button.tag]), with: .automatic)
+        } else {
+            expandedSections.append(button.tag)
+            tableView.reloadSections(IndexSet([button.tag]), with: .automatic)
+        }
     }
     
 }
