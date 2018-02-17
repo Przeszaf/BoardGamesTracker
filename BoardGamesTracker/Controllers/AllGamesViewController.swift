@@ -77,7 +77,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height = gameStore.allGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
         if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
-            return height + heightOfDate + 20
+            return height + heightOfDate + 10
         }
         return height + 35
     }

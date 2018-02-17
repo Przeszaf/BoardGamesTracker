@@ -26,15 +26,16 @@ class AllGamesCell: UITableViewCell {
         gameTimesPlayed.font = UIFont.systemFont(ofSize: 10)
         gameName.font = UIFont.systemFont(ofSize: 17)
         gameName.isEditable = false
+        gameName.isScrollEnabled = false
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        gameName.frame = CGRect(x: 15, y: 5, width: frame.width - 50, height: frame.height - 25)
-        gameDate.frame = CGRect(x: 20, y: frame.height - 20, width: frame.width/2, height: 14)
-        gameTimesPlayed.frame = CGRect(x: frame.width * 2 / 3, y: frame.height - 20, width: frame.width/3, height: 10)
+        gameName.frame = CGRect(x: 15, y: 0, width: frame.width - 50, height: frame.height - 15)
+        gameDate.frame = CGRect(x: 20, y: frame.height - 15, width: frame.width/2, height: 10)
+        gameTimesPlayed.frame = CGRect(x: frame.width * 2 / 3, y: frame.height - 15, width: frame.width/3, height: 10)
     }
     
     required init?(coder aDecoder: NSCoder) {
