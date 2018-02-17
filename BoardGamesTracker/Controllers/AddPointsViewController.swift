@@ -59,7 +59,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         if let controller = viewController as? AddMatchViewController {
             controller.playersPoints = playersPoints
             _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, order: "ascending")
-            controller.updateNames()
+            controller.viewWillAppear(true)
         }
     }
     

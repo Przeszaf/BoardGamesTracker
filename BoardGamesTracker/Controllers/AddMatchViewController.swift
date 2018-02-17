@@ -9,10 +9,11 @@
 import UIKit
 import CoreLocation
 
-class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
+class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     var gameStore: GameStore!
     var playerStore: PlayerStore!
+    var imageStore: ImageStore!
     
     var locationManager = CLLocationManager()
     
@@ -34,6 +35,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Needed for solo games with points
     var playersPoints = [Player: Int]()
     var deselectedPlayers = [Player]()
+    
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
@@ -60,6 +62,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var timeStackView: UIStackView!
     var locationStackView: UIStackView!
     
+    var imageView: UIImageView!
+    
     //MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,8 +85,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         pointsStackView.isHidden = true
         dateStackView.isHidden = true
         timeStackView.isHidden = true
-        
         locationStackView.isHidden = false
+        
+        imageView.isHidden = true
+        
+        tabBarController?.tabBar.isHidden = true
         
         dateTextView.inputView = picker
         timeTextView.inputView = picker
@@ -103,6 +110,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGestureRecognizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,6 +129,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         dateStackView.isHidden = true
         timeStackView.isHidden = true
         
+        _ = sortPlayersPoints(players: &selectedPlayers, order: "ascending")
         updateNames()
         if let game = selectedGame {
             dateStackView.isHidden = false
@@ -131,6 +143,16 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 playersStackView.isHidden = false
                 pointsStackView.isHidden = false
             }
+            imageView.isHidden = false
+        }
+        
+        if imageView.image == nil {
+            imageView.contentMode = .center
+            imageView.backgroundColor = UIColor.lightGray
+            imageView.image = UIImage(named: "camera")
+        } else if imageView.image != UIImage(named: "camera") {
+            imageView.contentMode = .scaleAspectFit
+            imageView.backgroundColor = nil
         }
     }
     
@@ -160,6 +182,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         dateStackView = myView.dateStackView
         timeStackView = myView.timeStackView
         locationStackView = myView.locationStackView
+        
+        imageView = myView.imageView
     }
     
     //MARK: - UITextView
@@ -307,6 +331,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
                 }
                 game.addMatch(match: match!)
+                if let image = self.imageView.image {
+                    self.imageStore.setImage(image: image, forKey: match!.imageKey)
+                }
                 self.createSuccessAlert(with: "Created \(game.name)")
                 self.clearFields()
                 self.playerStore.allPlayers.sort()
@@ -325,6 +352,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         }
         game.addMatch(match: match!)
+        if let image = imageView.image {
+            imageStore.setImage(image: image, forKey: match!.imageKey)
+        }
         createSuccessAlert(with: "Created \(game.name)")
         playerStore.allPlayers.sort()
         return
@@ -521,5 +551,23 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         updateNames()
     }
     
+    //MARK: - Image handling
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            imagePicker.sourceType = .camera
+        } else {
+            imagePicker.sourceType = .photoLibrary
+        }
+        
+        present(imagePicker, animated: true, completion: nil)
+    }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageView.image = image
+        dismiss(animated: true, completion: nil)
+    }
 }

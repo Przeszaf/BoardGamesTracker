@@ -21,6 +21,11 @@ extension CLLocationManager {
                     textView.text = "\(city), \(street)"
                 }
             }
+//            else {
+//                let long = location.coordinate.longitude < 0 ? "\(-location.coordinate.longitude)W" : "\(location.coordinate.longitude)E"
+//                let lat = location.coordinate.latitude < 0 ? "\(-location.coordinate.latitude)S" : "\(location.coordinate.latitude)N"
+//                textView.text = "\(long), \(lat)"
+//            }
         })
         return
     }

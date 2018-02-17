@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     
     var gameStore: GameStore!
     var playerStore: PlayerStore!
+    var imageStore: ImageStore!
     var timer: MyTimer!
     
     
@@ -27,6 +28,11 @@ class HomeViewController: UIViewController {
         if timer.isRunning {
             startButton.setTitle("Stop", for: .normal)
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     //MARK: - Buttons
@@ -62,6 +68,7 @@ class HomeViewController: UIViewController {
             let addMatchController = segue.destination as! AddMatchViewController
             addMatchController.gameStore = gameStore
             addMatchController.playerStore = playerStore
+            addMatchController.imageStore = imageStore
             if timer.time > 60 {
                 addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
             }

@@ -20,6 +20,7 @@ class Match: NSObject, Comparable, NSCoding {
         aCoder.encode(time, forKey: "time")
         aCoder.encode(matchID, forKey: "matchID")
         aCoder.encode(location, forKey: "location")
+        aCoder.encode(imageKey, forKey: "imageKey")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -31,6 +32,7 @@ class Match: NSObject, Comparable, NSCoding {
         time = aDecoder.decodeDouble(forKey: "time")
         matchID = aDecoder.decodeObject(forKey: "matchID") as! String
         location = aDecoder.decodeObject(forKey: "location") as? CLLocation
+        imageKey = aDecoder.decodeObject(forKey: "imageKey") as! String
         super.init()
     }
     
@@ -43,6 +45,7 @@ class Match: NSObject, Comparable, NSCoding {
     var date: Date
     var time: TimeInterval
     var location: CLLocation?
+    let imageKey: String
     
     let matchID: String
     
@@ -57,6 +60,7 @@ class Match: NSObject, Comparable, NSCoding {
         self.time = time
         self.location = location
         matchID = NSUUID().uuidString
+        imageKey = UUID().uuidString
     }
     
     //MARK: - Conforming to protocols

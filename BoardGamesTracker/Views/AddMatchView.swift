@@ -20,6 +20,7 @@ class AddMatchView: UIView {
     var dateStackView = UIStackView()
     var timeStackView = UIStackView()
     var locationStackView = UIStackView()
+    var imageViewStackView = UIStackView()
     
     //MARK: - All labels
     var gameLabel = UILabel()
@@ -41,6 +42,7 @@ class AddMatchView: UIView {
     var timeTextView = AddMatchTextView()
     var locationTextView = AddMatchTextView()
     
+    var imageView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +61,13 @@ class AddMatchView: UIView {
         verticalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         verticalStackView.spacing = 8
+        for view in verticalStackView.arrangedSubviews {
+            if view != imageView {
+                view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            }
+        }
+        
+        
         
         //All labes have the same leading and trailing anchors
         gameLabel.leadingAnchor.constraint(equalTo: playersLabel.leadingAnchor).isActive = true
@@ -76,6 +85,9 @@ class AddMatchView: UIView {
         loosersLabel.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
         timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
+        
+        imageView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
+
         
         
         gameLabel.text = "Name"
@@ -137,6 +149,8 @@ class AddMatchView: UIView {
         locationStackView.translatesAutoresizingMaskIntoConstraints = false
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         locationTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     
@@ -173,6 +187,8 @@ class AddMatchView: UIView {
         verticalStackView.addArrangedSubview(locationStackView)
         locationStackView.addArrangedSubview(locationLabel)
         locationStackView.addArrangedSubview(locationTextView)
+        
+        verticalStackView.addArrangedSubview(imageView)
         
     }
 }

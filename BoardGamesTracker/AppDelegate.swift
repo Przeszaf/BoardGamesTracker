@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let playerStore = PlayerStore()
     let gameStore = GameStore()
+    let imageStore = ImageStore()
     
     var timer = MyTimer()
     
@@ -41,6 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         homeController.gameStore = gameStore
         homeController.playerStore = playerStore
         homeController.timer = timer
+        homeController.imageStore = imageStore
         
         gameStore.playerStore = playerStore
         gameStore.setPlayerStore()
