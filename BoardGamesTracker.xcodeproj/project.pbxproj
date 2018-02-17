@@ -52,6 +52,7 @@
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 		0CCA0F862031A33500D52421 /* ExtensionTimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */; };
 		0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F872031A33F00D52421 /* MyTimer.swift */; };
+		0CE3B26720384A4800BC670B /* ImageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE3B26620384A4800BC670B /* ImageStore.swift */; };
 		0CEA092B202384E50081F56A /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA092A202384E50081F56A /* StringExtension.swift */; };
 		0CF859A42026313600D5F602 /* ChooseGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CF859A32026313600D5F602 /* ChooseGameCell.swift */; };
 		5803C5A54145CE52B8BD2A41 /* Pods_BoardGamesTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F986A1DA4442732E87A94649 /* Pods_BoardGamesTracker.framework */; };
@@ -126,6 +127,7 @@
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0CCA0F852031A33500D52421 /* ExtensionTimeInterval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExtensionTimeInterval.swift; sourceTree = "<group>"; };
 		0CCA0F872031A33F00D52421 /* MyTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTimer.swift; sourceTree = "<group>"; };
+		0CE3B26620384A4800BC670B /* ImageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageStore.swift; sourceTree = "<group>"; };
 		0CEA092A202384E50081F56A /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		0CF859A32026313600D5F602 /* ChooseGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseGameCell.swift; sourceTree = "<group>"; };
 		41778D2F7101B2374CA1D229 /* Pods-BoardGamesTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoardGamesTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-BoardGamesTracker/Pods-BoardGamesTracker.release.xcconfig"; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			children = (
 				0C58DC0820052A43009FD235 /* GameStore.swift */,
 				0C58DC0620052811009FD235 /* Game.swift */,
+				0CE3B26620384A4800BC670B /* ImageStore.swift */,
 				0C7462AF201F4425000603C4 /* GameType.swift */,
 				0C884E4020110E3200D301B0 /* PlayerStore.swift */,
 				0C58DC0A20052AF0009FD235 /* Player.swift */,
@@ -271,11 +274,11 @@
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
 				0C5C332E2016504600626E6A /* GameDetailsViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
-				0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */,
-				0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */,
 				0C1A6ABE202A0101000A4983 /* HomeViewController.swift */,
 				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
+				0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */,
+				0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */,
 				0C1A6ABD2029FA0B000A4983 /* AddMatchTextView.swift in Sources */,
 				0C92A0FB2035F54F00EE194B /* PlayerDetailsSectionView.swift in Sources */,
+				0CE3B26720384A4800BC670B /* ImageStore.swift in Sources */,
 				0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */,
 				0C884E4120110E3200D301B0 /* PlayerStore.swift in Sources */,
 				0C5AA38D20177B0E00C94FF6 /* ChooseGameViewController.swift in Sources */,
