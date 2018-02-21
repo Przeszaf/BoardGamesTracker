@@ -11,4 +11,6 @@ import Foundation
 enum GameType: Int {
     case TeamWithPlaces
     case SoloWithPoints
+    case SoloWithPlaces
+    case Cooperation
 }

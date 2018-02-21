@@ -36,6 +36,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var playersPoints = [Player: Int]()
     var deselectedPlayers = [Player]()
     
+    //Needed for solo games with places
+    var playersPlaces = [Player: Int]()
+    
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
@@ -45,22 +48,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //MARK: - Outlets: text fields and stack views
     
-    var gameTextView: UITextView!
-    var playersTextView: UITextView!
-    var winnersTextView: UITextView!
-    var loosersTextView: UITextView!
-    var pointsTextView: UITextView!
-    var dateTextView: UITextView!
-    var timeTextView: UITextView!
-    var locationTextView: UITextView!
-    
-    var playersStackView: UIStackView!
-    var winnersStackView: UIStackView!
-    var loosersStackView: UIStackView!
-    var pointsStackView: UIStackView!
-    var dateStackView: UIStackView!
-    var timeStackView: UIStackView!
-    var locationStackView: UIStackView!
+    var myView: AddMatchView!
     
     var imageView: UIImageView!
     
@@ -69,37 +57,30 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         super.viewDidLoad()
         loadView()
         
-        gameTextView.delegate = self
-        playersTextView.delegate = self
-        winnersTextView.delegate = self
-        loosersTextView.delegate = self
-        pointsTextView.delegate = self
-        dateTextView.delegate = self
-        timeTextView.delegate = self
+        myView.gameTextView.delegate = self
+        myView.playersTextView.delegate = self
+        myView.winnersTextView.delegate = self
+        myView.loosersTextView.delegate = self
+        myView.pointsTextView.delegate = self
+        myView.dateTextView.delegate = self
+        myView.timeTextView.delegate = self
         
         
-        //At the beginning hide all stack views
-        playersStackView.isHidden = true
-        winnersStackView.isHidden = true
-        loosersStackView.isHidden = true
-        pointsStackView.isHidden = true
-        dateStackView.isHidden = true
-        timeStackView.isHidden = true
-        locationStackView.isHidden = false
-        
-        imageView.isHidden = true
+        //At the beginning show only stack views below
+        myView.gameStackView.isHidden = false
+
         
         tabBarController?.tabBar.isHidden = true
         
-        dateTextView.inputView = picker
-        timeTextView.inputView = picker
+        myView.dateTextView.inputView = picker
+        myView.timeTextView.inputView = picker
         picker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
         
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
         let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
-        dateTextView.inputAccessoryView = toolbar
-        timeTextView.inputAccessoryView = toolbar
+        myView.dateTextView.inputAccessoryView = toolbar
+        myView.timeTextView.inputAccessoryView = toolbar
         
         date = Date()
         if time == nil {
@@ -118,32 +99,39 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        gameTextView.text = selectedGame?.name
+        myView.gameTextView.text = selectedGame?.name
         availablePlayers = playerStore.allPlayers
         
         //Update visibility of stack views
-        playersStackView.isHidden = true
-        winnersStackView.isHidden = true
-        loosersStackView.isHidden = true
-        pointsStackView.isHidden = true
-        dateStackView.isHidden = true
-        timeStackView.isHidden = true
+        myView.hideAllStackViews()
+        myView.gameStackView.isHidden = false
         
-        _ = sortPlayersPoints(players: &selectedPlayers, order: "ascending")
+        
         updateNames()
+        
         if let game = selectedGame {
-            dateStackView.isHidden = false
-            timeStackView.isHidden = false
-            dateTextView.text = date?.toStringWithHour()
-            timeTextView.text = time?.toString()
-            if game.type == .TeamWithPlaces {
-                winnersStackView.isHidden = false
-                loosersStackView.isHidden = false
-            } else if game.type == .SoloWithPoints {
-                playersStackView.isHidden = false
-                pointsStackView.isHidden = false
-            }
+            myView.dateStackView.isHidden = false
+            myView.timeStackView.isHidden = false
+            myView.locationStackView.isHidden = false
             imageView.isHidden = false
+            myView.dateTextView.text = date?.toStringWithHour()
+            myView.timeTextView.text = time?.toString()
+            if game.type == .TeamWithPlaces {
+                myView.winnersStackView.isHidden = false
+                myView.loosersStackView.isHidden = false
+            } else if game.type == .SoloWithPoints {
+                myView.playersStackView.isHidden = false
+                myView.pointsStackView.isHidden = false
+                myView.pointsLabel.tag = 0
+            } else if game.type == .SoloWithPlaces {
+                myView.playersStackView.isHidden = false
+                myView.pointsLabel.text = "Places"
+                myView.pointsLabel.tag = 1
+                myView.pointsStackView.isHidden = false
+            } else if game.type == .Cooperation {
+                myView.playersStackView.isHidden = false
+                myView.switchStackView.isHidden = false
+            }
         }
         
         if imageView.image == nil {
@@ -158,31 +146,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     override func loadView() {
         super.loadView()
-        let myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
         view.addSubview(myView)
         myView.translatesAutoresizingMaskIntoConstraints = false
         myView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
         myView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
         myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
         myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
-        
-        gameTextView = myView.gameTextView
-        playersTextView = myView.playersTextView
-        pointsTextView = myView.pointsTextView
-        winnersTextView = myView.winnersTextView
-        loosersTextView = myView.loosersTextView
-        dateTextView = myView.dateTextView
-        timeTextView = myView.timeTextView
-        locationTextView = myView.locationTextView
-        
-        playersStackView = myView.playersStackView
-        pointsStackView = myView.pointsStackView
-        winnersStackView = myView.winnersStackView
-        loosersStackView = myView.loosersStackView
-        dateStackView = myView.dateStackView
-        timeStackView = myView.timeStackView
-        locationStackView = myView.locationStackView
-        
         imageView = myView.imageView
     }
     
@@ -192,32 +162,32 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         //Set correct segueKey for choosePlayers segue
-        if textView == playersTextView {
+        if textView == myView.playersTextView {
             segueKey = "all"
-        } else if textView == winnersTextView {
+        } else if textView == myView.winnersTextView {
             segueKey = "winners"
-        } else if textView == loosersTextView {
+        } else if textView == myView.loosersTextView {
             segueKey = "loosers"
         }
         //Workaround for double segues - if time between segues is lower than 0.1 second,
         //then do not perform segue
         if Float(dateSinceSegue.timeIntervalSinceNow) < -0.1 {
-            if textView == pointsTextView {
+            if textView == myView.pointsTextView {
                 performSegue(withIdentifier: "addPoints", sender: self)
-            } else if textView == playersTextView || textView == loosersTextView || textView == winnersTextView {
+            } else if textView == myView.playersTextView || textView == myView.loosersTextView || textView == myView.winnersTextView {
                 performSegue(withIdentifier: "choosePlayers", sender: self)
-            } else if textView == gameTextView {
+            } else if textView == myView.gameTextView {
                 performSegue(withIdentifier: "chooseGame", sender: self)
             }
         }
         dateSinceSegue = Date()
         
         //set correct picker mode
-        if textView == dateTextView {
+        if textView == myView.dateTextView {
             picker.datePickerMode = .dateAndTime
             picker.maximumDate = Date()
             return true
-        } else if textView == timeTextView {
+        } else if textView == myView.timeTextView {
             picker.datePickerMode = .countDownTimer
             return true
         }
@@ -264,7 +234,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             //Updates dictionary, so it holds only selectedPlayers
             updateDictionary()
             controller.availablePlayers = selectedPlayers
-            controller.playersPoints = playersPoints
+            if myView.pointsLabel.tag == 0 {
+                controller.playersPoints = playersPoints
+                controller.key = "Points"
+            } else if myView.pointsLabel.tag == 1 {
+                controller.key = "Places"
+                controller.playersPlaces = playersPlaces
+            }
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -304,7 +280,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         
         //When plaing solo game with points, then must select players and assign points to all players
-        if game.type == .SoloWithPoints  {
+        if game.type == .SoloWithPoints {
             if selectedPlayers.isEmpty {
                 createFailureAlert(with: "Players field cannot be empty!")
                 return
@@ -319,20 +295,48 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             places = assignPlayersPlaces(points: points)
         }
         
+        if game.type == .SoloWithPlaces {
+            if selectedPlayers.isEmpty {
+                createFailureAlert(with: "Players field cannot be empty!")
+                return
+            } else if !arePlacesAssigned() {
+                createFailureAlert(with: "All players must have points assigned!")
+                return
+            }
+            
+            //Choose correct order - ascending (higher points win) or descending (lower points win)
+            players = selectedPlayers
+            for player in players {
+                places.append(playersPlaces[player]!)
+            }
+        }
+        
+        if game.type == .Cooperation {
+            players = selectedPlayers
+            
+            for _ in players {
+                if myView.mySwitch.isOn {
+                    places.append(1)
+                } else {
+                    places.append(2)
+                }
+            }
+        }
+        
         //If time is set to 1 minute (i.e. it wasn't changed by user) then ask if
         //user want to create this game
         if time == TimeInterval(exactly: 60) {
             let alert = MyAlerts.createAlert(title: "Sure?", message: "Do you want to create a match with time of 1 minute only?")
             //If it wants, then match is created
             let alertAction = UIAlertAction(title: "Yes!", style: .default, handler: { (action) in
-                if game.type == .TeamWithPlaces {
+                if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
                     match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
                 } else if game.type == .SoloWithPoints {
                     match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
                 }
                 game.addMatch(match: match!)
-                if let image = self.imageView.image {
-                    self.imageStore.setImage(image: image, forKey: match!.imageKey)
+                if self.imageView.image != UIImage(named: "camera") {
+                    self.imageStore.setImage(image: self.imageView.image!, forKey: match!.imageKey)
                 }
                 self.createSuccessAlert(with: "Created \(game.name)")
                 self.clearFields()
@@ -346,14 +350,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             return
         }
         //If there are no errors, then create games and display success alert
-        if game.type == .TeamWithPlaces {
+        if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
             match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         } else if game.type == .SoloWithPoints {
             match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         }
         game.addMatch(match: match!)
-        if let image = imageView.image {
-            imageStore.setImage(image: image, forKey: match!.imageKey)
+        if imageView.image != UIImage(named: "camera") {
+            imageStore.setImage(image: imageView.image!, forKey: match!.imageKey)
         }
         createSuccessAlert(with: "Created \(game.name)")
         playerStore.allPlayers.sort()
@@ -382,27 +386,48 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Updates playersPoints dictionary - sets points of selectedPlayers to 0, so they are in the dictionary
     //And deletes deselectedPlayers from dictionary
     func updateDictionary() {
-        for player in selectedPlayers {
-            if playersPoints[player] == nil {
-                playersPoints[player] = 0
+        if myView.pointsLabel.tag == 0 {
+            for player in selectedPlayers {
+                if playersPoints[player] == nil {
+                    playersPoints[player] = 0
+                }
             }
-        }
-        for player in deselectedPlayers {
-            playersPoints[player] = nil
+            for player in deselectedPlayers {
+                playersPoints[player] = nil
+            }
+        } else if myView.pointsLabel.tag == 1 {
+            for player in selectedPlayers {
+                if playersPlaces[player] == nil {
+                    playersPlaces[player] = 0
+                }
+            }
+            for player in deselectedPlayers {
+                playersPlaces[player] = nil
+            }
         }
     }
     
     //Updates names of views
     func updateNames() {
-        playersTextView.text = selectedPlayers.map{$0.name}.joined(separator: ", ")
-        winnersTextView.text = winners.map{$0.name}.joined(separator: ", ")
-        loosersTextView.text = loosers.map{$0.name}.joined(separator: ", ")
+        myView.playersTextView.text = selectedPlayers.map{$0.name}.joined(separator: ", ")
+        myView.winnersTextView.text = winners.map{$0.name}.joined(separator: ", ")
+        myView.loosersTextView.text = loosers.map{$0.name}.joined(separator: ", ")
         var string = [String]()
         for player in selectedPlayers {
-            string.append("\(player.name): \(playersPoints[player]!)")
+            if myView.pointsLabel.tag == 0 {
+                string.append("\(player.name): \(playersPoints[player] ?? 0)")
+            } else if myView.pointsLabel.tag == 1 {
+                if let place = playersPlaces[player] {
+                    if place == 0 {
+                        string.append("\(player.name)")
+                    } else {
+                        string.append("\(place). \(player.name)")
+                    }
+                }
+            }
         }
-        pointsTextView.text = string.joined(separator: ", ")
-        locationManager.locationToString(location: location, textView: locationTextView)
+        myView.pointsTextView.text = string.joined(separator: ", ")
+        locationManager.locationToString(location: location, textView: myView.locationTextView)
     }
     
     
@@ -462,10 +487,32 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return places
     }
     
+    func sortPlayersPlaces(players: inout [Player]) {
+        players.sort { (p1, p2) -> Bool in
+            if playersPlaces[p1]! == 0 {
+                return false
+            } else if playersPlaces[p2]! == 0 {
+                return true
+            } else if playersPlaces[p1]! < playersPlaces[p2]! {
+                return true
+            }
+            return false
+        }
+    }
+    
     //Checks if all players in dictionary have points assigned
     func arePointsAssigned() -> Bool {
         for player in selectedPlayers {
             if playersPoints[player] == 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func arePlacesAssigned() -> Bool {
+        for player in selectedPlayers {
+            if playersPlaces[player] == 0 {
                 return false
             }
         }
@@ -495,11 +542,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Clears fields of textViews
     func clearFields() {
-        gameTextView.text = ""
-        playersTextView.text = ""
-        winnersTextView.text = ""
-        loosersTextView.text = ""
-        pointsTextView.text = ""
+        myView.gameTextView.text = ""
+        myView.playersTextView.text = ""
+        myView.winnersTextView.text = ""
+        myView.loosersTextView.text = ""
+        myView.pointsTextView.text = ""
     }
     
     //MARK: - Picker's toolbar
@@ -511,12 +558,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     @objc func donePicker() {
         if picker.datePickerMode == .countDownTimer {
             time = picker.countDownDuration
-            timeTextView.text = time?.toString()
-            timeTextView.resignFirstResponder()
+            myView.timeTextView.text = time?.toString()
+            myView.timeTextView.resignFirstResponder()
         } else if picker.datePickerMode == .dateAndTime {
             date = picker.date
-            dateTextView.text = date?.toStringWithHour()
-            dateTextView.resignFirstResponder()
+            myView.dateTextView.text = date?.toStringWithHour()
+            myView.dateTextView.resignFirstResponder()
         }
     }
     
@@ -525,12 +572,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     @objc func cancelPicker() {
         if picker.datePickerMode == .countDownTimer {
             time = TimeInterval(exactly: 60)
-            timeTextView.text = time?.toString()
-            timeTextView.resignFirstResponder()
+            myView.timeTextView.text = time?.toString()
+            myView.timeTextView.resignFirstResponder()
         } else if picker.datePickerMode == .dateAndTime {
             date = Date()
-            dateTextView.text = date?.toStringWithHour()
-            dateTextView.resignFirstResponder()
+            myView.dateTextView.text = date?.toStringWithHour()
+            myView.dateTextView.resignFirstResponder()
         }
         picker.resignFirstResponder()
     }
@@ -538,10 +585,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //If picker value is changed, then update views and variables
     @objc func pickerChanged(_ sender: UIDatePicker) {
         if sender.datePickerMode == .countDownTimer {
-            timeTextView.text = sender.countDownDuration.toString()
+            myView.timeTextView.text = sender.countDownDuration.toString()
             time = sender.countDownDuration
         } else if sender.datePickerMode == .dateAndTime {
-            dateTextView.text = sender.date.toStringWithHour()
+            myView.dateTextView.text = sender.date.toStringWithHour()
             date = sender.date
         }
     }

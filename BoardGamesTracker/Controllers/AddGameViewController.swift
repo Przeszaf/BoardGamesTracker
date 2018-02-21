@@ -12,30 +12,27 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     
     var gameStore: GameStore!
-    let myPickerDataPlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    var gameType: GameType?
+    
     var picker: UIPickerView!
+    let myPickerDataPlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    var myPickerDataTypes = [GameType.SoloWithPoints, GameType.SoloWithPlaces, GameType.TeamWithPlaces, GameType.Cooperation]
     
     //MARK: - Text fields and switch outlets
     @IBOutlet var nameField: UITextField!
     @IBOutlet var maxPlayersField: UITextField!
     @IBOutlet var gameTypeField: UITextField!
     
-    @IBOutlet var areThereTeamsSwitch: UISwitch!
-    @IBOutlet var areTherePointsSwitch: UISwitch!
-    @IBOutlet var areTherePlacesSwitch: UISwitch!
-    
-    
     //MARK: - Overriden UIViewController functions
     override func viewDidLoad() {
         nameField.delegate = self
         maxPlayersField.delegate = self
+        gameTypeField.delegate = self
         
         picker = UIPickerView()
         picker.delegate = self
         maxPlayersField.inputView = picker
-        
-        areTherePlacesSwitch.isEnabled = false
-        areTherePlacesSwitch.isOn = true
+        gameTypeField.inputView = picker
         
         //Creating picker toolbar
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
@@ -44,6 +41,8 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         
         maxPlayersField.inputAccessoryView = toolbar
+        gameTypeField.inputAccessoryView = toolbar
+        
     }
     
     //MARK: - Switches and buttons functions
@@ -51,62 +50,30 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     @IBAction func addGameButtonPressed(_ sender: UIBarButtonItem) {
         
         var maxPlayers = 0
-        var gameType: GameType?
-        
-        
         if maxPlayersField.text! == "99+" {
             maxPlayers = 99
+        } else if let playersNum = Int(maxPlayersField.text!){
+            maxPlayers = playersNum
         } else {
-            if let players = Int(maxPlayersField.text!) {
-                maxPlayers = players
-            }
-        }
-        
-        if maxPlayersField.text == "" {
             createFailureAlert(with: "Max players cannot be empty!")
             return
-        } else if nameField.text == ""{
+        }
+        
+        if nameField.text == "" {
             createFailureAlert(with: "Name cannot be empty")
             return
-        } else if !areThereTeamsSwitch.isOn && !areTherePointsSwitch.isOn {
-            createFailureAlert(with: "Must turn switch on.")
+        }
+        
+        guard let type = gameType else {
+            createFailureAlert(with: "Game type cannot be empty")
             return
         }
         
-        if areThereTeamsSwitch.isOn {
-            gameType = .TeamWithPlaces
-        } else if areTherePointsSwitch.isOn {
-            gameType = .SoloWithPoints
-        }
-        
-        if let type = gameType, let name = nameField.text  {
-            let game = Game(name: name, type: type, maxNoOfPlayers: maxPlayers)
-            gameStore.addGame(game)
-            createSuccessAlert(with: "Created \(game.name)!")
-        }
+        let game = Game(name: nameField.text!, type: type, maxNoOfPlayers: maxPlayers)
+        gameStore.addGame(game)
+        createSuccessAlert(with: "Created \(game.name)!")
     }
     
-    
-    @IBAction func switchChanged(_ sender: UISwitch) {
-        if areThereTeamsSwitch.isOn && !areTherePointsSwitch.isOn {
-            areTherePointsSwitch.isOn = false
-            areTherePointsSwitch.isEnabled = false
-            areTherePlacesSwitch.isOn = true
-            areTherePlacesSwitch.isEnabled = false
-            gameTypeField.text = "Team game with places."
-            
-        } else if areTherePointsSwitch.isOn && !areThereTeamsSwitch.isOn {
-            areThereTeamsSwitch.isOn = false
-            areThereTeamsSwitch.isEnabled = false
-            areTherePlacesSwitch.isOn = true
-            areTherePlacesSwitch.isEnabled = false
-            gameTypeField.text = "Solo game with points."
-        } else {
-            areTherePointsSwitch.isEnabled = true
-            areThereTeamsSwitch.isEnabled = true
-            gameTypeField.text = ""
-        }
-    }
     
     
     //MARK: - Text field delegate methods
@@ -130,6 +97,36 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         return false
     }
     
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        if textField == nameField {
+            return true
+        }
+        
+        guard let picker = textField.inputView as? UIPickerView else { return false }
+        if textField == maxPlayersField {
+            picker.tag = 0
+            if maxPlayersField.text == "" {
+                maxPlayersField.text = "1"
+            }
+            if let num = Int(maxPlayersField.text!) {
+                picker.selectRow(num - 1, inComponent: 0, animated: false)
+            } else {
+                picker.selectRow(myPickerDataPlayers.count, inComponent: 0, animated: false)
+            }
+        } else if textField == gameTypeField {
+            picker.tag = 1
+            if gameTypeField.text == "" {
+                gameTypeField.text = "Solo game with points"
+                gameType = .SoloWithPoints
+            }
+            if let num = myPickerDataTypes.index(of: gameType!) {
+                picker.selectRow(num, inComponent: 0, animated: false)
+            }
+        }
+        picker.reloadAllComponents()
+        return true
+    }
+    
     //MARK: - UIPickerView
     
     //UIPicker DataSource
@@ -138,7 +135,12 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return myPickerDataPlayers.count + 1
+        if pickerView.tag == 0 {
+            return myPickerDataPlayers.count + 1
+        } else if pickerView.tag == 1 {
+            return myPickerDataTypes.count
+        }
+        return 0
     }
     
     
@@ -146,21 +148,49 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        if row == myPickerDataPlayers.count {
-            return "99+"
-        } else {
-            return String(myPickerDataPlayers[row])
+        if pickerView.tag == 0 {
+            if row == myPickerDataPlayers.count {
+                return "99+"
+            } else {
+                return String(myPickerDataPlayers[row])
+            }
+        }  else if pickerView.tag == 1 {
+            switch myPickerDataTypes[row] {
+            case .Cooperation:
+                return "Cooperation game"
+            case .SoloWithPlaces:
+                return "Solo game with places"
+            case .SoloWithPoints:
+                return "Solo game with points"
+            case .TeamWithPlaces:
+                return "Team game"
+            }
         }
+        return nil
     }
     
     //UIPickerView delegate
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
-        if row == myPickerDataPlayers.count {
-            maxPlayersField.text = "99+"
-        } else {
-            maxPlayersField.text = String(myPickerDataPlayers[row])
+        if pickerView.tag == 0 {
+            if row == myPickerDataPlayers.count {
+                maxPlayersField.text = "99+"
+            } else {
+                maxPlayersField.text = String(myPickerDataPlayers[row])
+            }
+        } else if pickerView.tag == 1 {
+            gameType = myPickerDataTypes[row]
+            switch myPickerDataTypes[row] {
+            case .Cooperation:
+                gameTypeField.text = "Cooperation game"
+            case .SoloWithPlaces:
+                gameTypeField.text = "Solo game with places"
+            case .SoloWithPoints:
+                gameTypeField.text = "Solo game with points"
+            case .TeamWithPlaces:
+                gameTypeField.text = "Team game"
+            }
         }
     }
     
@@ -169,17 +199,27 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     //PickerView Toolbar button functions
     @objc func donePicker() {
-        if picker.selectedRow(inComponent: 0) == myPickerDataPlayers.count {
-            maxPlayersField.text = "99+"
-        } else {
-            maxPlayersField.text = String(myPickerDataPlayers[picker.selectedRow(inComponent: 0)])
+        if picker.tag == 0 {
+            if picker.selectedRow(inComponent: 0) == myPickerDataPlayers.count {
+                maxPlayersField.text = "99+"
+            } else {
+                maxPlayersField.text = String(myPickerDataPlayers[picker.selectedRow(inComponent: 0)])
+            }
+            maxPlayersField.resignFirstResponder()
+        } else if picker.tag == 1 {
+            gameTypeField.resignFirstResponder()
         }
-        maxPlayersField.resignFirstResponder()
     }
     
     @objc func cancelPicker() {
-        maxPlayersField.text = ""
-        maxPlayersField.resignFirstResponder()
+        if picker.tag == 0 {
+            maxPlayersField.text = ""
+            maxPlayersField.resignFirstResponder()
+        } else if picker.tag == 1 {
+            gameType = nil
+            gameTypeField.text = ""
+            gameTypeField.resignFirstResponder()
+        }
     }
     
     //MARK: - Alerts

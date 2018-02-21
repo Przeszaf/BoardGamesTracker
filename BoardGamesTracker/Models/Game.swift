@@ -120,6 +120,7 @@ class Game: NSObject, Comparable, NSCoding {
             thereAreTeams = false
         }
     }
+    
     //MARK: - Functions
     func addMatch(match: Match) {
         //Check date, if the match is newer then update it

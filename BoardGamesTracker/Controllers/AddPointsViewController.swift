@@ -12,9 +12,11 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     
     var availablePlayers: [Player]!
     var playersPoints: [Player: Int]!
+    var playersPlaces: [Player: Int]!
     var toolbar: UIToolbar!
     var currentRow: Int?
     
+    var key = ""
     
     //MARK: - UITableViewController
     override func viewDidLoad() {
@@ -36,10 +38,18 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
         let player = availablePlayers[indexPath.row]
         cell.playerNameLabel.text = player.name
-        if playersPoints[player] == 0 {
-            cell.playerPointsField.text = ""
-        } else {
-            cell.playerPointsField.text = "\(playersPoints[player] ?? 0)"
+        if key == "Points" {
+            if playersPoints[player] != 0 {
+                cell.playerPointsField.text = "\(playersPoints[player]!)"
+            } else {
+                cell.playerPointsField.text = ""
+            }
+        } else if key == "Places" {
+            if playersPlaces[player] != 0 {
+                cell.playerPointsField.text = "\(playersPlaces[player]!)"
+            } else {
+                cell.playerPointsField.text = ""
+            }
         }
         cell.playerPointsField.delegate = self
         cell.playerPointsField.tag = indexPath.row
@@ -57,8 +67,13 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            controller.playersPoints = playersPoints
-            _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, order: "ascending")
+            if key == "Points" {
+                controller.playersPoints = playersPoints
+                _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, order: "ascending")
+            } else if key == "Places" {
+                controller.playersPlaces = playersPlaces
+                controller.sortPlayersPlaces(players: &controller.selectedPlayers)
+            }
             controller.viewWillAppear(true)
         }
     }
@@ -71,13 +86,16 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         let person = availablePlayers[tag]
         if (Int(string) != nil && range.upperBound < 3 || string == "" ) {
             let numString = textField.text! + string
-            let num = Int(numString)!
-            if num >= 1 && num <= 999 {
-                if string == "" {
-                    playersPoints[person] = num/10
-                } else {
-                    playersPoints[person] = num
-                }
+            var num = Int(numString)!
+            if string == "" {
+                num = num / 10
+            }
+            if num >= 1 && num <= 999 && key == "Points" {
+                playersPoints[person] = num
+                return true
+            }
+            if num >= 0 && num <= availablePlayers.count && key == "Places" {
+                playersPlaces[person] = num
                 return true
             }
         }

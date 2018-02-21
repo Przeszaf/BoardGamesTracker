@@ -92,7 +92,6 @@ class ChoosePlayersViewController: UITableViewController, UINavigationController
                 preconditionFailure("Wrong key!")
             }
             controller.viewWillAppear(true)
-            
         }
     }
     
