@@ -19,13 +19,13 @@ class GameStatisticsView: UIView {
     //MARK: - All labels
     var totalMatchesLabel = UILabel()
     var totalPlayersLabel =  UILabel()
+    var totalTimePlayedLabel = UILabel()
+    var averageTimePlayedLabel = UILabel()
+    
     var maxPointsLabel = UILabel()
     var minPointsLabel = UILabel()
     var averagePointsLabel = UILabel()
     var medianPointsLabel = UILabel()
-    var totalTimePlayedLabel = UILabel()
-    var averageTimePlayedLabel = UILabel()
-    
     
     
     override init(frame: CGRect) {
@@ -41,6 +41,12 @@ class GameStatisticsView: UIView {
         verticalStackViewRight.distribution = .fillProportionally
         verticalStackViewLeft.distribution = .fillProportionally
         addSubviews()
+        
+        minPointsLabel.isHidden = true
+        maxPointsLabel.isHidden = true
+        averagePointsLabel.isHidden = true
+        medianPointsLabel.isHidden = true
+        
         
     }
     
@@ -87,8 +93,6 @@ class GameStatisticsView: UIView {
     func addSubviews() {
         addSubview(verticalStackView)
         
-        
-        
         verticalStackView.addArrangedSubview(horizontalStackView)
         
         horizontalStackView.addArrangedSubview(verticalStackViewLeft)
@@ -96,6 +100,7 @@ class GameStatisticsView: UIView {
         
         verticalStackViewLeft.addArrangedSubview(totalMatchesLabel)
         verticalStackViewRight.addArrangedSubview(totalPlayersLabel)
+        
         verticalStackViewLeft.addArrangedSubview(minPointsLabel)
         verticalStackViewRight.addArrangedSubview(maxPointsLabel)
         verticalStackViewLeft.addArrangedSubview(averagePointsLabel)

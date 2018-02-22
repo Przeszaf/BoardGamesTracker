@@ -59,9 +59,9 @@ class Player: NSObject, Comparable, NSCoding {
     //MARK: - Functions
     func addMatch(game: Game, match: Match, place: Int?, points: Int?) {
         if game.type == .SoloWithPoints {
-            addSoloMatch(game: game, match: match, points: points!, place: place!)
-        } else if game.type == .TeamWithPlaces {
-            addTeamMatch(game: game, match: match, place: place!)
+            addMatchWithPoints(game: game, match: match, points: points!, place: place!)
+        } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
+            addMatchWithPlaces(game: game, match: match, place: place!)
         }
         timesPlayed += 1
         if let date = lastTimePlayed {
@@ -76,7 +76,7 @@ class Player: NSObject, Comparable, NSCoding {
     
     
     //Team Match with correct values
-    private func addTeamMatch(game: Game, match: Match, place: Int) {
+    private func addMatchWithPlaces(game: Game, match: Match, place: Int) {
         if matchesPlayed[game] == nil {
             gamesPlayed.append(game)
             matchesPlayed[game] = [match]
@@ -88,7 +88,7 @@ class Player: NSObject, Comparable, NSCoding {
     }
     
     //Adds solo match
-    private func addSoloMatch(game: Game, match: Match, points: Int, place: Int) {
+    private func addMatchWithPoints(game: Game, match: Match, points: Int, place: Int) {
         if matchesPlayed[game] == nil {
             gamesPlayed.append(game)
             matchesPlayed[game] = [match]

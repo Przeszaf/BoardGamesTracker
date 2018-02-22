@@ -33,11 +33,57 @@ class PlayerDetailsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerDetailsCell", for: indexPath) as! PlayerDetailsCell
         let game = player.gamesPlayed[indexPath.section]
-        let playersInMatch = player.matchesPlayed[game]![indexPath.row].players
-        print(playersInMatch.map{$0.name}.joined(separator: ", "))
-        cell.playersLabel.text = playersInMatch.map{$0.name}.joined(separator: ", ")
-        cell.dateLabel.text = player.matchesPlayed[game]?[indexPath.row].date.toStringWithHour()
-        cell.placeLabel.text = String(player.gamesPlace[game]![indexPath.row])
+        let match = player.matchesPlayed[game]![indexPath.row]
+        let players = match.players
+        cell.dateLabel.text = match.date.toStringWithHour()
+        
+        var string = [String]()
+        for (i, player) in players.enumerated() {
+            if game.type == .SoloWithPoints {
+                string.append("\(player.name): \(match.playersPoints![i])")
+            } else if game.type == .SoloWithPlaces {
+                string.append("\(match.playersPlaces![i]). \(player.name)")
+            } else if game.type == .TeamWithPlaces {
+                if i > 0 {
+                    if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
+                        string.append("Losers: \(player.name)")
+                    } else {
+                        string.append("\(player.name)")
+                    }
+                } else {
+                    string.append("Winners: \(player)")
+                }
+            } else if game.type == .Cooperation {
+                string.append("\(player.name)")
+            }
+        }
+        cell.playersLabel.text = string.joined(separator: ", ")
+        
+        var placeString = ""
+        let place = player.gamesPlace[game]![indexPath.row]
+        if game.type == .SoloWithPoints || game.type == .SoloWithPlaces {
+            placeString.append(String(place))
+            switch place {
+            case 1:
+                placeString.append("st")
+            case 2:
+                placeString.append("nd")
+            case 3:
+                placeString.append("rd")
+            default:
+                placeString.append("th")
+            }
+        }
+        
+        if game.type == .Cooperation || game.type == .TeamWithPlaces {
+            if place == 1 {
+                placeString = "Win"
+            } else {
+                placeString = "Lose"
+            }
+        }
+        
+        cell.placeLabel.text = placeString
         return cell
     }
     
@@ -66,6 +112,31 @@ class PlayerDetailsViewController: UITableViewController {
         } else {
             view.expandButton.setImage(UIImage.init(named: "expand_arrow"), for: .normal)
         }
+        
+        if game.type == .SoloWithPoints {
+            view.averagePointsLabel.isHidden = false
+            view.maxPointsLabel.isHidden = false
+            
+            var sum = 0
+            for point in player.gamesPoints[game]! {
+                sum += point
+            }
+            
+            view.averagePointsLabel.text = "Average points: \(sum / (player.gamesPoints[game]?.count)!)"
+            view.maxPointsLabel.text = "Max points: \(player.gamesPoints[game]!.max()!)"
+        }
+        
+        var winCount = 0
+        var loseCount = 0
+        for place in player.gamesPlace[game]! {
+            if place == 1 {
+                winCount += 1
+            } else {
+                loseCount += 1
+            }
+        }
+        
+        view.winRatioLabel.text = "Win ratio: \(winCount * 100 / (winCount + loseCount))%"
         return view
     }
     

@@ -17,7 +17,6 @@ class AddMatchView: UIView {
     var winnersStackView = UIStackView()
     var loosersStackView = UIStackView()
     var pointsStackView = UIStackView()
-    var additionalTextStackView = UIStackView()
     var switchStackView = UIStackView()
     var dateStackView = UIStackView()
     var timeStackView = UIStackView()
@@ -30,7 +29,6 @@ class AddMatchView: UIView {
     var winnersLabel = UILabel()
     var loosersLabel = UILabel()
     var pointsLabel = UILabel()
-    var additionalLabel = UILabel()
     var switchLabel = UILabel()
     var dateLabel = UILabel()
     var timeLabel = UILabel()
@@ -42,7 +40,6 @@ class AddMatchView: UIView {
     var winnersTextView = AddMatchTextView()
     var loosersTextView = AddMatchTextView()
     var pointsTextView = AddMatchTextView()
-    var additionalTextView = AddMatchTextView()
     var dateTextView = AddMatchTextView()
     var timeTextView = AddMatchTextView()
     var locationTextView = AddMatchTextView()
@@ -95,8 +92,7 @@ class AddMatchView: UIView {
         loosersLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor).isActive = true
-        locationLabel.leadingAnchor.constraint(equalTo: additionalLabel.leadingAnchor).isActive = true
-        additionalLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
+        locationLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
         playersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
@@ -105,8 +101,7 @@ class AddMatchView: UIView {
         loosersLabel.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
         timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
-        locationLabel.trailingAnchor.constraint(equalTo: additionalLabel.trailingAnchor).isActive = true
-        additionalLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
+        locationLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
         
         switchStackView.distribution = .fillProportionally
         
@@ -154,9 +149,6 @@ class AddMatchView: UIView {
         pointsLabel.translatesAutoresizingMaskIntoConstraints = false
         pointsTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        additionalTextStackView.translatesAutoresizingMaskIntoConstraints = false
-        additionalLabel.translatesAutoresizingMaskIntoConstraints = false
-        additionalTextView.translatesAutoresizingMaskIntoConstraints = false
         
         switchStackView.translatesAutoresizingMaskIntoConstraints = false
         switchLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -200,9 +192,7 @@ class AddMatchView: UIView {
         pointsStackView.addArrangedSubview(pointsLabel)
         pointsStackView.addArrangedSubview(pointsTextView)
         
-        verticalStackView.addArrangedSubview(additionalTextStackView)
-        additionalTextStackView.addArrangedSubview(additionalLabel)
-        additionalTextStackView.addArrangedSubview(additionalTextView)
+        
         
         verticalStackView.addArrangedSubview(switchStackView)
         switchStackView.addArrangedSubview(switchLabel)
@@ -229,7 +219,6 @@ class AddMatchView: UIView {
         winnersStackView.isHidden = true
         loosersStackView.isHidden = true
         pointsStackView.isHidden = true
-        additionalTextStackView.isHidden = true
         switchStackView.isHidden = true
         dateStackView.isHidden = true
         timeStackView.isHidden = true

@@ -524,10 +524,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Success alert with given string that disappears after 1 second and pops to previous controller
     func createSuccessAlert(with string: String) {
         let alert = MyAlerts.createAlert(title: "Success!", message: string)
+        self.myView.timeTextView.resignFirstResponder()
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
             alert.dismiss(animated: true, completion: {
+                self.tabBarController?.tabBar.isHidden = false
                 self.navigationController?.popToRootViewController(animated: true)
             })
         }

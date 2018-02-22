@@ -26,6 +26,7 @@ class PlayerDetailsCell: UITableViewCell {
         dateLabel.textColor = UIColor.darkGray
         playersLabel.font = UIFont.systemFont(ofSize: 17)
         placeLabel.font = UIFont.systemFont(ofSize: 17)
+        playersLabel.numberOfLines = 0
     }
     
     
@@ -46,7 +47,7 @@ class PlayerDetailsCell: UITableViewCell {
         placeLabel.centerYAnchor.constraint(equalTo: playersLabel.centerYAnchor).isActive = true
         placeLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         placeLabel.trailingAnchor.constraint(equalTo: playersLabel.leadingAnchor, constant: 4).isActive = true
-        placeLabel.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        placeLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {

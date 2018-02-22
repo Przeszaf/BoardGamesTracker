@@ -12,12 +12,42 @@ class GameDetailsViewController: UITableViewController {
     
     var game: Game!
     var gameStore: GameStore!
+    var tableHeaderView: GameStatisticsView!
     
     
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        tableHeaderView.totalMatchesLabel.text = "Total matches: \(game.matches.count)"
+        
+        var players = [Player]()
+        for match in game.matches {
+            for player in match.players {
+                players.append(player)
+            }
+        }
+        players = Array(Set(players))
+        tableHeaderView.totalPlayersLabel.text = "Total players: \(players.count)"
+        tableHeaderView.totalTimePlayedLabel.text = "Total time played: \(game.totalTime.toString())"
+        tableHeaderView.averageTimePlayedLabel.text = "Average time of match: \(game.averageTime.toString())"
+        
+        if game.type == .SoloWithPoints {
+            tableHeaderView.maxPointsLabel.isHidden = false
+            tableHeaderView.minPointsLabel.isHidden = false
+            tableHeaderView.medianPointsLabel.isHidden = false
+            tableHeaderView.averagePointsLabel.isHidden = false
+            
+            tableHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
+            tableHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
+            
+            if game.pointsArray.count % 2 == 1 {
+                tableHeaderView.medianPointsLabel.text = "Median points: \(game.pointsArray[game.pointsArray.count/2])"
+            } else {
+                tableHeaderView.medianPointsLabel.text = "Median points: \((game.pointsArray[game.pointsArray.count/2] + game.pointsArray[game.pointsArray.count/2 - 1]) / 2)"
+            }
+            tableHeaderView.averagePointsLabel.text = "Average points: \(game.averagePoints)"
+        }
+        
         tableView.reloadData()
     }
     
@@ -29,17 +59,9 @@ class GameDetailsViewController: UITableViewController {
         
         
         //Creating game statistics view
-        let view = GameStatisticsView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 160))
-        view.backgroundColor = UIColor.white
-        view.totalMatchesLabel.text = "Total matches: 8"
-        view.totalPlayersLabel.text = "Total players: 12"
-        view.maxPointsLabel.text = "Max points: 23"
-        view.minPointsLabel.text = "Min points: 10"
-        view.medianPointsLabel.text = "Median points: 15"
-        view.averagePointsLabel.text = "Average points: 16.5"
-        view.totalTimePlayedLabel.text = "Total time played: 12 hours"
-        view.averageTimePlayedLabel.text = "Average time of match: 1h20m"
-        tableView.tableHeaderView = view
+        tableHeaderView = GameStatisticsView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 160))
+        tableHeaderView.backgroundColor = UIColor.white
+        tableView.tableHeaderView = tableHeaderView
     }
     
     

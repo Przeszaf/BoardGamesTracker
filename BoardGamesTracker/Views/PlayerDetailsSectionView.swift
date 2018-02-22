@@ -11,6 +11,14 @@ import UIKit
 class PlayerDetailsSectionView: UIView {
     
     var titleLabel = UILabel()
+    var matchesCountLabel = UILabel()
+    
+    var winRatioLabel = UILabel()
+    
+    var averagePointsLabel = UILabel()
+    var maxPointsLabel = UILabel()
+    
+    
     var expandButton = UIButton()
     
     override init(frame: CGRect) {
@@ -20,8 +28,18 @@ class PlayerDetailsSectionView: UIView {
         addSubview(view)
         view.addSubview(titleLabel)
         view.addSubview(expandButton)
+        view.addSubview(winRatioLabel)
+        view.addSubview(averagePointsLabel)
+        view.addSubview(maxPointsLabel)
         
-        expandButton.backgroundColor = UIColor.red
+        averagePointsLabel.isHidden = true
+        maxPointsLabel.isHidden = true
+        
+        winRatioLabel.font = UIFont.systemFont(ofSize: 12)
+        averagePointsLabel.font = UIFont.systemFont(ofSize: 12)
+        maxPointsLabel.font = UIFont.systemFont(ofSize: 12)
+        
+        expandButton.backgroundColor = UIColor.blue
         
     }
     
@@ -29,15 +47,27 @@ class PlayerDetailsSectionView: UIView {
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         expandButton.translatesAutoresizingMaskIntoConstraints = false
+        matchesCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        winRatioLabel.translatesAutoresizingMaskIntoConstraints = false
+        averagePointsLabel.translatesAutoresizingMaskIntoConstraints = false
+        maxPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.numberOfLines = 0
         
         titleLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: expandButton.leadingAnchor).isActive = true
         
-        expandButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor).isActive = true
+        winRatioLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor).isActive = true
+        winRatioLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor).isActive = true
+        
+        averagePointsLabel.leadingAnchor.constraint(equalTo: winRatioLabel.leadingAnchor).isActive = true
+        averagePointsLabel.topAnchor.constraint(equalTo: winRatioLabel.bottomAnchor).isActive = true
+        
+        maxPointsLabel.leadingAnchor.constraint(equalTo: averagePointsLabel.trailingAnchor, constant: 10).isActive = true
+        maxPointsLabel.centerYAnchor.constraint(equalTo: averagePointsLabel.centerYAnchor).isActive = true
+        
         expandButton.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
-        expandButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        expandButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
         expandButton.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
         expandButton.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
         
