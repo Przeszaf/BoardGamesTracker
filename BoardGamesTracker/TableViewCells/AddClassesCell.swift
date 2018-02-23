@@ -1,47 +1,46 @@
 //
-//  AddPointsCell.swift
+//  AddClassesCell.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 27/01/2018.
+//  Created by Przemyslaw Szafulski on 22/02/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 
 import UIKit
 
-//Cell used to add points to players
-
-class AddPointsCell: UITableViewCell {
+class AddClassesCell: UITableViewCell {
     
     var playerNameLabel = UILabel()
-    var playerPointsField = UITextField()
+    var playerClassTextView = AddMatchTextView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.contentView.addSubview(playerNameLabel)
-        self.contentView.addSubview(playerPointsField)
-        playerPointsField.borderStyle = .roundedRect
-        playerPointsField.keyboardType = .numberPad
+        self.contentView.addSubview(playerClassTextView)
+        playerClassTextView.isScrollEnabled = false
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
         playerNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        playerPointsField.translatesAutoresizingMaskIntoConstraints = false
+        playerClassTextView.translatesAutoresizingMaskIntoConstraints = false
         
         playerNameLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 0).isActive = true
         playerNameLabel.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor, constant: 0).isActive = true
         playerNameLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor, constant: 0).isActive = true
-        playerNameLabel.trailingAnchor.constraint(equalTo: playerPointsField.leadingAnchor, constant: 8)
+        playerNameLabel.trailingAnchor.constraint(equalTo: playerClassTextView.leadingAnchor, constant: 8)
         
-        playerPointsField.centerYAnchor.constraint(equalTo: playerNameLabel.centerYAnchor).isActive = true
-        playerPointsField.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor, constant: -20).isActive = true
-        playerPointsField.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        
+        playerClassTextView.centerYAnchor.constraint(equalTo: playerNameLabel.centerYAnchor).isActive = true
+        playerClassTextView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
+        playerClassTextView.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
 }

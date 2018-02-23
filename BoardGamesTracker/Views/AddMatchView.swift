@@ -23,6 +23,8 @@ class AddMatchView: UIView {
     var locationStackView = UIStackView()
     var imageViewStackView = UIStackView()
     
+    var dictionaryStackView = UIStackView()
+    
     //MARK: - All labels
     var gameLabel = UILabel()
     var playersLabel =  UILabel()
@@ -34,6 +36,8 @@ class AddMatchView: UIView {
     var timeLabel = UILabel()
     var locationLabel = UILabel()
     
+    var dictionaryLabel = UILabel()
+    
     //MARK: - All text views
     var gameTextView = AddMatchTextView()
     var playersTextView = AddMatchTextView()
@@ -43,6 +47,8 @@ class AddMatchView: UIView {
     var dateTextView = AddMatchTextView()
     var timeTextView = AddMatchTextView()
     var locationTextView = AddMatchTextView()
+    
+    var dictionaryTextView = AddMatchTextView()
     
     var mySwitch = UISwitch()
     
@@ -64,6 +70,7 @@ class AddMatchView: UIView {
         dateLabel.text = "Date"
         timeLabel.text = "Time"
         locationLabel.text = "Location"
+        dictionaryLabel.text = "Classes"
         
     }
     
@@ -76,11 +83,11 @@ class AddMatchView: UIView {
         verticalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         verticalStackView.spacing = 8
-        for view in verticalStackView.arrangedSubviews {
-            if view != imageView {
-                view.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            }
-        }
+//        for view in verticalStackView.arrangedSubviews {
+//            if view != imageView {
+//                view.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//            }
+//        }
         
         
         
@@ -93,6 +100,7 @@ class AddMatchView: UIView {
         dateLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor).isActive = true
         locationLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
+        switchLabel.leadingAnchor.constraint(equalTo: dictionaryLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
         playersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
@@ -102,10 +110,11 @@ class AddMatchView: UIView {
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
         timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
         locationLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
+        locationLabel.trailingAnchor.constraint(equalTo: dictionaryLabel.trailingAnchor).isActive = true
         
         switchStackView.distribution = .fillProportionally
         
-        imageView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: self.frame.width / 16 * 9).isActive = true
 
         
         
@@ -149,6 +158,9 @@ class AddMatchView: UIView {
         pointsLabel.translatesAutoresizingMaskIntoConstraints = false
         pointsTextView.translatesAutoresizingMaskIntoConstraints = false
         
+        dictionaryStackView.translatesAutoresizingMaskIntoConstraints = false
+        dictionaryLabel.translatesAutoresizingMaskIntoConstraints = false
+        dictionaryTextView.translatesAutoresizingMaskIntoConstraints = false
         
         switchStackView.translatesAutoresizingMaskIntoConstraints = false
         switchLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -192,7 +204,9 @@ class AddMatchView: UIView {
         pointsStackView.addArrangedSubview(pointsLabel)
         pointsStackView.addArrangedSubview(pointsTextView)
         
-        
+        verticalStackView.addArrangedSubview(dictionaryStackView)
+        dictionaryStackView.addArrangedSubview(dictionaryLabel)
+        dictionaryStackView.addArrangedSubview(dictionaryTextView)
         
         verticalStackView.addArrangedSubview(switchStackView)
         switchStackView.addArrangedSubview(switchLabel)
@@ -224,6 +238,8 @@ class AddMatchView: UIView {
         timeStackView.isHidden = true
         locationStackView.isHidden = true
         imageView.isHidden = true
+        
+        dictionaryStackView.isHidden = true
     }
 }
 

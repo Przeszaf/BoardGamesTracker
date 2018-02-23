@@ -18,8 +18,11 @@ class GameDetailsViewController: UITableViewController {
     //MARK: - Overriding functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        //Add info about total matches
         tableHeaderView.totalMatchesLabel.text = "Total matches: \(game.matches.count)"
         
+        //Calculate amount of unique players that played this game
         var players = [Player]()
         for match in game.matches {
             for player in match.players {
@@ -28,9 +31,12 @@ class GameDetailsViewController: UITableViewController {
         }
         players = Array(Set(players))
         tableHeaderView.totalPlayersLabel.text = "Total players: \(players.count)"
+        
+        //Get total and average time of match
         tableHeaderView.totalTimePlayedLabel.text = "Total time played: \(game.totalTime.toString())"
         tableHeaderView.averageTimePlayedLabel.text = "Average time of match: \(game.averageTime.toString())"
         
+        //For SoloWithPoints game display more information
         if game.type == .SoloWithPoints {
             tableHeaderView.maxPointsLabel.isHidden = false
             tableHeaderView.minPointsLabel.isHidden = false
@@ -40,6 +46,7 @@ class GameDetailsViewController: UITableViewController {
             tableHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
             tableHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
             
+            //Calculate Median points
             if game.pointsArray.count % 2 == 1 {
                 tableHeaderView.medianPointsLabel.text = "Median points: \(game.pointsArray[game.pointsArray.count/2])"
             } else {
@@ -48,17 +55,25 @@ class GameDetailsViewController: UITableViewController {
             tableHeaderView.averagePointsLabel.text = "Average points: \(game.averagePoints)"
         }
         
+        //CHANGE LATER - check
+        if let customMatches = game.matches as? [CustomMatch] {
+            print(game.name)
+            let classDictionary = customMatches.first!.dictionary as! [Player: AvalonClasses]
+            print(classDictionary)
+        }
+        
         tableView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Register cell and create button item
         tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
         
-        //Creating game statistics view
+        //Creating game statistics view - CHANGE - different height for different types
         tableHeaderView = GameStatisticsView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 160))
         tableHeaderView.backgroundColor = UIColor.white
         tableView.tableHeaderView = tableHeaderView
@@ -70,6 +85,8 @@ class GameDetailsViewController: UITableViewController {
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
+        
+        //CHANGE - use different Cell - Win/Lose instead of game name etc.
         cell.gameNameLabel.text = game.name
         cell.dateLabel.text = game.matches[indexPath.row].date.toStringWithHour()
         cell.playersLabel.text = playersToString(indexPath: indexPath)
@@ -128,7 +145,7 @@ class GameDetailsViewController: UITableViewController {
 
     //MARK: - Other
     
-    //Getting string to put into playersField - depends on game
+    //Getting string to put into playersField - depends on game - CHANGE - update for different games
     func playersToString(indexPath: IndexPath) -> String {
         var string = [String]()
         let players = game.matches[indexPath.row].players

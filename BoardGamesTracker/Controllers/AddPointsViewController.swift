@@ -16,6 +16,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     var toolbar: UIToolbar!
     var currentRow: Int?
     
+    //Key is used to determine whether this controller is used to assign places or points to players
     var key = ""
     
     //MARK: - UITableViewController
@@ -25,15 +26,14 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         tableView.allowsSelection = false
         tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
         
-        let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(hideButton))
-        let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(doneButton))
+        let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
+        let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(toolbarNextButton))
         toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
     }
     
     
     //MARK: - UITableView
     
-    //MARK
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
         let player = availablePlayers[indexPath.row]
@@ -69,10 +69,10 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         if let controller = viewController as? AddMatchViewController {
             if key == "Points" {
                 controller.playersPoints = playersPoints
-                _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, order: "ascending")
+                _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, pointsDict: playersPoints, order: "ascending")
             } else if key == "Places" {
                 controller.playersPlaces = playersPlaces
-                controller.sortPlayersPlaces(players: &controller.selectedPlayers)
+                controller.sortPlayersPlaces(players: &controller.selectedPlayers, places: controller.playersPlaces)
             }
             controller.viewWillAppear(true)
         }
@@ -94,6 +94,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
                 playersPoints[person] = num
                 return true
             }
+            //Places must be between 1 and count of players.
             if num >= 0 && num <= availablePlayers.count && key == "Places" {
                 playersPlaces[person] = num
                 return true
@@ -107,8 +108,12 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         return true
     }
     
+    //MARK: - Toolbar
+    
     //Keyboard Toolbar button functions
-    @objc func doneButton() {
+    
+    //When clicked on next it goes to another textField.
+    @objc func toolbarNextButton() {
         if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: 0)) as? AddPointsCell {
             let textField = nextCell.playerPointsField
             textField.becomeFirstResponder()
@@ -120,7 +125,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         }
     }
     
-    @objc func hideButton() {
+    @objc func toolbarHideButton() {
         if let row = currentRow, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AddPointsCell {
             let textField = cell.playerPointsField
             textField.resignFirstResponder()

@@ -28,6 +28,34 @@
             </objects>
             <point key="canvasLocation" x="1062" y="-673"/>
         </scene>
+        <!--Add Classes View Controller-->
+        <scene sceneID="MF9-0j-q5s">
+            <objects>
+                <tableViewController id="8rN-Ri-RhL" customClass="AddClassesViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oc6-vd-ARD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="aGi-DJ-o0B">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aGi-DJ-o0B" id="KYd-9y-bO9">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="8rN-Ri-RhL" id="A4e-Bq-pFu"/>
+                            <outlet property="delegate" destination="8rN-Ri-RhL" id="vfy-3P-9n1"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2Jz-gB-Wcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4786" y="-1567"/>
+        </scene>
         <!--Choose Players View Controller-->
         <scene sceneID="xDo-Gg-b1T">
             <objects>
@@ -238,6 +266,7 @@
                         <segue destination="r83-aN-Eof" kind="show" identifier="chooseGame" id="eNc-2q-e79"/>
                         <segue destination="JEr-pJ-ija" kind="show" identifier="choosePlayers" id="afa-uS-2UH"/>
                         <segue destination="EIQ-Hs-cUz" kind="show" identifier="addPoints" id="aym-cc-CMA"/>
+                        <segue destination="8rN-Ri-RhL" kind="show" identifier="addClasses" id="Tuz-dU-70M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPu-Jr-eGL" userLabel="First Responder" sceneMemberID="firstResponder"/>

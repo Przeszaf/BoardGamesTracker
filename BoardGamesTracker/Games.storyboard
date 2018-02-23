@@ -36,7 +36,7 @@
                     <navigationItem key="navigationItem" title="All Games" id="fU1-fW-nmX">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hMQ-li-GZ9">
                             <connections>
-                                <segue destination="iqj-07-eZ4" kind="show" identifier="addGame" id="Lnq-g8-dcH"/>
+                                <segue destination="e8h-8H-svm" kind="show" identifier="addCustomGame" id="GyH-qD-iFJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -47,6 +47,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="reh-ei-4E1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1929" y="178"/>
+        </scene>
+        <!--Add Custom Game View Controller-->
+        <scene sceneID="eNU-gX-H6r">
+            <objects>
+                <tableViewController id="e8h-8H-svm" customClass="AddCustomGameViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6tx-B8-Bn2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="GIj-7D-dfz">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GIj-7D-dfz" id="EoJ-87-ait">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="e8h-8H-svm" id="gnl-4S-uW4"/>
+                            <outlet property="delegate" destination="e8h-8H-svm" id="XEG-LA-IQG"/>
+                        </connections>
+                    </tableView>
+                    <connections>
+                        <segue destination="iqj-07-eZ4" kind="show" identifier="addGame" id="kOE-cT-ZwG"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7D-kt-ixL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2870" y="178"/>
         </scene>
         <!--Game Details View Controller-->
         <scene sceneID="nyJ-Lh-EU6">
@@ -178,7 +209,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Clm-SC-hcs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2846" y="178"/>
+            <point key="canvasLocation" x="3884" y="178"/>
         </scene>
         <!--Games-->
         <scene sceneID="lqO-YN-0pP">

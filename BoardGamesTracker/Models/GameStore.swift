@@ -13,6 +13,7 @@ class GameStore {
     //MARK: - Variables
     var allGames = [Game]()
     var playerStore: PlayerStore!
+    var customGames = [CustomGame]()
     
     let gamesArchiveURL: URL = {
         let directories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -24,6 +25,19 @@ class GameStore {
         if let archivedGames = NSKeyedUnarchiver.unarchiveObject(withFile: gamesArchiveURL.path) as? [Game] {
             allGames = archivedGames
         }
+        
+        //Add all custom games
+        customGames.append(CustomGame(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Avalon")))
+        
+        //Check if customGames were already added to allGames, if so then remove from customGames
+        for game in allGames {
+            if let customGame = game as? CustomGame {
+                let index = customGames.index(where: {$0.name == customGame.name})
+                customGames.remove(at: index!)
+            }
+        }
+        
+        
     }
 
     //MARK: - Functions
