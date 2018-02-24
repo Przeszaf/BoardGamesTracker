@@ -44,8 +44,6 @@ class Game: NSObject, Comparable, NSCoding {
     }
     
     
-    
-    
     //MARK: Board game attributes
     var name: String
     var type: GameType

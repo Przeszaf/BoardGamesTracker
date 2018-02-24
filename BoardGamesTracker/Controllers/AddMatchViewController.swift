@@ -40,7 +40,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var playersPlaces = [Player: Int]()
     
     //For custom matches
-    var playersDictionary = [Player: Any]()
+    var playersClasses = [Player: Any]()
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
@@ -261,7 +261,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             controller.winners = winners
             controller.loosers = loosers
             controller.game = selectedGame
-            controller.playersDictionary = playersDictionary
+            controller.playersClasses = playersClasses
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -355,9 +355,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         //If there are no errors, then create match and display success alert
         
         //If custom game, then create CustomMatch
-        if let customGame = selectedGame {
+        if let customGame = selectedGame as? CustomGame {
             if customGame.name == "Avalon" {
-                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, bool: myView.mySwitch.isOn, intArray: nil, intIntArray: nil, dictionary: playersDictionary)
+                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, bool: myView.mySwitch.isOn, intArray: nil, intIntArray: nil, playersClasses: playersDictionaryToCodable(playersClasses))
             }
             //Else create normal Match
         } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
@@ -445,7 +445,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         string.removeAll()
         if let customGame = selectedGame as? CustomGame {
             if customGame.name == "Avalon" {
-                let classesDictionary = playersDictionary as! [Player: AvalonClasses]
+                let classesDictionary = playersClasses as! [Player: AvalonClasses]
                 for player in winners + loosers {
                     string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
                 }
@@ -544,6 +544,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return true
     }
     
+    func playersDictionaryToCodable(_ playersClasses: [Player: Any]) -> [String: Any] {
+        var codablePlayersClasses = [String: Any]()
+        for (player, any) in playersClasses {
+            codablePlayersClasses[player.playerID] = any
+        }
+        return codablePlayersClasses
+    }
+    
     //MARK: - Alerts
     
     //Success alert with given string that disappears after 1 second and pops to previous controller
@@ -554,7 +562,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
             alert.dismiss(animated: true, completion: {
-                self.tabBarController?.tabBar.isHidden = false
                 self.navigationController?.popToRootViewController(animated: true)
             })
         }

@@ -17,7 +17,7 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
     
     var game: Game!
     var availablePlayers: [Player]!
-    var playersDictionary = [Player: Any]()
+    var playersClasses = [Player: Any]()
     var winners: [Player]?
     var loosers: [Player]?
     var toolbar: UIToolbar!
@@ -60,7 +60,7 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
         cell.playerClassTextView.inputAccessoryView = toolbar
         cell.playerClassTextView.inputView = picker
         if game.name == "Avalon" {
-            let classesDictionary = playersDictionary as! [Player: AvalonClasses]
+            let classesDictionary = playersClasses as! [Player: AvalonClasses]
             cell.playerClassTextView.text = classesDictionary[player]?.rawValue
         }
         return cell
@@ -76,7 +76,7 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            controller.playersDictionary = playersDictionary
+            controller.playersClasses = playersClasses
             controller.viewWillAppear(true)
         }
     }
@@ -95,11 +95,11 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
         if textView.text == "" {
             if game.name == "Avalon" {
                 textView.text = myPickerDataAvalon[0].rawValue
-                playersDictionary[player] = myPickerDataAvalon[0]
+                playersClasses[player] = myPickerDataAvalon[0]
                 picker.selectRow(0, inComponent: 0, animated: false)
             }
             //Else go to position of picker data that is alredy chosen in dictionary
-        } else if let playerClass = playersDictionary[player] as? AvalonClasses {
+        } else if let playerClass = playersClasses[player] as? AvalonClasses {
             let index = myPickerDataAvalon.index(of: playerClass)
             picker.selectRow(index!, inComponent: 0, animated: false)
         }
@@ -128,7 +128,7 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
                     inComponent component: Int) {
         //When selected, then update dictionary and textView
         let player = availablePlayers[currentRow!]
-        playersDictionary[player] = myPickerDataAvalon[row]
+        playersClasses[player] = myPickerDataAvalon[row]
         let cell = tableView.cellForRow(at: IndexPath(row: currentRow!, section: 0)) as! AddClassesCell
         cell.playerClassTextView.text = myPickerDataAvalon[row].rawValue
     }

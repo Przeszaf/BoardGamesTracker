@@ -38,6 +38,8 @@
 	<string>Needed so app can save loactions of matches</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app uses Photos library to associate photos with matches.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses camera to associate photos with matches.</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

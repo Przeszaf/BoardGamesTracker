@@ -36,7 +36,6 @@ class Match: NSObject, Comparable, NSCoding {
         super.init()
     }
     
-    
     //MARK: - Match attributes
     var game: Game?
     var players: [Player]
