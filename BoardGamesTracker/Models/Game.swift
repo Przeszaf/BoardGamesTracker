@@ -146,6 +146,7 @@ class Game: NSObject, Comparable, NSCoding {
         totalTime = totalTime + match.time
         averageTime = totalTime / Double(matches.count)
         print("Total time: \(totalTime), count: \(matches.count), average: \(averageTime)")
+        matches.sort()
     }
 
     //Removes game and all associated matches

@@ -57,7 +57,8 @@ class GameDetailsViewController: UITableViewController {
         
         //CHANGE LATER - check
         if let customMatches = game.matches as? [CustomMatch] {
-            print(game.name)
+            print(customMatches.first?.dictionary)
+            print(customMatches.first?.playersClasses)
         }
         
         tableView.reloadData()

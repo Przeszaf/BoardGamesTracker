@@ -41,6 +41,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //For custom matches
     var playersClasses = [Player: Any]()
+    var dictionary = [String: Any]()
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
@@ -139,6 +140,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             if let customGame = game as? CustomGame {
                 if customGame.name == "Avalon" {
                     myView.dictionaryStackView.isHidden = false
+                    myView.switchTwoStackView.isHidden = false
+                    myView.switchTwoLabel.text = "Playing with lady of the Lake?"
                     if winners.count < loosers.count {
                         myView.switchStackView.isHidden = false
                         myView.switchLabel.text = "Merlin killed by Assassin?"
@@ -357,7 +360,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         //If custom game, then create CustomMatch
         if let customGame = selectedGame as? CustomGame {
             if customGame.name == "Avalon" {
-                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, bool: myView.mySwitch.isOn, intArray: nil, intIntArray: nil, playersClasses: playersDictionaryToCodable(playersClasses))
+                
+                //Merlin can be only killed when bad guys win the game and
+                //there are always less bad guys than good guys.
+                if loosers.count > winners.count {
+                    dictionary["Killed by Assassin?"] = myView.mySwitch.isOn
+                }
+                dictionary["Lady of the lake?"] = myView.mySwitchTwo.isOn
+                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, dictionary: dictionary, playersClasses: playersDictionaryToCodable(playersClasses))
             }
             //Else create normal Match
         } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
@@ -534,7 +544,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return true
     }
     
-    //Checks if all players in playersPlaces dictionary have places assigned
+    //Checks if all selectedPlayers are in playersPlaces dictionary and have places assigned
     func arePlacesAssigned() -> Bool {
         for player in selectedPlayers {
             if playersPlaces[player] == 0 {
@@ -544,6 +554,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return true
     }
     
+    //Turns [Player: Any] into [String: Any] by using playerID instead of direct reference to Player as key
     func playersDictionaryToCodable(_ playersClasses: [Player: Any]) -> [String: Any] {
         var codablePlayersClasses = [String: Any]()
         for (player, any) in playersClasses {
@@ -552,6 +563,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return codablePlayersClasses
     }
     
+    //Clears fields of textViews
+    func clearFields() {
+        myView.gameTextView.text = ""
+        myView.playersTextView.text = ""
+        myView.winnersTextView.text = ""
+        myView.loosersTextView.text = ""
+        myView.pointsTextView.text = ""
+    }
     //MARK: - Alerts
     
     //Success alert with given string that disappears after 1 second and pops to previous controller
@@ -574,14 +593,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         self.present(alert, animated: true, completion: nil)
     }
     
-    //Clears fields of textViews
-    func clearFields() {
-        myView.gameTextView.text = ""
-        myView.playersTextView.text = ""
-        myView.winnersTextView.text = ""
-        myView.loosersTextView.text = ""
-        myView.pointsTextView.text = ""
-    }
     
     //MARK: - Picker's toolbar
     

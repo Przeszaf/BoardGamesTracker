@@ -90,17 +90,48 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         currentRow = textView.tag
         let player = availablePlayers[currentRow!]
+        guard let customGame = game as? CustomGame else { return false }
+        
+        //Different options are available for players depending on size of winners and loosers teams.
+        //In Avalon, there are always more good guys than bad guys, so I use it to have team-specific classes available only.
+        if let winners = winners, let loosers = loosers, customGame.name == "Avalon" {
+            if winners.contains(player) {
+                if winners.count > loosers.count {
+                    picker.tag = 0
+                } else {
+                    picker.tag = 1
+                }
+            } else {
+                if loosers.count > winners.count {
+                    picker.tag = 0
+                } else {
+                    picker.tag = 1
+                }
+            }
+            if winners.count == loosers.count {
+                picker.tag = 2
+            }
+        }
+        picker.reloadAllComponents()
         
         //If the textView is clicked first time, then assign first position from pickerData to textView and dictionary
         if textView.text == "" {
             if game.name == "Avalon" {
-                textView.text = myPickerDataAvalon[0].rawValue
-                playersClasses[player] = myPickerDataAvalon[0]
+                if picker.tag == 0 {
+                    textView.text = myPickerDataAvalon[0].rawValue
+                    playersClasses[player] = myPickerDataAvalon[0]
+                } else if picker.tag == 1 {
+                    textView.text = myPickerDataAvalon[3].rawValue
+                    playersClasses[player] = myPickerDataAvalon[3]
+                }
                 picker.selectRow(0, inComponent: 0, animated: false)
             }
             //Else go to position of picker data that is alredy chosen in dictionary
         } else if let playerClass = playersClasses[player] as? AvalonClasses {
-            let index = myPickerDataAvalon.index(of: playerClass)
+            var index = myPickerDataAvalon.index(of: playerClass)
+            if picker.tag == 1 {
+                index = index! - 3
+            }
             picker.selectRow(index!, inComponent: 0, animated: false)
         }
         return true
@@ -113,14 +144,31 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return myPickerDataAvalon.count
+        if game.name == "Avalon" {
+            if picker.tag == 0 {
+                return 3
+            } else if picker.tag == 1 {
+                return 5
+            }
+            return 1
+        }
+        return 0
     }
     
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        let name = myPickerDataAvalon[row].rawValue
-        return name
+        guard let customGame = game as? CustomGame else { return "" }
+        if customGame.name == "Avalon" {
+            if picker.tag == 0 {
+                return myPickerDataAvalon[row].rawValue
+            } else if picker.tag == 1 {
+                return myPickerDataAvalon[row+3].rawValue
+            } else if picker.tag == 2 {
+                return "Pick correct amount of players!"
+            }
+        }
+        return ""
     }
     
     func pickerView(_ pickerView: UIPickerView,
@@ -128,9 +176,17 @@ class AddClassesViewController: UITableViewController, UINavigationControllerDel
                     inComponent component: Int) {
         //When selected, then update dictionary and textView
         let player = availablePlayers[currentRow!]
-        playersClasses[player] = myPickerDataAvalon[row]
         let cell = tableView.cellForRow(at: IndexPath(row: currentRow!, section: 0)) as! AddClassesCell
-        cell.playerClassTextView.text = myPickerDataAvalon[row].rawValue
+        
+        if game.name == "Avalon" {
+            if picker.tag == 0 {
+                playersClasses[player] = myPickerDataAvalon[row]
+                cell.playerClassTextView.text = myPickerDataAvalon[row].rawValue
+            } else if picker.tag == 1 {
+                playersClasses[player] = myPickerDataAvalon[row + 3]
+                cell.playerClassTextView.text = myPickerDataAvalon[row + 3].rawValue
+            }
+        }
     }
     
     //MARK: - Toolbar

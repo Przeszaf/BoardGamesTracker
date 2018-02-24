@@ -18,6 +18,7 @@ class AddMatchView: UIView {
     var loosersStackView = UIStackView()
     var pointsStackView = UIStackView()
     var switchStackView = UIStackView()
+    var switchTwoStackView = UIStackView()
     var dateStackView = UIStackView()
     var timeStackView = UIStackView()
     var locationStackView = UIStackView()
@@ -32,6 +33,7 @@ class AddMatchView: UIView {
     var loosersLabel = UILabel()
     var pointsLabel = UILabel()
     var switchLabel = UILabel()
+    var switchTwoLabel = UILabel()
     var dateLabel = UILabel()
     var timeLabel = UILabel()
     var locationLabel = UILabel()
@@ -51,6 +53,7 @@ class AddMatchView: UIView {
     var dictionaryTextView = AddMatchTextView()
     
     var mySwitch = UISwitch()
+    var mySwitchTwo = UISwitch()
     
     var imageView = UIImageView()
     
@@ -101,6 +104,7 @@ class AddMatchView: UIView {
         timeLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor).isActive = true
         locationLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
         switchLabel.leadingAnchor.constraint(equalTo: dictionaryLabel.leadingAnchor).isActive = true
+        dictionaryLabel.leadingAnchor.constraint(equalTo: switchTwoLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
         playersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
@@ -109,10 +113,15 @@ class AddMatchView: UIView {
         loosersLabel.trailingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
         timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
-        locationLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
         locationLabel.trailingAnchor.constraint(equalTo: dictionaryLabel.trailingAnchor).isActive = true
         
+        mySwitch.leadingAnchor.constraint(equalTo: mySwitchTwo.leadingAnchor).isActive = true
+        
+        locationLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
+        dictionaryLabel.trailingAnchor.constraint(equalTo: switchTwoLabel.trailingAnchor).isActive = false
+        
         switchStackView.distribution = .fillProportionally
+        switchTwoStackView.distribution = .fillProportionally
         
         imageView.heightAnchor.constraint(equalToConstant: self.frame.width / 16 * 9).isActive = true
 
@@ -166,6 +175,10 @@ class AddMatchView: UIView {
         switchLabel.translatesAutoresizingMaskIntoConstraints = false
         mySwitch.translatesAutoresizingMaskIntoConstraints = false
         
+        switchTwoStackView.translatesAutoresizingMaskIntoConstraints = false
+        switchTwoLabel.translatesAutoresizingMaskIntoConstraints = false
+        mySwitchTwo.translatesAutoresizingMaskIntoConstraints = false
+        
         dateStackView.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateTextView.translatesAutoresizingMaskIntoConstraints = false
@@ -212,6 +225,10 @@ class AddMatchView: UIView {
         switchStackView.addArrangedSubview(switchLabel)
         switchStackView.addArrangedSubview(mySwitch)
         
+        verticalStackView.addArrangedSubview(switchTwoStackView)
+        switchTwoStackView.addArrangedSubview(switchTwoLabel)
+        switchTwoStackView.addArrangedSubview(mySwitchTwo)
+        
         verticalStackView.addArrangedSubview(dateStackView)
         dateStackView.addArrangedSubview(dateLabel)
         dateStackView.addArrangedSubview(dateTextView)
@@ -234,6 +251,7 @@ class AddMatchView: UIView {
         loosersStackView.isHidden = true
         pointsStackView.isHidden = true
         switchStackView.isHidden = true
+        switchTwoStackView.isHidden = true
         dateStackView.isHidden = true
         timeStackView.isHidden = true
         locationStackView.isHidden = true

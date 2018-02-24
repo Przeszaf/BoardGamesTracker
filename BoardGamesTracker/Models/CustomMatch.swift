@@ -13,24 +13,18 @@ class CustomMatch: Match {
     
     
     //Generic variables used to hold information for custom matches - they mean different thins for different games - Look up in documentation
-    var bool: Bool?
-    var intArray: [Int]?
-    var intIntArray: [[Int]]?
+    var dictionary: [String: Any]?
     var playersClasses: [String: Any]?
     
-    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval, location: CLLocation?, bool: Bool?, intArray: [Int]?, intIntArray: [[Int]]?, playersClasses: [String: Any]?) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval, location: CLLocation?, dictionary: [String: Any]?, playersClasses: [String: Any]?) {
         super.init(game: game, players: players, playersPoints: playersPoints, playersPlaces: playersPlaces, date: date, time: time, location: location)
-        self.bool = bool
-        self.intArray = intArray
-        self.intIntArray = intIntArray
+        self.dictionary = dictionary
         self.playersClasses = playersClasses
     }
     
     override func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
-        aCoder.encode(bool, forKey: "bool")
-        aCoder.encode(intArray, forKey: "intArray")
-        aCoder.encode(intIntArray, forKey: "intIntArray")
+        aCoder.encode(dictionary, forKey: "dictionary")
         
         
         if let game = game, game.name == "Avalon" {
@@ -46,16 +40,15 @@ class CustomMatch: Match {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        bool = aDecoder.decodeObject(forKey: "bool") as? Bool
-        intArray = aDecoder.decodeObject(forKey: "intArray") as? [Int]
-        intIntArray = aDecoder.decodeObject(forKey: "intIntArray") as? [[Int]]
-        let codablePlayersClasses = aDecoder.decodeObject(forKey: "codablePlayersClasses") as! [String: String]
-        if let game = game, game.name == "Avalon" {
-            playersClasses = [String: Any]()
-            for (playerID, avalonClassRaw) in codablePlayersClasses {
-                playersClasses![playerID] = AvalonClasses(rawValue: avalonClassRaw)
+        dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any]
+        
+        if let codablePlayersClasses = aDecoder.decodeObject(forKey: "codablePlayersClasses") as? [String: String] {
+            if let game = game, game.name == "Avalon" {
+                playersClasses = [String: Any]()
+                for (playerID, avalonClassRaw) in codablePlayersClasses {
+                    playersClasses![playerID] = AvalonClasses(rawValue: avalonClassRaw)
+                }
             }
         }
     }
-    
 }
