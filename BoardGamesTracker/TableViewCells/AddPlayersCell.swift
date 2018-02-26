@@ -17,16 +17,16 @@ class AddPlayersCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(playerName)
-        self.contentView.addSubview(addButton)
+        contentView.addSubview(playerName)
+        contentView.addSubview(addButton)
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        playerName.frame = CGRect(x: 20, y: 5, width: frame.width * 2 / 3, height: 30)
-        addButton.frame = CGRect(x: playerName.frame.width + 5, y: 5, width: frame.width * 1 / 3 - 5, height: 30)
+        playerName.frame = CGRect(x: 20, y: 5, width: frame.width * 3 / 4, height: 30)
+        addButton.frame = CGRect(x: playerName.frame.width + 5, y: 5, width: frame.width * 1 / 4 - 5, height: 30)
         playerName.keyboardType = UIKeyboardType.alphabet
         playerName.placeholder = "Your name"
     }

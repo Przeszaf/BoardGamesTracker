@@ -7,41 +7,9 @@
 //
 
 import UIKit
+import RandomColorSwift
 
 class Game: NSObject, Comparable, NSCoding {
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(name, forKey: "name")
-        aCoder.encode(type.rawValue, forKey: "type")
-        aCoder.encode(maxNoOfPlayers, forKey: "maxNoOfPlayers")
-        aCoder.encode(thereAreTeams, forKey: "thereAreTeams")
-        aCoder.encode(thereArePoints, forKey: "thereArePoints")
-        aCoder.encode(timesPlayed, forKey: "timesPlayed")
-        aCoder.encode(lastTimePlayed, forKey: "lastTimePlayed")
-        aCoder.encode(gameID, forKey: "gameID")
-        aCoder.encode(matches, forKey: "matches")
-        aCoder.encode(pointsArray, forKey: "pointsArray")
-        aCoder.encode(averagePoints, forKey: "averagePoints")
-        aCoder.encode(totalTime, forKey: "totalTime")
-        aCoder.encode(averageTime, forKey: "averageTime")
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        name = aDecoder.decodeObject(forKey: "name") as! String
-        type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
-        maxNoOfPlayers = aDecoder.decodeInteger(forKey: "maxNoOfPlayers")
-        thereAreTeams = aDecoder.decodeBool(forKey: "thereAreTeams")
-        thereArePoints = aDecoder.decodeBool(forKey: "thereArePoints")
-        timesPlayed = aDecoder.decodeInteger(forKey: "timesPlayed")
-        lastTimePlayed = aDecoder.decodeObject(forKey: "lastTimePlayed") as? Date
-        gameID = aDecoder.decodeObject(forKey: "gameID") as! String
-        matches = aDecoder.decodeObject(forKey: "matches") as! [Match]
-        pointsArray = aDecoder.decodeObject(forKey: "pointsArray") as! [Int]
-        averagePoints = aDecoder.decodeDouble(forKey: "averagePoints")
-        totalTime = aDecoder.decodeDouble(forKey: "totalTime")
-        averageTime = aDecoder.decodeDouble(forKey: "averageTime")
-        super.init()
-    }
     
     
     //MARK: Board game attributes
@@ -54,6 +22,7 @@ class Game: NSObject, Comparable, NSCoding {
     var lastTimePlayed: Date?
     let gameID: String
     var matches = [Match]()
+    var createdIcon: UIImage?
     
     //MARK: - Board game statistics
     var pointsArray = [Int]()
@@ -62,47 +31,10 @@ class Game: NSObject, Comparable, NSCoding {
     var averageTime = TimeInterval(exactly: 0)!
     
     
-    //MARK: - Conforming to protocols
-    //Equatable
-    static func ==(lhs: Game, rhs: Game) -> Bool {
-        return lhs.gameID == rhs.gameID
-    }
-    //Hashable
-    override var hashValue: Int {
-        return gameID.hashValue
-    }
-    
-    
-    //Comparable
-    static func <(lhs: Game, rhs: Game) -> Bool {
-        
-        //Game with date should be first
-        if rhs.lastTimePlayed == nil && lhs.lastTimePlayed != nil {
-            return true
-        } else if lhs.lastTimePlayed == nil && rhs.lastTimePlayed != nil {
-            return false
-        }
-        
-        //Taking care of inputs with dates
-        if let date1 = lhs.lastTimePlayed, let date2 = rhs.lastTimePlayed {
-            if date1 > date2 {
-                return true
-            } else if date1 < date2 {
-                return false
-            }
-        }
-        
-        //If the date is the same or there is no dates available, then sort by name
-        if lhs.name < rhs.name {
-            return true
-        }
-        return false
-    }
-    
     //MARK: - Initializers
     init(name: String, type: GameType, maxNoOfPlayers: Int) {
         gameID = NSUUID().uuidString
-        self.name = name
+        self.name = name.capitalized
         self.type = type
         self.maxNoOfPlayers = maxNoOfPlayers
         timesPlayed = 0
@@ -117,6 +49,8 @@ class Game: NSObject, Comparable, NSCoding {
             thereArePoints = false
             thereAreTeams = false
         }
+        super.init()
+        createdIcon = createIcon()
     }
     
     //MARK: - Functions
@@ -204,6 +138,97 @@ class Game: NSObject, Comparable, NSCoding {
         }
         let newAverage = sum / (Double(pointsArray.count) + Double(points.count))
         return newAverage
+    }
+    
+    func createIcon() -> UIImage? {
+        let frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        let nameLabel = UILabel(frame: frame)
+        nameLabel.textAlignment = .center
+        nameLabel.backgroundColor = randomColor(hue: .random, luminosity: .light)
+        nameLabel.textColor = randomColor(hue: .blue, luminosity: .bright)
+        nameLabel.font = UIFont.init(name: "MarkerFelt-Wide", size: 30)
+        
+        nameLabel.text = String(describing: name.first?.description ?? "")
+        UIGraphicsBeginImageContext(frame.size)
+        if let currentContext = UIGraphicsGetCurrentContext() {
+            nameLabel.layer.render(in: currentContext)
+            let icon = UIGraphicsGetImageFromCurrentImageContext()
+            return icon
+        }
+        return nil
+    }
+    
+    //MARK: - Conforming to protocols
+    //Equatable
+    static func ==(lhs: Game, rhs: Game) -> Bool {
+        return lhs.gameID == rhs.gameID
+    }
+    //Hashable
+    override var hashValue: Int {
+        return gameID.hashValue
+    }
+    
+    
+    //Comparable
+    static func <(lhs: Game, rhs: Game) -> Bool {
+        
+        //Game with date should be first
+        if rhs.lastTimePlayed == nil && lhs.lastTimePlayed != nil {
+            return true
+        } else if lhs.lastTimePlayed == nil && rhs.lastTimePlayed != nil {
+            return false
+        }
+        
+        //Taking care of inputs with dates
+        if let date1 = lhs.lastTimePlayed, let date2 = rhs.lastTimePlayed {
+            if date1 > date2 {
+                return true
+            } else if date1 < date2 {
+                return false
+            }
+        }
+        
+        //If the date is the same or there is no dates available, then sort by name
+        if lhs.name < rhs.name {
+            return true
+        }
+        return false
+    }
+    
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(type.rawValue, forKey: "type")
+        aCoder.encode(maxNoOfPlayers, forKey: "maxNoOfPlayers")
+        aCoder.encode(thereAreTeams, forKey: "thereAreTeams")
+        aCoder.encode(thereArePoints, forKey: "thereArePoints")
+        aCoder.encode(timesPlayed, forKey: "timesPlayed")
+        aCoder.encode(lastTimePlayed, forKey: "lastTimePlayed")
+        aCoder.encode(gameID, forKey: "gameID")
+        aCoder.encode(matches, forKey: "matches")
+        aCoder.encode(pointsArray, forKey: "pointsArray")
+        aCoder.encode(averagePoints, forKey: "averagePoints")
+        aCoder.encode(totalTime, forKey: "totalTime")
+        aCoder.encode(averageTime, forKey: "averageTime")
+        aCoder.encode(createdIcon, forKey: "createdIcon")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        name = aDecoder.decodeObject(forKey: "name") as! String
+        type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
+        maxNoOfPlayers = aDecoder.decodeInteger(forKey: "maxNoOfPlayers")
+        thereAreTeams = aDecoder.decodeBool(forKey: "thereAreTeams")
+        thereArePoints = aDecoder.decodeBool(forKey: "thereArePoints")
+        timesPlayed = aDecoder.decodeInteger(forKey: "timesPlayed")
+        lastTimePlayed = aDecoder.decodeObject(forKey: "lastTimePlayed") as? Date
+        gameID = aDecoder.decodeObject(forKey: "gameID") as! String
+        matches = aDecoder.decodeObject(forKey: "matches") as! [Match]
+        pointsArray = aDecoder.decodeObject(forKey: "pointsArray") as! [Int]
+        averagePoints = aDecoder.decodeDouble(forKey: "averagePoints")
+        totalTime = aDecoder.decodeDouble(forKey: "totalTime")
+        averageTime = aDecoder.decodeDouble(forKey: "averageTime")
+        createdIcon = aDecoder.decodeObject(forKey: "createdIcon") as? UIImage
+        super.init()
     }
     
     

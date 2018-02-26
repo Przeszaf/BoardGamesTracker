@@ -14,28 +14,36 @@ class AllGamesCell: UITableViewCell {
     var gameName =  UITextView()
     var gameDate = UILabel()
     var gameTimesPlayed = UILabel()
+    var gameIconImageView = UIImageView()
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(gameName)
-        self.contentView.addSubview(gameDate)
-        self.contentView.addSubview(gameTimesPlayed)
+        contentView.addSubview(gameName)
+        contentView.addSubview(gameDate)
+        contentView.addSubview(gameTimesPlayed)
+        contentView.addSubview(gameIconImageView)
         gameDate.font = UIFont.systemFont(ofSize: 10)
         gameDate.textColor = UIColor.darkGray
         gameTimesPlayed.font = UIFont.systemFont(ofSize: 10)
         gameName.font = UIFont.systemFont(ofSize: 17)
         gameName.isEditable = false
         gameName.isScrollEnabled = false
+        
+        gameIconImageView.layer.cornerRadius = 20
+        gameIconImageView.layer.masksToBounds = true
+
+        
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        gameName.frame = CGRect(x: 15, y: 0, width: frame.width - 50, height: frame.height - 15)
-        gameDate.frame = CGRect(x: 20, y: frame.height - 15, width: frame.width/2, height: 10)
-        gameTimesPlayed.frame = CGRect(x: frame.width * 2 / 3, y: frame.height - 15, width: frame.width/3, height: 10)
+        gameName.frame = CGRect(x: 50, y: 0, width: frame.width - 100, height: frame.height - 15)
+        gameDate.frame = CGRect(x: 55, y: frame.height - 15, width: frame.width/2 - 50, height: 10)
+        gameTimesPlayed.frame = CGRect(x: frame.width - 90, y: frame.height - 15, width: 90, height: 10)
+        gameIconImageView.frame = CGRect(x: 5, y: 5, width: 40, height: 40)
     }
     
     required init?(coder aDecoder: NSCoder) {

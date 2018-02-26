@@ -16,8 +16,8 @@ class AddClassesCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(playerNameLabel)
-        self.contentView.addSubview(playerClassTextView)
+        contentView.addSubview(playerNameLabel)
+        contentView.addSubview(playerClassTextView)
         playerClassTextView.isScrollEnabled = false
     }
     
@@ -36,7 +36,7 @@ class AddClassesCell: UITableViewCell {
         
         playerClassTextView.centerYAnchor.constraint(equalTo: playerNameLabel.centerYAnchor).isActive = true
         playerClassTextView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
-        playerClassTextView.widthAnchor.constraint(equalToConstant: 250).isActive = true
+        playerClassTextView.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
     }
     

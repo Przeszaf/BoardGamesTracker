@@ -24,7 +24,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
-        tableView.register(CustomGameCell.self, forCellReuseIdentifier: "CustomGameCell")
         tableView.rowHeight = 50
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
     }
@@ -35,19 +34,19 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let game = gameStore.allGames[indexPath.row]
         
-        //If it is custom game, then use different cell style with icon - CHANGE
-        if let customGame = game as? CustomGame {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomGameCell") as! CustomGameCell
-            cell.gameNameLabel.text = customGame.name
-            cell.gameIconImageView.image = customGame.gameIcon
-            cell.gameTypeLabel.text = "Team game"
-            return cell
-        }
+        //If it is custom game, then use different cell style with icon
+        //FIXME: icons for all game
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
         cell.gameName.text = gameStore.allGames[indexPath.row].name
         cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
         cell.gameName.delegate = self
+        
+        if let customGame = game as? CustomGame {
+            cell.gameIconImageView.image = customGame.gameIcon
+        } else {
+            cell.gameIconImageView.image = game.createdIcon
+        }
         
         //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row

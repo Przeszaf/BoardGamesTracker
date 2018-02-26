@@ -9,5 +9,5 @@ target 'BoardGamesTracker' do
 
 
  pod "Cluster"
-
+ pod "RandomColorSwift"
 end

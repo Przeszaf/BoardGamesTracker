@@ -126,6 +126,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             } else if game.type == .SoloWithPoints {
                 myView.playersStackView.isHidden = false
                 myView.pointsStackView.isHidden = false
+                myView.pointsLabel.text = "Points"
                 myView.pointsLabel.tag = 0
             } else if game.type == .SoloWithPlaces {
                 myView.playersStackView.isHidden = false
@@ -135,6 +136,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             } else if game.type == .Cooperation {
                 myView.playersStackView.isHidden = false
                 myView.switchStackView.isHidden = false
+                myView.switchLabel.text = "Did you win?"
+                print("Im here")
             }
             
             if let customGame = game as? CustomGame {
@@ -344,6 +347,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         
         if game.type == .Cooperation {
+            if selectedPlayers.isEmpty {
+                createFailureAlert(with: "Players field cannot be empty!")
+                return
+            }
             players = selectedPlayers
             
             for _ in players {
@@ -367,7 +374,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     dictionary["Killed by Assassin?"] = myView.mySwitch.isOn
                 }
                 dictionary["Lady of the lake?"] = myView.mySwitchTwo.isOn
-                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, dictionary: dictionary, playersClasses: playersDictionaryToCodable(playersClasses))
+                if areClassesAssigned() {
+                    match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, dictionary: dictionary, playersClasses: playersDictionaryToCodable(playersClasses))
+                } else {
+                    createFailureAlert(with: "Assign classes!")
+                    return
+                }
             }
             //Else create normal Match
         } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
@@ -376,7 +388,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
         }
         game.addMatch(match: match!)
-        
+        gameStore.allGames.sort()
         //If image was changed from default, then setImage
         if imageView.image != UIImage(named: "camera") {
             imageStore.setImage(image: imageView.image!, forKey: match!.imageKey)
@@ -548,6 +560,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     func arePlacesAssigned() -> Bool {
         for player in selectedPlayers {
             if playersPlaces[player] == 0 {
+                return false
+            }
+        }
+        return true
+    }
+    
+    func areClassesAssigned() -> Bool {
+        for player in winners + loosers {
+            if playersClasses[player] == nil {
                 return false
             }
         }

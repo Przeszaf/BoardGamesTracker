@@ -36,6 +36,8 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addPlayer))
         
         toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
+        
+//        setTableViewBackgroundGradient(sender: self, .red, .white)
     }
     
     
@@ -57,7 +59,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         if let lastTimePlayed = playerStore.allPlayers[indexPath.row].lastTimePlayed {
             cell.playerDate.text = lastTimePlayed.toStringWithHour()
         } else {
-            cell.playerDate.text = "00-00-0000"
+            cell.playerDate.text = "00-00-0000 00:00"
         }
         
         //How many times played
@@ -77,6 +79,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }
         cell.playerName.delegate = self
         cell.playerName.tag = indexPath.row
+        cell.playerName.backgroundColor = UIColor.clear
         return cell
     }
     
@@ -98,6 +101,10 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }
         return 50
         
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
     }
     
     //MARK: - Segues
@@ -232,6 +239,23 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             return false
         }
         return true
+    }
+    
+    
+    //FIXME: CHANGE AT OTHER TABLEVIEWS
+    func setTableViewBackgroundGradient(sender: UITableViewController, _ topColor: UIColor, _ bottomColor: UIColor) {
+        
+        let gradientBackgroundColors = [topColor.cgColor, bottomColor.cgColor]
+        let gradientLocations = [0.0,1.0]
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = gradientBackgroundColors
+        gradientLayer.locations = gradientLocations as [NSNumber]
+        
+        gradientLayer.frame = sender.tableView.bounds
+        let backgroundView = UIView(frame: sender.tableView.bounds)
+        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
+        sender.tableView.backgroundView = backgroundView
     }
     
 }

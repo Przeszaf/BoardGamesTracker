@@ -19,9 +19,9 @@ class PlayerDetailsCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(playersLabel)
-        self.contentView.addSubview(dateLabel)
-        self.contentView.addSubview(placeLabel)
+        contentView.addSubview(playersLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(placeLabel)
         dateLabel.font = UIFont.systemFont(ofSize: 10)
         dateLabel.textColor = UIColor.darkGray
         playersLabel.font = UIFont.systemFont(ofSize: 17)

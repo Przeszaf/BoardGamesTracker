@@ -18,8 +18,8 @@ class AddPointsCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(playerNameLabel)
-        self.contentView.addSubview(playerPointsField)
+        contentView.addSubview(playerNameLabel)
+        contentView.addSubview(playerPointsField)
         playerPointsField.borderStyle = .roundedRect
         playerPointsField.keyboardType = .numberPad
     }

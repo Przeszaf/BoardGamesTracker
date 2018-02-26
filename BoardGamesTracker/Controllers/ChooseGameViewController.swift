@@ -19,7 +19,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = false
         navigationController?.delegate = self
-        tableView.register(ChooseGameCell.self, forCellReuseIdentifier: "ChooseGameCell")
+        tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
         tableView.rowHeight = 50
     }
     
@@ -39,10 +39,20 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ChooseGameCell", for: indexPath) as! ChooseGameCell
-        cell.gameName.text = gameStore.allGames[indexPath.row].name
-        cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
-        cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
+        let game = gameStore.allGames[indexPath.row]
+        cell.gameName.text = game.name
+        cell.gameDate.text = game.lastTimePlayed?.toStringWithHour()
+        cell.gameTimesPlayed.text = "\(game.timesPlayed) times played"
+        if let customGame = game as? CustomGame {
+            cell.gameIconImageView.image = customGame.gameIcon
+        } else {
+            cell.gameIconImageView.image = game.createdIcon
+        }
+        
+        //Added so clicking on gameName will be registered as clicking on cell
+        cell.gameName.isEditable = false
+        cell.gameName.isUserInteractionEnabled = false
         return cell
     }
     

@@ -19,9 +19,9 @@ class ChooseGameCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(gameName)
-        self.contentView.addSubview(gameDate)
-        self.contentView.addSubview(gameTimesPlayed)
+        contentView.addSubview(gameName)
+        contentView.addSubview(gameDate)
+        contentView.addSubview(gameTimesPlayed)
         gameDate.font = UIFont.systemFont(ofSize: 10)
         gameDate.textColor = UIColor.darkGray
         gameTimesPlayed.font = UIFont.systemFont(ofSize: 10)

@@ -26,9 +26,23 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         tableView.allowsSelection = false
         tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
         
+        
         let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
         let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(toolbarNextButton))
         toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if availablePlayers.count != 0 {
+            let cell = tableView.cellForRow(at: IndexPath(item: 0, section: 0)) as! AddPointsCell
+            cell.playerPointsField.becomeFirstResponder()
+        }
     }
     
     
@@ -37,6 +51,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
         let player = availablePlayers[indexPath.row]
+        
         cell.playerNameLabel.text = player.name
         if key == "Points" {
             if playersPoints[player] != 0 {
@@ -44,6 +59,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
             } else {
                 cell.playerPointsField.text = ""
             }
+            cell.playerPointsField.placeholder = "Pts"
         } else if key == "Places" {
             if playersPlaces[player] != 0 {
                 cell.playerPointsField.text = "\(playersPlaces[player]!)"
@@ -90,7 +106,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
             if string == "" {
                 num = num / 10
             }
-            if num >= 1 && num <= 999 && key == "Points" {
+            if num >= 0 && num <= 999 && key == "Points" {
                 playersPoints[person] = num
                 return true
             }

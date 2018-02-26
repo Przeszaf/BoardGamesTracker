@@ -18,9 +18,9 @@ class AllPlayersCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.contentView.addSubview(playerName)
-        self.contentView.addSubview(playerDate)
-        self.contentView.addSubview(playerTimesPlayed)
+        contentView.addSubview(playerName)
+        contentView.addSubview(playerDate)
+        contentView.addSubview(playerTimesPlayed)
         
         
         playerDate.font = UIFont.systemFont(ofSize: 10)
@@ -38,7 +38,7 @@ class AllPlayersCell: UITableViewCell {
         
         playerName.frame = CGRect(x: 15, y: 0, width: frame.width - 50, height: frame.height - 15)
         playerDate.frame = CGRect(x: 20, y: frame.height - 15, width: frame.width/2, height: 10)
-        playerTimesPlayed.frame = CGRect(x: frame.width * 2 / 3, y: frame.height - 15, width: frame.width/3, height: 10)
+        playerTimesPlayed.frame = CGRect(x: frame.width - 90, y: frame.height - 15, width: 90, height: 10)
     }
     
     required init?(coder aDecoder: NSCoder) {

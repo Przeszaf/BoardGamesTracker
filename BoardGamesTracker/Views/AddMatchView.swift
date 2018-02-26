@@ -70,6 +70,7 @@ class AddMatchView: UIView {
         winnersLabel.text = "Winners"
         loosersLabel.text = "Loosers"
         switchLabel.text = "Did you win?"
+        switchTwoLabel.text = "???"
         dateLabel.text = "Date"
         timeLabel.text = "Time"
         locationLabel.text = "Location"
@@ -103,7 +104,7 @@ class AddMatchView: UIView {
         dateLabel.leadingAnchor.constraint(equalTo: timeLabel.leadingAnchor).isActive = true
         timeLabel.leadingAnchor.constraint(equalTo: locationLabel.leadingAnchor).isActive = true
         locationLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
-        switchLabel.leadingAnchor.constraint(equalTo: dictionaryLabel.leadingAnchor).isActive = true
+        switchLabel.leadingAnchor.constraint(equalTo: gameLabel.leadingAnchor).isActive = true
         dictionaryLabel.leadingAnchor.constraint(equalTo: switchTwoLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
@@ -116,6 +117,7 @@ class AddMatchView: UIView {
         locationLabel.trailingAnchor.constraint(equalTo: dictionaryLabel.trailingAnchor).isActive = true
         
         mySwitch.leadingAnchor.constraint(equalTo: mySwitchTwo.leadingAnchor).isActive = true
+
         
         locationLabel.trailingAnchor.constraint(equalTo: switchLabel.trailingAnchor).isActive = false
         dictionaryLabel.trailingAnchor.constraint(equalTo: switchTwoLabel.trailingAnchor).isActive = false
