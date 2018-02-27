@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0C029BA3201CFFC800E9F435 /* AddPointsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */; };
-		0C029BA6201D016200E9F435 /* AddPointsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C029BA5201D016200E9F435 /* AddPointsCell.swift */; };
-		0C0D7EDB203F2ED000CA3141 /* AvalonClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDA203F2ED000CA3141 /* AvalonClasses.swift */; };
-		0C0D7EDD203F33C400CA3141 /* AddClassesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDC203F33C400CA3141 /* AddClassesCell.swift */; };
-		0C0D7EDF203F373500CA3141 /* AddClassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDE203F373500CA3141 /* AddClassesViewController.swift */; };
+		0C029BA3201CFFC800E9F435 /* AddNumsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C029BA2201CFFC800E9F435 /* AddNumsViewController.swift */; };
+		0C029BA6201D016200E9F435 /* AddNumsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C029BA5201D016200E9F435 /* AddNumsCell.swift */; };
+		0C0D7EDB203F2ED000CA3141 /* Professions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDA203F2ED000CA3141 /* Professions.swift */; };
+		0C0D7EDD203F33C400CA3141 /* AddInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDC203F33C400CA3141 /* AddInfoCell.swift */; };
+		0C0D7EDF203F373500CA3141 /* AddInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0D7EDE203F373500CA3141 /* AddInfoViewController.swift */; };
 		0C1A6ABB2029F9F7000A4983 /* AddMatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A6ABA2029F9F7000A4983 /* AddMatchView.swift */; };
 		0C1A6ABD2029FA0B000A4983 /* AddMatchTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A6ABC2029FA0B000A4983 /* AddMatchTextView.swift */; };
 		0C1A6ABF202A0101000A4983 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1A6ABE202A0101000A4983 /* HomeViewController.swift */; };
@@ -22,7 +22,7 @@
 		0C2828E4201771C0009B8DBE /* Players.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E3201771C0009B8DBE /* Players.storyboard */; };
 		0C2828E7201771D6009B8DBE /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E5201771D6009B8DBE /* Home.storyboard */; };
 		0C2828E9201771E7009B8DBE /* Games.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E8201771E7009B8DBE /* Games.storyboard */; };
-		0C50B706201A348100BE7040 /* ChoosePlayersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */; };
+		0C50B706201A348100BE7040 /* ChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50B705201A348100BE7040 /* ChooserViewController.swift */; };
 		0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DBD120051219009FD235 /* AppDelegate.swift */; };
 		0C58DBD720051219009FD235 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C58DBD520051219009FD235 /* Main.storyboard */; };
 		0C58DBD920051219009FD235 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C58DBD820051219009FD235 /* Assets.xcassets */; };
@@ -52,6 +52,7 @@
 		0C92A0F92035E6D300EE194B /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 0C92A0F82035E6D300EE194B /* Podfile */; };
 		0C92A0FB2035F54F00EE194B /* PlayerDetailsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C92A0FA2035F54F00EE194B /* PlayerDetailsSectionView.swift */; };
 		0CA27797204431730029B313 /* CustomGamesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA27796204431730029B313 /* CustomGamesCell.swift */; };
+		0CAE40012045B9CD005759C0 /* Expansions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CAE40002045B9CD005759C0 /* Expansions.swift */; };
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 		0CC5F6FF203F10450026B12A /* AddCustomGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC5F6FE203F10450026B12A /* AddCustomGameViewController.swift */; };
 		0CC5F701203F12190026B12A /* CustomGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC5F700203F12190026B12A /* CustomGame.swift */; };
@@ -83,11 +84,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPointsViewController.swift; sourceTree = "<group>"; };
-		0C029BA5201D016200E9F435 /* AddPointsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPointsCell.swift; sourceTree = "<group>"; };
-		0C0D7EDA203F2ED000CA3141 /* AvalonClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvalonClasses.swift; sourceTree = "<group>"; };
-		0C0D7EDC203F33C400CA3141 /* AddClassesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassesCell.swift; sourceTree = "<group>"; };
-		0C0D7EDE203F373500CA3141 /* AddClassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClassesViewController.swift; sourceTree = "<group>"; };
+		0C029BA2201CFFC800E9F435 /* AddNumsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNumsViewController.swift; sourceTree = "<group>"; };
+		0C029BA5201D016200E9F435 /* AddNumsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNumsCell.swift; sourceTree = "<group>"; };
+		0C0D7EDA203F2ED000CA3141 /* Professions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Professions.swift; sourceTree = "<group>"; };
+		0C0D7EDC203F33C400CA3141 /* AddInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInfoCell.swift; sourceTree = "<group>"; };
+		0C0D7EDE203F373500CA3141 /* AddInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddInfoViewController.swift; sourceTree = "<group>"; };
 		0C1A6ABA2029F9F7000A4983 /* AddMatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchView.swift; sourceTree = "<group>"; };
 		0C1A6ABC2029FA0B000A4983 /* AddMatchTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMatchTextView.swift; sourceTree = "<group>"; };
 		0C1A6ABE202A0101000A4983 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -98,7 +99,7 @@
 		0C2828E3201771C0009B8DBE /* Players.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Players.storyboard; sourceTree = "<group>"; };
 		0C2828E6201771D6009B8DBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = BoardGamesTracker/Base.lproj/Home.storyboard; sourceTree = "<group>"; };
 		0C2828E8201771E7009B8DBE /* Games.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Games.storyboard; sourceTree = "<group>"; };
-		0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePlayersViewController.swift; sourceTree = "<group>"; };
+		0C50B705201A348100BE7040 /* ChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooserViewController.swift; sourceTree = "<group>"; };
 		0C58DBCE20051219009FD235 /* BoardGamesTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGamesTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C58DBD120051219009FD235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C58DBD620051219009FD235 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -134,6 +135,7 @@
 		0C92A0F82035E6D300EE194B /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0C92A0FA2035F54F00EE194B /* PlayerDetailsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailsSectionView.swift; sourceTree = "<group>"; };
 		0CA27796204431730029B313 /* CustomGamesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomGamesCell.swift; sourceTree = "<group>"; };
+		0CAE40002045B9CD005759C0 /* Expansions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expansions.swift; sourceTree = "<group>"; };
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 		0CC5F6FE203F10450026B12A /* AddCustomGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomGameViewController.swift; sourceTree = "<group>"; };
 		0CC5F700203F12190026B12A /* CustomGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGame.swift; sourceTree = "<group>"; };
@@ -178,8 +180,8 @@
 		0C029BA4201D013200E9F435 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
-				0C029BA5201D016200E9F435 /* AddPointsCell.swift */,
-				0C0D7EDC203F33C400CA3141 /* AddClassesCell.swift */,
+				0C029BA5201D016200E9F435 /* AddNumsCell.swift */,
+				0C0D7EDC203F33C400CA3141 /* AddInfoCell.swift */,
 				0C7462B920233C24000603C4 /* AllPlayersCell.swift */,
 				0C7462B72021FA4F000603C4 /* AllGamesCell.swift */,
 				0C1A6AC6202B3A93000A4983 /* PlayerDetailsCell.swift */,
@@ -234,7 +236,6 @@
 				0CC8EF8420165E76009C9CF9 /* Extensions */,
 				0C58DC0520052663009FD235 /* Controllers */,
 				0C58DC032005264E009FD235 /* Models */,
-				0CA27795204431150029B313 /* Other classes */,
 				0CA277912044305F0029B313 /* Additional files */,
 				0C58DBDD20051219009FD235 /* Info.plist */,
 			);
@@ -297,7 +298,8 @@
 			isa = PBXGroup;
 			children = (
 				0C7462AF201F4425000603C4 /* GameType.swift */,
-				0C0D7EDA203F2ED000CA3141 /* AvalonClasses.swift */,
+				0C0D7EDA203F2ED000CA3141 /* Professions.swift */,
+				0CAE40002045B9CD005759C0 /* Expansions.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -305,6 +307,9 @@
 		0CA277912044305F0029B313 /* Additional files */ = {
 			isa = PBXGroup;
 			children = (
+				0CCA0F872031A33F00D52421 /* MyTimer.swift */,
+				0C92A0EA2033435500EE194B /* MyToolbar.swift */,
+				0C92A0EC20334D2C00EE194B /* MyAlerts.swift */,
 				0C58DBD820051219009FD235 /* Assets.xcassets */,
 				0C58DBD120051219009FD235 /* AppDelegate.swift */,
 				0C58DBD520051219009FD235 /* Main.storyboard */,
@@ -343,22 +348,11 @@
 				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
-				0C50B705201A348100BE7040 /* ChoosePlayersViewController.swift */,
-				0C029BA2201CFFC800E9F435 /* AddPointsViewController.swift */,
-				0C0D7EDE203F373500CA3141 /* AddClassesViewController.swift */,
+				0C50B705201A348100BE7040 /* ChooserViewController.swift */,
+				0C029BA2201CFFC800E9F435 /* AddNumsViewController.swift */,
+				0C0D7EDE203F373500CA3141 /* AddInfoViewController.swift */,
 			);
 			path = Home;
-			sourceTree = "<group>";
-		};
-		0CA27795204431150029B313 /* Other classes */ = {
-			isa = PBXGroup;
-			children = (
-				0CCA0F872031A33F00D52421 /* MyTimer.swift */,
-				0C92A0EA2033435500EE194B /* MyToolbar.swift */,
-				0C92A0EC20334D2C00EE194B /* MyAlerts.swift */,
-			);
-			name = "Other classes";
-			path = ..;
 			sourceTree = "<group>";
 		};
 		0CC8EF8420165E76009C9CF9 /* Extensions */ = {
@@ -597,6 +591,7 @@
 				0C58DC0720052811009FD235 /* Game.swift in Sources */,
 				0C58DC0920052A43009FD235 /* GameStore.swift in Sources */,
 				0CCA0F862031A33500D52421 /* ExtensionTimeInterval.swift in Sources */,
+				0CAE40012045B9CD005759C0 /* Expansions.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
 				0CEA092B202384E50081F56A /* StringExtension.swift in Sources */,
 				0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */,
@@ -607,12 +602,12 @@
 				0C5C332F2016504600626E6A /* GameDetailsViewController.swift in Sources */,
 				0CA27797204431730029B313 /* CustomGamesCell.swift in Sources */,
 				0C1A6ABB2029F9F7000A4983 /* AddMatchView.swift in Sources */,
-				0C029BA3201CFFC800E9F435 /* AddPointsViewController.swift in Sources */,
+				0C029BA3201CFFC800E9F435 /* AddNumsViewController.swift in Sources */,
 				0C1A6AC7202B3A93000A4983 /* PlayerDetailsCell.swift in Sources */,
 				0C92A0EB2033435500EE194B /* MyToolbar.swift in Sources */,
 				0C7462BA20233C24000603C4 /* AllPlayersCell.swift in Sources */,
-				0C029BA6201D016200E9F435 /* AddPointsCell.swift in Sources */,
-				0C0D7EDD203F33C400CA3141 /* AddClassesCell.swift in Sources */,
+				0C029BA6201D016200E9F435 /* AddNumsCell.swift in Sources */,
+				0C0D7EDD203F33C400CA3141 /* AddInfoCell.swift in Sources */,
 				0CC5F703203F1EC30026B12A /* CustomMatch.swift in Sources */,
 				0CF859A42026313600D5F602 /* ChooseGameCell.swift in Sources */,
 				0C7462B0201F4425000603C4 /* GameType.swift in Sources */,
@@ -621,12 +616,12 @@
 				0C92A0F120345B9A00EE194B /* CLLocationManagerExtension.swift in Sources */,
 				0CC5F701203F12190026B12A /* CustomGame.swift in Sources */,
 				0C92A0F32034694600EE194B /* MapViewController.swift in Sources */,
-				0C0D7EDB203F2ED000CA3141 /* AvalonClasses.swift in Sources */,
+				0C0D7EDB203F2ED000CA3141 /* Professions.swift in Sources */,
 				0CC5F6FF203F10450026B12A /* AddCustomGameViewController.swift in Sources */,
 				0C7462B82021FA4F000603C4 /* AllGamesCell.swift in Sources */,
-				0C0D7EDF203F373500CA3141 /* AddClassesViewController.swift in Sources */,
+				0C0D7EDF203F373500CA3141 /* AddInfoViewController.swift in Sources */,
 				0C92A0ED20334D2C00EE194B /* MyAlerts.swift in Sources */,
-				0C50B706201A348100BE7040 /* ChoosePlayersViewController.swift in Sources */,
+				0C50B706201A348100BE7040 /* ChooserViewController.swift in Sources */,
 				0C1A6AC1202A0C54000A4983 /* GameStatisticsView.swift in Sources */,
 				0C1A6AC5202A0D9E000A4983 /* PlayerDetailsViewController.swift in Sources */,
 				0C5C332D201265C700626E6A /* ExtensionUITextField.swift in Sources */,

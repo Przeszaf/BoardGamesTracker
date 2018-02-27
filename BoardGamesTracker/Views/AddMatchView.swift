@@ -25,6 +25,9 @@ class AddMatchView: UIView {
     var imageViewStackView = UIStackView()
     
     var dictionaryStackView = UIStackView()
+    var additionalStackView = UIStackView()
+    var additionalSecondStackView = UIStackView()
+    var additionalThirdStackView = UIStackView()
     
     //MARK: - All labels
     var gameLabel = UILabel()
@@ -39,6 +42,9 @@ class AddMatchView: UIView {
     var locationLabel = UILabel()
     
     var dictionaryLabel = UILabel()
+    var additionalLabel = UILabel()
+    var additionalSecondLabel = UILabel()
+    var additionalThirdLabel = UILabel()
     
     //MARK: - All text views
     var gameTextView = AddMatchTextView()
@@ -51,6 +57,9 @@ class AddMatchView: UIView {
     var locationTextView = AddMatchTextView()
     
     var dictionaryTextView = AddMatchTextView()
+    var additionalTextView = AddMatchTextView()
+    var additionalSecondTextView = AddMatchTextView()
+    var additionalThirdTextView = AddMatchTextView()
     
     var mySwitch = UISwitch()
     var mySwitchTwo = UISwitch()
@@ -74,7 +83,10 @@ class AddMatchView: UIView {
         dateLabel.text = "Date"
         timeLabel.text = "Time"
         locationLabel.text = "Location"
-        dictionaryLabel.text = "Classes"
+        dictionaryLabel.text = "???"
+        additionalLabel.text = "???"
+        additionalSecondLabel.text = "???"
+        additionalThirdLabel.text = "???"
         
     }
     
@@ -87,11 +99,6 @@ class AddMatchView: UIView {
         verticalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         verticalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         verticalStackView.spacing = 8
-//        for view in verticalStackView.arrangedSubviews {
-//            if view != imageView {
-//                view.heightAnchor.constraint(equalToConstant: 40).isActive = true
-//            }
-//        }
         
         
         
@@ -106,6 +113,9 @@ class AddMatchView: UIView {
         locationLabel.leadingAnchor.constraint(equalTo: switchLabel.leadingAnchor).isActive = true
         switchLabel.leadingAnchor.constraint(equalTo: gameLabel.leadingAnchor).isActive = true
         dictionaryLabel.leadingAnchor.constraint(equalTo: switchTwoLabel.leadingAnchor).isActive = true
+        switchTwoLabel.leadingAnchor.constraint(equalTo: additionalLabel.leadingAnchor).isActive = true
+        additionalLabel.leadingAnchor.constraint(equalTo: additionalSecondLabel.leadingAnchor).isActive = true
+        additionalSecondLabel.leadingAnchor.constraint(equalTo: additionalThirdLabel.leadingAnchor).isActive = true
         
         gameLabel.trailingAnchor.constraint(equalTo: playersLabel.trailingAnchor).isActive = true
         playersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
@@ -115,6 +125,9 @@ class AddMatchView: UIView {
         dateLabel.trailingAnchor.constraint(equalTo: timeLabel.trailingAnchor).isActive = true
         timeLabel.trailingAnchor.constraint(equalTo: locationLabel.trailingAnchor).isActive = true
         locationLabel.trailingAnchor.constraint(equalTo: dictionaryLabel.trailingAnchor).isActive = true
+        dictionaryLabel.trailingAnchor.constraint(equalTo: additionalLabel.trailingAnchor).isActive = true
+        additionalLabel.trailingAnchor.constraint(equalTo: additionalSecondLabel.trailingAnchor).isActive = true
+        additionalSecondLabel.trailingAnchor.constraint(equalTo: additionalThirdLabel.trailingAnchor).isActive = true
         
         mySwitch.leadingAnchor.constraint(equalTo: mySwitchTwo.leadingAnchor).isActive = true
 
@@ -173,6 +186,18 @@ class AddMatchView: UIView {
         dictionaryLabel.translatesAutoresizingMaskIntoConstraints = false
         dictionaryTextView.translatesAutoresizingMaskIntoConstraints = false
         
+        additionalStackView.translatesAutoresizingMaskIntoConstraints = false
+        additionalLabel.translatesAutoresizingMaskIntoConstraints = false
+        additionalTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        additionalSecondStackView.translatesAutoresizingMaskIntoConstraints = false
+        additionalSecondLabel.translatesAutoresizingMaskIntoConstraints = false
+        additionalSecondTextView.translatesAutoresizingMaskIntoConstraints = false
+        
+        additionalThirdStackView.translatesAutoresizingMaskIntoConstraints = false
+        additionalThirdLabel.translatesAutoresizingMaskIntoConstraints = false
+        additionalThirdTextView.translatesAutoresizingMaskIntoConstraints = false
+        
         switchStackView.translatesAutoresizingMaskIntoConstraints = false
         switchLabel.translatesAutoresizingMaskIntoConstraints = false
         mySwitch.translatesAutoresizingMaskIntoConstraints = false
@@ -223,6 +248,18 @@ class AddMatchView: UIView {
         dictionaryStackView.addArrangedSubview(dictionaryLabel)
         dictionaryStackView.addArrangedSubview(dictionaryTextView)
         
+        verticalStackView.addArrangedSubview(additionalStackView)
+        additionalStackView.addArrangedSubview(additionalLabel)
+        additionalStackView.addArrangedSubview(additionalTextView)
+        
+        verticalStackView.addArrangedSubview(additionalSecondStackView)
+        additionalSecondStackView.addArrangedSubview(additionalSecondLabel)
+        additionalSecondStackView.addArrangedSubview(additionalSecondTextView)
+        
+        verticalStackView.addArrangedSubview(additionalThirdStackView)
+        additionalThirdStackView.addArrangedSubview(additionalThirdLabel)
+        additionalThirdStackView.addArrangedSubview(additionalThirdTextView)
+        
         verticalStackView.addArrangedSubview(switchStackView)
         switchStackView.addArrangedSubview(switchLabel)
         switchStackView.addArrangedSubview(mySwitch)
@@ -260,6 +297,9 @@ class AddMatchView: UIView {
         imageView.isHidden = true
         
         dictionaryStackView.isHidden = true
+        additionalStackView.isHidden = true
+        additionalSecondStackView.isHidden = true
+        additionalThirdStackView.isHidden = true
     }
 }
 

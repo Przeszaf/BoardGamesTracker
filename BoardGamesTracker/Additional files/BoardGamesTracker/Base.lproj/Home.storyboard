@@ -28,10 +28,10 @@
             </objects>
             <point key="canvasLocation" x="1062" y="-673"/>
         </scene>
-        <!--Add Classes View Controller-->
+        <!--Additional Info View Controller-->
         <scene sceneID="MF9-0j-q5s">
             <objects>
-                <tableViewController id="8rN-Ri-RhL" customClass="AddClassesViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="8rN-Ri-RhL" customClass="AdditionalInfoViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Oc6-vd-ARD">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -56,10 +56,10 @@
             </objects>
             <point key="canvasLocation" x="4786" y="-1567"/>
         </scene>
-        <!--Choose Players View Controller-->
+        <!--Chooser View Controller-->
         <scene sceneID="xDo-Gg-b1T">
             <objects>
-                <tableViewController id="JEr-pJ-ija" customClass="ChoosePlayersViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="JEr-pJ-ija" customClass="ChooserViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Y99-Tg-49U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,10 +112,10 @@
             </objects>
             <point key="canvasLocation" x="3833" y="-672"/>
         </scene>
-        <!--Add Points View Controller-->
+        <!--Add Nums View Controller-->
         <scene sceneID="2u2-Ux-Do7">
             <objects>
-                <tableViewController id="EIQ-Hs-cUz" customClass="AddPointsViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="EIQ-Hs-cUz" customClass="AddNumsViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Nno-Of-7ZE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -264,9 +264,9 @@
                     </navigationItem>
                     <connections>
                         <segue destination="r83-aN-Eof" kind="show" identifier="chooseGame" id="eNc-2q-e79"/>
-                        <segue destination="JEr-pJ-ija" kind="show" identifier="choosePlayers" id="afa-uS-2UH"/>
+                        <segue destination="JEr-pJ-ija" kind="show" identifier="chooser" id="afa-uS-2UH"/>
                         <segue destination="EIQ-Hs-cUz" kind="show" identifier="addPoints" id="aym-cc-CMA"/>
-                        <segue destination="8rN-Ri-RhL" kind="show" identifier="addClasses" id="Tuz-dU-70M"/>
+                        <segue destination="8rN-Ri-RhL" kind="show" identifier="addInfo" id="Tuz-dU-70M"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPu-Jr-eGL" userLabel="First Responder" sceneMemberID="firstResponder"/>

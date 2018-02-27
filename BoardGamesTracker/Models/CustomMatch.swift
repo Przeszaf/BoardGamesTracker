@@ -27,11 +27,19 @@ class CustomMatch: Match {
         aCoder.encode(dictionary, forKey: "dictionary")
         
         
-        if let game = game, game.name == "Avalon" {
+        if let game = game {
             var codablePlayersClasses = [String: String]()
-            if let avalonClasses = playersClasses as? [String: AvalonClasses] {
-                for (playerID, avalonClass) in avalonClasses {
-                    codablePlayersClasses[playerID] = avalonClass.rawValue
+            if game.name == "Avalon" {
+                if let avalonClasses = playersClasses as? [String: AvalonClasses] {
+                    for (playerID, avalonClass) in avalonClasses {
+                        codablePlayersClasses[playerID] = avalonClass.rawValue
+                    }
+                }
+            } else if game.name == "Pandemic" {
+                if let pandemicClasses = playersClasses as? [String: PandemicClasses] {
+                    for (playerID, pandemicClass) in pandemicClasses {
+                        codablePlayersClasses[playerID] = pandemicClass.rawValue
+                    }
                 }
             }
             aCoder.encode(codablePlayersClasses, forKey: "codablePlayersClasses")
@@ -43,10 +51,17 @@ class CustomMatch: Match {
         dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any]
         
         if let codablePlayersClasses = aDecoder.decodeObject(forKey: "codablePlayersClasses") as? [String: String] {
-            if let game = game, game.name == "Avalon" {
-                playersClasses = [String: Any]()
-                for (playerID, avalonClassRaw) in codablePlayersClasses {
-                    playersClasses![playerID] = AvalonClasses(rawValue: avalonClassRaw)
+            if let game = game {
+                if game.name == "Avalon" {
+                    playersClasses = [String: Any]()
+                    for (playerID, avalonClassRaw) in codablePlayersClasses {
+                        playersClasses![playerID] = AvalonClasses(rawValue: avalonClassRaw)
+                    }
+                } else if game.name == "Pandemic" {
+                    playersClasses = [String: Any]()
+                    for (playerID, pandemicClassRaw) in codablePlayersClasses {
+                        playersClasses![playerID] = PandemicClasses(rawValue: pandemicClassRaw)
+                    }
                 }
             }
         }

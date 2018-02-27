@@ -36,9 +36,10 @@ class SelectedGameMatchesCell: UITableViewCell {
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         playersLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        playersLabel.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
-        playersLabel.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
-        playersLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
+        
+        playersLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15).isActive = true
+        playersLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
+        playersLabel.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         
         dateLabel.topAnchor.constraint(equalTo: playersLabel.bottomAnchor).isActive = true
         dateLabel.leadingAnchor.constraint(equalTo: playersLabel.leadingAnchor).isActive = true

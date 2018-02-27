@@ -28,6 +28,8 @@ class GameStore {
         
         //Add all custom games
         customGames.append(CustomGame(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Avalon")))
+        customGames.append(CustomGame(name: "Pandemic", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Avalon")))
+        customGames.append(CustomGame(name: "Carcassonne", type: .SoloWithPoints, maxNoOfPlayers: 5, icon: UIImage(named: "Avalon")))
         
         //Check if customGames were already added to allGames, if so then remove from customGames
         for game in allGames {
@@ -36,7 +38,6 @@ class GameStore {
                 customGames.remove(at: index!)
             }
         }
-        
         
     }
 

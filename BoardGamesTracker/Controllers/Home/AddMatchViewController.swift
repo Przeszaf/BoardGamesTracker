@@ -9,11 +9,19 @@
 import UIKit
 import CoreLocation
 
-class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
     
     var gameStore: GameStore!
     var playerStore: PlayerStore!
     var imageStore: ImageStore!
+    
+    //Pickers
+    let datePicker = UIDatePicker()
+    let picker = UIPickerView()
+    
+    let pickerDataNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    let pickerPandemicDifficulty = ["Easy (4 Epidemy cards)", "Medium (5 Epidemy cards)", "Hard (6 Epidemy cards)"]
     
     var locationManager = CLLocationManager()
     
@@ -25,8 +33,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var time: TimeInterval?
     var location: CLLocation?
     
-    //Used to pass correct values to ChoosePlayersViewController
-    var segueKey: String?
+    //Used to pass correct values to ChooserViewController
+    var chooserSegueKey: String?
+    var addInfoSegueKey: String?
     
     //Needed for team games without points
     var winners = [Player]()
@@ -45,9 +54,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
-    
-    //Pickers
-    let picker = UIDatePicker()
     
     //MARK: - Outlets: text fields and stack views
     
@@ -68,6 +74,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         myView.dateTextView.delegate = self
         myView.timeTextView.delegate = self
         myView.dictionaryTextView.delegate = self
+        myView.additionalTextView.delegate = self
+        myView.additionalSecondTextView.delegate = self
+        myView.additionalThirdTextView.delegate = self
         
         
         //At the beginning show only stack views below
@@ -76,10 +85,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         tabBarController?.tabBar.isHidden = true
         
-        myView.dateTextView.inputView = picker
-        myView.timeTextView.inputView = picker
-        picker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
-        
+        myView.dateTextView.inputView = datePicker
+        myView.timeTextView.inputView = datePicker
+        datePicker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
         let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
@@ -99,6 +107,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGestureRecognizer)
+        
+        picker.delegate = self
+        picker.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -137,18 +148,34 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 myView.playersStackView.isHidden = false
                 myView.switchStackView.isHidden = false
                 myView.switchLabel.text = "Did you win?"
-                print("Im here")
             }
             
             if let customGame = game as? CustomGame {
                 if customGame.name == "Avalon" {
                     myView.dictionaryStackView.isHidden = false
+                    myView.dictionaryLabel.text = "Classes"
                     myView.switchTwoStackView.isHidden = false
                     myView.switchTwoLabel.text = "Playing with lady of the Lake?"
                     if winners.count < loosers.count {
                         myView.switchStackView.isHidden = false
                         myView.switchLabel.text = "Merlin killed by Assassin?"
                     }
+                }
+                if customGame.name == "Pandemic" {
+                    myView.dictionaryStackView.isHidden = false
+                    myView.dictionaryLabel.text = "Classes"
+                    myView.additionalStackView.isHidden = false
+                    myView.additionalLabel.text = "Diseases"
+                    myView.additionalSecondStackView.isHidden = false
+                    myView.additionalSecondLabel.text = "Cards left?"
+                    myView.additionalSecondTextView.inputView = picker
+                    myView.additionalThirdStackView.isHidden = false
+                    myView.additionalThirdLabel.text = "Difficulty"
+                    myView.additionalThirdTextView.inputView = picker
+                } else if customGame.name == "Carcassonne" {
+                    myView.dictionaryStackView.isHidden = false
+                    myView.dictionaryLabel.text = "Expansions"
+                    chooserSegueKey = "Carcassonne Expansions"
                 }
             }
         }
@@ -180,13 +207,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Pressing the text view will perform a segue
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        //Set correct segueKey for choosePlayers segue
+        //Set correct segueKey for chooser segue
         if textView == myView.playersTextView {
-            segueKey = "all"
+            chooserSegueKey = "all"
         } else if textView == myView.winnersTextView {
-            segueKey = "winners"
+            chooserSegueKey = "winners"
         } else if textView == myView.loosersTextView {
-            segueKey = "loosers"
+            chooserSegueKey = "loosers"
         }
         //Workaround for double segues - if time between segues is lower than 0.1 second,
         //then do not perform segue
@@ -194,27 +221,72 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             if textView == myView.pointsTextView {
                 performSegue(withIdentifier: "addPoints", sender: self)
             } else if textView == myView.playersTextView || textView == myView.loosersTextView || textView == myView.winnersTextView {
-                performSegue(withIdentifier: "choosePlayers", sender: self)
+                performSegue(withIdentifier: "chooser", sender: self)
             } else if textView == myView.gameTextView {
                 performSegue(withIdentifier: "chooseGame", sender: self)
-            } else if textView == myView.dictionaryTextView {
-                performSegue(withIdentifier: "addClasses", sender: self)
+            } else if textView == myView.dictionaryTextView && (selectedGame!.name == "Avalon" || selectedGame!.name == "Pandemic") {
+                addInfoSegueKey = "Classes"
+                performSegue(withIdentifier: "addInfo", sender: self)
+            } else if textView == myView.additionalTextView && selectedGame!.name == "Pandemic" {
+                addInfoSegueKey = "Diseases"
+                performSegue(withIdentifier: "addInfo", sender: self)
+            } else if textView == myView.dictionaryTextView && selectedGame?.name == "Carcassonne" {
+                chooserSegueKey = "Carcassonne Expansions"
+                performSegue(withIdentifier: "chooser", sender: self)
+                
             }
         }
         dateSinceSegue = Date()
         
-        //set correct picker mode
+        //set correct date picker mode
         if textView == myView.dateTextView {
-            picker.datePickerMode = .dateAndTime
-            picker.maximumDate = Date()
+            datePicker.datePickerMode = .dateAndTime
+            datePicker.maximumDate = Date()
             return true
         } else if textView == myView.timeTextView {
-            picker.datePickerMode = .countDownTimer
+            datePicker.datePickerMode = .countDownTimer
             return true
         }
-        return false
         
+        //Taking care of custom games
+        if let customGame = selectedGame as? CustomGame {
+            if customGame.name == "Pandemic" {
+                if textView == myView.additionalSecondTextView {
+                    //Picker tag is used to load correct data
+                    picker.tag = 1
+                    picker.reloadAllComponents()
+                    //If it is first click, then assign first option to textView
+                    if textView.text == "" {
+                        textView.text = String(pickerDataNumbers[0])
+                        picker.selectRow(0, inComponent: 0, animated: false)
+                    } else {
+                        //Else go to already chosen option
+                        guard let num = Int(textView.text) else { return false }
+                        let index = pickerDataNumbers.index(of: num)
+                        picker.selectRow(index!, inComponent: 0, animated: false)
+                    }
+                    return true
+                } else if textView == myView.additionalThirdTextView {
+                    picker.tag = 2
+                    picker.reloadAllComponents()
+                    if textView.text == "" {
+                        textView.text = pickerPandemicDifficulty[0]
+                        picker.selectRow(0, inComponent: 0, animated: false)
+                    } else {
+                        let index = pickerPandemicDifficulty.index(of: textView.text)
+                        picker.selectRow(index!, inComponent: 0, animated: false)
+                    }
+                    return true
+                }
+            }
+        }
+        return false
     }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        return false
+    }
+    
     
     
     //MARK: - Managing segue
@@ -224,11 +296,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             let controller = segue.destination as! ChooseGameViewController
             controller.gameStore = gameStore
             controller.selectedGame = selectedGame
-        case "choosePlayers"?:
-            let controller = segue.destination as! ChoosePlayersViewController
-            controller.key = segueKey
+        case "chooser"?:
+            let controller = segue.destination as! ChooserViewController
+            controller.key = chooserSegueKey
             updateAvailablePlayers()
-            switch segueKey {
+            switch chooserSegueKey {
             case "all"?:
                 controller.availablePlayers = availablePlayers
                 controller.selectedPlayers = selectedPlayers
@@ -247,11 +319,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 if let game = selectedGame {
                     controller.maxPlayers = game.maxNoOfPlayers - winners.count
                 }
+            case "Carcassonne Expansions"?:
+                if let expansionsArray = dictionary["Expansions"] as? [String] {
+                    controller.expansions = expansionsArray
+                }
             default:
                 preconditionFailure("Wrong segue key")
             }
         case "addPoints"?:
-            let controller = segue.destination as! AddPointsViewController
+            let controller = segue.destination as! AddNumsViewController
             //Updates dictionary, so it holds only selectedPlayers
             updateDictionary()
             controller.availablePlayers = selectedPlayers
@@ -262,12 +338,20 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 controller.key = "Places"
                 controller.playersPlaces = playersPlaces
             }
-        case "addClasses"?:
-            let controller = segue.destination as! AddClassesViewController
-            controller.winners = winners
-            controller.loosers = loosers
+        case "addInfo"?:
+            let controller = segue.destination as! AdditionalInfoViewController
+            controller.segueKey = addInfoSegueKey
             controller.game = selectedGame
-            controller.playersClasses = playersClasses
+            if addInfoSegueKey == "Classes" {
+                controller.winners = winners
+                controller.loosers = loosers
+                controller.availablePlayers = selectedPlayers
+                controller.playersClasses = playersClasses
+            } else if addInfoSegueKey == "Diseases" {
+                if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
+                    controller.dictionary = diseasesDictionary
+                }
+            }
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -381,6 +465,39 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     return
                 }
             }
+            
+            else if customGame.name == "Pandemic" {
+                if myView.additionalSecondTextView.text == "" {
+                    createFailureAlert(with: "How many cards were left?")
+                    return
+                } else if myView.additionalThirdTextView.text == "" {
+                    createFailureAlert(with: "What difficulty level did you play?")
+                    return
+                }
+                dictionary["Cards left"] = Int(myView.additionalSecondTextView.text)
+                dictionary["Difficulty"] = myView.additionalThirdTextView.text
+                
+                guard let diseasesDictionary = dictionary["Diseases"] as? [String: String] else {
+                    createFailureAlert(with: "Are all diseases cured?")
+                    return
+                }
+                let keys = ["Red", "Blue", "Green", "Yellow"]
+                for key in keys {
+                    if diseasesDictionary[key] == nil {
+                        createFailureAlert(with: "Not all diseases are assigned!")
+                        return
+                    }
+                }
+                if areClassesAssigned() {
+                    print(playersClasses)
+                    print(playersDictionaryToCodable(playersClasses))
+                    match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time!, location: location, dictionary: dictionary, playersClasses: playersDictionaryToCodable(playersClasses))
+                }
+            }
+            
+            else if customGame.name == "Carcassonne" {
+                match = CustomMatch(game: game, players: players, playersPoints: points, playersPlaces: places, date: date!, time: time!, location: location, dictionary: dictionary, playersClasses: nil)
+            }
             //Else create normal Match
         } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
             match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time!, location: self.location)
@@ -393,7 +510,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         if imageView.image != UIImage(named: "camera") {
             imageStore.setImage(image: imageView.image!, forKey: match!.imageKey)
         }
-        
         createSuccessAlert(with: "Created \(game.name)")
         playerStore.allPlayers.sort()
         return
@@ -404,12 +520,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Removes players that were already choosen as winners/loosers from availablePlayers array
     func updateAvailablePlayers() {
         availablePlayers = playerStore.allPlayers
-        if segueKey == "loosers" {
+        if chooserSegueKey == "loosers" {
             for winner in winners {
                 let index = availablePlayers.index(of: winner)
                 availablePlayers.remove(at: index!)
             }
-        } else if segueKey == "winners" {
+        } else if chooserSegueKey == "winners" {
             for looser in loosers {
                 let index = availablePlayers.index(of: looser)
                 availablePlayers.remove(at: index!)
@@ -471,9 +587,28 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 for player in winners + loosers {
                     string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
                 }
+            } else if customGame.name == "Pandemic" {
+                let classesDictionary = playersClasses as! [Player: PandemicClasses]
+                for player in selectedPlayers {
+                    string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
+                }
+                myView.dictionaryTextView.text = string.joined(separator: ", ")
+                string.removeAll()
+                if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
+                    for (diseaseName, cureStatus) in diseasesDictionary {
+                        string.append("\(diseaseName) - \(cureStatus)")
+                    }
+                    myView.additionalTextView.text = string.joined(separator: ", ")
+                }
+            } else if customGame.name == "Carcassonne" {
+                if let expansionsArray = dictionary["Expansions"] as? [String] {
+                    for expansion in expansionsArray {
+                        string.append(expansion)
+                    }
+                }
+                myView.dictionaryTextView.text = string.joined(separator: ", ")
             }
         }
-        myView.dictionaryTextView.text = string.joined(separator: ", ")
     }
     
     
@@ -614,20 +749,65 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         self.present(alert, animated: true, completion: nil)
     }
     
+    //MARK: - Picker
     
-    //MARK: - Picker's toolbar
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 1 {
+            return pickerDataNumbers.count
+        } else if pickerView.tag == 2 {
+            return pickerPandemicDifficulty.count
+        }
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        guard let customGame = selectedGame as? CustomGame else { return "" }
+        if customGame.name == "Pandemic" {
+            if picker.tag == 1 {
+                return String(pickerDataNumbers[row])
+            } else if picker.tag == 2 {
+                return pickerPandemicDifficulty[row]
+            }
+        }
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
+        //When selected, then update dictionary and textView
+        if let customGame = selectedGame as? CustomGame {
+            if customGame.name == "Pandemic" {
+                if pickerView.tag == 1 {
+                    dictionary["Cards left"] = pickerDataNumbers[row]
+                    myView.additionalSecondTextView.text = String(pickerDataNumbers[row])
+                } else if pickerView.tag == 2 {
+                    dictionary["Difficulty"] = pickerPandemicDifficulty[row]
+                    myView.additionalThirdTextView.text = pickerPandemicDifficulty[row]
+                }
+            }
+        }
+    }
+    
+    //MARK: - Pickers toolbar
     
     //PickerView Toolbar button functions
     
     //Checks which picker mode is chosen and accordingly updates correct views and variables
     //And resigns first responder
     @objc func donePicker() {
-        if picker.datePickerMode == .countDownTimer {
-            time = picker.countDownDuration
+        if datePicker.datePickerMode == .countDownTimer {
+            time = datePicker.countDownDuration
             myView.timeTextView.text = time?.toString()
             myView.timeTextView.resignFirstResponder()
-        } else if picker.datePickerMode == .dateAndTime {
-            date = picker.date
+        } else if datePicker.datePickerMode == .dateAndTime {
+            date = datePicker.date
             myView.dateTextView.text = date?.toStringWithHour()
             myView.dateTextView.resignFirstResponder()
         }
@@ -636,11 +816,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //If cancel picker, then accordingly reverts correct views to default values
     //And resigns first responder
     @objc func cancelPicker() {
-        if picker.datePickerMode == .countDownTimer {
+        if datePicker.datePickerMode == .countDownTimer {
             time = TimeInterval(exactly: 60)
             myView.timeTextView.text = time?.toString()
             myView.timeTextView.resignFirstResponder()
-        } else if picker.datePickerMode == .dateAndTime {
+        } else if datePicker.datePickerMode == .dateAndTime {
             date = Date()
             myView.dateTextView.text = date?.toStringWithHour()
             myView.dateTextView.resignFirstResponder()

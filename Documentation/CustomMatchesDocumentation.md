@@ -16,8 +16,7 @@ dictionary is of type [String: Any] that hold queries specific to given games as
 
 It is used to retrieve such information as game-specific events happening, expansions used during given game etc.
 
-
-## Avalon
+### Avalon
 
 playersClasses needs to be casted down to [String: AvalonClasses]
 
@@ -28,6 +27,42 @@ Dictionary queries:
 "Killed by Assassin?" | Bool | At the end of game, if Servants of Arthur wins, Minions of Mordred have one last chance - they have to kill Merlin. If they do so, then they win, if not - then Good side wins.
 "Lady of the lake?" | Bool | Lady of the lake is additional event that can be introduced to a game.
 
+### Pandemic
+
+playersClasses needs to be casted down to [String: PandemicClasses]
+
+Dictionary queries:
+
+| Query | Value type | Description |
+| --- | --- | --- |
+"Cards left" | Int | Amount of cards left. Bigger = better, as it means that players had more time available.
+"Difficulty" | String | Either one of "Easy (4 Epidemy cards)", "Medium (5 Epidemy cards)", "Hard (6 Epidemy cards)"
+"Diseases" | [String: String] | Dictionary of all disease name with cureStatus
+
+#### "Diseases" dictionary
+
+Available disease names (keys):
+
+- "Red"
+- "Blue"
+- "Yellow"
+- "Green"
+
+Available cure statuses (values):
+
+- "Not cured"
+- "Cured"
+- "Elliminated"
+
+### Carcassonne
+
+There are no playersClassess in Carcassonne
+
+Dictionary queries:
+
+| Query | Value type | Description |
+| --- | --- | --- |
+"Expansions" | [String] | Returns all expansions that were used in this match of Carcassonne. All available expansions can be checked at /Models/Enums/Expansions.swift
 
 ## Authors
 

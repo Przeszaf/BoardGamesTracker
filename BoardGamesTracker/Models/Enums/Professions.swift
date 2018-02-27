@@ -20,3 +20,13 @@ enum AvalonClasses: String {
     case BadMordred = "Mordred"
     case BadOberon = "Oberon"
 }
+
+
+enum PandemicClasses: String {
+    case Dispatcher = "Dispatcher"
+    case Scientist = "Scientist"
+    case QuarantineSpecialist = "Quarantime Specialist"
+    case Researcher = "Researcher"
+    case Medic = "Medic"
+    case ContigencyPlanner = "Contigency Planner"
+}

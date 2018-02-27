@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AddPointsViewController: UITableViewController, UINavigationControllerDelegate, UITextFieldDelegate {
+class AddNumsViewController: UITableViewController, UINavigationControllerDelegate, UITextFieldDelegate {
     
     var availablePlayers: [Player]!
     var playersPoints: [Player: Int]!
@@ -24,7 +24,7 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
         super.viewDidLoad()
         navigationController?.delegate = self
         tableView.allowsSelection = false
-        tableView.register(AddPointsCell.self, forCellReuseIdentifier: "AddPointsCell")
+        tableView.register(AddNumsCell.self, forCellReuseIdentifier: "AddNumsCell")
         
         
         let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
@@ -40,8 +40,8 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if availablePlayers.count != 0 {
-            let cell = tableView.cellForRow(at: IndexPath(item: 0, section: 0)) as! AddPointsCell
-            cell.playerPointsField.becomeFirstResponder()
+            let cell = tableView.cellForRow(at: IndexPath(item: 0, section: 0)) as! AddNumsCell
+            cell.playerNumField.becomeFirstResponder()
         }
     }
     
@@ -49,27 +49,27 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     //MARK: - UITableView
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AddPointsCell", for: indexPath) as! AddPointsCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AddNumsCell", for: indexPath) as! AddNumsCell
         let player = availablePlayers[indexPath.row]
         
         cell.playerNameLabel.text = player.name
         if key == "Points" {
             if playersPoints[player] != 0 {
-                cell.playerPointsField.text = "\(playersPoints[player]!)"
+                cell.playerNumField.text = "\(playersPoints[player]!)"
             } else {
-                cell.playerPointsField.text = ""
+                cell.playerNumField.text = ""
             }
-            cell.playerPointsField.placeholder = "Pts"
+            cell.playerNumField.placeholder = "Pts"
         } else if key == "Places" {
             if playersPlaces[player] != 0 {
-                cell.playerPointsField.text = "\(playersPlaces[player]!)"
+                cell.playerNumField.text = "\(playersPlaces[player]!)"
             } else {
-                cell.playerPointsField.text = ""
+                cell.playerNumField.text = ""
             }
         }
-        cell.playerPointsField.delegate = self
-        cell.playerPointsField.tag = indexPath.row
-        cell.playerPointsField.inputAccessoryView = toolbar
+        cell.playerNumField.delegate = self
+        cell.playerNumField.tag = indexPath.row
+        cell.playerNumField.inputAccessoryView = toolbar
         return cell
     }
     
@@ -130,20 +130,20 @@ class AddPointsViewController: UITableViewController, UINavigationControllerDele
     
     //When clicked on next it goes to another textField.
     @objc func toolbarNextButton() {
-        if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: 0)) as? AddPointsCell {
-            let textField = nextCell.playerPointsField
+        if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: 0)) as? AddNumsCell {
+            let textField = nextCell.playerNumField
             textField.becomeFirstResponder()
             tableView.scrollToRow(at: IndexPath(row: row + 1, section: 0), at: .middle, animated: true)
-        } else if let firstCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddPointsCell {
-            let textField = firstCell.playerPointsField
+        } else if let firstCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddNumsCell {
+            let textField = firstCell.playerNumField
             textField.becomeFirstResponder()
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
         }
     }
     
     @objc func toolbarHideButton() {
-        if let row = currentRow, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AddPointsCell {
-            let textField = cell.playerPointsField
+        if let row = currentRow, let cell = tableView.cellForRow(at: IndexPath(row: row, section: 0)) as? AddNumsCell {
+            let textField = cell.playerNumField
             textField.resignFirstResponder()
         }
     }
