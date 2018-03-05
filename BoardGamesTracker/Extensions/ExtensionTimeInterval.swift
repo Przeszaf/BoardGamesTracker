@@ -26,4 +26,12 @@ extension TimeInterval {
         formatter.unitsStyle = .abbreviated
         return formatter.string(from: self)!
     }
+    
+    func toStringWithDays() -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.day, .hour, .minute]
+        formatter.zeroFormattingBehavior = .default
+        formatter.unitsStyle = .full
+        return formatter.string(from: self)!
+    }
 }

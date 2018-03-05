@@ -58,7 +58,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //MARK: - Outlets: text fields and stack views
     
     var myView: AddMatchView!
-    
     var imageView: UIImageView!
     
     //MARK: - UIViewController
@@ -90,7 +89,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         datePicker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
-        let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
+        let toolbar = Constants.Functions.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         myView.dateTextView.inputAccessoryView = toolbar
         myView.timeTextView.inputAccessoryView = toolbar
         
@@ -110,6 +109,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         picker.delegate = self
         picker.dataSource = self
+        
+        view.backgroundColor = Constants.Global.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -587,6 +588,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 for player in winners + loosers {
                     string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
                 }
+                myView.dictionaryTextView.text = string.joined(separator: ", ")
             } else if customGame.name == "Pandemic" {
                 let classesDictionary = playersClasses as! [Player: PandemicClasses]
                 for player in selectedPlayers {
@@ -731,7 +733,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Success alert with given string that disappears after 1 second and pops to previous controller
     func createSuccessAlert(with string: String) {
-        let alert = MyAlerts.createAlert(title: "Success!", message: string)
+        let alert = Constants.Functions.createAlert(title: "Success!", message: string)
         self.myView.timeTextView.resignFirstResponder()
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
@@ -744,7 +746,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Failure alert with given string
     func createFailureAlert(with string: String) {
-        let alert = MyAlerts.createAlert(title: "Failure!", message: string)
+        let alert = Constants.Functions.createAlert(title: "Failure!", message: string)
         alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

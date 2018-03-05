@@ -35,9 +35,9 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelAddingPlayerButtonPressed))
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(addPlayer))
         
-        toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
+        toolbar = Constants.Functions.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         
-//        setTableViewBackgroundGradient(sender: self, .red, .white)
+        tableView.backgroundColor = Constants.Global.backgroundColor
     }
     
     
@@ -80,6 +80,14 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         cell.playerName.delegate = self
         cell.playerName.tag = indexPath.row
         cell.playerName.backgroundColor = UIColor.clear
+        if isEditing{
+            cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: cell.frame)
+        }
+        cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .none
+        
         return cell
     }
     
@@ -103,15 +111,30 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         
     }
     
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = UIColor.clear
+    
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        performSegue(withIdentifier: "showPlayerDetails", sender: indexPath.row)
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
     }
     
     //MARK: - Segues
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "showPlayerDetails", sender: indexPath.row)
-    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
@@ -192,7 +215,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         if editingStyle == .delete {
             let player = playerStore.allPlayers[indexPath.row]
             if player.timesPlayed != 0 {
-                let alert = MyAlerts.createAlert(title: "Failure!", message: "You cannot delete player with matches. Delete matches first.")
+                let alert = Constants.Functions.createAlert(title: "Failure!", message: "You cannot delete player with matches. Delete matches first.")
                 let action = UIAlertAction(title: "Ok!", style: .cancel, handler: nil)
                 alert.addAction(action)
                 present(alert, animated: true, completion: nil)
@@ -241,21 +264,5 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         return true
     }
     
-    
-    //FIXME: CHANGE AT OTHER TABLEVIEWS
-    func setTableViewBackgroundGradient(sender: UITableViewController, _ topColor: UIColor, _ bottomColor: UIColor) {
-        
-        let gradientBackgroundColors = [topColor.cgColor, bottomColor.cgColor]
-        let gradientLocations = [0.0,1.0]
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = gradientBackgroundColors
-        gradientLayer.locations = gradientLocations as [NSNumber]
-        
-        gradientLayer.frame = sender.tableView.bounds
-        let backgroundView = UIView(frame: sender.tableView.bounds)
-        backgroundView.layer.insertSublayer(gradientLayer, at: 0)
-        sender.tableView.backgroundView = backgroundView
-    }
     
 }

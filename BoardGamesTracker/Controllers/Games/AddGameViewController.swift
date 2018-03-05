@@ -25,6 +25,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     //MARK: - Overriden UIViewController functions
     override func viewDidLoad() {
+        view.backgroundColor = Constants.Global.backgroundColor
         nameField.delegate = self
         maxPlayersField.delegate = self
         gameTypeField.delegate = self
@@ -38,11 +39,12 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(donePicker))
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
         
-        let toolbar = MyToolbar.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
+        let toolbar = Constants.Functions.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         
         maxPlayersField.inputAccessoryView = toolbar
         gameTypeField.inputAccessoryView = toolbar
         
+        nameField.autocapitalizationType = .words
     }
     
     //MARK: - Switches and buttons functions
@@ -226,7 +228,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     //Success alert with given string that disappears after 1 second and pops to previous controller
     func createSuccessAlert(with string: String) {
-        let alert = MyAlerts.createAlert(title: "Success!", message: string)
+        let alert = Constants.Functions.createAlert(title: "Success!", message: string)
         self.present(alert, animated: true, completion: nil)
         let time = DispatchTime.now() + 1
         DispatchQueue.main.asyncAfter(deadline: time) {
@@ -238,7 +240,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     //Failure alert with string that disappears after 1 second
     func createFailureAlert(with string: String) {
-        let alert = MyAlerts.createAlert(title: "Failure!", message: string)
+        let alert = Constants.Functions.createAlert(title: "Failure!", message: string)
         alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }

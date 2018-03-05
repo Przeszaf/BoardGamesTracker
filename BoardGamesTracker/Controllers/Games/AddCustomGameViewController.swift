@@ -25,6 +25,8 @@ class AddCustomGameViewController: UITableViewController {
         tableView.rowHeight = 50
         navigationItem.title = "Custom games"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMyOwnGame))
+        
+        tableView.backgroundColor = Constants.Global.backgroundColor
     }
     
     
@@ -34,6 +36,9 @@ class AddCustomGameViewController: UITableViewController {
         cell.gameNameLabel.text = gameStore.customGames[indexPath.row].name
         cell.gameTypeLabel.text = "Team game"
         cell.gameIconImageView.image = gameStore.customGames[indexPath.row].gameIcon
+        
+        cell.backgroundColor = UIColor.clear
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         return cell
     }
     

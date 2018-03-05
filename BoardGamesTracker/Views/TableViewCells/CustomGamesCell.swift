@@ -15,6 +15,7 @@ class CustomGameCell: UITableViewCell {
     var gameTypeLabel = UILabel()
     var gameIconImageView = UIImageView()
     
+    
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -43,5 +44,6 @@ class CustomGameCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
     
 }

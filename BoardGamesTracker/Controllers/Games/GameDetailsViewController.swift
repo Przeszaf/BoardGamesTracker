@@ -53,7 +53,8 @@ class GameDetailsViewController: UITableViewController {
             } else {
                 tableHeaderView.medianPointsLabel.text = "Median points: \((game.pointsArray[game.pointsArray.count/2] + game.pointsArray[game.pointsArray.count/2 - 1]) / 2)"
             }
-            tableHeaderView.averagePointsLabel.text = "Average points: \(game.averagePoints)"
+            let averagePointsString = String.init(format: "%.2f", game.averagePoints)
+            tableHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
         }
         
         //CHANGE LATER - check
@@ -63,6 +64,7 @@ class GameDetailsViewController: UITableViewController {
             print(customMatch.playersClasses ?? "")
         }
         
+        tableView.backgroundColor = Constants.Global.backgroundColor
         tableView.reloadData()
     }
     
@@ -92,6 +94,14 @@ class GameDetailsViewController: UITableViewController {
         cell.dateLabel.text = game.matches[indexPath.row].date.toStringWithHour()
         cell.playersLabel.text = playersToString(indexPath: indexPath)
         
+        cell.backgroundColor = UIColor.clear
+        if isEditing {
+            cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        }
+        
+        cell.selectionStyle = .none
         return cell
     }
     
@@ -126,6 +136,28 @@ class GameDetailsViewController: UITableViewController {
             alert.addAction(deleteAction)
             present(alert, animated: true, completion: nil)
         }
+    }
+    
+    
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
     }
     
     //MARK: - Buttons

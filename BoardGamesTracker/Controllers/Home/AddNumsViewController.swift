@@ -29,7 +29,9 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
         
         let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
         let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(toolbarNextButton))
-        toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
+        toolbar = Constants.Functions.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
+        
+        tableView.backgroundColor = Constants.Global.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +72,8 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
         cell.playerNumField.delegate = self
         cell.playerNumField.tag = indexPath.row
         cell.playerNumField.inputAccessoryView = toolbar
+        
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     

@@ -23,7 +23,7 @@ class SelectedGameMatchesCell: UITableViewCell {
         contentView.addSubview(playersLabel)
         contentView.addSubview(dateLabel)
         dateLabel.font = UIFont.systemFont(ofSize: 10)
-        dateLabel.textColor = UIColor.gray
+        dateLabel.textColor = UIColor.darkGray
         gameNameLabel.numberOfLines = 0
         playersLabel.numberOfLines = 0
         playersLabel.font = UIFont.systemFont(ofSize: 17)

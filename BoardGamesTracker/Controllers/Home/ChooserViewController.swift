@@ -24,6 +24,9 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = true
         navigationController?.delegate = self
+        
+        tableView.backgroundColor = Constants.Global.backgroundColor
+        tableView.separatorStyle = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,8 +39,11 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                     if let playerIndex = availablePlayers.index(of: player) {
                         let indexPath = IndexPath(row: playerIndex, section: 0)
                         tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
-                        //set tick mark
-                        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
+                        //set tick mark and background view
+                        if let cell = tableView.cellForRow(at: indexPath) {
+                            cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+                        }
                     }
                 }
             }
@@ -46,8 +52,11 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                 for expansion in expansions {
                     if let expansionIndex = carcassonneExpansions.index(of: expansion) {
                         let indexPath = IndexPath(row: expansionIndex, section: 0)
-                        tableView.selectRow(at: indexPath, animated: false, scrollPosition: .bottom)
-                        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
+                        //set tick mark and background view
+                        if let cell = tableView.cellForRow(at: indexPath) {
+                            cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+                        }
                     }
                 }
             }
@@ -63,6 +72,14 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             cell.textLabel?.text = availablePlayers[indexPath.row].name
         } else if key == "Carcassonne Expansions" {
             cell.textLabel?.text = carcassonneExpansions[indexPath.row]
+        }
+        
+        cell.backgroundColor = UIColor.clear
+        cell.selectionStyle = .none
+        if cell.isSelected {
+            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         }
         return cell
     }
@@ -91,7 +108,11 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             let expansion = carcassonneExpansions[indexPath.row]
             expansions.append(expansion)
         }
-        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+            cell.accessoryType = .checkmark
+        }
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -105,8 +126,23 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             let index = expansions.index(of: expansion)
             expansions.remove(at: index!)
         }
-        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+            cell.accessoryType = .none
+        }
     }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    
     
     //MARK: - UINavigationControllerDelegate
     
@@ -132,3 +168,4 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     }
     
 }
+

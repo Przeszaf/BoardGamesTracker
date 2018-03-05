@@ -41,11 +41,13 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         
         let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
         let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(toolbarNextButton))
-        toolbar = MyToolbar.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
+        toolbar = Constants.Functions.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
         
         if winners != nil, loosers != nil, game.name == "Avalon" {
             availablePlayers = winners! + loosers!
         }
+        
+        tableView.backgroundColor = Constants.Global.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,6 +78,8 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             cell.leftLabel.text = diseasesName
             cell.rightTextView.text = dictionary[diseasesName] as? String
         }
+        
+        cell.backgroundColor = UIColor.clear
         return cell
     }
     

@@ -12,12 +12,19 @@ import UIKit
 class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     var gameStore: GameStore!
+    var tableHeaderView: AllGamesHeaderView!
     
     var currentCell: Int?
     
     //MARK: - ViewController functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        let gamesPlayed = gameStore.allGames.count
+        var matchesPlayed = 0
+        for game in gameStore.allGames {
+            matchesPlayed += game.matches.count
+        }
+        tableHeaderView.label.text = "You have \(gamesPlayed) games in your collection and played \(matchesPlayed) matches. See your statistics below."
         tableView.reloadData()
     }
     
@@ -25,7 +32,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         super.viewDidLoad()
         tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
         tableView.rowHeight = 50
+        tableView.backgroundColor = Constants.Global.backgroundColor
+        tableView.separatorStyle = .none
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
+        tableHeaderView = AllGamesHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
+        tableView.tableHeaderView = tableHeaderView
     }
     
     //MARK: - TableView functions
@@ -35,13 +46,14 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         let game = gameStore.allGames[indexPath.row]
         
         //If it is custom game, then use different cell style with icon
-        //FIXME: icons for all game
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
         cell.gameName.text = gameStore.allGames[indexPath.row].name
         cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
         cell.gameName.delegate = self
+        cell.selectionStyle = .none
         
+        //Assign correct image to icon
         if let customGame = game as? CustomGame {
             cell.gameIconImageView.image = customGame.gameIcon
         } else {
@@ -56,6 +68,14 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         } else {
             cell.gameName.isEditable = false
             cell.gameName.isUserInteractionEnabled = false
+        }
+        
+        //Change background color of cell to clear
+        cell.backgroundColor = UIColor.clear
+        if isEditing {
+            cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
         }
         return cell
     }
@@ -91,7 +111,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
             return height + heightOfDate + 10
         }
-        return height + 35
+        return height + 31
     }
     
     //Perform segue when selects row and if it is not in editing mode
@@ -101,6 +121,16 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             return nil
         }
         return indexPath
+    }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
     }
     
     //MARK: - TextView functions

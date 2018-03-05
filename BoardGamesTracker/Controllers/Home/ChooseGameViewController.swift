@@ -21,6 +21,9 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         navigationController?.delegate = self
         tableView.register(AllGamesCell.self, forCellReuseIdentifier: "AllGamesCell")
         tableView.rowHeight = 50
+        
+        tableView.backgroundColor = Constants.Global.backgroundColor
+        tableView.separatorStyle = .none
     }
     
     
@@ -31,7 +34,9 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         if let game = selectedGame, let gameIndex = gameStore.allGames.index(of: game) {
             let index = IndexPath(row: gameIndex, section: 0)
             tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
-            tableView.cellForRow(at: index)?.accessoryType = UITableViewCellAccessoryType.checkmark
+            guard let cell = tableView.cellForRow(at: index) else { return }
+            cell.accessoryType = UITableViewCellAccessoryType.checkmark
+            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         }
     }
     
@@ -53,6 +58,16 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         //Added so clicking on gameName will be registered as clicking on cell
         cell.gameName.isEditable = false
         cell.gameName.isUserInteractionEnabled = false
+        
+        cell.backgroundColor = UIColor.clear
+        if isEditing {
+            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        }
+        
+        cell.selectionStyle = .none
+        
         return cell
     }
     
@@ -60,17 +75,37 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         return gameStore.allGames.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
     //Making tick marks
     override func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         selectedGame = gameStore.allGames[indexPath.row]
-        tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        cell.accessoryType = UITableViewCellAccessoryType.checkmark
         navigationController?.popViewController(animated: true)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
     }
+    
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+    
+    
     
     //MARK: - UINavigationControllerDelegate
     

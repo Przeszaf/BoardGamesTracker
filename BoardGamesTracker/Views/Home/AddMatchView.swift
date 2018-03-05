@@ -72,6 +72,13 @@ class AddMatchView: UIView {
         verticalStackView.axis = .vertical
         addSubviews()
         hideAllStackViews()
+        mySwitch.tintColor = UIColor.white
+        mySwitch.backgroundColor = UIColor.white
+        mySwitch.layer.cornerRadius = 16
+        
+        mySwitchTwo.tintColor = UIColor.white
+        mySwitchTwo.backgroundColor = UIColor.white
+        mySwitchTwo.layer.cornerRadius = 16
         
         gameLabel.text = "Name"
         playersLabel.text = "Players"
@@ -129,6 +136,8 @@ class AddMatchView: UIView {
         additionalLabel.trailingAnchor.constraint(equalTo: additionalSecondLabel.trailingAnchor).isActive = true
         additionalSecondLabel.trailingAnchor.constraint(equalTo: additionalThirdLabel.trailingAnchor).isActive = true
         
+        
+        mySwitchTwo.widthAnchor.constraint(equalToConstant: 49).isActive = true
         mySwitch.leadingAnchor.constraint(equalTo: mySwitchTwo.leadingAnchor).isActive = true
 
         

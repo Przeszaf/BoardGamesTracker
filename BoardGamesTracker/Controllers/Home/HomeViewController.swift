@@ -19,14 +19,19 @@ class HomeViewController: UIViewController {
     
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var startButton: UIButton!
-    
+    @IBOutlet var lastMatchPlayedLabel: UILabel!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         timer.label = timeLabel
         timeLabel.text = timer.time.toStringWithSeconds()
         if timer.isRunning {
             startButton.setTitle("Stop", for: .normal)
+        }
+        if let lastGame = gameStore.allGames.first, let lastMatch = lastGame.matches.first {
+            let timeInterval = -lastMatch.date.timeIntervalSinceNow
+            lastMatchPlayedLabel.text = "You played \(lastGame.name) \(timeInterval.toStringWithDays()) ago."
         }
     }
     
