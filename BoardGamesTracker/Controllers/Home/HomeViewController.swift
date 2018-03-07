@@ -51,6 +51,20 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: "showMap", sender: self)
     }
     
+    @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
+        var matchesWithPhoto = [Match]()
+        for game in gameStore.allGames {
+            for match in game.matches {
+                if let _ = imageStore.image(forKey: match.imageKey) {
+                    print(imageStore.imageURL(forKey: match.imageKey).path)
+                    matchesWithPhoto.append(match)
+                } else {
+                    print("No photo for match of \(game.name)")
+                }
+            }
+        }
+    }
+    
     
     @IBAction func startTimerButtonPressed(_ sender: UIButton) {
         if sender.currentTitle == "Start" {

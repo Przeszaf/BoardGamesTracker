@@ -240,6 +240,9 @@
                                 <rect key="frame" x="204" y="568.5" width="136" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="SEE PHOTOS!"/>
+                                <connections>
+                                    <action selector="showPhotosButtonPressed:" destination="KHN-59-fKE" eventType="touchUpInside" id="IrC-vY-xqt"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zG-Kr-iwB">
                                 <rect key="frame" x="35" y="568.5" width="96" height="39"/>
