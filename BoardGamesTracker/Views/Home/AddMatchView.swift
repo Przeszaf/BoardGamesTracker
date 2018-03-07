@@ -71,6 +71,7 @@ class AddMatchView: UIView {
         
         verticalStackView.axis = .vertical
         addSubviews()
+        setTranslatesAutoresizingMaskIntoConstraintToFalse()
         hideAllStackViews()
         mySwitch.tintColor = UIColor.white
         mySwitch.backgroundColor = UIColor.white
@@ -102,9 +103,10 @@ class AddMatchView: UIView {
         
         setTranslatesAutoresizingMaskIntoConstraintToFalse()
         
-        verticalStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
-        verticalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
-        verticalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
+        verticalStackView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        verticalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        verticalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         verticalStackView.spacing = 8
         
         
@@ -147,7 +149,6 @@ class AddMatchView: UIView {
         switchStackView.distribution = .fillProportionally
         switchTwoStackView.distribution = .fillProportionally
         
-        imageView.heightAnchor.constraint(equalToConstant: self.frame.width / 16 * 9).isActive = true
 
         
         
@@ -156,10 +157,20 @@ class AddMatchView: UIView {
         
         
         //Width of labels is set to width of longest string in labels + 8
-        let width = max(gameLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), playersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), pointsLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), winnersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), loosersLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)),dateLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), timeLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)), locationLabel.text!.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)))
+        var width = CGFloat(50)
+        
+        let labels = getVisibleLabels()
+        
+        for label in labels {
+            guard let labelWidth = label.text?.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)) else { return }
+            if labelWidth > width {
+                if label != switchLabel && label != switchTwoLabel {
+                    width = labelWidth
+                }
+            }
+        }
         
         gameLabel.widthAnchor.constraint(equalToConstant: width + 8).isActive = true
-        
         
     }
     
@@ -168,6 +179,7 @@ class AddMatchView: UIView {
         super.init(coder: aDecoder)
     }
     
+    //MARK: - Functions
     
     func setTranslatesAutoresizingMaskIntoConstraintToFalse() {
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -309,6 +321,22 @@ class AddMatchView: UIView {
         additionalStackView.isHidden = true
         additionalSecondStackView.isHidden = true
         additionalThirdStackView.isHidden = true
+    }
+    
+    func getVisibleLabels() -> [UILabel] {
+        var visibleLabels = [UILabel]()
+        for subview in verticalStackView.arrangedSubviews {
+            if let stackView = subview as? UIStackView {
+                if !stackView.isHidden {
+                    for stackViewSubview in stackView.arrangedSubviews {
+                        if let label = stackViewSubview as? UILabel {
+                            visibleLabels.append(label)
+                        }
+                    }
+                }
+            }
+        }
+        return visibleLabels
     }
 }
 

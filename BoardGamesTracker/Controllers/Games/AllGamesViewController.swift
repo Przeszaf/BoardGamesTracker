@@ -50,6 +50,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         cell.gameName.text = gameStore.allGames[indexPath.row].name
         cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
+        cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
         cell.gameName.delegate = self
         cell.selectionStyle = .none
         
@@ -109,9 +110,9 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let height = gameStore.allGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
         if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
-            return height + heightOfDate + 10
+            return height + heightOfDate + 14
         }
-        return height + 31
+        return height + 35
     }
     
     //Perform segue when selects row and if it is not in editing mode

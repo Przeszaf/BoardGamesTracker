@@ -12,7 +12,7 @@ class GameDetailsViewController: UITableViewController {
     
     var game: Game!
     var gameStore: GameStore!
-    var tableHeaderView: GameStatisticsView!
+    var tableHeaderView: GameDetailsHeaderView!
     
     
     //MARK: - Overriding functions
@@ -77,9 +77,13 @@ class GameDetailsViewController: UITableViewController {
         
         
         //Creating game statistics view -
-        //FIXME: different height for different types
-        tableHeaderView = GameStatisticsView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 160))
-        tableHeaderView.backgroundColor = UIColor.white
+        var height: CGFloat = 90
+        if game.type == .SoloWithPoints {
+            height = 140
+        } else {
+            height = 90
+        }
+        tableHeaderView = GameDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
         tableView.tableHeaderView = tableHeaderView
     }
     
@@ -92,11 +96,14 @@ class GameDetailsViewController: UITableViewController {
         
         //FIXME: use different Cell - Win/Lose instead of game name etc.
         cell.dateLabel.text = game.matches[indexPath.row].date.toStringWithHour()
-        cell.playersLabel.text = playersToString(indexPath: indexPath)
+        
+        let match = game.matches[indexPath.row]
+        let players = match.players
+        cell.playersLabel.text = playersToString(game: game, match: match, players: players)
         
         cell.backgroundColor = UIColor.clear
         if isEditing {
-            cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
+            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         } else {
             cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
         }
@@ -112,12 +119,20 @@ class GameDetailsViewController: UITableViewController {
     
     //Setting correct height of row
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = playersToString(indexPath: indexPath).height(withConstrainedWidth: view.frame.width/2 + 10, font: UIFont.systemFont(ofSize: 14)) + 10
+        let match = game.matches[indexPath.row]
+        let players = match.players
+        let string = playersToString(game: game, match: match, players: players)
+        let height = string.height(withConstrainedWidth: view.frame.width - 25, font: UIFont.systemFont(ofSize: 17)) + 28
         if height > 44 {
             return height
         }
         return 44
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
     
     //Deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -178,17 +193,32 @@ class GameDetailsViewController: UITableViewController {
 
     //MARK: - Other
     
-    //Getting string to put into playersField - depends on game -
-    //FIXME: update for different games
-    func playersToString(indexPath: IndexPath) -> String {
-        var string = [String]()
-        let players = game.matches[indexPath.row].players
-        if let points = game.matches[indexPath.row].playersPoints, let places = game.matches[indexPath.row].playersPlaces {
-            for (i, player) in players.enumerated() {
-                string.append("\(places[i]). \(player.name): \(points[i])")
+    //Getting string to put into playersField
+    
+    func playersToString(game: Game, match: Match, players: [Player]) -> String {
+        var stringArray = [String]()
+        for (i, player) in players.enumerated() {
+            if game.type == .SoloWithPoints {
+                stringArray.append("\(player.name): \(match.playersPoints![i])")
+            } else if game.type == .SoloWithPlaces {
+                stringArray.append("\(match.playersPlaces![i]). \(player.name)")
+            } else if game.type == .TeamWithPlaces {
+                if i > 0 {
+                    if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
+                        stringArray.append("\nLosers: \(player.name)")
+                    } else {
+                        stringArray.append("\(player.name)")
+                    }
+                } else {
+                    stringArray.append("Winners: \(player)")
+                }
+            } else if game.type == .Cooperation {
+                stringArray.append("\(player.name)")
             }
-            return string.joined(separator: ", ")
         }
-        return game.matches[indexPath.row].players.map{$0.name}.joined(separator: ", ")
+        var string = stringArray.joined(separator: ", ")
+        string = string.replacingOccurrences(of: ", \n", with: "\n")
+        return string
+        
     }
 }

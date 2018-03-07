@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
             let timeInterval = -lastMatch.date.timeIntervalSinceNow
             lastMatchPlayedLabel.text = "You played \(lastGame.name) \(timeInterval.toStringWithDays()) ago."
         }
+        view.backgroundColor = Constants.Global.backgroundColor
     }
     
     override func viewWillAppear(_ animated: Bool) {

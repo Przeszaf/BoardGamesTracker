@@ -41,6 +41,7 @@ class PlayerDetailsSectionView: UIView {
         
         expandButton.backgroundColor = UIColor.blue
         
+        setup()
     }
     
     override func layoutSubviews() {
@@ -75,7 +76,27 @@ class PlayerDetailsSectionView: UIView {
     
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    
+    func setup() {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = createBezierPath().cgPath
+        shapeLayer.strokeColor = Constants.Header.strokeColor
+        shapeLayer.lineWidth = Constants.Header.lineWidth
+        shapeLayer.position = CGPoint(x: 0, y: 68)
+        self.layer.addSublayer(shapeLayer)
+        
+    }
+    
+    func createBezierPath() -> UIBezierPath {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 10, y: 0))
+        path.addLine(to: CGPoint(x: bounds.width - 10, y: 0))
+        // see previous code for creating the Bezier path
+        return path
     }
     
     

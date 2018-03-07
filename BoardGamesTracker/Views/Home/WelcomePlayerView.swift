@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class WelcomeView: UIView {
+@IBDesignable class WelcomePlayerView: UIView {
     
     override func draw(_ rect: CGRect) {
         
@@ -32,7 +32,7 @@ import UIKit
         nameLabel.numberOfLines = 0
         nameLabel.textAlignment = .center
         nameLabel.backgroundColor = UIColor.clear
-        nameLabel.textColor = UIColor.black
+        nameLabel.textColor = Constants.Global.mainTextColor
         nameLabel.font = UIFont.boldSystemFont(ofSize: 30)
         nameLabel.text = "Hello, Przemek!"
         UIGraphicsBeginImageContext(frame.size)

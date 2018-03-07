@@ -24,7 +24,7 @@ class AllPlayersCell: UITableViewCell {
         
         
         playerDate.font = UIFont.systemFont(ofSize: 10)
-        playerDate.textColor = UIColor.darkGray
+        playerDate.textColor = Constants.Global.detailTextColor
         playerTimesPlayed.font = UIFont.systemFont(ofSize: 10)
         playerName.font = UIFont.systemFont(ofSize: 17)
         playerName.isEditable = false
@@ -34,11 +34,9 @@ class AllPlayersCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        
         playerName.frame = CGRect(x: 15, y: 0, width: frame.width - 50, height: frame.height - 15)
-        playerDate.frame = CGRect(x: 20, y: frame.height - 15, width: frame.width/2, height: 10)
-        playerTimesPlayed.frame = CGRect(x: frame.width - 90, y: frame.height - 15, width: 90, height: 10)
+        playerDate.frame = CGRect(x: 20, y: frame.height - 20, width: frame.width/2, height: 10)
+        playerTimesPlayed.frame = CGRect(x: frame.width - 95, y: frame.height - 20, width: 90, height: 10)
     }
     
     required init?(coder aDecoder: NSCoder) {

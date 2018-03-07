@@ -57,6 +57,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //MARK: - Outlets: text fields and stack views
     
+    var scrollView: UIScrollView!
     var myView: AddMatchView!
     var imageView: UIImageView!
     
@@ -193,13 +194,27 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     override func loadView() {
         super.loadView()
-        myView = AddMatchView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
-        view.addSubview(myView)
+        scrollView = UIScrollView(frame: view.frame)
+        myView = AddMatchView(frame: view.frame)
+        view.addSubview(scrollView)
+        scrollView.addSubview(myView)
+        
+        scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        
         myView.translatesAutoresizingMaskIntoConstraints = false
-        myView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor).isActive = true
-        myView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor).isActive = true
-        myView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor).isActive = true
-        myView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor).isActive = true
+        myView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15).isActive = true
+        myView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -15).isActive = true
+        myView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -15).isActive = true
+        myView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 15).isActive = true
+        
+        myView.verticalStackView.widthAnchor.constraint(equalToConstant: scrollView.frame.width - 30).isActive = true
+        myView.imageView.heightAnchor.constraint(equalToConstant: myView.frame.width * 9 / 16).isActive = true
         imageView = myView.imageView
     }
     
@@ -588,19 +603,19 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 for player in winners + loosers {
                     string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
                 }
-                myView.dictionaryTextView.text = string.joined(separator: ", ")
+                myView.dictionaryTextView.text = string.joined(separator: "\n")
             } else if customGame.name == "Pandemic" {
                 let classesDictionary = playersClasses as! [Player: PandemicClasses]
                 for player in selectedPlayers {
                     string.append("\(player) - \(classesDictionary[player]?.rawValue ?? "none")")
                 }
-                myView.dictionaryTextView.text = string.joined(separator: ", ")
+                myView.dictionaryTextView.text = string.joined(separator: "\n")
                 string.removeAll()
                 if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
                     for (diseaseName, cureStatus) in diseasesDictionary {
                         string.append("\(diseaseName) - \(cureStatus)")
                     }
-                    myView.additionalTextView.text = string.joined(separator: ", ")
+                    myView.additionalTextView.text = string.joined(separator: "\n")
                 }
             } else if customGame.name == "Carcassonne" {
                 if let expansionsArray = dictionary["Expansions"] as? [String] {
@@ -608,7 +623,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                         string.append(expansion)
                     }
                 }
-                myView.dictionaryTextView.text = string.joined(separator: ", ")
+                myView.dictionaryTextView.text = string.joined(separator: "\n")
             }
         }
     }

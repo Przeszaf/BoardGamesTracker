@@ -21,7 +21,6 @@ import UIKit
         layer.borderWidth = 3
         layer.borderColor = UIColor.gray.cgColor
         layer.backgroundColor = UIColor.lightGray.cgColor
-        
     }
     
     

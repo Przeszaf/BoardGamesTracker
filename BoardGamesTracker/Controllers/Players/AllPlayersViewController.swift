@@ -11,6 +11,7 @@ import UIKit
 class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     var playerStore: PlayerStore!
+    var tableHeaderView: AllPlayersHeaderView!
     var addingPlayer = false
     var currentCell: Int?
     
@@ -20,6 +21,8 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        
+        tableHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends so far. See their statistics below."
     }
     
     override func viewDidLoad() {
@@ -38,6 +41,10 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         toolbar = Constants.Functions.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         
         tableView.backgroundColor = Constants.Global.backgroundColor
+        
+        tableHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 70))
+        
+        tableView.tableHeaderView = tableHeaderView
     }
     
     
@@ -49,6 +56,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddPlayersCell", for: indexPath) as! AddPlayersCell
             cell.addButton.addTarget(self, action: #selector(addPlayer), for: .touchUpInside)
             cell.playerName.inputAccessoryView = toolbar
+            cell.backgroundColor = UIColor.clear
             return cell
         }
         
@@ -69,6 +77,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         } else {
             cell.playerTimesPlayed.text = "\(playerStore.allPlayers[indexPath.row].timesPlayed) times played"
         }
+        cell.playerTimesPlayed.textColor = Constants.Global.detailTextColor
         //Make playerName textView editable if table is editing and vice versa
         if isEditing {
             cell.playerName.isEditable = true
@@ -104,10 +113,11 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         if indexPath.row < playerStore.allPlayers.count {
             let heightOfName = playerStore.allPlayers[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
             if let heightOfDate = playerStore.allPlayers[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
-                return heightOfDate + heightOfName + 1
+                print(heightOfDate + heightOfName + 10)
+                return heightOfDate + heightOfName + 10
             }
         }
-        return 50
+        return 52
         
     }
     

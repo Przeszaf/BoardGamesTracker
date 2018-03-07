@@ -22,7 +22,6 @@ class AddCustomGameViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(CustomGameCell.self, forCellReuseIdentifier: "CustomGameCell")
-        tableView.rowHeight = 50
         navigationItem.title = "Custom games"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMyOwnGame))
         
@@ -54,6 +53,11 @@ class AddCustomGameViewController: UITableViewController {
         tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
     }
     
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let height = gameStore.customGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        return height + 35
+    }
     
     
     

@@ -7,12 +7,33 @@
 //
 
 import UIKit
+import BonMot
 
 struct Constants {
     
+    static let myStyle = StringStyle(
+        .font(UIFont.systemFont(ofSize: 17)),
+        .color(Global.mainTextColor),
+        .xmlRules([
+            .style("b", StringStyle(StringStyle.Part.font(BONFont.boldSystemFont(ofSize: 17)))),
+            ])
+    )
+    
     struct Global {
         
-        static let backgroundColor: UIColor = UIColor(red: 214/255, green: 214/255, blue: 214/255, alpha: 1)
+        static let backgroundColor: UIColor = UIColor(red: 214/255, green: 214/255, blue: 224/255, alpha: 1)
+        
+        static let mainTextColor: UIColor = UIColor.black
+        
+        static let detailTextColor: UIColor = UIColor.lightText
+    }
+    
+    struct Header {
+        
+        static let strokeColor = UIColor.lightGray.cgColor
+        
+        static let lineWidth: CGFloat = 2
+        
     }
     
     struct Cell {

@@ -10,4 +10,5 @@ target 'BoardGamesTracker' do
 
  pod "Cluster"
  pod "RandomColorSwift"
+ pod "BonMot"
 end

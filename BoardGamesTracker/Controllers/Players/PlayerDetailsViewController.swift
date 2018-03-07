@@ -21,7 +21,6 @@ class PlayerDetailsViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.rowHeight = 70
         tableView.register(PlayerDetailsCell.self, forCellReuseIdentifier: "PlayerDetailsCell")
         tableView.backgroundColor = Constants.Global.backgroundColor
     }
@@ -32,33 +31,30 @@ class PlayerDetailsViewController: UITableViewController {
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerDetailsCell", for: indexPath) as! PlayerDetailsCell
+        
+        //Correct general cell options
+        cell.backgroundColor = UIColor.clear
+        if isEditing{
+            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        }
+        cell.selectionStyle = .none
+        
         let game = player.gamesPlayed[indexPath.section]
         let match = player.matchesPlayed[game]![indexPath.row]
         let players = match.players
+        
+        //Making correct date and players Labels
         cell.dateLabel.text = match.date.toStringWithHour()
         
-        var string = [String]()
-        for (i, player) in players.enumerated() {
-            if game.type == .SoloWithPoints {
-                string.append("\(player.name): \(match.playersPoints![i])")
-            } else if game.type == .SoloWithPlaces {
-                string.append("\(match.playersPlaces![i]). \(player.name)")
-            } else if game.type == .TeamWithPlaces {
-                if i > 0 {
-                    if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
-                        string.append("Losers: \(player.name)")
-                    } else {
-                        string.append("\(player.name)")
-                    }
-                } else {
-                    string.append("Winners: \(player)")
-                }
-            } else if game.type == .Cooperation {
-                string.append("\(player.name)")
-            }
-        }
-        cell.playersLabel.text = string.joined(separator: ", ")
+        var playersString = playersToString(game: game, match: match, players: players)
         
+        playersString = playersString.replacingOccurrences(of: "\(player.name)", with: "<b>\(player.name)</b>")
+        
+        cell.playersLabel.attributedText = playersString.styled(with: Constants.myStyle)
+        
+        //Correcy places label
         var placeString = ""
         let place = player.gamesPlace[game]![indexPath.row]
         if game.type == .SoloWithPoints || game.type == .SoloWithPlaces {
@@ -84,14 +80,33 @@ class PlayerDetailsViewController: UITableViewController {
         }
         cell.placeLabel.text = placeString
         
-        cell.backgroundColor = UIColor.clear
-        if isEditing{
-            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-        } else {
-            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        switch placeString {
+        case "1st":
+            cell.placeLabel.textColor = UIColor.yellow
+        case "2nd":
+            cell.placeLabel.textColor = UIColor(red: 214/255, green: 214/255, blue: 214/255, alpha: 1)
+        case "3rd":
+            cell.placeLabel.textColor = UIColor.brown
+        case "Win":
+            cell.placeLabel.textColor = UIColor.green
+        case "Lose":
+            cell.placeLabel.textColor = UIColor.red
+        default:
+            cell.placeLabel.textColor = UIColor.black
         }
         
-        cell.selectionStyle = .none
+        //Correct classes cell
+        let playerClass = getPlayerClass(game: game, match: match)
+        cell.classLabel.text = playerClass
+
+        //Change color depending on team in Avalon
+        if game.name == "Avalon" {
+            if let playerClass = playerClass, playerClass.contains("Arthur") || playerClass.contains("Merlin") || playerClass.contains("Percival") {
+                cell.classLabel.textColor = UIColor.blue
+            } else {
+                cell.classLabel.textColor = UIColor.red
+            }
+        }
         
         return cell
     }
@@ -154,7 +169,15 @@ class PlayerDetailsViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        let game = player.gamesPlayed[indexPath.section]
+        let match = player.matchesPlayed[game]![indexPath.row]
+        let players = match.players
+        var height: CGFloat = 0
+        height += playersToString(game: game, match: match, players: players).height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        if let classString = getPlayerClass(game: game, match: match) {
+            height += classString.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        }
+        return height + 30
     }
     
     override func tableView(_ tableView: UITableView,
@@ -187,7 +210,55 @@ class PlayerDetailsViewController: UITableViewController {
         } else {
             expandedSections.append(button.tag)
             tableView.reloadSections(IndexSet([button.tag]), with: .automatic)
+            tableView.updateConstraints()
         }
     }
     
+    func playersToString(game: Game, match: Match, players: [Player]) -> String {
+        var stringArray = [String]()
+        for (i, player) in players.enumerated() {
+            if game.type == .SoloWithPoints {
+                stringArray.append("\(player.name): \(match.playersPoints![i])")
+            } else if game.type == .SoloWithPlaces {
+                stringArray.append("\(match.playersPlaces![i]). \(player.name)")
+            } else if game.type == .TeamWithPlaces {
+                if i > 0 {
+                    if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
+                        stringArray.append("\nLosers: \(player.name)")
+                    } else {
+                        stringArray.append("\(player.name)")
+                    }
+                } else {
+                    stringArray.append("Winners: \(player)")
+                }
+            } else if game.type == .Cooperation {
+                stringArray.append("\(player.name)")
+            }
+        }
+        var string = stringArray.joined(separator: ", ")
+        
+        //Deleting the comma at the end of Loosers line
+        string = string.replacingOccurrences(of: ", \n", with: "\n")
+        return string
+    }
+    
+    func getPlayerClass(game: Game, match: Match) -> String? {
+        if let customMatch = match as? CustomMatch {
+            var playerClass: String?
+            switch game.name {
+            case "Avalon":
+                let avalonClasses = customMatch.playersClasses as! [String: AvalonClasses]
+                playerClass = (avalonClasses[player.playerID]?.rawValue)!
+            case "Pandemic":
+                let pandemicClasses = customMatch.playersClasses as! [String: PandemicClasses]
+                playerClass = (pandemicClasses[player.playerID]?.rawValue)!
+            default:
+                break
+            }
+            if playerClass != nil {
+                return "Class: \(playerClass!)"
+            }
+        }
+        return nil
+    }
 }

@@ -49,6 +49,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         cell.gameName.text = game.name
         cell.gameDate.text = game.lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(game.timesPlayed) times played"
+        cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
         if let customGame = game as? CustomGame {
             cell.gameIconImageView.image = customGame.gameIcon
         } else {
@@ -76,7 +77,11 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        let height = gameStore.allGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+            return height + heightOfDate + 14
+        }
+        return height + 35
     }
     
     //Making tick marks

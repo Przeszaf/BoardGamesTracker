@@ -134,10 +134,12 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/BonMot/BonMot.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RandomColorSwift/RandomColorSwift.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/BonMot/BonMot.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Cluster/Cluster.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RandomColorSwift/RandomColorSwift.framework"
 fi

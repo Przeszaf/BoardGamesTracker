@@ -25,7 +25,7 @@ class CustomGameCell: UITableViewCell {
         
         gameNameLabel.font = UIFont.systemFont(ofSize: 17)
         gameTypeLabel.font = UIFont.systemFont(ofSize: 10)
-        gameTypeLabel.textColor = UIColor.darkGray
+        gameTypeLabel.textColor = Constants.Global.detailTextColor
         
         gameIconImageView.layer.cornerRadius = 20
         gameIconImageView.layer.masksToBounds = true
@@ -36,9 +36,9 @@ class CustomGameCell: UITableViewCell {
         super.layoutSubviews()
         
         
-        gameNameLabel.frame = CGRect(x: 55, y: 10, width: frame.width - 60, height: 30)
-        gameTypeLabel.frame = CGRect(x: 55, y: 40, width: frame.width - 60, height: 15)
-        gameIconImageView.frame = CGRect(x: 5, y: 5, width: 40, height: 40)
+        gameNameLabel.frame = CGRect(x: 65, y: 0, width: frame.width - 110, height: frame.height - 15)
+        gameTypeLabel.frame = CGRect(x: 65, y: frame.height - 20, width: frame.width/2 - 60, height: 10)
+        gameIconImageView.frame = CGRect(x: 15, y: 7.5, width: 40, height: 40)
     }
     
     required init?(coder aDecoder: NSCoder) {

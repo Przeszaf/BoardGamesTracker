@@ -7,94 +7,183 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0F47D46A60A66AA9099E95505C3014D4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F5EC09BB4947C5DA90D9D87AF9C49E /* Extensions.swift */; };
-		2E66C397C8EDCD005642C65E25113032 /* ColorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCE17E8D1A8B625E0739F200AA4A163 /* ColorDefinition.swift */; };
-		612F17EF3290726421C95D283D5A8878 /* RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADFAE2657C80A2930222C285C4F3AE /* RandomColor.swift */; };
-		6D1C0B1ECDAEA9C24EAD9C9D49DFD947 /* Pods-BoardGamesTracker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6548E5CFF5C7C29EA071478F10242ED /* Pods-BoardGamesTracker-dummy.m */; };
-		70844A1EE067B5E3ACD088BA840F3825 /* RandomColorSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8915AC8A024D4033FCEF2DAF8E8260F1 /* RandomColorSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		717A099C5464E41B3578B7F74E9FD1EF /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A11BA9F5E7479048A255A329F433464 /* Cluster.swift */; };
-		7D5C0875776AB59BA519288C0298C8B3 /* QuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091A28105E576368BB774C8C75997CDC /* QuadTree.swift */; };
+		007D1499E05E902282F03D0B92BE87C2 /* AdaptiveStyleTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AF46CA8854288981BDEAD9434BD6F8 /* AdaptiveStyleTransformation.swift */; };
+		019F9B097BA1D09683E52F23A04F458A /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82F098970950259F3B1CC271CCA8AAA8 /* Tab.swift */; };
+		02086E0D2F5CADCD78C61089D419FB3D /* Platform.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDFB54A744D0617D67BC2A19236EEBE5 /* Platform.swift */; };
+		03DBE4D3E047EF41A89AF58701594B89 /* NamedStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A6A22F5BE35D1EB01C1940BAB7DEC2 /* NamedStyles.swift */; };
+		057D283A45595F12F7CAEC2A19BB6394 /* Compatibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD6A12E31DB76E9FD2A7318A576D34E4 /* Compatibility.swift */; };
+		070A393A457682B9AF2D9C2237330DF1 /* Special.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1E90B33987B32E8234218212F814F37 /* Special.swift */; };
+		0DC0998C2B1AE7D5CB2E996DD70553B0 /* Tab+Adaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = A047FF75DCDD550D4C8CD474B8CBA8D8 /* Tab+Adaptive.swift */; };
+		0F47D46A60A66AA9099E95505C3014D4 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0290C4BFFB74C2ED8D5EAC4D1DE99525 /* Extensions.swift */; };
+		12BF30A767B5E6D26FBF066FC5691119 /* BonMot-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 816500BB5CCB43DB2BAD33A927997CA3 /* BonMot-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		141432C3E72D5C924BC93037C5D102F3 /* Image+Tinting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E583B032DDD6599F26B28B337B3593FF /* Image+Tinting.swift */; };
+		1F85CF17694433BB1285A1C38724685D /* StyleableUIElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D896115852486B7A7E6A65DCACC1011 /* StyleableUIElement.swift */; };
+		1FAFFB28FD488A58C6BFBBDCAFCEECBE /* FontInspector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C37C7465B077C5A3BB0E11C66101DD /* FontInspector.swift */; };
+		39675E9CF4BA0B80C5D9FFE2D256DC4E /* FontFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4229F25409B2136D6157E5E1113502F /* FontFeatures.swift */; };
+		50C90BDB25ABFA099A2FDE42BCE017B2 /* XMLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6799F7A2EF40C9FF9545A7409FBDC2DE /* XMLBuilder.swift */; };
+		511119A47FF2F457B7615AB667E81AC3 /* Ligatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DC918426D9CC6532418D981296C4DC2 /* Ligatures.swift */; };
+		558AFB12B35284D94140EE537642F8AE /* MutableCopying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0714E28D9318032ECA631E8488F4EDE1 /* MutableCopying.swift */; };
+		625BDC2A45FF816B2CB7ED25E2983829 /* EmbeddedTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A2AB296D90B436C472EA8710F756F /* EmbeddedTransformation.swift */; };
+		6E0DC9416CC8DB9B726A5FBA5AC5CF9D /* BonMot-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D818AEA30295D386F1D1D8CCFCD454 /* BonMot-dummy.m */; };
+		6F2FF57E10833F8A739AFBB3143AABB8 /* RandomColorSwift-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 30D4592D050857B302ACD07434B95012 /* RandomColorSwift-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		717A099C5464E41B3578B7F74E9FD1EF /* Cluster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350E6A969B03A6D8B8BB587A7157BE5C /* Cluster.swift */; };
+		754EEE53D287BD49EB9C82A74F0BBC99 /* RandomColorSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 54033BBBA0821AC1EB395719F90EAE39 /* RandomColorSwift-dummy.m */; };
+		779020EBEE69DE68A567490A1A205B9D /* StringStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCF5623A85E4DE183DC0E684DEAB696 /* StringStyle.swift */; };
+		7D5C0875776AB59BA519288C0298C8B3 /* QuadTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6588F1CF9E9D510D83C33E184A08E8DE /* QuadTree.swift */; };
 		80F6305913007B139416859838A511F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		9AA298606F6C4F7D3325F5322B452F6B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		AA13E59708361DB155E7077F44B03E55 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B458ACC1CCEA34424CC873C1C2DDE7 /* Annotation.swift */; };
-		B5578629F890088A8ED6D4F7F86F4EBD /* RandomColorSwift-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 43D12619A882F16CB5A10A0866A6A811 /* RandomColorSwift-dummy.m */; };
-		BED38DF2639A4D918060322CE69B0356 /* Luminosity.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCB1FC1BA0F193296DEFE9C84DB749F9 /* Luminosity.swift */; };
-		C26364958EBEDF1B8D33932BEA398A2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		E02282D69E809847220C158763EFAE83 /* Pods-BoardGamesTracker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AD5F1C2E80D6A5B9EB349DE32EA2451B /* Pods-BoardGamesTracker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E50C414F236F3DE9663D05462BD87D35 /* Cluster-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A8F7399923FCE4EDEBB948FC1C7E1341 /* Cluster-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F889ECDA7355A782DADD59774F33D520 /* Hue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A1124CCF103AFCB994ED8C28F258EF8 /* Hue.swift */; };
-		FD5A68568101FFDAC676CF01022CA4E4 /* Cluster-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C58F5433303ABA0FE4E638AF4244C0A /* Cluster-dummy.m */; };
+		8B6CC130817D63D8D27B51B477CF53F5 /* Luminosity.swift in Sources */ = {isa = PBXBuildFile; fileRef = E530685A4010CEE651C014E840DEAD1B /* Luminosity.swift */; };
+		8F86C837B65D43D30FB61AC4DAFDD735 /* AccessibilityHeadingLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05F675B5FBF4CAAF38CB2E44F0A6A4B /* AccessibilityHeadingLevel.swift */; };
+		918FFB4FC02B34E4C9D729C0645495DA /* ColorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A3FA76B807FC79D618DB27BD044161 /* ColorDefinition.swift */; };
+		91D14456AC02F727F869FADBCD1EB304 /* Hue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23934D0B022CB89290922879ECBDF34C /* Hue.swift */; };
+		9215CB0E30DD52427500AC0ADDDD2079 /* UIKit+AdaptableTextContainerSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5576FEEF7C373BB0B1BF4139586BF4 /* UIKit+AdaptableTextContainerSupport.swift */; };
+		95C1BE8BBD03C528E92A07540EFC6E98 /* AdaptiveStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAAA1C39CE5B944F5F18D3EAC7FEBAA /* AdaptiveStyle.swift */; };
+		974F6B3E8C0155065E30532B3B661B35 /* Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429EEAF42119B2C45AFDD6A274721A87 /* Transform.swift */; };
+		9F262C5942228D1DB8F28A124216CCF0 /* NSAttributedString+BonMot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0062A30A0C1EDBAAC113A68E2AD2BCF4 /* NSAttributedString+BonMot.swift */; };
+		A3CE101D2FF1432BCC3F41C4E2556D7F /* AttributedStringTransformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEABC109491A04ADE6C9317EBD8902F /* AttributedStringTransformation.swift */; };
+		A8EFC05DA9F566ED169145F53D123AC9 /* UIKit+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7491C55795197F6756E2B842F985D70 /* UIKit+Helpers.swift */; };
+		A9F8D6C0FB5197A8E3D2EE8688D8BA39 /* ContextualAlternates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBA3591DAEB9466C66C010A31F003C /* ContextualAlternates.swift */; };
+		AA0B04631952772467DEA39F11CA62FA /* StylisticAlternates.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8335941B42F7551875D86F7A1CC9C6F /* StylisticAlternates.swift */; };
+		AA13E59708361DB155E7077F44B03E55 /* Annotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF494D862595A4EBE0C2B31E116300A /* Annotation.swift */; };
+		B1C98592B5DF149E4972E47390806F4D /* Tracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06596FC027083528029A906870D40EB /* Tracking.swift */; };
+		B93D650DAFC86F1F949371D3B1B2EDF6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		C4458CB7BEEA86C8554B4CEFA02B3A31 /* NSAttributedString+Adaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FF48410EF4D38548DDDB78D84C32A2 /* NSAttributedString+Adaptive.swift */; };
+		C8CD3EF8E416B1807EA218ADAF1CECB2 /* Pods-BoardGamesTracker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6548E5CFF5C7C29EA071478F10242ED /* Pods-BoardGamesTracker-dummy.m */; };
+		C931B535410D2F5A6805BA08EC54CDDE /* Tracking+Adaptive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2747CA8726B280DD1B58184E7986F072 /* Tracking+Adaptive.swift */; };
+		D0EF097BFC95CDE86C329742AD29F1F7 /* TextAlignmentConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FB7257C337870FB541320294CC79FB /* TextAlignmentConstraint.swift */; };
+		D244EE7ED61CEA50973A2A9C866A9A4B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		D3A7049BD8717B49212E0351D44BDC7D /* Pods-BoardGamesTracker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AD5F1C2E80D6A5B9EB349DE32EA2451B /* Pods-BoardGamesTracker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D5991AD5FF9851C3CE60D11BC594BADE /* AdaptableTextContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1205D999A9D29474B40C3C5F264BF2F7 /* AdaptableTextContainer.swift */; };
+		D75F62EB22D1050AECBAA585F9F1B172 /* RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F0EF7BF3445854F86F3551955BEA5DA /* RandomColor.swift */; };
+		E50B4F17B443BA642337E081C4DD7EEB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
+		E50C414F236F3DE9663D05462BD87D35 /* Cluster-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 68AE423B7E2682A446264677298F50C5 /* Cluster-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E7821C08F6BE4E80EC0BED82811E59CB /* Composable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDAA9DDD3FAB0E5EFD52355DCEF69CEE /* Composable.swift */; };
+		EF5C63EAC0DAE6EDFF515AB4C95EE82D /* StringStyle+Part.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE84EBB2CFBE8E1819D13C59C8193E1 /* StringStyle+Part.swift */; };
+		FD5A68568101FFDAC676CF01022CA4E4 /* Cluster-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C157572678BDF79B33F4A11AA9BEA9C /* Cluster-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0991354E61D1C4F12AF88CCE0A739537 /* PBXContainerItemProxy */ = {
+		459BBED4A6AE90C704FEEAEA271BA706 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB742394EFA39863C295FA4D135D01A5;
+			remoteInfo = BonMot;
+		};
+		F4CB36548E6A63C89B757D0A187EF5EC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4C86E37AD16A3BFC2304453CAEAB170;
+			remoteInfo = RandomColorSwift;
+		};
+		F5817CFC3C2AF86F00CDD737B88E171F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8CF763AF743225C5812E7F495B76A06A;
 			remoteInfo = Cluster;
 		};
-		FA187B90570651C9D7B6456849DD2C01 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BA6DCF4CE29C83C5F48D65A628CBFBD8;
-			remoteInfo = RandomColorSwift;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		056E6E6D3136C4D86B3421833A4FC9F5 /* Cluster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Cluster.framework; path = Cluster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		091A28105E576368BB774C8C75997CDC /* QuadTree.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuadTree.swift; path = Sources/QuadTree.swift; sourceTree = "<group>"; };
-		16B458ACC1CCEA34424CC873C1C2DDE7 /* Annotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Annotation.swift; path = Sources/Annotation.swift; sourceTree = "<group>"; };
+		0062A30A0C1EDBAAC113A68E2AD2BCF4 /* NSAttributedString+BonMot.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSAttributedString+BonMot.swift"; path = "Sources/NSAttributedString+BonMot.swift"; sourceTree = "<group>"; };
+		0290C4BFFB74C2ED8D5EAC4D1DE99525 /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Extensions.swift; sourceTree = "<group>"; };
+		03FF48410EF4D38548DDDB78D84C32A2 /* NSAttributedString+Adaptive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSAttributedString+Adaptive.swift"; path = "Sources/UIKit/NSAttributedString+Adaptive.swift"; sourceTree = "<group>"; };
+		041A2AB296D90B436C472EA8710F756F /* EmbeddedTransformation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = EmbeddedTransformation.swift; path = Sources/UIKit/EmbeddedTransformation.swift; sourceTree = "<group>"; };
+		0714E28D9318032ECA631E8488F4EDE1 /* MutableCopying.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = MutableCopying.swift; path = Sources/MutableCopying.swift; sourceTree = "<group>"; };
+		07357CEC2828BA0F8D0AB23256CB3C30 /* Cluster.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Cluster.modulemap; sourceTree = "<group>"; };
+		0BD4B4F927E36B6DE50D9B81BEBC3951 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		106035AF00F96B157AC89C3D347356D4 /* Pods_BoardGamesTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BoardGamesTracker.framework; path = "Pods-BoardGamesTracker.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1205D999A9D29474B40C3C5F264BF2F7 /* AdaptableTextContainer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdaptableTextContainer.swift; path = Sources/UIKit/AdaptableTextContainer.swift; sourceTree = "<group>"; };
+		14A29A1BE8FAD9AA64799039F9108628 /* RandomColorSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RandomColorSwift-prefix.pch"; sourceTree = "<group>"; };
+		1DDBA3591DAEB9466C66C010A31F003C /* ContextualAlternates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ContextualAlternates.swift; path = Sources/ContextualAlternates.swift; sourceTree = "<group>"; };
+		2081E3E20A08EEDA73E778EFC771CB18 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2357DB28D7A138A5DBBFE94A8EE10DE6 /* RandomColorSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = RandomColorSwift.modulemap; sourceTree = "<group>"; };
+		23934D0B022CB89290922879ECBDF34C /* Hue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Hue.swift; path = RandomColor/Hue.swift; sourceTree = "<group>"; };
+		2747CA8726B280DD1B58184E7986F072 /* Tracking+Adaptive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Tracking+Adaptive.swift"; path = "Sources/UIKit/Tracking+Adaptive.swift"; sourceTree = "<group>"; };
+		2AEABC109491A04ADE6C9317EBD8902F /* AttributedStringTransformation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AttributedStringTransformation.swift; path = Sources/UIKit/AttributedStringTransformation.swift; sourceTree = "<group>"; };
+		2C157572678BDF79B33F4A11AA9BEA9C /* Cluster-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Cluster-dummy.m"; sourceTree = "<group>"; };
+		2DC918426D9CC6532418D981296C4DC2 /* Ligatures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Ligatures.swift; path = Sources/Ligatures.swift; sourceTree = "<group>"; };
+		30D4592D050857B302ACD07434B95012 /* RandomColorSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RandomColorSwift-umbrella.h"; sourceTree = "<group>"; };
+		350E6A969B03A6D8B8BB587A7157BE5C /* Cluster.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cluster.swift; path = Sources/Cluster.swift; sourceTree = "<group>"; };
+		37A6A22F5BE35D1EB01C1940BAB7DEC2 /* NamedStyles.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NamedStyles.swift; path = Sources/NamedStyles.swift; sourceTree = "<group>"; };
 		37CA39CCF2C493889B1F0B58CD91D292 /* Pods-BoardGamesTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BoardGamesTracker.debug.xcconfig"; sourceTree = "<group>"; };
-		3A11BA9F5E7479048A255A329F433464 /* Cluster.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Cluster.swift; path = Sources/Cluster.swift; sourceTree = "<group>"; };
 		3BF04B2EDA9D162A3F8B46214CAF75ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		43D12619A882F16CB5A10A0866A6A811 /* RandomColorSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RandomColorSwift-dummy.m"; sourceTree = "<group>"; };
-		4730E1CBDC2375472784E3FFBBC67BC3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4A9F047E8360E3CBDA437BB8B3A2A0FC /* RandomColorSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RandomColorSwift.framework; path = RandomColorSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3DAAA1C39CE5B944F5F18D3EAC7FEBAA /* AdaptiveStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdaptiveStyle.swift; path = Sources/UIKit/AdaptiveStyle.swift; sourceTree = "<group>"; };
+		429EEAF42119B2C45AFDD6A274721A87 /* Transform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Transform.swift; path = Sources/Transform.swift; sourceTree = "<group>"; };
+		44F96078B407956FC014A072FA9D4498 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B0FF38E433FA4DEC6C633253696402C /* Pods-BoardGamesTracker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-BoardGamesTracker.modulemap"; sourceTree = "<group>"; };
-		58D354DE0C808531709A5D9018CB6EF0 /* Cluster.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cluster.xcconfig; sourceTree = "<group>"; };
+		54033BBBA0821AC1EB395719F90EAE39 /* RandomColorSwift-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "RandomColorSwift-dummy.m"; sourceTree = "<group>"; };
+		55C27D6E7F0CEBF9CEAC69BC08FE0DA7 /* BonMot.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = BonMot.modulemap; sourceTree = "<group>"; };
+		5F5576FEEF7C373BB0B1BF4139586BF4 /* UIKit+AdaptableTextContainerSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIKit+AdaptableTextContainerSupport.swift"; path = "Sources/UIKit/UIKit+AdaptableTextContainerSupport.swift"; sourceTree = "<group>"; };
+		6588F1CF9E9D510D83C33E184A08E8DE /* QuadTree.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = QuadTree.swift; path = Sources/QuadTree.swift; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		7A1124CCF103AFCB994ED8C28F258EF8 /* Hue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Hue.swift; path = RandomColor/Hue.swift; sourceTree = "<group>"; };
-		7D82C29E2881ECD46CE0DF7508303ADF /* Cluster-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cluster-prefix.pch"; sourceTree = "<group>"; };
+		6799F7A2EF40C9FF9545A7409FBDC2DE /* XMLBuilder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = XMLBuilder.swift; path = Sources/XMLBuilder.swift; sourceTree = "<group>"; };
+		68AE423B7E2682A446264677298F50C5 /* Cluster-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cluster-umbrella.h"; sourceTree = "<group>"; };
+		6C7BD4572504DFC58C842A372DE48DC8 /* BonMot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = BonMot.framework; path = BonMot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D896115852486B7A7E6A65DCACC1011 /* StyleableUIElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StyleableUIElement.swift; path = Sources/UIKit/StyleableUIElement.swift; sourceTree = "<group>"; };
+		7EFD8F1A0C217B3589D9C579A8B293B6 /* Cluster-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cluster-prefix.pch"; sourceTree = "<group>"; };
+		816500BB5CCB43DB2BAD33A927997CA3 /* BonMot-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BonMot-umbrella.h"; sourceTree = "<group>"; };
+		8261B06F8A554B745FEE72E4E73E4BB0 /* Cluster.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Cluster.xcconfig; sourceTree = "<group>"; };
+		82F098970950259F3B1CC271CCA8AAA8 /* Tab.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tab.swift; path = Sources/Tab.swift; sourceTree = "<group>"; };
 		83FE6DC7187695893336817450F243E8 /* Pods-BoardGamesTracker-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BoardGamesTracker-frameworks.sh"; sourceTree = "<group>"; };
-		8915AC8A024D4033FCEF2DAF8E8260F1 /* RandomColorSwift-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RandomColorSwift-umbrella.h"; sourceTree = "<group>"; };
-		8FCE17E8D1A8B625E0739F200AA4A163 /* ColorDefinition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorDefinition.swift; path = RandomColor/ColorDefinition.swift; sourceTree = "<group>"; };
-		936E568C8FD110411B57653D7FFE5BF2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84D8F9A99E31D1263FDECFA4A416DFAE /* RandomColorSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = RandomColorSwift.framework; path = RandomColorSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F0EF7BF3445854F86F3551955BEA5DA /* RandomColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RandomColor.swift; path = RandomColor/RandomColor.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9C58F5433303ABA0FE4E638AF4244C0A /* Cluster-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Cluster-dummy.m"; sourceTree = "<group>"; };
-		A3F5EC09BB4947C5DA90D9D87AF9C49E /* Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Extensions.swift; path = Sources/Extensions.swift; sourceTree = "<group>"; };
-		A8F7399923FCE4EDEBB948FC1C7E1341 /* Cluster-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Cluster-umbrella.h"; sourceTree = "<group>"; };
+		96AF46CA8854288981BDEAD9434BD6F8 /* AdaptiveStyleTransformation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AdaptiveStyleTransformation.swift; path = Sources/UIKit/AdaptiveStyleTransformation.swift; sourceTree = "<group>"; };
+		A047FF75DCDD550D4C8CD474B8CBA8D8 /* Tab+Adaptive.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Tab+Adaptive.swift"; path = "Sources/UIKit/Tab+Adaptive.swift"; sourceTree = "<group>"; };
+		A1D818AEA30295D386F1D1D8CCFCD454 /* BonMot-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "BonMot-dummy.m"; sourceTree = "<group>"; };
+		A1E90B33987B32E8234218212F814F37 /* Special.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Special.swift; path = Sources/Special.swift; sourceTree = "<group>"; };
+		A7491C55795197F6756E2B842F985D70 /* UIKit+Helpers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "UIKit+Helpers.swift"; path = "Sources/UIKit/UIKit+Helpers.swift"; sourceTree = "<group>"; };
+		A8335941B42F7551875D86F7A1CC9C6F /* StylisticAlternates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StylisticAlternates.swift; path = Sources/StylisticAlternates.swift; sourceTree = "<group>"; };
+		A8A3FA76B807FC79D618DB27BD044161 /* ColorDefinition.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ColorDefinition.swift; path = RandomColor/ColorDefinition.swift; sourceTree = "<group>"; };
 		AA94CFCAFFEA6C6DE4B305D814612E02 /* Pods-BoardGamesTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-BoardGamesTracker.release.xcconfig"; sourceTree = "<group>"; };
 		AD5F1C2E80D6A5B9EB349DE32EA2451B /* Pods-BoardGamesTracker-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-BoardGamesTracker-umbrella.h"; sourceTree = "<group>"; };
 		B143AF75E1E0492D9C2CB69AB23D78F7 /* Pods-BoardGamesTracker-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-BoardGamesTracker-acknowledgements.plist"; sourceTree = "<group>"; };
-		B2E378A171CAC90306308AD8B84AFDC0 /* RandomColorSwift.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = RandomColorSwift.modulemap; sourceTree = "<group>"; };
+		B4FB7257C337870FB541320294CC79FB /* TextAlignmentConstraint.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = TextAlignmentConstraint.swift; path = Sources/UIKit/TextAlignmentConstraint.swift; sourceTree = "<group>"; };
 		B6548E5CFF5C7C29EA071478F10242ED /* Pods-BoardGamesTracker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-BoardGamesTracker-dummy.m"; sourceTree = "<group>"; };
-		BCB1FC1BA0F193296DEFE9C84DB749F9 /* Luminosity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Luminosity.swift; path = RandomColor/Luminosity.swift; sourceTree = "<group>"; };
+		B89A43EC55C0493B4C1AA60262550401 /* RandomColorSwift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RandomColorSwift.xcconfig; sourceTree = "<group>"; };
+		BCF494D862595A4EBE0C2B31E116300A /* Annotation.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Annotation.swift; path = Sources/Annotation.swift; sourceTree = "<group>"; };
 		C26D0275E0F97ED2519D873F87E6BAB0 /* Pods-BoardGamesTracker-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-BoardGamesTracker-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C314EE39F614A37A8B0629CA10E263C8 /* RandomColorSwift.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = RandomColorSwift.xcconfig; sourceTree = "<group>"; };
 		C5F69012398A71C30D8534D839372935 /* Pods-BoardGamesTracker-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-BoardGamesTracker-resources.sh"; sourceTree = "<group>"; };
-		C73190FC9ABD1F931105ED59193D6264 /* RandomColorSwift-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "RandomColorSwift-prefix.pch"; sourceTree = "<group>"; };
-		CEADFAE2657C80A2930222C285C4F3AE /* RandomColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RandomColor.swift; path = RandomColor/RandomColor.swift; sourceTree = "<group>"; };
-		E3BD3D84023F45B93E0EEE5BA7D32AB2 /* Pods_BoardGamesTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_BoardGamesTracker.framework; path = "Pods-BoardGamesTracker.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FF97C31A47AA8967A8111615F90BC27B /* Cluster.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Cluster.modulemap; sourceTree = "<group>"; };
+		CDAA9DDD3FAB0E5EFD52355DCEF69CEE /* Composable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Composable.swift; path = Sources/Composable.swift; sourceTree = "<group>"; };
+		CDCF5623A85E4DE183DC0E684DEAB696 /* StringStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StringStyle.swift; path = Sources/StringStyle.swift; sourceTree = "<group>"; };
+		CFE84EBB2CFBE8E1819D13C59C8193E1 /* StringStyle+Part.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "StringStyle+Part.swift"; path = "Sources/StringStyle+Part.swift"; sourceTree = "<group>"; };
+		E271A5DD08F7D4F78C947429A0D2B0DC /* BonMot-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "BonMot-prefix.pch"; sourceTree = "<group>"; };
+		E4229F25409B2136D6157E5E1113502F /* FontFeatures.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontFeatures.swift; path = Sources/FontFeatures.swift; sourceTree = "<group>"; };
+		E530685A4010CEE651C014E840DEAD1B /* Luminosity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Luminosity.swift; path = RandomColor/Luminosity.swift; sourceTree = "<group>"; };
+		E583B032DDD6599F26B28B337B3593FF /* Image+Tinting.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Image+Tinting.swift"; path = "Sources/Image+Tinting.swift"; sourceTree = "<group>"; };
+		EDFB54A744D0617D67BC2A19236EEBE5 /* Platform.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Platform.swift; path = Sources/Platform.swift; sourceTree = "<group>"; };
+		F04A853A8031EF77878C6C70C23F9DA7 /* Cluster.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Cluster.framework; path = Cluster.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F05F675B5FBF4CAAF38CB2E44F0A6A4B /* AccessibilityHeadingLevel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AccessibilityHeadingLevel.swift; path = Sources/AccessibilityHeadingLevel.swift; sourceTree = "<group>"; };
+		F06596FC027083528029A906870D40EB /* Tracking.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Tracking.swift; path = Sources/Tracking.swift; sourceTree = "<group>"; };
+		F2F3AFB0F2723617B1F82BB9CB884C6E /* BonMot.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = BonMot.xcconfig; sourceTree = "<group>"; };
+		F9C37C7465B077C5A3BB0E11C66101DD /* FontInspector.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FontInspector.swift; path = Sources/FontInspector.swift; sourceTree = "<group>"; };
+		FD6A12E31DB76E9FD2A7318A576D34E4 /* Compatibility.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Compatibility.swift; path = Sources/Compatibility.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3E24311CC6F9FE009E6BA32F40A4A58B /* Frameworks */ = {
+		3387EF97F749245C5D9F2AE87B61A120 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9AA298606F6C4F7D3325F5322B452F6B /* Foundation.framework in Frameworks */,
+				D244EE7ED61CEA50973A2A9C866A9A4B /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4137CF1E083C135229D30CC329A0EDFF /* Frameworks */ = {
+		7780247C4E30C064EEB169C5CE1B0963 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C26364958EBEDF1B8D33932BEA398A2E /* Foundation.framework in Frameworks */,
+				B93D650DAFC86F1F949371D3B1B2EDF6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AE23521FE0F98B572579790C6AD3403A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E50B4F17B443BA642337E081C4DD7EEB /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,53 +198,96 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0C1CE437D0B167FCB96686E4A4774552 /* RandomColorSwift */ = {
+		16CAD9DD2641EB3F79145F541F2B2091 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				8FCE17E8D1A8B625E0739F200AA4A163 /* ColorDefinition.swift */,
-				7A1124CCF103AFCB994ED8C28F258EF8 /* Hue.swift */,
-				BCB1FC1BA0F193296DEFE9C84DB749F9 /* Luminosity.swift */,
-				CEADFAE2657C80A2930222C285C4F3AE /* RandomColor.swift */,
-				DDC739B28B8B37F45D83F9CEA4F1C8AB /* Support Files */,
-			);
-			name = RandomColorSwift;
-			path = RandomColorSwift;
-			sourceTree = "<group>";
-		};
-		21EBCEAE7A3178A60073C25F9269B7B1 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				FF97C31A47AA8967A8111615F90BC27B /* Cluster.modulemap */,
-				58D354DE0C808531709A5D9018CB6EF0 /* Cluster.xcconfig */,
-				9C58F5433303ABA0FE4E638AF4244C0A /* Cluster-dummy.m */,
-				7D82C29E2881ECD46CE0DF7508303ADF /* Cluster-prefix.pch */,
-				A8F7399923FCE4EDEBB948FC1C7E1341 /* Cluster-umbrella.h */,
-				4730E1CBDC2375472784E3FFBBC67BC3 /* Info.plist */,
+				07357CEC2828BA0F8D0AB23256CB3C30 /* Cluster.modulemap */,
+				8261B06F8A554B745FEE72E4E73E4BB0 /* Cluster.xcconfig */,
+				2C157572678BDF79B33F4A11AA9BEA9C /* Cluster-dummy.m */,
+				7EFD8F1A0C217B3589D9C579A8B293B6 /* Cluster-prefix.pch */,
+				68AE423B7E2682A446264677298F50C5 /* Cluster-umbrella.h */,
+				2081E3E20A08EEDA73E778EFC771CB18 /* Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Cluster";
 			sourceTree = "<group>";
 		};
-		25D1B43211C2402B8E7532123C35BB1E /* Cluster */ = {
+		2B11D691F95F66152A146125166C0D5C /* BonMot */ = {
 			isa = PBXGroup;
 			children = (
-				16B458ACC1CCEA34424CC873C1C2DDE7 /* Annotation.swift */,
-				3A11BA9F5E7479048A255A329F433464 /* Cluster.swift */,
-				A3F5EC09BB4947C5DA90D9D87AF9C49E /* Extensions.swift */,
-				091A28105E576368BB774C8C75997CDC /* QuadTree.swift */,
-				21EBCEAE7A3178A60073C25F9269B7B1 /* Support Files */,
+				F05F675B5FBF4CAAF38CB2E44F0A6A4B /* AccessibilityHeadingLevel.swift */,
+				1205D999A9D29474B40C3C5F264BF2F7 /* AdaptableTextContainer.swift */,
+				3DAAA1C39CE5B944F5F18D3EAC7FEBAA /* AdaptiveStyle.swift */,
+				96AF46CA8854288981BDEAD9434BD6F8 /* AdaptiveStyleTransformation.swift */,
+				2AEABC109491A04ADE6C9317EBD8902F /* AttributedStringTransformation.swift */,
+				FD6A12E31DB76E9FD2A7318A576D34E4 /* Compatibility.swift */,
+				CDAA9DDD3FAB0E5EFD52355DCEF69CEE /* Composable.swift */,
+				1DDBA3591DAEB9466C66C010A31F003C /* ContextualAlternates.swift */,
+				041A2AB296D90B436C472EA8710F756F /* EmbeddedTransformation.swift */,
+				E4229F25409B2136D6157E5E1113502F /* FontFeatures.swift */,
+				F9C37C7465B077C5A3BB0E11C66101DD /* FontInspector.swift */,
+				E583B032DDD6599F26B28B337B3593FF /* Image+Tinting.swift */,
+				2DC918426D9CC6532418D981296C4DC2 /* Ligatures.swift */,
+				0714E28D9318032ECA631E8488F4EDE1 /* MutableCopying.swift */,
+				37A6A22F5BE35D1EB01C1940BAB7DEC2 /* NamedStyles.swift */,
+				03FF48410EF4D38548DDDB78D84C32A2 /* NSAttributedString+Adaptive.swift */,
+				0062A30A0C1EDBAAC113A68E2AD2BCF4 /* NSAttributedString+BonMot.swift */,
+				EDFB54A744D0617D67BC2A19236EEBE5 /* Platform.swift */,
+				A1E90B33987B32E8234218212F814F37 /* Special.swift */,
+				CDCF5623A85E4DE183DC0E684DEAB696 /* StringStyle.swift */,
+				CFE84EBB2CFBE8E1819D13C59C8193E1 /* StringStyle+Part.swift */,
+				6D896115852486B7A7E6A65DCACC1011 /* StyleableUIElement.swift */,
+				A8335941B42F7551875D86F7A1CC9C6F /* StylisticAlternates.swift */,
+				82F098970950259F3B1CC271CCA8AAA8 /* Tab.swift */,
+				A047FF75DCDD550D4C8CD474B8CBA8D8 /* Tab+Adaptive.swift */,
+				B4FB7257C337870FB541320294CC79FB /* TextAlignmentConstraint.swift */,
+				F06596FC027083528029A906870D40EB /* Tracking.swift */,
+				2747CA8726B280DD1B58184E7986F072 /* Tracking+Adaptive.swift */,
+				429EEAF42119B2C45AFDD6A274721A87 /* Transform.swift */,
+				5F5576FEEF7C373BB0B1BF4139586BF4 /* UIKit+AdaptableTextContainerSupport.swift */,
+				A7491C55795197F6756E2B842F985D70 /* UIKit+Helpers.swift */,
+				6799F7A2EF40C9FF9545A7409FBDC2DE /* XMLBuilder.swift */,
+				F63ACBAC0FEC29E89FC1343FD9F9EB42 /* Support Files */,
+			);
+			name = BonMot;
+			path = BonMot;
+			sourceTree = "<group>";
+		};
+		2B7DF08D9BC66894124659BBC589E62B /* RandomColorSwift */ = {
+			isa = PBXGroup;
+			children = (
+				A8A3FA76B807FC79D618DB27BD044161 /* ColorDefinition.swift */,
+				23934D0B022CB89290922879ECBDF34C /* Hue.swift */,
+				E530685A4010CEE651C014E840DEAD1B /* Luminosity.swift */,
+				8F0EF7BF3445854F86F3551955BEA5DA /* RandomColor.swift */,
+				EFA2075071E3C17588005F4F707F0ED8 /* Support Files */,
+			);
+			name = RandomColorSwift;
+			path = RandomColorSwift;
+			sourceTree = "<group>";
+		};
+		56B8CD6F34B2EC450AA4AC8E037F3AEC /* Cluster */ = {
+			isa = PBXGroup;
+			children = (
+				BCF494D862595A4EBE0C2B31E116300A /* Annotation.swift */,
+				350E6A969B03A6D8B8BB587A7157BE5C /* Cluster.swift */,
+				0290C4BFFB74C2ED8D5EAC4D1DE99525 /* Extensions.swift */,
+				6588F1CF9E9D510D83C33E184A08E8DE /* QuadTree.swift */,
+				16CAD9DD2641EB3F79145F541F2B2091 /* Support Files */,
 			);
 			name = Cluster;
 			path = Cluster;
 			sourceTree = "<group>";
 		};
-		2ED86D4B661EECC7460270122F077593 /* Pods */ = {
+		6BF9DEFD019619DE8F838C7B7AFB2607 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				25D1B43211C2402B8E7532123C35BB1E /* Cluster */,
-				0C1CE437D0B167FCB96686E4A4774552 /* RandomColorSwift */,
+				6C7BD4572504DFC58C842A372DE48DC8 /* BonMot.framework */,
+				F04A853A8031EF77878C6C70C23F9DA7 /* Cluster.framework */,
+				106035AF00F96B157AC89C3D347356D4 /* Pods_BoardGamesTracker.framework */,
+				84D8F9A99E31D1263FDECFA4A416DFAE /* RandomColorSwift.framework */,
 			);
-			name = Pods;
+			name = Products;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -163,8 +295,8 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
-				2ED86D4B661EECC7460270122F077593 /* Pods */,
-				FC661835E86D3A2818B4B18B163F629A /* Products */,
+				E890037003B6F2EB576F7425FF044157 /* Pods */,
+				6BF9DEFD019619DE8F838C7B7AFB2607 /* Products */,
 				A9604469E304DB8F40284ED788A85F8B /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -211,38 +343,52 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		DDC739B28B8B37F45D83F9CEA4F1C8AB /* Support Files */ = {
+		E890037003B6F2EB576F7425FF044157 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				936E568C8FD110411B57653D7FFE5BF2 /* Info.plist */,
-				B2E378A171CAC90306308AD8B84AFDC0 /* RandomColorSwift.modulemap */,
-				C314EE39F614A37A8B0629CA10E263C8 /* RandomColorSwift.xcconfig */,
-				43D12619A882F16CB5A10A0866A6A811 /* RandomColorSwift-dummy.m */,
-				C73190FC9ABD1F931105ED59193D6264 /* RandomColorSwift-prefix.pch */,
-				8915AC8A024D4033FCEF2DAF8E8260F1 /* RandomColorSwift-umbrella.h */,
+				2B11D691F95F66152A146125166C0D5C /* BonMot */,
+				56B8CD6F34B2EC450AA4AC8E037F3AEC /* Cluster */,
+				2B7DF08D9BC66894124659BBC589E62B /* RandomColorSwift */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		EFA2075071E3C17588005F4F707F0ED8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				44F96078B407956FC014A072FA9D4498 /* Info.plist */,
+				2357DB28D7A138A5DBBFE94A8EE10DE6 /* RandomColorSwift.modulemap */,
+				B89A43EC55C0493B4C1AA60262550401 /* RandomColorSwift.xcconfig */,
+				54033BBBA0821AC1EB395719F90EAE39 /* RandomColorSwift-dummy.m */,
+				14A29A1BE8FAD9AA64799039F9108628 /* RandomColorSwift-prefix.pch */,
+				30D4592D050857B302ACD07434B95012 /* RandomColorSwift-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/RandomColorSwift";
 			sourceTree = "<group>";
 		};
-		FC661835E86D3A2818B4B18B163F629A /* Products */ = {
+		F63ACBAC0FEC29E89FC1343FD9F9EB42 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				056E6E6D3136C4D86B3421833A4FC9F5 /* Cluster.framework */,
-				E3BD3D84023F45B93E0EEE5BA7D32AB2 /* Pods_BoardGamesTracker.framework */,
-				4A9F047E8360E3CBDA437BB8B3A2A0FC /* RandomColorSwift.framework */,
+				55C27D6E7F0CEBF9CEAC69BC08FE0DA7 /* BonMot.modulemap */,
+				F2F3AFB0F2723617B1F82BB9CB884C6E /* BonMot.xcconfig */,
+				A1D818AEA30295D386F1D1D8CCFCD454 /* BonMot-dummy.m */,
+				E271A5DD08F7D4F78C947429A0D2B0DC /* BonMot-prefix.pch */,
+				816500BB5CCB43DB2BAD33A927997CA3 /* BonMot-umbrella.h */,
+				0BD4B4F927E36B6DE50D9B81BEBC3951 /* Info.plist */,
 			);
-			name = Products;
+			name = "Support Files";
+			path = "../Target Support Files/BonMot";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		190B5B9292D83EB497EED630F924743A /* Headers */ = {
+		298F8F983FE3FE6660F9D6A211E78BBC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E02282D69E809847220C158763EFAE83 /* Pods-BoardGamesTracker-umbrella.h in Headers */,
+				D3A7049BD8717B49212E0351D44BDC7D /* Pods-BoardGamesTracker-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,36 +400,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ED9BE5FD814350AFEEE08C22B441ECAD /* Headers */ = {
+		880445C865ED5747DB791F4169ECA551 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70844A1EE067B5E3ACD088BA840F3825 /* RandomColorSwift-umbrella.h in Headers */,
+				12BF30A767B5E6D26FBF066FC5691119 /* BonMot-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B7E7B951B8405289F0B6A71C70CC44EC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F2FF57E10833F8A739AFBB3143AABB8 /* RandomColorSwift-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		3ABC1F7456C06C6FA8E19A311CFB24B6 /* Pods-BoardGamesTracker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E23761ACBD87D85127E761FBA9B011E2 /* Build configuration list for PBXNativeTarget "Pods-BoardGamesTracker" */;
-			buildPhases = (
-				803B8226AB91F71FD4DD65E68CC25079 /* Sources */,
-				3E24311CC6F9FE009E6BA32F40A4A58B /* Frameworks */,
-				190B5B9292D83EB497EED630F924743A /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				61FDABC462B51471A888CAA54CDCA04B /* PBXTargetDependency */,
-				CC235B47213BD1269041074EABD1A5CE /* PBXTargetDependency */,
-			);
-			name = "Pods-BoardGamesTracker";
-			productName = "Pods-BoardGamesTracker";
-			productReference = E3BD3D84023F45B93E0EEE5BA7D32AB2 /* Pods_BoardGamesTracker.framework */;
-			productType = "com.apple.product-type.framework";
-		};
 		8CF763AF743225C5812E7F495B76A06A /* Cluster */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81D45406B5B3B68359B403911DEB6F41 /* Build configuration list for PBXNativeTarget "Cluster" */;
@@ -298,16 +433,53 @@
 			);
 			name = Cluster;
 			productName = Cluster;
-			productReference = 056E6E6D3136C4D86B3421833A4FC9F5 /* Cluster.framework */;
+			productReference = F04A853A8031EF77878C6C70C23F9DA7 /* Cluster.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		BA6DCF4CE29C83C5F48D65A628CBFBD8 /* RandomColorSwift */ = {
+		B890134D97F052B77971418FE1D1BDB9 /* Pods-BoardGamesTracker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3CC0CD7A8474FE93A9D982148834259F /* Build configuration list for PBXNativeTarget "RandomColorSwift" */;
+			buildConfigurationList = D3C11A6A2D83B3496A7ACB2BC911DE64 /* Build configuration list for PBXNativeTarget "Pods-BoardGamesTracker" */;
 			buildPhases = (
-				A057D3F47A6AC641148A9143A7F5F21C /* Sources */,
-				4137CF1E083C135229D30CC329A0EDFF /* Frameworks */,
-				ED9BE5FD814350AFEEE08C22B441ECAD /* Headers */,
+				1F034D19A9FB54E6EA8932B405023772 /* Sources */,
+				AE23521FE0F98B572579790C6AD3403A /* Frameworks */,
+				298F8F983FE3FE6660F9D6A211E78BBC /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5BD02EA16C8F06DB18E5B2CE18946325 /* PBXTargetDependency */,
+				8B37E743448988BD4A10E1E6378D72FB /* PBXTargetDependency */,
+				E9F34E226FF24D80231131E9F9A626ED /* PBXTargetDependency */,
+			);
+			name = "Pods-BoardGamesTracker";
+			productName = "Pods-BoardGamesTracker";
+			productReference = 106035AF00F96B157AC89C3D347356D4 /* Pods_BoardGamesTracker.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		DB742394EFA39863C295FA4D135D01A5 /* BonMot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 795F078FBB21DB71C6A3C06C8D33CCFD /* Build configuration list for PBXNativeTarget "BonMot" */;
+			buildPhases = (
+				0D8B622E890E2CB70A6C63473BDDDCFA /* Sources */,
+				7780247C4E30C064EEB169C5CE1B0963 /* Frameworks */,
+				880445C865ED5747DB791F4169ECA551 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BonMot;
+			productName = BonMot;
+			productReference = 6C7BD4572504DFC58C842A372DE48DC8 /* BonMot.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F4C86E37AD16A3BFC2304453CAEAB170 /* RandomColorSwift */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 49B3E46F88816E1D8D42F99F3ACD2CA0 /* Build configuration list for PBXNativeTarget "RandomColorSwift" */;
+			buildPhases = (
+				E6C53CEFCDE48219389F6002850108AB /* Sources */,
+				3387EF97F749245C5D9F2AE87B61A120 /* Frameworks */,
+				B7E7B951B8405289F0B6A71C70CC44EC /* Headers */,
 			);
 			buildRules = (
 			);
@@ -315,7 +487,7 @@
 			);
 			name = RandomColorSwift;
 			productName = RandomColorSwift;
-			productReference = 4A9F047E8360E3CBDA437BB8B3A2A0FC /* RandomColorSwift.framework */;
+			productReference = 84D8F9A99E31D1263FDECFA4A416DFAE /* RandomColorSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -335,23 +507,64 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = FC661835E86D3A2818B4B18B163F629A /* Products */;
+			productRefGroup = 6BF9DEFD019619DE8F838C7B7AFB2607 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DB742394EFA39863C295FA4D135D01A5 /* BonMot */,
 				8CF763AF743225C5812E7F495B76A06A /* Cluster */,
-				3ABC1F7456C06C6FA8E19A311CFB24B6 /* Pods-BoardGamesTracker */,
-				BA6DCF4CE29C83C5F48D65A628CBFBD8 /* RandomColorSwift */,
+				B890134D97F052B77971418FE1D1BDB9 /* Pods-BoardGamesTracker */,
+				F4C86E37AD16A3BFC2304453CAEAB170 /* RandomColorSwift */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		803B8226AB91F71FD4DD65E68CC25079 /* Sources */ = {
+		0D8B622E890E2CB70A6C63473BDDDCFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D1C0B1ECDAEA9C24EAD9C9D49DFD947 /* Pods-BoardGamesTracker-dummy.m in Sources */,
+				8F86C837B65D43D30FB61AC4DAFDD735 /* AccessibilityHeadingLevel.swift in Sources */,
+				D5991AD5FF9851C3CE60D11BC594BADE /* AdaptableTextContainer.swift in Sources */,
+				95C1BE8BBD03C528E92A07540EFC6E98 /* AdaptiveStyle.swift in Sources */,
+				007D1499E05E902282F03D0B92BE87C2 /* AdaptiveStyleTransformation.swift in Sources */,
+				A3CE101D2FF1432BCC3F41C4E2556D7F /* AttributedStringTransformation.swift in Sources */,
+				6E0DC9416CC8DB9B726A5FBA5AC5CF9D /* BonMot-dummy.m in Sources */,
+				057D283A45595F12F7CAEC2A19BB6394 /* Compatibility.swift in Sources */,
+				E7821C08F6BE4E80EC0BED82811E59CB /* Composable.swift in Sources */,
+				A9F8D6C0FB5197A8E3D2EE8688D8BA39 /* ContextualAlternates.swift in Sources */,
+				625BDC2A45FF816B2CB7ED25E2983829 /* EmbeddedTransformation.swift in Sources */,
+				39675E9CF4BA0B80C5D9FFE2D256DC4E /* FontFeatures.swift in Sources */,
+				1FAFFB28FD488A58C6BFBBDCAFCEECBE /* FontInspector.swift in Sources */,
+				141432C3E72D5C924BC93037C5D102F3 /* Image+Tinting.swift in Sources */,
+				511119A47FF2F457B7615AB667E81AC3 /* Ligatures.swift in Sources */,
+				558AFB12B35284D94140EE537642F8AE /* MutableCopying.swift in Sources */,
+				03DBE4D3E047EF41A89AF58701594B89 /* NamedStyles.swift in Sources */,
+				C4458CB7BEEA86C8554B4CEFA02B3A31 /* NSAttributedString+Adaptive.swift in Sources */,
+				9F262C5942228D1DB8F28A124216CCF0 /* NSAttributedString+BonMot.swift in Sources */,
+				02086E0D2F5CADCD78C61089D419FB3D /* Platform.swift in Sources */,
+				070A393A457682B9AF2D9C2237330DF1 /* Special.swift in Sources */,
+				EF5C63EAC0DAE6EDFF515AB4C95EE82D /* StringStyle+Part.swift in Sources */,
+				779020EBEE69DE68A567490A1A205B9D /* StringStyle.swift in Sources */,
+				1F85CF17694433BB1285A1C38724685D /* StyleableUIElement.swift in Sources */,
+				AA0B04631952772467DEA39F11CA62FA /* StylisticAlternates.swift in Sources */,
+				0DC0998C2B1AE7D5CB2E996DD70553B0 /* Tab+Adaptive.swift in Sources */,
+				019F9B097BA1D09683E52F23A04F458A /* Tab.swift in Sources */,
+				D0EF097BFC95CDE86C329742AD29F1F7 /* TextAlignmentConstraint.swift in Sources */,
+				C931B535410D2F5A6805BA08EC54CDDE /* Tracking+Adaptive.swift in Sources */,
+				B1C98592B5DF149E4972E47390806F4D /* Tracking.swift in Sources */,
+				974F6B3E8C0155065E30532B3B661B35 /* Transform.swift in Sources */,
+				9215CB0E30DD52427500AC0ADDDD2079 /* UIKit+AdaptableTextContainerSupport.swift in Sources */,
+				A8EFC05DA9F566ED169145F53D123AC9 /* UIKit+Helpers.swift in Sources */,
+				50C90BDB25ABFA099A2FDE42BCE017B2 /* XMLBuilder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1F034D19A9FB54E6EA8932B405023772 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C8CD3EF8E416B1807EA218ADAF1CECB2 /* Pods-BoardGamesTracker-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,68 +580,43 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A057D3F47A6AC641148A9143A7F5F21C /* Sources */ = {
+		E6C53CEFCDE48219389F6002850108AB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E66C397C8EDCD005642C65E25113032 /* ColorDefinition.swift in Sources */,
-				F889ECDA7355A782DADD59774F33D520 /* Hue.swift in Sources */,
-				BED38DF2639A4D918060322CE69B0356 /* Luminosity.swift in Sources */,
-				612F17EF3290726421C95D283D5A8878 /* RandomColor.swift in Sources */,
-				B5578629F890088A8ED6D4F7F86F4EBD /* RandomColorSwift-dummy.m in Sources */,
+				918FFB4FC02B34E4C9D729C0645495DA /* ColorDefinition.swift in Sources */,
+				91D14456AC02F727F869FADBCD1EB304 /* Hue.swift in Sources */,
+				8B6CC130817D63D8D27B51B477CF53F5 /* Luminosity.swift in Sources */,
+				D75F62EB22D1050AECBAA585F9F1B172 /* RandomColor.swift in Sources */,
+				754EEE53D287BD49EB9C82A74F0BBC99 /* RandomColorSwift-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		61FDABC462B51471A888CAA54CDCA04B /* PBXTargetDependency */ = {
+		5BD02EA16C8F06DB18E5B2CE18946325 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BonMot;
+			target = DB742394EFA39863C295FA4D135D01A5 /* BonMot */;
+			targetProxy = 459BBED4A6AE90C704FEEAEA271BA706 /* PBXContainerItemProxy */;
+		};
+		8B37E743448988BD4A10E1E6378D72FB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Cluster;
 			target = 8CF763AF743225C5812E7F495B76A06A /* Cluster */;
-			targetProxy = 0991354E61D1C4F12AF88CCE0A739537 /* PBXContainerItemProxy */;
+			targetProxy = F5817CFC3C2AF86F00CDD737B88E171F /* PBXContainerItemProxy */;
 		};
-		CC235B47213BD1269041074EABD1A5CE /* PBXTargetDependency */ = {
+		E9F34E226FF24D80231131E9F9A626ED /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = RandomColorSwift;
-			target = BA6DCF4CE29C83C5F48D65A628CBFBD8 /* RandomColorSwift */;
-			targetProxy = FA187B90570651C9D7B6456849DD2C01 /* PBXContainerItemProxy */;
+			target = F4C86E37AD16A3BFC2304453CAEAB170 /* RandomColorSwift */;
+			targetProxy = F4CB36548E6A63C89B757D0A187EF5EC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		097525B891A18557335707C4C1DC200D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58D354DE0C808531709A5D9018CB6EF0 /* Cluster.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/Cluster/Cluster-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Cluster/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Cluster/Cluster.modulemap";
-				PRODUCT_NAME = Cluster;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		2ED947A43130A2B28D6BFDBC7EAEB477 /* Release */ = {
+		05E544C55E9CC19FFBFC84590238E693 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = AA94CFCAFFEA6C6DE4B305D814612E02 /* Pods-BoardGamesTracker.release.xcconfig */;
 			buildSettings = {
@@ -462,6 +650,37 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		097525B891A18557335707C4C1DC200D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8261B06F8A554B745FEE72E4E73E4BB0 /* Cluster.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/Cluster/Cluster-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Cluster/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Cluster/Cluster.modulemap";
+				PRODUCT_NAME = Cluster;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		323A24856F1A4871A780301AF5C02A2A /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -526,9 +745,41 @@
 			};
 			name = Debug;
 		};
+		3709AF8EC5CE0AB74A94549088DC9F5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89A43EC55C0493B4C1AA60262550401 /* RandomColorSwift.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RandomColorSwift/RandomColorSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RandomColorSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RandomColorSwift/RandomColorSwift.modulemap";
+				PRODUCT_NAME = RandomColorSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		4217353D5E1A28F44BD46CEB9BE91506 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58D354DE0C808531709A5D9018CB6EF0 /* Cluster.xcconfig */;
+			baseConfigurationReference = 8261B06F8A554B745FEE72E4E73E4BB0 /* Cluster.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -558,9 +809,9 @@
 			};
 			name = Release;
 		};
-		4692B35C30EC6DC66113C6A2D71A4F1D /* Debug */ = {
+		98B46B04C90D0BFE36E96A65497B6487 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C314EE39F614A37A8B0629CA10E263C8 /* RandomColorSwift.xcconfig */;
+			baseConfigurationReference = F2F3AFB0F2723617B1F82BB9CB884C6E /* BonMot.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -571,44 +822,13 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RandomColorSwift/RandomColorSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RandomColorSwift/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/BonMot/BonMot-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BonMot/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RandomColorSwift/RandomColorSwift.modulemap";
-				PRODUCT_NAME = RandomColorSwift;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		879A7D10E42975A7C5BEDABCB8F4CB99 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C314EE39F614A37A8B0629CA10E263C8 /* RandomColorSwift.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				GCC_PREFIX_HEADER = "Target Support Files/RandomColorSwift/RandomColorSwift-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/RandomColorSwift/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/RandomColorSwift/RandomColorSwift.modulemap";
-				PRODUCT_NAME = RandomColorSwift;
+				MODULEMAP_FILE = "Target Support Files/BonMot/BonMot.modulemap";
+				PRODUCT_NAME = BonMot;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
@@ -620,41 +840,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
-		};
-		8BE3BF715570276770266DDD84144169 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 37CA39CCF2C493889B1F0B58CD91D292 /* Pods-BoardGamesTracker.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "Target Support Files/Pods-BoardGamesTracker/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-BoardGamesTracker/Pods-BoardGamesTracker.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_BoardGamesTracker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
 		};
 		CA33F186435244FD0FD5B7325332656C /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -714,6 +899,103 @@
 			};
 			name = Release;
 		};
+		DE859F8B6E91FF425BCA8E3411E6B663 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37CA39CCF2C493889B1F0B58CD91D292 /* Pods-BoardGamesTracker.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-BoardGamesTracker/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-BoardGamesTracker/Pods-BoardGamesTracker.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_BoardGamesTracker;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E6C98A7F2888832795F08FE429959776 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89A43EC55C0493B4C1AA60262550401 /* RandomColorSwift.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/RandomColorSwift/RandomColorSwift-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/RandomColorSwift/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/RandomColorSwift/RandomColorSwift.modulemap";
+				PRODUCT_NAME = RandomColorSwift;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FEDD48AE507B0544D07DF47DC2856A37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2F3AFB0F2723617B1F82BB9CB884C6E /* BonMot.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREFIX_HEADER = "Target Support Files/BonMot/BonMot-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/BonMot/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/BonMot/BonMot.modulemap";
+				PRODUCT_NAME = BonMot;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -726,11 +1008,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3CC0CD7A8474FE93A9D982148834259F /* Build configuration list for PBXNativeTarget "RandomColorSwift" */ = {
+		49B3E46F88816E1D8D42F99F3ACD2CA0 /* Build configuration list for PBXNativeTarget "RandomColorSwift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4692B35C30EC6DC66113C6A2D71A4F1D /* Debug */,
-				879A7D10E42975A7C5BEDABCB8F4CB99 /* Release */,
+				E6C98A7F2888832795F08FE429959776 /* Debug */,
+				3709AF8EC5CE0AB74A94549088DC9F5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		795F078FBB21DB71C6A3C06C8D33CCFD /* Build configuration list for PBXNativeTarget "BonMot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEDD48AE507B0544D07DF47DC2856A37 /* Debug */,
+				98B46B04C90D0BFE36E96A65497B6487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -744,11 +1035,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		E23761ACBD87D85127E761FBA9B011E2 /* Build configuration list for PBXNativeTarget "Pods-BoardGamesTracker" */ = {
+		D3C11A6A2D83B3496A7ACB2BC911DE64 /* Build configuration list for PBXNativeTarget "Pods-BoardGamesTracker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8BE3BF715570276770266DDD84144169 /* Debug */,
-				2ED947A43130A2B28D6BFDBC7EAEB477 /* Release */,
+				DE859F8B6E91FF425BCA8E3411E6B663 /* Debug */,
+				05E544C55E9CC19FFBFC84590238E693 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

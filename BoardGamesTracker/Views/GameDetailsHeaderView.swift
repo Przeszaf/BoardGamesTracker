@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GameStatisticsView: UIView {
+class GameDetailsHeaderView: UIView {
     
     //MARK: - All Stack views needed
     var horizontalStackView = UIStackView()
@@ -47,7 +47,8 @@ class GameStatisticsView: UIView {
         averagePointsLabel.isHidden = true
         medianPointsLabel.isHidden = true
         
-        
+        backgroundColor = Constants.Global.backgroundColor
+        setup()
     }
     
     override func layoutSubviews() {
@@ -71,6 +72,7 @@ class GameStatisticsView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        setup()
     }
     
     
@@ -109,5 +111,23 @@ class GameStatisticsView: UIView {
         verticalStackView.addArrangedSubview(totalTimePlayedLabel)
         verticalStackView.addArrangedSubview(averageTimePlayedLabel)
         
+    }
+    
+    func setup() {
+        let shapeLayer = CAShapeLayer()
+        shapeLayer.path = createBezierPath().cgPath
+        shapeLayer.strokeColor = Constants.Header.strokeColor
+        shapeLayer.lineWidth = Constants.Header.lineWidth
+        shapeLayer.position = CGPoint(x: 0, y: bounds.height - 5)
+        self.layer.addSublayer(shapeLayer)
+        
+    }
+    
+    func createBezierPath() -> UIBezierPath {
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 10, y: 0))
+        path.addLine(to: CGPoint(x: bounds.width - 10, y: 0))
+        // see previous code for creating the Bezier path
+        return path
     }
 }
