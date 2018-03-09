@@ -338,7 +338,7 @@
                     <connections>
                         <segue destination="r83-aN-Eof" kind="show" identifier="chooseGame" id="eNc-2q-e79"/>
                         <segue destination="JEr-pJ-ija" kind="show" identifier="chooser" id="afa-uS-2UH"/>
-                        <segue destination="EIQ-Hs-cUz" kind="show" identifier="addPoints" id="aym-cc-CMA"/>
+                        <segue destination="EIQ-Hs-cUz" kind="show" identifier="addNums" id="aym-cc-CMA"/>
                         <segue destination="8rN-Ri-RhL" kind="show" identifier="addInfo" id="Tuz-dU-70M"/>
                     </connections>
                 </viewController>

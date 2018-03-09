@@ -15,9 +15,11 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     var playersPlaces: [Player: Int]!
     var toolbar: UIToolbar!
     var currentRow: Int?
+    var currentSection: Int?
+    var segueKey: String?
+    var dictionary: [Player: [Int]]?
     
     //Key is used to determine whether this controller is used to assign places or points to players
-    var key = ""
     
     //MARK: - UITableViewController
     override func viewDidLoad() {
@@ -30,7 +32,6 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
         let leftButton = UIBarButtonItem(title: "Hide", style: .plain, target: self, action: #selector(toolbarHideButton))
         let rightButton = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(toolbarNextButton))
         toolbar = Constants.Functions.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
-        
         tableView.backgroundColor = Constants.Global.backgroundColor
     }
     
@@ -54,26 +55,35 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddNumsCell", for: indexPath) as! AddNumsCell
         let player = availablePlayers[indexPath.row]
         
+        cell.playerNumField.delegate = self
+        cell.playerNumField.tag = indexPath.row
+        cell.playerNumField.inputAccessoryView = toolbar
+        cell.backgroundColor = UIColor.clear
+        
         cell.playerNameLabel.text = player.name
-        if key == "Points" {
+        if segueKey == "Points" {
             if playersPoints[player] != 0 {
                 cell.playerNumField.text = "\(playersPoints[player]!)"
             } else {
                 cell.playerNumField.text = ""
             }
             cell.playerNumField.placeholder = "Pts"
-        } else if key == "Places" {
+        } else if segueKey == "Places" {
             if playersPlaces[player] != 0 {
                 cell.playerNumField.text = "\(playersPlaces[player]!)"
             } else {
                 cell.playerNumField.text = ""
             }
+        } else if segueKey == "7 Wonders" {
+            if let pointsDictionary = dictionary, let pointsArray = pointsDictionary[player] {
+                cell.playerNumField.tag = indexPath.section * 100 + indexPath.row
+                if pointsArray[indexPath.section] != -99 {
+                    cell.playerNumField.text = String(pointsArray[indexPath.section])
+                } else {
+                    cell.playerNumField.text = ""
+                }
+            }
         }
-        cell.playerNumField.delegate = self
-        cell.playerNumField.tag = indexPath.row
-        cell.playerNumField.inputAccessoryView = toolbar
-        
-        cell.backgroundColor = UIColor.clear
         return cell
     }
     
@@ -81,18 +91,59 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
         return availablePlayers.count
     }
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        if segueKey == "7 Wonders" {
+            return 8
+        }
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if segueKey == "7 Wonders" {
+            let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
+            view.addSubview(label)
+            switch section {
+            case 0:
+                label.text = "War"
+                view.backgroundColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.6)
+            case 1:
+                label.text = "Knowledge"
+                view.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.6)
+            default:
+                label.text = "CHANGE ME"
+                view.backgroundColor = UIColor.gray
+            }
+            return view
+        }
+        return nil
+    }
 
     //MARK: - UINavigationControllerDelegate
     
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            if key == "Points" {
+            if segueKey == "Points" {
                 controller.playersPoints = playersPoints
                 _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, pointsDict: playersPoints, order: "ascending")
-            } else if key == "Places" {
+            } else if segueKey == "Places" {
                 controller.playersPlaces = playersPlaces
-                controller.sortPlayersPlaces(players: &controller.selectedPlayers, places: controller.playersPlaces)
+                controller.sortPlayersPlaces(players: &controller.selectedPlayers, placesDict: controller.playersPlaces)
+            } else if segueKey == "7 Wonders" {
+                for player in availablePlayers {
+                    var pointSum = 0
+                    for i in 0..<8 {
+                        let playerPoint = dictionary![player]![i]
+                        if playerPoint != -99 {
+                            pointSum += playerPoint
+                        }
+                    }
+                    playersPoints[player] = pointSum
+                }
+                controller.dictionary["Points"] = dictionary
+                controller.playersPoints = playersPoints
+                _ = controller.sortPlayersPoints(players: &controller.selectedPlayers, pointsDict: playersPoints, order: "ascending")
             }
             controller.viewWillAppear(true)
         }
@@ -103,20 +154,28 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     //Points have to be number between 1 and 999
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let tag = textField.tag
-        let person = availablePlayers[tag]
         if (Int(string) != nil && range.upperBound < 3 || string == "" ) {
             let numString = textField.text! + string
             var num = Int(numString)!
             if string == "" {
                 num = num / 10
             }
-            if num >= 0 && num <= 999 && key == "Points" {
-                playersPoints[person] = num
+            if num >= 0 && num <= 999 && segueKey == "Points" {
+                let player = availablePlayers[tag]
+                playersPoints[player] = num
                 return true
             }
             //Places must be between 1 and count of players.
-            if num >= 0 && num <= availablePlayers.count && key == "Places" {
-                playersPlaces[person] = num
+            if num >= 0 && num <= availablePlayers.count && segueKey == "Places" {
+                let player = availablePlayers[tag]
+                playersPlaces[player] = num
+                return true
+            }
+            if num >= 0 && num <= 999 && segueKey == "7 Wonders" {
+                let playerIndex = currentRow!
+                let pointsIndex = currentSection!
+                let player = availablePlayers[playerIndex]
+                dictionary![player]![pointsIndex] = num
                 return true
             }
         }
@@ -124,7 +183,8 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        currentRow = textField.tag
+        currentRow = textField.tag % 100
+        currentSection = textField.tag / 100
         return true
     }
     
@@ -134,14 +194,24 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     
     //When clicked on next it goes to another textField.
     @objc func toolbarNextButton() {
-        if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: 0)) as? AddNumsCell {
+        if let row = currentRow, let nextCell = tableView.cellForRow(at: IndexPath(row: row + 1, section: currentSection ?? 0)) as? AddNumsCell {
             let textField = nextCell.playerNumField
             textField.becomeFirstResponder()
-            tableView.scrollToRow(at: IndexPath(row: row + 1, section: 0), at: .middle, animated: true)
-        } else if let firstCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddNumsCell {
-            let textField = firstCell.playerNumField
+            tableView.scrollToRow(at: IndexPath(row: row + 1, section: currentSection ?? 0), at: .middle, animated: true)
+            print("change row")
+        } else if let section = currentSection, let nextCell =  tableView.cellForRow(at: IndexPath(row: 0, section: section + 1)) as? AddNumsCell {
+            let textField = nextCell.playerNumField
             textField.becomeFirstResponder()
+            tableView.scrollToRow(at: IndexPath(row: 0, section: section + 1), at: .middle, animated: true)
+            print("change section")
+        } else {
             tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .middle, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.3, execute: {
+                guard let firstCell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddNumsCell else { return }
+                let textField = firstCell.playerNumField
+                textField.becomeFirstResponder()
+            })
+            print("go to beginning")
         }
     }
     

@@ -113,7 +113,6 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         if indexPath.row < playerStore.allPlayers.count {
             let heightOfName = playerStore.allPlayers[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
             if let heightOfDate = playerStore.allPlayers[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
-                print(heightOfDate + heightOfName + 10)
                 return heightOfDate + heightOfName + 10
             }
         }

@@ -24,6 +24,7 @@
 		0C2828E7201771D6009B8DBE /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E5201771D6009B8DBE /* Home.storyboard */; };
 		0C2828E9201771E7009B8DBE /* Games.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2828E8201771E7009B8DBE /* Games.storyboard */; };
 		0C4B6A1720502F9D0076F552 /* AllPlayersHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B6A1620502F9D0076F552 /* AllPlayersHeaderView.swift */; };
+		0C4B6A192052BD940076F552 /* Scenarios.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C4B6A182052BD940076F552 /* Scenarios.swift */; };
 		0C50B706201A348100BE7040 /* ChooserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C50B705201A348100BE7040 /* ChooserViewController.swift */; };
 		0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C58DBD120051219009FD235 /* AppDelegate.swift */; };
 		0C58DBD720051219009FD235 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C58DBD520051219009FD235 /* Main.storyboard */; };
@@ -106,6 +107,7 @@
 		0C2828E6201771D6009B8DBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = BoardGamesTracker/Base.lproj/Home.storyboard; sourceTree = "<group>"; };
 		0C2828E8201771E7009B8DBE /* Games.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Games.storyboard; sourceTree = "<group>"; };
 		0C4B6A1620502F9D0076F552 /* AllPlayersHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPlayersHeaderView.swift; sourceTree = "<group>"; };
+		0C4B6A182052BD940076F552 /* Scenarios.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scenarios.swift; sourceTree = "<group>"; };
 		0C50B705201A348100BE7040 /* ChooserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooserViewController.swift; sourceTree = "<group>"; };
 		0C58DBCE20051219009FD235 /* BoardGamesTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoardGamesTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C58DBD120051219009FD235 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -286,7 +288,7 @@
 		0C58DC032005264E009FD235 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0CA27790204430290029B313 /* Enums */,
+				0CA27790204430290029B313 /* Other */,
 				0CA2778F204430040029B313 /* Stores */,
 				0C58DC0620052811009FD235 /* Game.swift */,
 				0CC5F700203F12190026B12A /* CustomGame.swift */,
@@ -317,14 +319,15 @@
 			path = Stores;
 			sourceTree = "<group>";
 		};
-		0CA27790204430290029B313 /* Enums */ = {
+		0CA27790204430290029B313 /* Other */ = {
 			isa = PBXGroup;
 			children = (
 				0C7462AF201F4425000603C4 /* GameType.swift */,
 				0C0D7EDA203F2ED000CA3141 /* Professions.swift */,
 				0CAE40002045B9CD005759C0 /* Expansions.swift */,
+				0C4B6A182052BD940076F552 /* Scenarios.swift */,
 			);
-			path = Enums;
+			path = Other;
 			sourceTree = "<group>";
 		};
 		0CA277912044305F0029B313 /* Additional files */ = {
@@ -630,6 +633,7 @@
 				0CA27797204431730029B313 /* CustomGamesCell.swift in Sources */,
 				0C953982204822B700E49825 /* WelcomePlayerView.swift in Sources */,
 				0C1A6ABB2029F9F7000A4983 /* AddMatchView.swift in Sources */,
+				0C4B6A192052BD940076F552 /* Scenarios.swift in Sources */,
 				0C819D09204B181600DA8BDB /* Constants.swift in Sources */,
 				0C029BA3201CFFC800E9F435 /* AddNumsViewController.swift in Sources */,
 				0C1A6AC7202B3A93000A4983 /* PlayerDetailsCell.swift in Sources */,

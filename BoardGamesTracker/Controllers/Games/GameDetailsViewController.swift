@@ -61,7 +61,7 @@ class GameDetailsViewController: UITableViewController {
         if let customMatches = game.matches as? [CustomMatch], let customMatch = customMatches.first {
             print("HERE")
             print(customMatch.dictionary ?? "")
-            print(customMatch.playersClasses ?? "")
+            print(customMatch.playersClasses ?? "No players classes")
         }
         
         tableView.backgroundColor = Constants.Global.backgroundColor

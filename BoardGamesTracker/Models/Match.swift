@@ -29,7 +29,7 @@ class Match: NSObject, Comparable, NSCoding {
         playersPoints = aDecoder.decodeObject(forKey: "playersPoints") as? [Int]
         playersPlaces = aDecoder.decodeObject(forKey: "playersPlaces") as? [Int]
         date = aDecoder.decodeObject(forKey: "date") as! Date
-        time = aDecoder.decodeDouble(forKey: "time")
+        time = aDecoder.decodeObject(forKey: "time") as? Double
         matchID = aDecoder.decodeObject(forKey: "matchID") as! String
         location = aDecoder.decodeObject(forKey: "location") as? CLLocation
         imageKey = aDecoder.decodeObject(forKey: "imageKey") as! String
@@ -42,7 +42,7 @@ class Match: NSObject, Comparable, NSCoding {
     var playersPoints: [Int]?
     var playersPlaces: [Int]?
     var date: Date
-    var time: TimeInterval
+    var time: TimeInterval?
     var location: CLLocation?
     let imageKey: String
     
@@ -50,7 +50,7 @@ class Match: NSObject, Comparable, NSCoding {
     
     //MARK: - Initializers
     
-    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval, location: CLLocation?) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval?, location: CLLocation?) {
         self.game = game
         self.players = players
         self.playersPoints = playersPoints

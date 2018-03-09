@@ -17,7 +17,8 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     var maxPlayers: Int?
     var expansions = [String]()
     
-    let carcassonneExpansions = [CarcassonneExpansions.Expansion.rawValue, CarcassonneExpansions.ExpansionTwo.rawValue]
+    let carcassonneExpansions = [CarcassonneExpansions.Expansion, CarcassonneExpansions.ExpansionTwo]
+    let sevenWondersExpansions = [SevenWondersExpansions.cities, SevenWondersExpansions.leaders]
     
     //MARK: - UITableViewController
     override func viewDidLoad() {
@@ -47,17 +48,20 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                     }
                 }
             }
-        } else if key == "Carcassonne Expansions" {
-            if !expansions.isEmpty {
-                for expansion in expansions {
-                    if let expansionIndex = carcassonneExpansions.index(of: expansion) {
-                        let indexPath = IndexPath(row: expansionIndex, section: 0)
-                        //set tick mark and background view
-                        if let cell = tableView.cellForRow(at: indexPath) {
-                            cell.accessoryType = UITableViewCellAccessoryType.checkmark
-                            cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-                        }
-                    }
+        } else if !expansions.isEmpty {
+            for expansion in expansions {
+                var expansionIndex = 0
+                if key == "Carcassonne Expansions" {
+                    expansionIndex = carcassonneExpansions.index(of: expansion)!
+                } else if key == "7 Wonders Expansions" {
+                    expansionIndex = sevenWondersExpansions.index(of: expansion)!
+                }
+                let indexPath = IndexPath(row: expansionIndex, section: 0)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                //set tick mark and background view
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
                 }
             }
         }
@@ -72,6 +76,8 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             cell.textLabel?.text = availablePlayers[indexPath.row].name
         } else if key == "Carcassonne Expansions" {
             cell.textLabel?.text = carcassonneExpansions[indexPath.row]
+        } else if key == "7 Wonders Expansions" {
+            cell.textLabel?.text = sevenWondersExpansions[indexPath.row]
         }
         
         cell.backgroundColor = UIColor.clear
@@ -89,6 +95,8 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             return availablePlayers.count
         } else if key == "Carcassonne Expansions" {
             return carcassonneExpansions.count
+        } else if key == "7 Wonders Expansions" {
+            return sevenWondersExpansions.count
         }
         return 0
     }
@@ -107,6 +115,9 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         } else if key == "Carcassonne Expansions" {
             let expansion = carcassonneExpansions[indexPath.row]
             expansions.append(expansion)
+        } else if key == "7 Wonders Expansions" {
+            let expansion = sevenWondersExpansions[indexPath.row]
+            expansions.append(expansion)
         }
         
         if let cell = tableView.cellForRow(at: indexPath) {
@@ -123,6 +134,10 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             deselectedPlayers.append(player)
         } else if key == "Carcassonne Expansions" {
             let expansion = carcassonneExpansions[indexPath.row]
+            let index = expansions.index(of: expansion)
+            expansions.remove(at: index!)
+        } else if key == "7 Wonders Expansions" {
+            let expansion = sevenWondersExpansions[indexPath.row]
             let index = expansions.index(of: expansion)
             expansions.remove(at: index!)
         }
@@ -159,6 +174,8 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             case "loosers"?:
                 controller.loosers = selectedPlayers.sorted()
             case "Carcassonne Expansions"?:
+                controller.dictionary["Expansions"] = expansions
+            case "7 Wonders Expansions"?:
                 controller.dictionary["Expansions"] = expansions
             default:
                 preconditionFailure("Wrong key!")

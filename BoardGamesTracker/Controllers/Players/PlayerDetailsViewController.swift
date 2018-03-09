@@ -244,20 +244,7 @@ class PlayerDetailsViewController: UITableViewController {
     
     func getPlayerClass(game: Game, match: Match) -> String? {
         if let customMatch = match as? CustomMatch {
-            var playerClass: String?
-            switch game.name {
-            case "Avalon":
-                let avalonClasses = customMatch.playersClasses as! [String: AvalonClasses]
-                playerClass = (avalonClasses[player.playerID]?.rawValue)!
-            case "Pandemic":
-                let pandemicClasses = customMatch.playersClasses as! [String: PandemicClasses]
-                playerClass = (pandemicClasses[player.playerID]?.rawValue)!
-            default:
-                break
-            }
-            if playerClass != nil {
-                return "Class: \(playerClass!)"
-            }
+            return customMatch.playersClasses?[player.playerID]
         }
         return nil
     }

@@ -77,9 +77,19 @@ class Game: NSObject, Comparable, NSCoding {
         }
         pointsArray.sort()
         //Calculate total and average time of game
-        totalTime = totalTime + match.time
-        averageTime = totalTime / Double(matches.count)
-        print("Total time: \(totalTime), count: \(matches.count), average: \(averageTime)")
+        if let time = match.time {
+            totalTime = totalTime + time
+            averageTime = {
+                var count = 0
+                for match in matches {
+                    if match.time != nil {
+                        count += 1
+                        print(count)
+                    }
+                }
+                return totalTime / Double(count)
+            }()
+        }
         matches.sort()
     }
 
@@ -121,8 +131,18 @@ class Game: NSObject, Comparable, NSCoding {
         }
         
         //Decrease total time and calculate new average
-        totalTime = totalTime - match.time
-        averageTime = totalTime / Double(matches.count)
+        if let time = match.time {
+            totalTime = totalTime - time
+            averageTime = {
+                var count = 0
+                for match in matches {
+                    if match.time != nil {
+                        count += count
+                    }
+                }
+                return totalTime / Double(count)
+            }()
+        }
         
         //Calls function removeMatch
         match.removeMatch()
