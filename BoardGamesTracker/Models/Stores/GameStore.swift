@@ -33,6 +33,7 @@ class GameStore {
         customGames.append(CustomGame(name: "Carcassonne", type: .SoloWithPoints, maxNoOfPlayers: 5, icon: UIImage(named: "Avalon")))
         customGames.append(CustomGame(name: "Codenames", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Avalon")))
         customGames.append(CustomGame(name: "7 Wonders", type: .SoloWithPoints, maxNoOfPlayers: 8, icon: UIImage(named: "Avalon")))
+        customGames.append(CustomGame(name: "Robinson Crusoe", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Avalon")))
         //Check if customGames were already added to allGames, if so then remove from customGames
         for game in allGames {
             if let customGame = game as? CustomGame {

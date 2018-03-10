@@ -9,7 +9,6 @@
 import Foundation
 
 struct AvalonClasses {
-    
     //Classes available in Avalon
     static let goodServant = "Loyal Servant of Arthur"
     static let goodMerlin = "Merlin"
@@ -19,6 +18,7 @@ struct AvalonClasses {
     static let badMorgana = "Morgana"
     static let badMordred = "Mordred"
     static let badOberon = "Oberon"
+    static let array = [goodServant, goodMerlin, goodPercival, badMinion, badAssassin, badMorgana, badMordred, badOberon]
 }
 
 
@@ -33,10 +33,14 @@ struct PandemicClasses {
 
 struct SevenWondersClasses {
     static let rome = "Rome"
-    
     static let alexandria = "Alexandria"
-    
     static let olympia = "Olympia"
-    
     static let another = "Another"
+}
+
+struct RobinsonCrusoeClasses {
+    static let warrior = "Warrior"
+    static let builder = "Builder"
+    static let ranger = "Ranger"
+    static let cook = "Cook"
 }

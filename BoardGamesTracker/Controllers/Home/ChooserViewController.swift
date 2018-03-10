@@ -13,12 +13,17 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     var availablePlayers: [Player]!
     var selectedPlayers: [Player]!
     var deselectedPlayers = [Player]()
-    var key: String!
+    var segueKey: String!
     var maxPlayers: Int?
-    var expansions = [String]()
+    var availableExpansions = [String]()
+    var selectedExpansions = [String]()
+    
+    var availableScenarios = [String]()
+    var selectedScenarios = [String]()
     
     let carcassonneExpansions = [CarcassonneExpansions.Expansion, CarcassonneExpansions.ExpansionTwo]
     let sevenWondersExpansions = [SevenWondersExpansions.cities, SevenWondersExpansions.leaders]
+    let robinsonCrusoeScenarios = [RobinsonScenarios.scenario1, RobinsonScenarios.scenario2, RobinsonScenarios.scenario3]
     
     //MARK: - UITableViewController
     override func viewDidLoad() {
@@ -33,8 +38,16 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if segueKey == "Carcassonne Expansions" {
+            availableExpansions = carcassonneExpansions
+        } else if segueKey == "7 Wonders Expansions" {
+            availableExpansions = sevenWondersExpansions
+        } else if segueKey == "Robinson Crusoe Scenarios" {
+            availableScenarios = robinsonCrusoeScenarios
+        }
+        
         //Select players that are passed from previous view controller
-        if key == "all" || key == "winners" || key == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
             if !selectedPlayers.isEmpty {
                 for player in selectedPlayers {
                     if let playerIndex = availablePlayers.index(of: player) {
@@ -48,22 +61,36 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                     }
                 }
             }
-        } else if !expansions.isEmpty {
-            for expansion in expansions {
-                var expansionIndex = 0
-                if key == "Carcassonne Expansions" {
-                    expansionIndex = carcassonneExpansions.index(of: expansion)!
-                } else if key == "7 Wonders Expansions" {
-                    expansionIndex = sevenWondersExpansions.index(of: expansion)!
-                }
+        } else if !selectedExpansions.isEmpty {
+            for expansion in selectedExpansions {
+                let expansionIndex = availableExpansions.index(of: expansion)!
                 let indexPath = IndexPath(row: expansionIndex, section: 0)
-                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
                 //set tick mark and background view
                 if let cell = tableView.cellForRow(at: indexPath) {
                     cell.accessoryType = UITableViewCellAccessoryType.checkmark
                     cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
                 }
             }
+        } else if !selectedScenarios.isEmpty {
+            //Taking care of games where you can play only 1 scenario at time
+            if segueKey == "Robinson Crusoe Scenarios" {
+                selectedScenarios.removeAll()
+            }
+            for scenario in selectedScenarios {
+                let scenarioIndex = availableScenarios.index(of: scenario)!
+                let indexPath = IndexPath(row: scenarioIndex, section: 0)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .middle)
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    cell.accessoryType = UITableViewCellAccessoryType.checkmark
+                    cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+                }
+            }
+        }
+        if segueKey == "Robinson Crusoe Scenarios" {
+            tableView.allowsMultipleSelection = false
+        } else {
+            tableView.allowsMultipleSelection = true
         }
     }
     
@@ -72,12 +99,12 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
-        if key == "all" || key == "winners" || key == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
             cell.textLabel?.text = availablePlayers[indexPath.row].name
-        } else if key == "Carcassonne Expansions" {
-            cell.textLabel?.text = carcassonneExpansions[indexPath.row]
-        } else if key == "7 Wonders Expansions" {
-            cell.textLabel?.text = sevenWondersExpansions[indexPath.row]
+        } else if segueKey.contains("Expansion") {
+            cell.textLabel?.text = availableExpansions[indexPath.row]
+        } else if segueKey.contains("Scenario") {
+            cell.textLabel?.text = availableScenarios[indexPath.row]
         }
         
         cell.backgroundColor = UIColor.clear
@@ -91,12 +118,12 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if key == "all" || key == "winners" || key == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
             return availablePlayers.count
-        } else if key == "Carcassonne Expansions" {
-            return carcassonneExpansions.count
-        } else if key == "7 Wonders Expansions" {
-            return sevenWondersExpansions.count
+        } else if segueKey.contains("Expansion") {
+            return availableExpansions.count
+        } else if segueKey.contains("Scenario") {
+            return availableScenarios.count
         }
         return 0
     }
@@ -106,20 +133,19 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Making tick marks
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
-        if key == "all" || key == "winners" || key == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
             let player = availablePlayers[indexPath.row]
             selectedPlayers.append(player)
             if let index = deselectedPlayers.index(of: player) {
                 deselectedPlayers.remove(at: index)
             }
-        } else if key == "Carcassonne Expansions" {
-            let expansion = carcassonneExpansions[indexPath.row]
-            expansions.append(expansion)
-        } else if key == "7 Wonders Expansions" {
-            let expansion = sevenWondersExpansions[indexPath.row]
-            expansions.append(expansion)
+        } else if segueKey.contains("Expansion") {
+            let expansion = availableExpansions[indexPath.row]
+            selectedExpansions.append(expansion)
+        } else if segueKey.contains("Scenario") {
+            let scenario = availableScenarios[indexPath.row]
+            selectedScenarios.append(scenario)
         }
-        
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
             cell.accessoryType = .checkmark
@@ -127,19 +153,19 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if key == "all" || key == "winners" || key == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
             let player = availablePlayers[indexPath.row]
             let index = selectedPlayers.index(of: player)
             selectedPlayers.remove(at: index!)
             deselectedPlayers.append(player)
-        } else if key == "Carcassonne Expansions" {
-            let expansion = carcassonneExpansions[indexPath.row]
-            let index = expansions.index(of: expansion)
-            expansions.remove(at: index!)
-        } else if key == "7 Wonders Expansions" {
-            let expansion = sevenWondersExpansions[indexPath.row]
-            let index = expansions.index(of: expansion)
-            expansions.remove(at: index!)
+        } else if segueKey.contains("Expansion") {
+            let expansion = availableExpansions[indexPath.row]
+            let index = selectedExpansions.index(of: expansion)
+            selectedExpansions.remove(at: index!)
+        } else if segueKey.contains("Scenario") {
+            let scenario = availableScenarios[indexPath.row]
+            let index = selectedScenarios.index(of: scenario)
+            selectedScenarios.remove(at: index!)
         }
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
@@ -164,7 +190,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Passing selected players to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
-            switch key {
+            switch segueKey {
             case "all"?:
                 controller.selectedPlayers = selectedPlayers.sorted()
                 controller.deselectedPlayers = deselectedPlayers.sorted()
@@ -173,12 +199,12 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                 controller.winners = selectedPlayers.sorted()
             case "loosers"?:
                 controller.loosers = selectedPlayers.sorted()
-            case "Carcassonne Expansions"?:
-                controller.dictionary["Expansions"] = expansions
-            case "7 Wonders Expansions"?:
-                controller.dictionary["Expansions"] = expansions
+            case _ where segueKey.contains("Expansion"):
+                controller.dictionary["Expansions"] = selectedExpansions
+            case _ where segueKey.contains("Scenario"):
+                controller.dictionary["Scenarios"] = selectedScenarios
             default:
-                preconditionFailure("Wrong key!")
+                preconditionFailure("Wrong segueKey!")
             }
             controller.viewWillAppear(true)
         }

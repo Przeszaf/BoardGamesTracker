@@ -40,21 +40,28 @@ class GameDetailsViewController: UITableViewController {
         if game.type == .SoloWithPoints && game.pointsArray.count != 0 {
             tableHeaderView.maxPointsLabel.isHidden = false
             tableHeaderView.minPointsLabel.isHidden = false
-            tableHeaderView.medianPointsLabel.isHidden = false
+            tableHeaderView.averageWinningPointsLabel.isHidden = false
             tableHeaderView.averagePointsLabel.isHidden = false
             
             //FIXME:  for 0 games there are no max points
             tableHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
             tableHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
             
-            //Calculate Median points
-            if game.pointsArray.count % 2 == 1 {
-                tableHeaderView.medianPointsLabel.text = "Median points: \(game.pointsArray[game.pointsArray.count/2])"
-            } else {
-                tableHeaderView.medianPointsLabel.text = "Median points: \((game.pointsArray[game.pointsArray.count/2] + game.pointsArray[game.pointsArray.count/2 - 1]) / 2)"
-            }
+            let averageWinningPoints = { () -> Float in
+                var points = 0
+                var count = 0
+                for match in self.game.matches {
+                    guard let winningPoint = match.playersPoints?.first else { return 0 }
+                    points += winningPoint
+                    count += 1
+                }
+                return Float(points) / Float(count)
+            }()
+            
+            let averageWinningPointsString = String.init(format: "%.2f%", averageWinningPoints)
             let averagePointsString = String.init(format: "%.2f", game.averagePoints)
             tableHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
+            tableHeaderView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
         }
         
         //CHANGE LATER - check

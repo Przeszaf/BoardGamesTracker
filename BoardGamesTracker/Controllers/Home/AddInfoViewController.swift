@@ -16,10 +16,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     let myPickerDataAvalon = [AvalonClasses.goodServant, AvalonClasses.goodMerlin, AvalonClasses.goodPercival, AvalonClasses.badMinion, AvalonClasses.badAssassin, AvalonClasses.badMorgana, AvalonClasses.badMordred, AvalonClasses.badOberon]
     
     let myPickerDataPandemic = [PandemicClasses.contigencyPlanner, PandemicClasses.dispatcher, PandemicClasses.medic, PandemicClasses.quarantineSpecialist, PandemicClasses.researcher, PandemicClasses.scientist]
-    let pandemicDiseasesCureStatus = ["Not cured", "Cured", "Elliminated"]
-    let pandemicDiseasesName = ["Red", "Green", "Blue", "Yellow"]
     
     let myPickerData7Wonders = [SevenWondersClasses.alexandria, SevenWondersClasses.olympia, SevenWondersClasses.rome, SevenWondersClasses.another]
+    let myPickerDataRobinsonCrusoe = [RobinsonCrusoeClasses.builder, RobinsonCrusoeClasses.warrior, RobinsonCrusoeClasses.ranger, RobinsonCrusoeClasses.cook]
     
     var myPickerData: [String]!
     
@@ -53,11 +52,13 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         tableView.backgroundColor = Constants.Global.backgroundColor
         
         if game.name == "Avalon" {
-            myPickerData = myPickerDataAvalon
+            myPickerData = AvalonClasses.array
         } else if game.name == "Pandemic" {
             myPickerData = myPickerDataPandemic
         } else if game.name == "7 Wonders" {
             myPickerData = myPickerData7Wonders
+        } else if game.name == "Robinson Crusoe" {
+            myPickerData = myPickerDataRobinsonCrusoe
         }
     }
     
@@ -80,7 +81,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             cell.leftLabel.text = player.name
             cell.rightTextView.text = playersClasses[player]
         } else if game.name == "Pandemic" && segueKey == "Diseases" {
-            let diseasesName = pandemicDiseasesName[indexPath.row]
+            let diseasesName = PandemicDiseasesName.array[indexPath.row]
             cell.leftLabel.text = diseasesName
             cell.rightTextView.text = dictionary[diseasesName] as? String
         }
@@ -93,7 +94,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         if segueKey == "Classes" {
             return availablePlayers!.count
         } else if segueKey == "Diseases" {
-            return pandemicDiseasesName.count
+            return PandemicDiseasesName.array.count
         }
         return 0
     }
@@ -150,27 +151,30 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             picker.selectRow(0, inComponent: 0, animated: false)
             if game.name == "Avalon" && segueKey == "Classes" {
                 let player = availablePlayers![currentRow!]
+                //If there are good guys
                 if picker.tag == 0 {
                     textView.text = myPickerDataAvalon[0]
                     playersClasses[player] = myPickerDataAvalon[0]
+                    //If there are evil guis
                 } else if picker.tag == 1 {
                     textView.text = myPickerDataAvalon[3]
                     playersClasses[player] = myPickerDataAvalon[3]
                 }
-            } else if (game.name == "Pandemic" || game.name == "7 Wonders") && segueKey == "Classes" {
+            } else if (game.name == "Pandemic" || game.name == "7 Wonders" || game.name == "Robinson Crusoe") && segueKey == "Classes" {
                 let player = availablePlayers![currentRow!]
                 textView.text = myPickerData[0]
                 playersClasses[player] = myPickerData[0]
             } else if game.name == "Pandemic" && segueKey == "Diseases" {
-                textView.text = pandemicDiseasesCureStatus[0]
-                let cureStatus = pandemicDiseasesCureStatus[0]
-                let diseaseName = pandemicDiseasesName[currentRow!]
+                textView.text = PandemicDiseasesCureStatus.array[0]
+                let cureStatus = PandemicDiseasesCureStatus.array[0]
+                let diseaseName = PandemicDiseasesName.array[currentRow!]
                 dictionary[diseaseName] = cureStatus
             }
             //Else go to position of picker data that is alredy chosen in dictionary
-        } else if (game.name == "Pandemic" || game.name == "Avalon" || game.name == "7 Wonders") && segueKey == "Classes"{
+        } else if (game.name == "Pandemic" || game.name == "Avalon" || game.name == "7 Wonders" || game.name == "Robinson Crusoe") && segueKey == "Classes"{
             if let player = availablePlayers?[currentRow!], let playerClass = playersClasses[player] {
                 var index = myPickerData.index(of: playerClass)
+                
                 //Make correct index for different Avalon players - there are lawful and evil professions
                 //If it is evil player (tag == 1), then it shows only 5 evil profession, starting at [3] to [7]
                 //But on picker, the [3] profession will be at top 0 index, therefore need to subtract
@@ -180,9 +184,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 picker.selectRow(index!, inComponent: 0, animated: false)
             }
         } else if customGame.name == "Pandemic" && segueKey == "Diseases" {
-            let cureName = pandemicDiseasesName[currentRow!]
+            let cureName = PandemicDiseasesName.array[currentRow!]
             let cureStatus = dictionary[cureName] as! String
-            let index = pandemicDiseasesCureStatus.index(of: cureStatus)
+            let index = PandemicDiseasesCureStatus.array.index(of: cureStatus)
             picker.selectRow(index!, inComponent: 0, animated: false)
         }
         return true
@@ -202,10 +206,10 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 return 5
             }
             return 1
-        } else if (game.name == "Pandemic" || game.name == "7 Wonders") && segueKey == "Classes" {
+        } else if (game.name == "Pandemic" || game.name == "7 Wonders" || game.name == "Robinson Crusoe") && segueKey == "Classes" {
             return myPickerData.count
         } else if game.name == "Pandemic" && segueKey == "Diseases" {
-            return pandemicDiseasesCureStatus.count
+            return PandemicDiseasesCureStatus.array.count
         }
         return 0
     }
@@ -222,10 +226,10 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             } else if picker.tag == 2 {
                 return "Pick correct amount of players!"
             }
-        } else if (customGame.name == "Pandemic" || customGame.name == "7 Wonders") && segueKey == "Classes" {
+        } else if (customGame.name == "Pandemic" || customGame.name == "7 Wonders" || game.name == "Robinson Crusoe") && segueKey == "Classes" {
             return myPickerData[row]
         } else if customGame.name == "Pandemic" && segueKey == "Diseases" {
-            return pandemicDiseasesCureStatus[row]
+            return PandemicDiseasesCureStatus.array[row]
         }
         return ""
     }
@@ -246,14 +250,14 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 playersClasses[player] = myPickerDataAvalon[row + 3]
                 cell.rightTextView.text = myPickerDataAvalon[row + 3]
             }
-        } else if (game.name == "Pandemic" || game.name == "7 Wonders") && segueKey == "Classes" {
+        } else if (game.name == "Pandemic" || game.name == "7 Wonders" || game.name == "Robinson Crusoe") && segueKey == "Classes" {
             let player = availablePlayers![currentRow!]
             playersClasses[player] = myPickerData[row]
             cell.rightTextView.text = myPickerData[row]
         } else if game.name == "Pandemic" && segueKey == "Diseases" {
-            let cureStatus = pandemicDiseasesCureStatus[row]
-            let cureName = pandemicDiseasesName[currentRow!]
-            cell.rightTextView.text = pandemicDiseasesCureStatus[row]
+            let cureStatus = PandemicDiseasesCureStatus.array[row]
+            let cureName = PandemicDiseasesName.array[currentRow!]
+            cell.rightTextView.text = PandemicDiseasesCureStatus.array[row]
             dictionary[cureName] = cureStatus
         }
     }
