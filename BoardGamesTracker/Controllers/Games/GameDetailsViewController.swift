@@ -19,51 +19,7 @@ class GameDetailsViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //Add info about total matches
-        tableHeaderView.totalMatchesLabel.text = "Total matches: \(game.matches.count)"
-        
-        //Calculate amount of unique players that played this game
-        var players = [Player]()
-        for match in game.matches {
-            for player in match.players {
-                players.append(player)
-            }
-        }
-        players = Array(Set(players))
-        tableHeaderView.totalPlayersLabel.text = "Total players: \(players.count)"
-        
-        //Get total and average time of match
-        tableHeaderView.totalTimePlayedLabel.text = "Total time played: \(game.totalTime.toString())"
-        tableHeaderView.averageTimePlayedLabel.text = "Average time of match: \(game.averageTime.toString())"
-        
-        //For SoloWithPoints game display more information
-        if game.type == .SoloWithPoints && game.pointsArray.count != 0 {
-            tableHeaderView.maxPointsLabel.isHidden = false
-            tableHeaderView.minPointsLabel.isHidden = false
-            tableHeaderView.averageWinningPointsLabel.isHidden = false
-            tableHeaderView.averagePointsLabel.isHidden = false
-            
-            //FIXME:  for 0 games there are no max points
-            tableHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
-            tableHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
-            
-            let averageWinningPoints = { () -> Float in
-                var points = 0
-                var count = 0
-                for match in self.game.matches {
-                    guard let winningPoint = match.playersPoints?.first else { return 0 }
-                    points += winningPoint
-                    count += 1
-                }
-                return Float(points) / Float(count)
-            }()
-            
-            let averageWinningPointsString = String.init(format: "%.2f%", averageWinningPoints)
-            let averagePointsString = String.init(format: "%.2f", game.averagePoints)
-            tableHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
-            tableHeaderView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
-        }
-        
+        reloadHeaderView()
         //CHANGE LATER - check
         if let customMatches = game.matches as? [CustomMatch], let customMatch = customMatches.first {
             print("HERE")
@@ -83,15 +39,6 @@ class GameDetailsViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
         
-        //Creating game statistics view -
-        var height: CGFloat = 90
-        if game.type == .SoloWithPoints {
-            height = 140
-        } else {
-            height = 90
-        }
-        tableHeaderView = GameDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
-        tableView.tableHeaderView = tableHeaderView
     }
     
     
@@ -226,6 +173,99 @@ class GameDetailsViewController: UITableViewController {
         var string = stringArray.joined(separator: ", ")
         string = string.replacingOccurrences(of: ", \n", with: "\n")
         return string
+    }
+    
+    func reloadHeaderView() {
+        
+        //Creating game statistics view -
+        var height: CGFloat = 90
+        if game.type == .SoloWithPoints {
+            height = 100
+        } else {
+            height = 65
+        }
+        let firstHeaderView = GameDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+        
+        
+        //Add info about total matches
+        firstHeaderView.totalMatchesLabel.text = "Total matches: \(game.matches.count)"
+        
+        //Calculate amount of unique players that played this game
+        var players = [Player]()
+        for match in game.matches {
+            for player in match.players {
+                players.append(player)
+            }
+        }
+        players = Array(Set(players))
+        firstHeaderView.totalPlayersLabel.text = "Total players: \(players.count)"
+        
+        //Get total and average time of match
+        firstHeaderView.totalTimePlayedLabel.text = "Total time played: \(game.totalTime.toString())"
+        firstHeaderView.averageTimePlayedLabel.text = "Average time of match: \(game.averageTime.toString())"
+        
+        //For SoloWithPoints game display more information
+        if game.type == .SoloWithPoints && game.pointsArray.count != 0 {
+            firstHeaderView.maxPointsLabel.isHidden = false
+            firstHeaderView.minPointsLabel.isHidden = false
+            firstHeaderView.averageWinningPointsLabel.isHidden = false
+            firstHeaderView.averagePointsLabel.isHidden = false
+            
+            //FIXME:  for 0 games there are no max points
+            firstHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
+            firstHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
+            
+            let averageWinningPoints = { () -> Float in
+                var points = 0
+                var count = 0
+                for match in self.game.matches {
+                    guard let winningPoint = match.playersPoints?.first else { return 0 }
+                    points += winningPoint
+                    count += 1
+                }
+                return Float(points) / Float(count)
+            }()
+            
+            let averageWinningPointsString = String.init(format: "%.2f%", averageWinningPoints)
+            let averagePointsString = String.init(format: "%.2f", game.averagePoints)
+            firstHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
+            firstHeaderView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
+        }
+        
+        if game.name == "Avalon" {
+            var dataSet = [Int](repeatElement(0, count: 3))
+            for match in game.matches {
+                if let match = match as? CustomMatch, let winnerID = match.players.first?.playerID, let classesDictionary = match.playersClasses, let winnerClass = classesDictionary[winnerID] {
+                    print(winnerClass)
+                    if winnerClass.contains("Arthur") || winnerClass.contains("Merlin") || winnerClass.contains("Percival") {
+                        dataSet[0] += 1
+                    } else if match.dictionary!["Killed by Assassin?"] as! Bool == true {
+                        dataSet[2] += 1
+                    } else {
+                        dataSet[1] += 1
+                    }
+                }
+            }
+            
+            let secondHeaderView = GameDetailsPieChartView(frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 240), dataSet: dataSet, dataName: ["Good", "Evil", "Assassin"])
+            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
+            tableHeaderView.addSubview(firstHeaderView)
+            tableHeaderView.addSubview(secondHeaderView)
+            tableView.tableHeaderView = tableHeaderView
+        }
+        else if game.type == .SoloWithPoints && !game.pointsArray.isEmpty {
+            let secondHeaderView = GameDetailsPointsBarView(frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 200), dataSet: game.pointsArray)
+            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
+            tableHeaderView.addSubview(firstHeaderView)
+            tableHeaderView.addSubview(secondHeaderView)
+            tableView.tableHeaderView = tableHeaderView
+        } else {
+            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height))
+            tableHeaderView.addSubview(firstHeaderView)
+            tableView.tableHeaderView = tableHeaderView
+        }
+        
+        
         
     }
 }

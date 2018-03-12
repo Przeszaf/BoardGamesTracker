@@ -40,7 +40,7 @@ class AllPlayersHeaderView: UIView {
         var font = UIFont.boldSystemFont(ofSize: fontSize)
         while(true) {
             if let labelHeight = label.text?.height(withConstrainedWidth: layoutMarginsGuide.layoutFrame.width, font: font) {
-                if labelHeight > frame.height {
+                if labelHeight > frame.height - 15 {
                     font = font.withSize(fontSize - 1)
                     fontSize -= 1
                 } else {

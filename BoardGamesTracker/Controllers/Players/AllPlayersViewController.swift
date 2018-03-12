@@ -11,7 +11,7 @@ import UIKit
 class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     var playerStore: PlayerStore!
-    var tableHeaderView: AllPlayersHeaderView!
+    var pieChartView: PieChartView!
     var addingPlayer = false
     var currentCell: Int?
     
@@ -21,8 +21,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        
-        tableHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends so far. See their statistics below."
+        reloadHeaderView()
     }
     
     override func viewDidLoad() {
@@ -42,9 +41,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         
         tableView.backgroundColor = Constants.Global.backgroundColor
         
-        tableHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 70))
         
-        tableView.tableHeaderView = tableHeaderView
     }
     
     
@@ -184,6 +181,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             addingPlayer = false
             cell.playerName.text = ""
             tableView.reloadData()
+            reloadHeaderView()
         }
     }
     
@@ -271,6 +269,39 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             return false
         }
         return true
+    }
+    
+    
+    func reloadHeaderView() {
+        let gamesPlayedCount = { () -> [Int] in
+            var array = [Int]()
+            for player in playerStore.allPlayers {
+                if player.timesPlayed != 0 {
+                    array.append(player.timesPlayed)
+                }
+            }
+            return array
+        }()
+        
+        let playerNames = { () -> [String] in
+            var nameArray = [String]()
+            for player in self.playerStore.allPlayers {
+                if player.timesPlayed != 0 {
+                    nameArray.append(player.name)
+                }
+            }
+            return nameArray
+        }()
+        
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 180))
+        let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
+        firstHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends! See their statistics below!"
+        headerView.addSubview(firstHeaderView)
+        
+        pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: playerNames, radius: 50, frame: CGRect(x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40, height: 100), truncating: 120, colorsArray: nil)
+        headerView.addSubview(pieChartView)
+        tableView.tableHeaderView = headerView
     }
     
     

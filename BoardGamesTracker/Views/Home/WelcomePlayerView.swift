@@ -25,8 +25,6 @@ import UIKit
         path.move(to: CGPoint(x: 10, y: frame.height - 10))
         path.addLine(to: CGPoint(x: frame.width - 10, y: frame.height - 10))
         path.stroke()
-        
-        
 
         let nameLabel = UILabel(frame: CGRect(x: 0, y: 0, width: bounds.width, height: bounds.height))
         nameLabel.numberOfLines = 0

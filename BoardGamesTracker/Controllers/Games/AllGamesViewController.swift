@@ -12,20 +12,14 @@ import UIKit
 class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     var gameStore: GameStore!
-    var tableHeaderView: AllGamesHeaderView!
     
     var currentCell: Int?
     
     //MARK: - ViewController functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let gamesPlayed = gameStore.allGames.count
-        var matchesPlayed = 0
-        for game in gameStore.allGames {
-            matchesPlayed += game.matches.count
-        }
-        tableHeaderView.label.text = "You have \(gamesPlayed) games in your collection and played \(matchesPlayed) matches. See your statistics below."
         tableView.reloadData()
+        reloadHeaderView()
     }
     
     override func viewDidLoad() {
@@ -35,8 +29,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         tableView.backgroundColor = Constants.Global.backgroundColor
         tableView.separatorStyle = .none
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
-        tableHeaderView = AllGamesHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 100))
-        tableView.tableHeaderView = tableHeaderView
     }
     
     //MARK: - TableView functions
@@ -202,4 +194,44 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             tableView.reloadData()
         }
     }
+    
+    func reloadHeaderView() {
+        
+        let gamesPlayed = gameStore.allGames.count
+        var matchesPlayed = 0
+        for game in gameStore.allGames {
+            matchesPlayed += game.matches.count
+        }
+        
+        let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
+        firstHeaderView.label.text = "You have \(gamesPlayed) games in your collection and played \(matchesPlayed) matches. See your statistics below."
+        
+        let gamesPlayedCount = { () -> [Int] in
+            var array = [Int]()
+            for game in gameStore.allGames {
+                if game.timesPlayed != 0 {
+                    array.append(game.timesPlayed)
+                }
+            }
+            return array
+        }()
+        
+        let gameNames = { () -> [String] in
+            var nameArray = [String]()
+            for game in self.gameStore.allGames {
+                if game.timesPlayed != 0 {
+                    nameArray.append(game.name)
+                }
+            }
+            return nameArray
+        }()
+        
+        let pieChartView = AllGamesBarView(frame: CGRect(x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40, height: 200), dataSet: gamesPlayedCount, dataName: gameNames)
+        
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + pieChartView.frame.height + 10))
+        headerView.addSubview(firstHeaderView)
+        headerView.addSubview(pieChartView)
+        tableView.tableHeaderView = headerView
+    }
+    
 }

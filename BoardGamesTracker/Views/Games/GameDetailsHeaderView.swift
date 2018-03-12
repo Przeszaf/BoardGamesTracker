@@ -25,11 +25,22 @@ class GameDetailsHeaderView: UIView {
     var maxPointsLabel = UILabel()
     var minPointsLabel = UILabel()
     var averagePointsLabel = UILabel()
-    var medianPointsLabel = UILabel()
+    var averageWinningPointsLabel = UILabel()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        let font = UIFont.systemFont(ofSize: 13)
+        
+        totalMatchesLabel.font = font
+        totalPlayersLabel.font = font
+        totalTimePlayedLabel.font = font
+        averageTimePlayedLabel.font = font
+        maxPointsLabel.font = font
+        minPointsLabel.font = font
+        averagePointsLabel.font = font
+        averageWinningPointsLabel.font = font
         
         verticalStackView.axis = .vertical
         horizontalStackView.axis = .horizontal
@@ -45,7 +56,7 @@ class GameDetailsHeaderView: UIView {
         minPointsLabel.isHidden = true
         maxPointsLabel.isHidden = true
         averagePointsLabel.isHidden = true
-        medianPointsLabel.isHidden = true
+        averageWinningPointsLabel.isHidden = true
         
         backgroundColor = Constants.Global.backgroundColor
         setup()
@@ -87,7 +98,7 @@ class GameDetailsHeaderView: UIView {
         minPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         maxPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         averagePointsLabel.translatesAutoresizingMaskIntoConstraints = false
-        medianPointsLabel.translatesAutoresizingMaskIntoConstraints = false
+        averageWinningPointsLabel.translatesAutoresizingMaskIntoConstraints = false
         
     }
     
@@ -106,7 +117,7 @@ class GameDetailsHeaderView: UIView {
         verticalStackViewLeft.addArrangedSubview(minPointsLabel)
         verticalStackViewRight.addArrangedSubview(maxPointsLabel)
         verticalStackViewLeft.addArrangedSubview(averagePointsLabel)
-        verticalStackViewRight.addArrangedSubview(medianPointsLabel)
+        verticalStackViewRight.addArrangedSubview(averageWinningPointsLabel)
         
         verticalStackView.addArrangedSubview(totalTimePlayedLabel)
         verticalStackView.addArrangedSubview(averageTimePlayedLabel)

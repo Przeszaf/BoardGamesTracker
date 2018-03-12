@@ -670,6 +670,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     createFailureAlert(with: "Assign classes!")
                     return
                 }
+            } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
+                match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
+            } else if game.type == .SoloWithPoints {
+                match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
             }
             //Else create normal Match
         } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {

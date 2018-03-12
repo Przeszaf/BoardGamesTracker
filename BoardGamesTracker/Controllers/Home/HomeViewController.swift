@@ -20,6 +20,9 @@ class HomeViewController: UIViewController {
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var startButton: UIButton!
     @IBOutlet var lastMatchPlayedLabel: UILabel!
+    @IBOutlet var lastGamesChart: UIView!
+    
+    var lastGamesBarChart: UIView!
     
     override func viewDidLoad() {
         
@@ -34,11 +37,16 @@ class HomeViewController: UIViewController {
             lastMatchPlayedLabel.text = "You played \(lastGame.name) \(timeInterval.toStringWithDays()) ago."
         }
         view.backgroundColor = Constants.Global.backgroundColor
+        lastGamesBarChart = createLastGamesBarChart()
+        lastGamesChart.addSubview(lastGamesBarChart)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        lastGamesBarChart.removeFromSuperview()
+        lastGamesBarChart = createLastGamesBarChart()
+        lastGamesChart.addSubview(lastGamesBarChart)
     }
     
     //MARK: - Buttons
@@ -106,9 +114,53 @@ class HomeViewController: UIViewController {
             let controller = segue.destination as! MapViewController
             controller.locations = locations
             controller.matches = matches
+        case "test"?:
+            print("Test")
         default:
             preconditionFailure("Wrong segue identifier")
         }
+    }
+    
+    
+    func createLastGamesBarChart() -> UIView {
+        var mondaysArray = [String]()
+        
+        let calendar = Calendar.current
+        
+        var dateComponents = DateComponents()
+        dateComponents.weekday = 2
+        dateComponents.hour = 1
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.dateFormat = "MM/dd"
+        
+        
+        let nextMonday = calendar.nextDate(after: Date(), matching: dateComponents, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .forward)!
+        
+        let lastMonday = calendar.nextDate(after: Date(), matching: dateComponents, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .backward)!
+        
+        let firstWeekVisible = calendar.date(byAdding: .day, value: -70, to: lastMonday)!
+        
+        print(nextMonday)
+        
+        for i in 0..<11 {
+            let monday = calendar.date(byAdding: .day, value: -7 * i, to: lastMonday)!
+            mondaysArray.append(dateFormatter.string(from: monday))
+        }
+        
+        var gamesDaysAgo = [Int]()
+        for game in gameStore.allGames {
+            for match in game.matches {
+                let daysSinceMatch = calendar.dateComponents([.day], from: match.date, to: nextMonday).day!
+                if match.date.timeIntervalSince(firstWeekVisible) > 0 {
+                    gamesDaysAgo.append(daysSinceMatch/7)
+                }
+            }
+        }
+        gamesDaysAgo.sort()
+        
+        return LastGamesBarChartView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: 150), dataSet: gamesDaysAgo, xAxisLabels: mondaysArray)
     }
     
     
