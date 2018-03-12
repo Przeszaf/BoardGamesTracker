@@ -79,22 +79,32 @@ class BarChartView: UIView {
         
         //Mapping data
         var dataSetMapped = map(dataSet)
-        
+        print(dataSetMapped)
         
         //Setting all neccessery variables
         let width = frame.width - 2 * offsetX
         let height = frame.height - 2 * offsetY - 10
-        let stepXWidth = width / 11 - 1
+        var barsCount: CGFloat = 11
+        
+        if let count = xAxisLabels?.count {
+            if count < 11 {
+                barsCount = CGFloat(count)
+            }
+        }
+        
+        let stepXWidth = width / barsCount - 1
         let stepYHeight = height / CGFloat(dataSetMapped.max()!)
         let barWidth = stepXWidth - 4
         let font = UIFont.systemFont(ofSize: 8)
+        
         
         if reverse {
             xAxisLabels = xAxisLabels?.reversed()
             dataSetMapped = dataSetMapped.reversed()
         }
         
-        for i in 0..<11 {
+        
+        for i in 0..<Int(barsCount) {
             let barCenterX: CGFloat = offsetX + stepXWidth / 2 + CGFloat(i) * stepXWidth
             let barY: CGFloat = frame.height - offsetY
             var string = ""
@@ -275,6 +285,11 @@ class BarChartView: UIView {
     //dataSetMapped[i] indicates height of i'th bar
     func map(_ dataSet: [Int]) -> [Int] {
         var dataSetMapped = [Int](repeating: 0, count: 11)
+        if let count = xAxisLabels?.count {
+            if count < 11 {
+                dataSetMapped = [Int](repeating: 0, count: count)
+            }
+        }
         for data in dataSet {
             let index = (data - minX) / step
             dataSetMapped[index] += 1
