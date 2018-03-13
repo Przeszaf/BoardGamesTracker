@@ -21,6 +21,7 @@ class Match: NSObject, Comparable, NSCoding {
         aCoder.encode(matchID, forKey: "matchID")
         aCoder.encode(location, forKey: "location")
         aCoder.encode(imageKey, forKey: "imageKey")
+        aCoder.encode(dictionary, forKey: "dictionary")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -33,6 +34,7 @@ class Match: NSObject, Comparable, NSCoding {
         matchID = aDecoder.decodeObject(forKey: "matchID") as! String
         location = aDecoder.decodeObject(forKey: "location") as? CLLocation
         imageKey = aDecoder.decodeObject(forKey: "imageKey") as! String
+        dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any]
         super.init()
     }
     
@@ -45,12 +47,13 @@ class Match: NSObject, Comparable, NSCoding {
     var time: TimeInterval?
     var location: CLLocation?
     let imageKey: String
+    var dictionary: [String: Any]?
     
     let matchID: String
     
     //MARK: - Initializers
     
-    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, date: Date, time: TimeInterval?, location: CLLocation?) {
+    init(game: Game, players: [Player], playersPoints: [Int]?, playersPlaces: [Int]?, dictionary: [String: Any]?, date: Date, time: TimeInterval?, location: CLLocation?) {
         self.game = game
         self.players = players
         self.playersPoints = playersPoints
@@ -60,6 +63,12 @@ class Match: NSObject, Comparable, NSCoding {
         self.location = location
         matchID = NSUUID().uuidString
         imageKey = UUID().uuidString
+        super.init()
+        if let dictionary = dictionary {
+            self.dictionary = toCodable(dictionary: dictionary)
+        } else {
+            self.dictionary = nil
+        }
     }
     
     //MARK: - Conforming to protocols
@@ -101,6 +110,34 @@ class Match: NSObject, Comparable, NSCoding {
         }
         players.removeAll()
         game = nil
+    }
+    
+    
+    //Turns [Player: Any] into [String: Any] by using playerID instead of direct reference to Player as key
+    private func toCodable(dictionary: [String: Any]) -> [String: Any]? {
+        var dictionaryCodable = dictionary
+        
+        if game?.pointsExtendedNameArray != nil {
+            if let pointsDict = dictionary["Points"] as? [Player: [Int]] {
+                var pointsDictCodable = [String: [Int]]()
+                for (player, pointsArray) in pointsDict {
+                    pointsDictCodable[player.playerID] = pointsArray
+                }
+                dictionaryCodable["Points"] = pointsDictCodable
+            }
+        }
+        
+        if game?.professionsArray != nil {
+            if let profDictionary = dictionary["Professions"] as? [Player: String] {
+                var profDictCodable = [String: String]()
+                for (player, profession) in profDictionary {
+                    profDictCodable[player.playerID] = profession
+                }
+                dictionaryCodable["Professions"] = profDictCodable
+            }
+        }
+        
+        return dictionaryCodable
     }
 
     

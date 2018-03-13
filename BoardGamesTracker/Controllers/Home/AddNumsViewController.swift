@@ -18,6 +18,7 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     var currentSection: Int?
     var segueKey: String?
     var dictionary: [Player: [Int]]?
+    var sectionNames: [String]?
     
     //Key is used to determine whether this controller is used to assign places or points to players
     

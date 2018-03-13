@@ -1,5 +1,5 @@
 //
-//  CustomGamesCell.swift
+//  PremadeGamesCell.swift
 //  BoardGamesTracker
 //
 //  Created by Przemyslaw Szafulski on 17/02/2018.
@@ -9,7 +9,7 @@
 import UIKit
 
 //Cell used to display all players
-class CustomGameCell: UITableViewCell {
+class PremadeGamesCell: UITableViewCell {
     
     var gameNameLabel =  UILabel()
     var gameTypeLabel = UILabel()

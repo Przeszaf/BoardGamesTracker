@@ -13,7 +13,7 @@ class GameStore {
     //MARK: - Variables
     var allGames = [Game]()
     var playerStore: PlayerStore!
-    var customGames = [CustomGame]()
+    var premadeGames = [Game]()
     
     let gamesArchiveURL: URL = {
         let directories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -27,24 +27,10 @@ class GameStore {
             allGames = archivedGames
         }
         
-        //Add all custom games
-        customGames.append(CustomGame(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Pandemic", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Carcassonne", type: .SoloWithPoints, maxNoOfPlayers: 5, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Codenames", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Codenames")))
-        customGames.append(CustomGame(name: "7 Wonders", type: .SoloWithPoints, maxNoOfPlayers: 8, icon: UIImage(named: "7 Wonders")))
-        customGames.append(CustomGame(name: "Robinson Crusoe", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Robinson Crusoe")))
-        customGames.append(CustomGame(name: "Time's up", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Time's up")))
-        customGames.append(CustomGame(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 10, icon: UIImage(named: "Dixit")))
-        customGames.append(CustomGame(name: "Mascarade", type: .SoloWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Mascarade")))
-        customGames.append(CustomGame(name: "5 Second Rule", type: .SoloWithPoints, maxNoOfPlayers: 10, icon: UIImage(named: "5 Second Rule")))
-        //Check if customGames were already added to allGames, if so then remove from customGames
-        for game in allGames {
-            if let customGame = game as? CustomGame {
-                let index = customGames.index(where: {$0.name == customGame.name})
-                customGames.remove(at: index!)
-            }
-        }
+        //FIXME: Add all premade games
+        let game = Game(name: "Aaaa", type: .SoloWithPlaces, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, professionsArray: ["Class1", "Class2"], evilProfessionsArray: nil, goodProfessionsArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: nil, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchName: nil)
+        allGames.append(game)
+        //Check if premadeGames were already added to allGames, if so then remove from premadeGames
         
     }
 

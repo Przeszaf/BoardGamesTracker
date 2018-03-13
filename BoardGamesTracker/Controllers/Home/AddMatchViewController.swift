@@ -22,7 +22,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var pickerToolbar: UIToolbar!
     
     let pickerDataNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
-    let pickerPandemicDifficulty = ["Easy (4 Epidemy cards)", "Medium (5 Epidemy cards)", "Hard (6 Epidemy cards)"]
+    var pickerDifficultyNames: [String]!
     
     var locationManager = CLLocationManager()
     
@@ -68,22 +68,21 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         super.viewDidLoad()
         loadView()
         
-        myView.gameTextView.delegate = self
-        myView.playersTextView.delegate = self
-        myView.winnersTextView.delegate = self
-        myView.loosersTextView.delegate = self
-        myView.pointsTextView.delegate = self
-        myView.dateTextView.delegate = self
-        myView.timeTextView.delegate = self
-        myView.dictionaryTextView.delegate = self
-        myView.additionalTextView.delegate = self
-        myView.additionalSecondTextView.delegate = self
-        myView.additionalThirdTextView.delegate = self
+        //Setting delegate of all textViews inside AddMatchView to AddMatchViewController
+        for subview in myView.verticalStackView.arrangedSubviews {
+            if let stackView = subview as? UIStackView {
+                for stackViewSubview in stackView.arrangedSubviews {
+                    if let textView = stackViewSubview as? UITextView {
+                        textView.delegate = self
+                    }
+                }
+            }
+        }
         
         
         //At the beginning show only stack views below
+        myView.hideAllStackViews()
         myView.gameStackView.isHidden = false
-
         
         tabBarController?.tabBar.isHidden = true
         
@@ -129,106 +128,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         myView.gameStackView.isHidden = false
         
         
-        
-        if let game = selectedGame {
-            myView.dateStackView.isHidden = false
-            myView.timeStackView.isHidden = false
-            myView.locationStackView.isHidden = false
-            imageView.isHidden = false
-            myView.dateTextView.text = date?.toStringWithHour()
-//            myView.timeTextView.text = time?.toString()
-            if game.type == .TeamWithPlaces {
-                myView.winnersStackView.isHidden = false
-                myView.loosersStackView.isHidden = false
-            } else if game.type == .SoloWithPoints {
-                myView.playersStackView.isHidden = false
-                myView.pointsStackView.isHidden = false
-                myView.pointsLabel.text = "Points"
-                addNumsSegueKey = "Points"
-            } else if game.type == .SoloWithPlaces {
-                myView.playersStackView.isHidden = false
-                myView.pointsLabel.text = "Places"
-                addNumsSegueKey = "Places"
-                myView.pointsStackView.isHidden = false
-            } else if game.type == .Cooperation {
-                myView.playersStackView.isHidden = false
-                myView.switchStackView.isHidden = false
-                myView.switchLabel.text = "Did you win?"
-            }
-            if let customGame = game as? CustomGame {
-                if customGame.name == "Avalon" {
-                    myView.dictionaryStackView.isHidden = false
-                    myView.dictionaryLabel.text = "Classes"
-                    
-                    myView.switchTwoStackView.isHidden = false
-                    myView.switchTwoLabel.text = "Playing with lady of the Lake?"
-                    
-                    if winners.count < loosers.count {
-                        myView.switchStackView.isHidden = false
-                        myView.switchLabel.text = "Merlin killed by Assassin?"
-                    }
-                }
-                if customGame.name == "Pandemic" {
-                    myView.dictionaryStackView.isHidden = false
-                    myView.dictionaryLabel.text = "Classes"
-                    
-                    myView.additionalStackView.isHidden = false
-                    myView.additionalLabel.text = "Diseases"
-                    
-                    myView.additionalSecondStackView.isHidden = false
-                    myView.additionalSecondLabel.text = "Cards left?"
-                    myView.additionalSecondTextView.inputView = picker
-                    myView.additionalSecondTextView.inputAccessoryView = pickerToolbar
-                    
-                    myView.additionalThirdStackView.isHidden = false
-                    myView.additionalThirdLabel.text = "Difficulty"
-                    myView.additionalThirdTextView.inputView = picker
-                    myView.additionalThirdTextView.inputAccessoryView = pickerToolbar
-                } else if customGame.name == "Carcassonne" {
-                    myView.additionalTextView.isHidden = false
-                    myView.additionalLabel.text = "Expansions"
-                } else if customGame.name == "Codenames" {
-                    myView.switchStackView.isHidden = false
-                    myView.switchLabel.text = "Killed by Assassin?"
-                    
-                    myView.additionalSecondStackView.isHidden = false
-                    myView.additionalSecondLabel.text = "Cards left?"
-                    myView.additionalSecondTextView.inputView = picker
-                    myView.additionalSecondTextView.inputAccessoryView = pickerToolbar
-                } else if customGame.name == "7 Wonders" {
-                    myView.dictionaryStackView.isHidden = false
-                    myView.dictionaryLabel.text = "Classes"
-                    
-                    myView.additionalStackView.isHidden = false
-                    myView.additionalLabel.text = "Expansions"
-                } else if customGame.name == "Robinson Crusoe" {
-                    myView.dictionaryStackView.isHidden = false
-                    myView.dictionaryLabel.text = "Classes"
-                    
-                    myView.additionalStackView.isHidden = false
-                    myView.additionalLabel.text = "Scenario"
-                    
-                    myView.additionalSecondStackView.isHidden = false
-                    myView.additionalSecondLabel.text = "Days left?"
-                    myView.additionalSecondTextView.inputView = picker
-                    myView.additionalSecondTextView.inputAccessoryView = pickerToolbar
-                    
-                    myView.additionalThirdStackView.isHidden = false
-                    myView.additionalThirdLabel.text = "Points"
-                    myView.additionalThirdTextView.inputView = picker
-                    myView.additionalThirdTextView.inputAccessoryView = pickerToolbar
-                    
-                    myView.switchStackView.isHidden = false
-                    myView.switchLabel.text = "Playing with Friday?"
-                    
-                    myView.switchTwoStackView.isHidden = false
-                    myView.switchTwoLabel.text = "Playing with dog?"
-                    
-                    myView.pointsStackView.isHidden = true
-                }
-            }
-        }
-        
         if imageView.image == nil {
             imageView.contentMode = .center
             imageView.backgroundColor = UIColor.lightGray
@@ -237,6 +136,52 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             imageView.contentMode = .scaleAspectFit
             imageView.backgroundColor = nil
         }
+        
+        if selectedGame?.thereAreTeams == true {
+            myView.winnersStackView.isHidden = false
+            myView.loosersStackView.isHidden = false
+        } else if selectedGame?.thereAreTeams == false {
+            myView.playersStackView.isHidden = false
+        }
+        
+        if selectedGame?.pointsExtendedNameArray != nil {
+            myView.pointsExtendedStackView.isHidden = false
+        } else if selectedGame?.thereArePoints == true {
+            myView.pointsStackView.isHidden = false
+        } else if selectedGame?.thereAreTeams == false {
+            myView.placesStackView.isHidden = false
+        }
+        
+        if selectedGame?.professionsArray != nil {
+            myView.professionsStackView.isHidden = false
+        }
+        
+        if selectedGame?.expansionsArray != nil {
+            myView.expansionsStackView.isHidden = false
+        }
+        
+        if selectedGame?.scenariosArray != nil {
+            myView.scenariosStackView.isHidden = false
+        }
+        
+        if selectedGame?.type == .Cooperation {
+            myView.winSwitchStackView.isHidden = false
+        }
+        
+        if let difficultyNames = selectedGame?.difficultyNames {
+            pickerDifficultyNames = difficultyNames
+            myView.difficultyStackView.isHidden = false
+        }
+        
+        if selectedGame?.roundsLeftName != nil {
+            myView.roundsLeftStackView.isHidden = false
+        }
+        
+        if let switchName = selectedGame?.additionalSwitchName {
+            myView.additionalSwitchStackView.isHidden = false
+            myView.additionalSwitchLabel.text = switchName + "?"
+        }
+        
         updateTextViews()
     }
     
@@ -281,33 +226,31 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         //Workaround for double segues - if time between segues is lower than 0.1 second,
         //then do not perform segue
-        print(dateSinceSegue.timeIntervalSinceNow)
         if Float(dateSinceSegue.timeIntervalSinceNow) < -0.1 {
-            if textView == myView.pointsTextView && selectedGame?.name != "7 Wonders" {
-                performSegue(withIdentifier: "addNums", sender: self)
-            } else if textView == myView.playersTextView || textView == myView.loosersTextView || textView == myView.winnersTextView {
-                print("Performing segue")
-                performSegue(withIdentifier: "chooser", sender: self)
-            } else if textView == myView.gameTextView {
+            if textView == myView.gameTextView {
                 performSegue(withIdentifier: "chooseGame", sender: self)
-            } else if textView == myView.dictionaryTextView && (selectedGame?.name == "Avalon" || selectedGame?.name == "Pandemic" || selectedGame?.name == "7 Wonders" || selectedGame?.name == "Robinson Crusoe") {
+            } else if textView == myView.playersTextView || textView == myView.loosersTextView || textView == myView.winnersTextView {
+                performSegue(withIdentifier: "chooser", sender: self)
+            } else if textView == myView.pointsTextView {
+                addNumsSegueKey = "Points"
+                performSegue(withIdentifier: "addNums", sender: self)
+            } else if textView == myView.placesTextView {
+                addNumsSegueKey = "Places"
+                performSegue(withIdentifier: "addNums", sender: self)
+            } else if textView == myView.pointsExtendedTextView {
+                addNumsSegueKey = "Extended"
+                performSegue(withIdentifier: "addNums", sender: self)
+            } else if textView == myView.professionsTextView {
                 addInfoSegueKey = "Classes"
                 performSegue(withIdentifier: "addInfo", sender: self)
+            } else if textView == myView.expansionsTextView {
+                chooserSegueKey = "Expansions"
+                performSegue(withIdentifier: "chooser", sender: self)
+            } else if textView == myView.scenariosTextView {
+                chooserSegueKey = "Scenarios"
+                performSegue(withIdentifier: "chooser", sender: self)
             } else if textView == myView.additionalTextView && selectedGame!.name == "Pandemic" {
-                addInfoSegueKey = "Diseases"
                 performSegue(withIdentifier: "addInfo", sender: self)
-            } else if textView == myView.additionalTextView && selectedGame?.name == "Carcassonne" {
-                chooserSegueKey = "Carcassonne Expansions"
-                performSegue(withIdentifier: "chooser", sender: self)
-            } else if textView == myView.additionalTextView && selectedGame?.name == "7 Wonders" {
-                chooserSegueKey = "7 Wonders Expansions"
-                performSegue(withIdentifier: "chooser", sender: self)
-            } else if textView == myView.pointsTextView && selectedGame?.name == "7 Wonders" {
-                addNumsSegueKey = "7 Wonders"
-                performSegue(withIdentifier: "addNums", sender: self)
-            } else if textView == myView.additionalTextView && selectedGame?.name == "Robinson Crusoe" {
-                chooserSegueKey = "Robinson Crusoe Scenarios"
-                performSegue(withIdentifier: "chooser", sender: self)
             }
         }
         dateSinceSegue = Date()
@@ -322,81 +265,32 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             return true
         }
         
-        //Taking care of custom games
-        if let customGame = selectedGame as? CustomGame {
-            if customGame.name == "Pandemic" {
-                if textView == myView.additionalSecondTextView {
-                    //Picker tag is used to load correct data
-                    picker.tag = 1
-                    picker.reloadAllComponents()
-                    //If it is first click, then assign first option to textView
-                    if textView.text == "" {
-                        textView.text = String(pickerDataNumbers[0])
-                        picker.selectRow(0, inComponent: 0, animated: false)
-                    } else {
-                        //Else go to already chosen option
-                        guard let num = Int(textView.text) else { return false }
-                        let index = pickerDataNumbers.index(of: num)
-                        picker.selectRow(index!, inComponent: 0, animated: false)
-                    }
-                    return true
-                } else if textView == myView.additionalThirdTextView {
-                    picker.tag = 2
-                    picker.reloadAllComponents()
-                    if textView.text == "" {
-                        textView.text = pickerPandemicDifficulty[0]
-                        picker.selectRow(0, inComponent: 0, animated: false)
-                    } else {
-                        let index = pickerPandemicDifficulty.index(of: textView.text)
-                        picker.selectRow(index!, inComponent: 0, animated: false)
-                    }
-                    return true
-                }
-            } else if customGame.name == "Codenames" {
-                if textView == myView.additionalSecondTextView {
-                    //Picker tag is used to load correct data
-                    picker.tag = 1
-                    picker.reloadAllComponents()
-                    //If it is first click, then assign first option to textView
-                    if textView.text == "" {
-                        textView.text = String(pickerDataNumbers[0])
-                        picker.selectRow(0, inComponent: 0, animated: false)
-                    } else {
-                        //Else go to already chosen option
-                        guard let num = Int(textView.text) else { return false }
-                        let index = pickerDataNumbers.index(of: num)
-                        picker.selectRow(index!, inComponent: 0, animated: false)
-                    }
-                    return true
-                }
-            } else if customGame.name == "Robinson Crusoe" {
-                if textView == myView.additionalSecondTextView {
-                    picker.tag = 1
-                    picker.reloadAllComponents()
-                    if textView.text == "" {
-                        textView.text = String(pickerDataNumbers[0])
-                        picker.selectRow(0, inComponent: 0, animated: false)
-                    } else {
-                        guard let num = Int(textView.text) else { return false }
-                        let index = pickerDataNumbers.index(of: num)
-                        picker.selectRow(index!, inComponent: 0, animated: false)
-                    }
-                    return true
-                } else if textView == myView.additionalThirdTextView {
-                    picker.tag = 2
-                    picker.reloadAllComponents()
-                    if textView.text == "" {
-                        textView.text = String(pickerDataNumbers[0])
-                        picker.selectRow(0, inComponent: 0, animated: false)
-                    } else {
-                        guard let num = Int(textView.text) else { return false }
-                        let index = pickerDataNumbers.index(of: num)
-                        picker.selectRow(index!, inComponent: 0, animated: false)
-                    }
-                    return true
-                }
+        
+        if textView == myView.roundsLeftTextView {
+            picker.tag = 1
+            picker.reloadAllComponents()
+            if textView.text == "" {
+                textView.text = String(pickerDataNumbers[0])
+                picker.selectRow(0, inComponent: 0, animated: false)
+            } else {
+                //Else go to already chosen option
+                guard let num = Int(textView.text) else { return false }
+                let index = pickerDataNumbers.index(of: num)
+                picker.selectRow(index!, inComponent: 0, animated: false)
             }
+        } else if textView == myView.additionalThirdTextView {
+            picker.tag = 2
+            picker.reloadAllComponents()
+            if textView.text == "" {
+                textView.text = pickerDifficultyNames[0]
+                picker.selectRow(0, inComponent: 0, animated: false)
+            } else {
+                let index = pickerDifficultyNames.index(of: textView.text)
+                picker.selectRow(index!, inComponent: 0, animated: false)
+            }
+            return true
         }
+        
         return false
     }
     
@@ -436,11 +330,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 if let game = selectedGame {
                     controller.maxPlayers = game.maxNoOfPlayers - winners.count
                 }
-            case _ where chooserSegueKey!.contains("Expansion"):
+            case "Expansions"?:
+                controller.availableExpansions = (selectedGame?.expansionsArray)!
+                controller.multipleAllowed = selectedGame?.expansionsAreMultiple
                 if let expansionsArray = dictionary["Expansions"] as? [String] {
                     controller.selectedExpansions = expansionsArray
                 }
-            case _ where chooserSegueKey!.contains("Scenario"):
+            case "Scenarios"?:
+                controller.availableScenarios = (selectedGame?.scenariosArray)!
+                controller.multipleAllowed = selectedGame?.scenariosAreMultiple
                 if let scenariosArray = dictionary["Scenarios"] as? [String] {
                     controller.selectedScenarios = scenariosArray
                 }
@@ -452,27 +350,27 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             //Updates dictionary, so it holds only selectedPlayers
             updateDictionary()
             controller.availablePlayers = selectedPlayers
+            controller.segueKey = addNumsSegueKey
             switch addNumsSegueKey {
             case "Points"?:
                 controller.playersPoints = playersPoints
-                controller.segueKey = addNumsSegueKey
             case "Places"?:
-                controller.segueKey = addNumsSegueKey
                 controller.playersPlaces = playersPlaces
-            case "7 Wonders"?:
+            case "Extended"?:
+                guard let sectionNames = selectedGame?.pointsExtendedNameArray else { return }
                 controller.playersPoints = playersPoints
-                controller.segueKey = addNumsSegueKey
+                controller.sectionNames = sectionNames
                 if dictionary["Points"] == nil {
                     var pointsDict = [Player: [Int]]()
                     for player in selectedPlayers {
-                        pointsDict[player] = [Int](repeatElement(-99, count: 8))
+                        pointsDict[player] = [Int](repeatElement(-99, count: sectionNames.count))
                     }
                     dictionary["Points"] = pointsDict
                 } else {
                     var pointsDict = dictionary["Points"] as! [Player: [Int]]
                     for player in selectedPlayers {
                         if pointsDict[player] == nil {
-                            pointsDict[player] = [Int](repeatElement(-99, count: 8))
+                            pointsDict[player] = [Int](repeatElement(-99, count: sectionNames.count))
                         }
                     }
                     dictionary["Points"] = pointsDict
@@ -490,6 +388,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 controller.loosers = loosers
                 controller.availablePlayers = selectedPlayers
                 controller.playersClasses = playersClasses
+                if let professionsArray = selectedGame?.professionsArray {
+                    controller.myPickerData = professionsArray
+                    if let evilProfessionsArray = selectedGame?.evilProfessionsArray, let goodProfessionsArray = selectedGame?.goodProfessionsArray {
+                        controller.myPickerDataEvil = evilProfessionsArray
+                        controller.myPickerDataGood = goodProfessionsArray
+                    }
+                }
             } else if addInfoSegueKey == "Diseases" {
                 if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
                     controller.dictionary = diseasesDictionary
@@ -511,7 +416,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         var places = [Int]()
         var players = [Player]()
         var points = [Int]()
-        var match: Match?
+        var match: Match!
         
         //Update places, players and points variables according to game type
         //When team with places game, then the winners and loosers fields cannot be empty
@@ -573,7 +478,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             players = selectedPlayers
             
             for _ in players {
-                if myView.mySwitch.isOn {
+                if myView.winSwitch.isOn {
                     places.append(1)
                 } else {
                     places.append(2)
@@ -581,108 +486,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
-        //If there are no errors, then create match and display success alert
         
-        //If custom game, then create CustomMatch
-        if let customGame = selectedGame as? CustomGame {
-            if customGame.name == "Avalon" {
-                
-                //Merlin can be only killed when bad guys win the game and
-                //there are always less bad guys than good guys.
-                if loosers.count > winners.count {
-                    dictionary["Killed by Assassin?"] = myView.mySwitch.isOn
-                }
-                dictionary["Lady of the lake?"] = myView.mySwitchTwo.isOn
-                if areClassesAssigned() {
-                    match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: playersClasses)
-                } else {
-                    createFailureAlert(with: "Assign classes!")
-                    return
-                }
-            }
-            
-            else if customGame.name == "Pandemic" {
-                if myView.additionalSecondTextView.text == "" {
-                    createFailureAlert(with: "How many cards were left?")
-                    return
-                } else if myView.additionalThirdTextView.text == "" {
-                    createFailureAlert(with: "What difficulty level did you play?")
-                    return
-                }
-                dictionary["Cards left"] = Int(myView.additionalSecondTextView.text)
-                dictionary["Difficulty"] = myView.additionalThirdTextView.text
-                
-                guard let diseasesDictionary = dictionary["Diseases"] as? [String: String] else {
-                    createFailureAlert(with: "Are all diseases cured?")
-                    return
-                }
-                for diseaseName in PandemicDiseasesName.array {
-                    if diseasesDictionary[diseaseName] == nil {
-                        createFailureAlert(with: "Not all diseases are assigned!")
-                        return
-                    }
-                }
-                if areClassesAssigned() {
-                    print(playersClasses)
-                    match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: playersClasses)
-                } else {
-                    createFailureAlert(with: "Assign classes!")
-                    return
-                }
-            }
-            
-            else if customGame.name == "Carcassonne" {
-                match = CustomMatch(game: game, players: players, playersPoints: points, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: nil)
-            }
-            else if customGame.name == "Codenames" {
-                if myView.additionalSecondTextView.text == "" {
-                    createFailureAlert(with: "How many cards were left?")
-                    return
-                }
-                dictionary["Assassin?"] = myView.mySwitch.isOn
-                dictionary["Cards left"] = Int(myView.additionalSecondTextView.text)
-                match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: nil)
-            } else if customGame.name == "7 Wonders" {
-                if areClassesAssigned() {
-                    print(playersClasses)
-                    match = CustomMatch(game: game, players: players, playersPoints: points, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: playersClasses)
-                } else {
-                    createFailureAlert(with: "Assign classes!")
-                    return
-                }
-            } else if customGame.name == "Robinson Crusoe" {
-                if myView.additionalSecondTextView.text == "" {
-                    createFailureAlert(with: "How many days were left?")
-                    return
-                }
-                if dictionary["Scenarios"] == nil {
-                    createFailureAlert(with: "Which scenario did you play?")
-                    return
-                }
-                if areClassesAssigned() {
-                    print(playersClasses)
-                    dictionary["Dog?"] = myView.mySwitch.isOn
-                    dictionary["Friday?"] = myView.mySwitchTwo.isOn
-                    dictionary["Days left"] = Int(myView.additionalSecondTextView.text)
-                    dictionary["Points"] = Int(myView.additionalThirdTextView.text)
-                    match = CustomMatch(game: game, players: players, playersPoints: nil, playersPlaces: places, date: date!, time: time, location: location, dictionary: dictionary, playersClasses: playersClasses)
-                } else {
-                    createFailureAlert(with: "Assign classes!")
-                    return
-                }
-            } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
-                match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
-            } else if game.type == .SoloWithPoints {
-                match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
-            }
-            //Else create normal Match
-        } else if game.type == .TeamWithPlaces || game.type == .SoloWithPlaces || game.type == .Cooperation {
-            match = Match(game: game, players: players, playersPoints: nil, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
-        } else if game.type == .SoloWithPoints {
-            match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, date: self.date!, time: self.time, location: self.location)
-        }
-        game.addMatch(match: match!)
-        gameStore.allGames.sort()
         //If image was changed from default, then setImage
         if imageView.image != UIImage(named: "camera") {
             imageStore.setImage(image: imageView.image!, forKey: match!.imageKey)
@@ -758,50 +562,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         //Creates strings for custom games
         string.removeAll()
-        if let customGame = selectedGame as? CustomGame {
-            if customGame.name == "Avalon" || customGame.name == "Pandemic" || customGame.name == "7 Wonders" || customGame.name == "Robinson Crusoe" {
-                let classesDictionary = playersClasses
-                if winners.isEmpty && loosers.isEmpty {
-                    for player in selectedPlayers {
-                        string.append("\(player) - \(classesDictionary[player] ?? "none")")
-                    }
-                } else {
-                    for player in winners + loosers {
-                        string.append("\(player) - \(classesDictionary[player] ?? "none")")
-                    }
-                }
-                myView.dictionaryTextView.text = string.joined(separator: "\n")
-                string.removeAll()
-            }
-            
-            
-            if customGame.name == "Pandemic" {
-                if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
-                    for diseaseName in PandemicDiseasesName.array {
-                        string.append("\(diseaseName) - \(diseasesDictionary[diseaseName] ?? "N/A")")
-                    }
-                    myView.additionalTextView.text = string.joined(separator: "\n")
-                    string.removeAll()
-                }
-            }
-            if customGame.name == "Carcassonne" || customGame.name == "7 Wonders"{
-                if let expansionsArray = dictionary["Expansions"] as? [String] {
-                    for expansion in expansionsArray {
-                        string.append(expansion)
-                    }
-                }
-                myView.additionalTextView.text = string.joined(separator: "\n")
-                string.removeAll()
-            }
-            if customGame.name == "Robinson Crusoe" {
-                if let scenariosArray = dictionary["Scenarios"] as? [String] {
-                    for scenario in scenariosArray {
-                        string.append(scenario)
-                    }
-                }
-                myView.additionalTextView.text = string.joined(separator: "\n")
-            }
-        }
+        
     }
     
     
@@ -939,15 +700,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        guard let customGame = selectedGame as? CustomGame else { return 0 }
-        if pickerView.tag == 1 && (customGame.name == "Pandemic" || customGame.name == "Codenames") {
+        if pickerView.tag == 1 {
             return pickerDataNumbers.count
-        } else if pickerView.tag == 2 && customGame.name == "Pandemic" {
-            return pickerPandemicDifficulty.count
-        } else if pickerView.tag == 1 && customGame.name == "Robinson Crusoe" {
-            return 8
-        } else if pickerView.tag == 2 && customGame.name == "Robinson Crusoe" {
-            return pickerDataNumbers.count
+        } else if pickerView.tag == 2 {
+            return pickerDifficultyNames.count
         }
         return 0
     }
@@ -955,15 +711,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        guard let customGame = selectedGame as? CustomGame else { return "" }
-        if customGame.name == "Pandemic" {
-            if picker.tag == 1 {
-                return String(pickerDataNumbers[row])
-            } else if picker.tag == 2 {
-                return pickerPandemicDifficulty[row]
-            }
-        } else if customGame.name == "Codenames" || customGame.name == "Robinson Crusoe" {
+        if picker.tag == 1 {
             return String(pickerDataNumbers[row])
+        } else if picker.tag == 2 {
+            return pickerDifficultyNames[row]
         }
         return ""
     }
@@ -972,27 +723,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     didSelectRow row: Int,
                     inComponent component: Int) {
         //When selected, then update dictionary and textView
-        if let customGame = selectedGame as? CustomGame {
-            if customGame.name == "Pandemic" {
-                if pickerView.tag == 1 {
-                    dictionary["Cards left"] = pickerDataNumbers[row]
-                    myView.additionalSecondTextView.text = String(pickerDataNumbers[row])
-                } else if pickerView.tag == 2 {
-                    dictionary["Difficulty"] = pickerPandemicDifficulty[row]
-                    myView.additionalThirdTextView.text = pickerPandemicDifficulty[row]
-                }
-            } else if customGame.name == "Codenames" {
-                dictionary["Cards left"] = pickerDataNumbers[row]
-                myView.additionalSecondTextView.text = String(pickerDataNumbers[row])
-            } else if customGame.name == "Robinson Crusoe" {
-                if pickerView.tag == 1 {
-                    dictionary["Days left"] = pickerDataNumbers[row]
-                    myView.additionalSecondTextView.text = String(pickerDataNumbers[row])
-                } else if pickerView.tag == 2 {
-                    dictionary["Points"] = pickerDataNumbers[row]
-                    myView.additionalThirdTextView.text = String(pickerDataNumbers[row])
-                }
-            }
+        if pickerView.tag == 1 {
+            dictionary["Rounds left"] = pickerDataNumbers[row]
+            myView.roundsLeftTextView.text = String(pickerDataNumbers[row])
+        } else if pickerView.tag == 2 {
+            dictionary["Difficulty"] = pickerDifficultyNames[row]
+            myView.difficultyTextView.text = pickerDifficultyNames[row]
         }
     }
     
@@ -1038,30 +774,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     @objc func cancelPicker() {
-        if selectedGame?.name == "Pandemic" {
-            if picker.tag == 1 {
-                myView.additionalSecondTextView.resignFirstResponder()
-                myView.additionalSecondTextView.text = ""
-                dictionary["Cards left"] = nil
-            } else if picker.tag == 2 {
-                myView.additionalThirdTextView.resignFirstResponder()
-                myView.additionalThirdTextView.text = ""
-                dictionary["Difficulty"] = nil
-            }
-        } else if selectedGame?.name == "Codenames" {
-            myView.additionalSecondTextView.resignFirstResponder()
-            myView.additionalSecondTextView.text = ""
-            dictionary["Cards left"] = nil
-        } else if selectedGame?.name == "Robinson Crusoe" {
-            if picker.tag == 1 {
-                myView.additionalSecondTextView.resignFirstResponder()
-                myView.additionalSecondTextView.text = ""
-                dictionary["Days left"] = nil
-            } else if picker.tag == 2 {
-                myView.additionalThirdTextView.resignFirstResponder()
-                myView.additionalThirdTextView.text = ""
-                dictionary["Points"] = nil
-            }
+        if picker.tag == 1 {
+            myView.roundsLeftTextView.resignFirstResponder()
+            myView.roundsLeftTextView.text = ""
+            dictionary["Rounds left"] = nil
+        } else if picker.tag == 2 {
+            myView.difficultyTextView.resignFirstResponder()
+            myView.difficultyTextView.text = ""
+            dictionary["Difficulty"] = nil
         }
     }
     

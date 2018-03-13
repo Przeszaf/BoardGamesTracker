@@ -21,9 +21,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     var availableScenarios = [String]()
     var selectedScenarios = [String]()
     
-    let carcassonneExpansions = [CarcassonneExpansions.Expansion, CarcassonneExpansions.ExpansionTwo]
-    let sevenWondersExpansions = [SevenWondersExpansions.cities, SevenWondersExpansions.leaders]
-    let robinsonCrusoeScenarios = [RobinsonScenarios.scenario1, RobinsonScenarios.scenario2, RobinsonScenarios.scenario3]
+    var multipleAllowed: Bool!
     
     //MARK: - UITableViewController
     override func viewDidLoad() {
@@ -38,13 +36,6 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if segueKey == "Carcassonne Expansions" {
-            availableExpansions = carcassonneExpansions
-        } else if segueKey == "7 Wonders Expansions" {
-            availableExpansions = sevenWondersExpansions
-        } else if segueKey == "Robinson Crusoe Scenarios" {
-            availableScenarios = robinsonCrusoeScenarios
-        }
         
         //Select players that are passed from previous view controller
         if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {

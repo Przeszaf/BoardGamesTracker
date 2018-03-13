@@ -304,9 +304,11 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         let label = UILabel(frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 20))
         label.text = "Most active players"
         label.textAlignment = .center
-        let barChartView = BarChartView(dataSet: dataSet, frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 150), reverse: true, labelsRotated: true, newDataSet: nil, xAxisLabels: dataName, truncating: 8)
-        headerView.addSubview(label)
-        headerView.addSubview(barChartView)
+        if !dataSet.isEmpty {
+            let barChartView = BarChartView(dataSet: dataSet, frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 150), reverse: true, labelsRotated: true, newDataSet: nil, xAxisLabels: dataName, truncating: 8)
+            headerView.addSubview(label)
+            headerView.addSubview(barChartView)
+        }
         tableView.tableHeaderView = headerView
     }
     

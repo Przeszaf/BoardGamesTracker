@@ -14,17 +14,31 @@ class Game: NSObject, Comparable, NSCoding {
     
     //MARK: Board game attributes
     var name: String
-    var type: GameType
+    let gameID: String
     var maxNoOfPlayers: Int
+    var icon: UIImage?
+    
     var thereAreTeams: Bool
     var thereArePoints: Bool
+    var type: GameType
+    var pointsExtendedNameArray: [String]?
+    var professionsArray: [String]?
+    var evilProfessionsArray: [String]?
+    var goodProfessionsArray: [String]?
+    var expansionsArray: [String]?
+    var expansionsAreMultiple: Bool?
+    var scenariosArray: [String]?
+    var scenariosAreMultiple: Bool?
+    var winSwitch: Bool?
+    var difficultyNames: [String]?
+    var roundsLeftName: String?
+    var additionalSwitchName: String?
+    var dictionary: [String: Any]?
+    
+    //Derived later
     var timesPlayed: Int
     var lastTimePlayed: Date?
-    let gameID: String
     var matches = [Match]()
-    var createdIcon: UIImage?
-    
-    //MARK: - Board game statistics
     var pointsArray = [Int]()
     var averagePoints = 0.0
     var totalTime = TimeInterval(exactly: 0)!
@@ -35,10 +49,9 @@ class Game: NSObject, Comparable, NSCoding {
     init(name: String, type: GameType, maxNoOfPlayers: Int) {
         gameID = NSUUID().uuidString
         self.name = name.capitalized
-        self.type = type
         self.maxNoOfPlayers = maxNoOfPlayers
-        timesPlayed = 0
-        lastTimePlayed = nil
+        self.type = type
+        
         if type == .SoloWithPoints {
             thereArePoints = true
             thereAreTeams = false
@@ -49,8 +62,16 @@ class Game: NSObject, Comparable, NSCoding {
             thereArePoints = false
             thereAreTeams = false
         }
+        
+        timesPlayed = 0
+        lastTimePlayed = nil
         super.init()
-        createdIcon = createIcon()
+    }
+    
+    convenience init(name: String, type: GameType, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, professionsArray: [String]?, evilProfessionsArray: [String]?, goodProfessionsArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool?, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchName: String?) {
+        self.init(name: name, type: type, maxNoOfPlayers: maxNoOfPlayers)
+        
+        self.pointsExtendedNameArray = pointsExtendedNameArray
     }
     
     //MARK: - Functions
@@ -218,10 +239,10 @@ class Game: NSObject, Comparable, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(name, forKey: "name")
-        aCoder.encode(type.rawValue, forKey: "type")
         aCoder.encode(maxNoOfPlayers, forKey: "maxNoOfPlayers")
         aCoder.encode(thereAreTeams, forKey: "thereAreTeams")
         aCoder.encode(thereArePoints, forKey: "thereArePoints")
+        aCoder.encode(type.rawValue, forKey: "type")
         aCoder.encode(timesPlayed, forKey: "timesPlayed")
         aCoder.encode(lastTimePlayed, forKey: "lastTimePlayed")
         aCoder.encode(gameID, forKey: "gameID")
@@ -230,15 +251,29 @@ class Game: NSObject, Comparable, NSCoding {
         aCoder.encode(averagePoints, forKey: "averagePoints")
         aCoder.encode(totalTime, forKey: "totalTime")
         aCoder.encode(averageTime, forKey: "averageTime")
-        aCoder.encode(createdIcon, forKey: "createdIcon")
+        aCoder.encode(icon, forKey: "icon")
+        aCoder.encode(pointsExtendedNameArray, forKey: "pointsExtendedNameArray")
+        aCoder.encode(professionsArray, forKey: "professionsArray")
+        aCoder.encode(evilProfessionsArray, forKey: "evilProfessionsArray")
+        aCoder.encode(goodProfessionsArray, forKey: "goodProfessionsArray")
+        aCoder.encode(expansionsArray, forKey: "expansionsArray")
+        aCoder.encode(expansionsAreMultiple, forKey: "expansionsAreMultiple")
+        aCoder.encode(scenariosArray, forKey: "scenariosArray")
+        aCoder.encode(scenariosAreMultiple, forKey: "scenariosAreMultiple")
+        aCoder.encode(winSwitch, forKey: "winSwitch")
+        aCoder.encode(difficultyNames, forKey: "difficultyNames")
+        aCoder.encode(roundsLeftName, forKey: "roundsLeftName")
+        aCoder.encode(additionalSwitchName, forKey: "additionalSwitchName")
+        aCoder.encode(dictionary, forKey: "dictionary")
     }
+    
     
     required init?(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObject(forKey: "name") as! String
-        type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
         maxNoOfPlayers = aDecoder.decodeInteger(forKey: "maxNoOfPlayers")
         thereAreTeams = aDecoder.decodeBool(forKey: "thereAreTeams")
         thereArePoints = aDecoder.decodeBool(forKey: "thereArePoints")
+        type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
         timesPlayed = aDecoder.decodeInteger(forKey: "timesPlayed")
         lastTimePlayed = aDecoder.decodeObject(forKey: "lastTimePlayed") as? Date
         gameID = aDecoder.decodeObject(forKey: "gameID") as! String
@@ -247,7 +282,19 @@ class Game: NSObject, Comparable, NSCoding {
         averagePoints = aDecoder.decodeDouble(forKey: "averagePoints")
         totalTime = aDecoder.decodeDouble(forKey: "totalTime")
         averageTime = aDecoder.decodeDouble(forKey: "averageTime")
-        createdIcon = aDecoder.decodeObject(forKey: "createdIcon") as? UIImage
+        pointsExtendedNameArray = aDecoder.decodeObject(forKey: "pointsExtendedNameArray") as? [String]
+        professionsArray = aDecoder.decodeObject(forKey: "professionsArray") as? [String]
+        evilProfessionsArray = aDecoder.decodeObject(forKey: "evilProfessionsArray") as? [String]
+        goodProfessionsArray = aDecoder.decodeObject(forKey: "goodProfessionsArray") as? [String]
+        expansionsArray = aDecoder.decodeObject(forKey: "expansionsArray") as? [String]
+        expansionsAreMultiple = aDecoder.decodeObject(forKey: "expansionsAreMultiple") as? Bool
+        scenariosArray = aDecoder.decodeObject(forKey: "scenariosArray") as? [String]
+        scenariosAreMultiple = aDecoder.decodeObject(forKey: "scenariosAreMultiple") as? Bool
+        winSwitch = aDecoder.decodeObject(forKey: "winSwitch") as? Bool
+        difficultyNames = aDecoder.decodeObject(forKey: "difficultyNames") as? [String]
+        roundsLeftName = aDecoder.decodeObject(forKey: "roundsLeftName") as? String
+        additionalSwitchName = aDecoder.decodeObject(forKey: "additionalSwitchName") as? String
+        dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any]
         super.init()
     }
     

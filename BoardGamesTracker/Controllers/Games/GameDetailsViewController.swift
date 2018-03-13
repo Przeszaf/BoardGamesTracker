@@ -20,12 +20,6 @@ class GameDetailsViewController: UITableViewController {
         super.viewWillAppear(animated)
         
         reloadHeaderView()
-        //CHANGE LATER - check
-        if let customMatches = game.matches as? [CustomMatch], let customMatch = customMatches.first {
-            print("HERE")
-            print(customMatch.dictionary ?? "")
-            print(customMatch.playersClasses ?? "No players classes")
-        }
         
         tableView.backgroundColor = Constants.Global.backgroundColor
         tableView.reloadData()
@@ -211,7 +205,6 @@ class GameDetailsViewController: UITableViewController {
             firstHeaderView.averageWinningPointsLabel.isHidden = false
             firstHeaderView.averagePointsLabel.isHidden = false
             
-            //FIXME:  for 0 games there are no max points
             firstHeaderView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
             firstHeaderView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
             
@@ -235,7 +228,7 @@ class GameDetailsViewController: UITableViewController {
         if game.name == "Avalon" {
             var dataSet = [Int](repeatElement(0, count: 3))
             for match in game.matches {
-                if let match = match as? CustomMatch, let winnerID = match.players.first?.playerID, let classesDictionary = match.playersClasses, let winnerClass = classesDictionary[winnerID] {
+                if let winnerID = match.players.first?.playerID, let professionsDictionary = match.dictionary!["Professions"] as? [String: String], let winnerClass = professionsDictionary[winnerID] {
                     print(winnerClass)
                     if winnerClass.contains("Arthur") || winnerClass.contains("Merlin") || winnerClass.contains("Percival") {
                         dataSet[0] += 1
