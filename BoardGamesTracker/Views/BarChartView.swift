@@ -15,17 +15,19 @@ class BarChartView: UIView {
     var xAxisLabels: [String]?
     var labelsRotated: Bool!
     var reverse: Bool!
+    var truncating: Int?
     var minX: Int!
     var maxX: Int!
     var step: Int!
     
-    convenience init(dataSet: [Int], frame: CGRect, reverse: Bool, labelsRotated: Bool, newDataSet: [Int]?, xAxisLabels: [String]?) {
+    convenience init(dataSet: [Int], frame: CGRect, reverse: Bool, labelsRotated: Bool, newDataSet: [Int]?, xAxisLabels: [String]?, truncating: Int?) {
         self.init(frame: frame)
         self.dataSet = dataSet
         self.newDataSet = newDataSet
         self.xAxisLabels = xAxisLabels
         self.reverse = reverse
         self.labelsRotated = labelsRotated
+        self.truncating = truncating
         setup()
     }
     
@@ -95,7 +97,7 @@ class BarChartView: UIView {
         let stepXWidth = width / barsCount - 1
         let stepYHeight = height / CGFloat(dataSetMapped.max()!)
         let barWidth = stepXWidth - 4
-        let font = UIFont.systemFont(ofSize: 8)
+        var font = UIFont.systemFont(ofSize: 8)
         
         
         if reverse {
@@ -113,18 +115,29 @@ class BarChartView: UIView {
             } else {
                 string = String(minX + i * step)
             }
-            let labelWidth = string.width(withConstrainedHeight: 20, font: font)
             var label: UILabel!
+            //Truncates string if it's too long
+            if let truncating = truncating {
+                let temp = string as NSString
+                if string.count >= truncating {
+                    let range = NSRange.init(location: truncating, length: string.count - truncating)
+                    let truncatedString = temp.replacingCharacters(in: range, with: "...")
+                    string = truncatedString
+                }
+            }
+            let labelWidth = string.width(withConstrainedHeight: 20, font: font)
             if labelsRotated {
                 //0.54 and 0.84 multipliers are cos(1) and sin(1), i.e. rotation angle,
                 //so width and height can be calculated
+                font = UIFont.systemFont(ofSize: 10)
                 label = UILabel(frame: CGRect(x: barCenterX - labelWidth * 0.54 / 2 - 5, y: barY + labelWidth * 0.84 / 2 - 7, width: 30, height: 20))
                 label.transform = CGAffineTransform(rotationAngle: -1)
             } else {
                 label = UILabel(frame: CGRect(x: barCenterX - labelWidth / 2, y: barY, width: 30, height: 20))
             }
-            label.numberOfLines = 1
+            
             label.text = string
+            label.numberOfLines = 1
             label.textAlignment = .center
             label.font = font
             label.sizeToFit()

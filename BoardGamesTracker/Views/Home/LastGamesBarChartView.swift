@@ -30,7 +30,7 @@ import UIKit
     
     convenience init(frame: CGRect, dataSet: [Int], xAxisLabels: [String]) {
         self.init(frame: frame)
-        barChart = BarChartView(dataSet: dataSet, frame: CGRect(x: 0, y: 5, width: frame.width, height: frame.height - 20), reverse: true, labelsRotated: true, newDataSet: nil, xAxisLabels: xAxisLabels)
+        barChart = BarChartView(dataSet: dataSet, frame: CGRect(x: 0, y: 5, width: frame.width, height: frame.height - 20), reverse: true, labelsRotated: false, newDataSet: nil, xAxisLabels: xAxisLabels, truncating: nil)
         addSubview(barChart)
     }
     

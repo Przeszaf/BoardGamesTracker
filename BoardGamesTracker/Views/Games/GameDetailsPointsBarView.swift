@@ -30,7 +30,7 @@ class GameDetailsPointsBarView: UIView {
     
     convenience init(frame: CGRect, dataSet: [Int]) {
         self.init(frame: frame)
-        barChart = BarChartView(dataSet: dataSet, frame: CGRect(x: 0, y: 5, width: frame.width, height: frame.height), reverse: true, labelsRotated: false, newDataSet: nil, xAxisLabels: nil)
+        barChart = BarChartView(dataSet: dataSet, frame: CGRect(x: 0, y: 5, width: frame.width, height: frame.height), reverse: true, labelsRotated: false, newDataSet: nil, xAxisLabels: nil, truncating: nil)
         addSubview(barChart)
     }
     

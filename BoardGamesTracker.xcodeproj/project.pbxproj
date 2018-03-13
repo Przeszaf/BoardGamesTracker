@@ -237,6 +237,7 @@
 		0C11E6C120471235004EDD93 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				0C1A6ABA2029F9F7000A4983 /* AddMatchView.swift */,
 				0C11E6C220471243004EDD93 /* AddMatchButton.swift */,
 				0C953981204822B700E49825 /* WelcomePlayerView.swift */,
 				0C0298602056E96B00FCEFE1 /* LastGamesBarChartView.swift */,
@@ -253,7 +254,6 @@
 				0C029BA4201D013200E9F435 /* TableViewCells */,
 				0CBC0F30205444F200C255B5 /* PieChartView.swift */,
 				0CBC0F3220545A4C00C255B5 /* BarChartView.swift */,
-				0C1A6ABA2029F9F7000A4983 /* AddMatchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

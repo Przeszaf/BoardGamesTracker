@@ -19,7 +19,7 @@ class PieChartView: UIView {
     
     var labels: [UILabel]!
     
-    convenience init(dataSet: [Int], dataName: [String], radius: CGFloat, frame: CGRect, truncating: Int, colorsArray: [UIColor]?) {
+    convenience init(dataSet: [Int], dataName: [String], radius: CGFloat, frame: CGRect, truncating: Int?, colorsArray: [UIColor]?) {
         self.init(frame: frame)
         self.dataSet = dataSet
         self.radius = radius

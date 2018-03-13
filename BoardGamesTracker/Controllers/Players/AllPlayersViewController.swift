@@ -11,7 +11,6 @@ import UIKit
 class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     var playerStore: PlayerStore!
-    var pieChartView: PieChartView!
     var addingPlayer = false
     var currentCell: Int?
     
@@ -273,19 +272,22 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     
     func reloadHeaderView() {
-        let gamesPlayedCount = { () -> [Int] in
-            var array = [Int]()
-            for player in playerStore.allPlayers {
-                if player.timesPlayed != 0 {
-                    array.append(player.timesPlayed)
+        let playersSortedByActivity = playerStore.allPlayers.sorted(by: { $0.timesPlayed > $1.timesPlayed })
+        print(playersSortedByActivity)
+        
+        let dataSet = { () -> [Int] in
+            var dataArray = [Int]()
+            for (i, player) in playersSortedByActivity.enumerated() {
+                for _ in 0..<player.timesPlayed {
+                    dataArray.append(i)
                 }
             }
-            return array
+            return dataArray
         }()
         
-        let playerNames = { () -> [String] in
+        let dataName = { () -> [String] in
             var nameArray = [String]()
-            for player in self.playerStore.allPlayers {
+            for player in playersSortedByActivity {
                 if player.timesPlayed != 0 {
                     nameArray.append(player.name)
                 }
@@ -294,13 +296,17 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }()
         
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 180))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 270))
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends! See their statistics below!"
         headerView.addSubview(firstHeaderView)
         
-        pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: playerNames, radius: 50, frame: CGRect(x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40, height: 100), truncating: 120, colorsArray: nil)
-        headerView.addSubview(pieChartView)
+        let label = UILabel(frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 20))
+        label.text = "Most active players"
+        label.textAlignment = .center
+        let barChartView = BarChartView(dataSet: dataSet, frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 150), reverse: true, labelsRotated: true, newDataSet: nil, xAxisLabels: dataName, truncating: 8)
+        headerView.addSubview(label)
+        headerView.addSubview(barChartView)
         tableView.tableHeaderView = headerView
     }
     
