@@ -228,11 +228,11 @@ class GameDetailsViewController: UITableViewController {
         if game.name == "Avalon" {
             var dataSet = [Int](repeatElement(0, count: 3))
             for match in game.matches {
-                if let winnerID = match.players.first?.playerID, let professionsDictionary = match.dictionary!["Professions"] as? [String: String], let winnerClass = professionsDictionary[winnerID] {
+                if let winnerID = match.players.first?.playerID, let classesDictionary = match.dictionary["Classes"] as? [String: String], let winnerClass = classesDictionary[winnerID] {
                     print(winnerClass)
                     if winnerClass.contains("Arthur") || winnerClass.contains("Merlin") || winnerClass.contains("Percival") {
                         dataSet[0] += 1
-                    } else if match.dictionary!["Killed by Assassin?"] as! Bool == true {
+                    } else if match.dictionary["Killed by Assassin?"] as! Bool == true {
                         dataSet[2] += 1
                     } else {
                         dataSet[1] += 1

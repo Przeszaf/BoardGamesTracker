@@ -19,13 +19,14 @@ class AddMatchView: UIView {
     var pointsStackView = UIStackView()
     var placesStackView = UIStackView()
     var pointsExtendedStackView = UIStackView()
-    var professionsStackView = UIStackView()
+    var classesStackView = UIStackView()
     var expansionsStackView = UIStackView()
     var scenariosStackView = UIStackView()
     var difficultyStackView = UIStackView()
     var winSwitchStackView = UIStackView()
     var roundsLeftStackView = UIStackView()
     var additionalSwitchStackView = UIStackView()
+    var additionalSecondSwitchStackView = UIStackView()
     var additionalStackView = UIStackView()
     var additionalSecondStackView = UIStackView()
     var additionalThirdStackView = UIStackView()
@@ -43,13 +44,14 @@ class AddMatchView: UIView {
     var pointsLabel = UILabel()
     var placesLabel = UILabel()
     var pointsExtendedLabel = UILabel()
-    var professionsLabel = UILabel()
+    var classesLabel = UILabel()
     var expansionsLabel = UILabel()
     var scenariosLabel = UILabel()
     var difficultyLabel = UILabel()
     var winSwitchLabel = UILabel()
     var roundsLeftLabel = UILabel()
     var additionalSwitchLabel = UILabel()
+    var additionalSecondSwitchLabel = UILabel()
     var additionalLabel = UILabel()
     var additionalSecondLabel = UILabel()
     var additionalThirdLabel = UILabel()
@@ -65,13 +67,14 @@ class AddMatchView: UIView {
     var pointsTextView = AddMatchTextView()
     var placesTextView = AddMatchTextView()
     var pointsExtendedTextView = AddMatchTextView()
-    var professionsTextView = AddMatchTextView()
+    var classesTextView = AddMatchTextView()
     var expansionsTextView = AddMatchTextView()
     var scenariosTextView = AddMatchTextView()
     var difficultyTextView = AddMatchTextView()
     var winSwitch = UISwitch()
     var roundsLeftTextView = AddMatchTextView()
     var additionalSwitch = UISwitch()
+    var additionalSecondSwitch = UISwitch()
     var additionalTextView = AddMatchTextView()
     var additionalSecondTextView = AddMatchTextView()
     var additionalThirdTextView = AddMatchTextView()
@@ -96,6 +99,10 @@ class AddMatchView: UIView {
         additionalSwitch.backgroundColor = UIColor.white
         additionalSwitch.layer.cornerRadius = 16
         
+        additionalSecondSwitch.tintColor = UIColor.white
+        additionalSecondSwitch.backgroundColor = UIColor.white
+        additionalSecondSwitch.layer.cornerRadius = 16
+        
         gameLabel.text = "Game"
         playersLabel.text = "Players"
         winnersLabel.text = "Winners"
@@ -103,13 +110,14 @@ class AddMatchView: UIView {
         pointsLabel.text = "Points"
         placesLabel.text = "Places"
         pointsExtendedLabel.text = "Points"
-        professionsLabel.text = "Classes"
+        classesLabel.text = "Classes"
         expansionsLabel.text = "Expansions"
         scenariosLabel.text = "Scenarios"
         difficultyLabel.text = "Difficulty"
         winSwitchLabel.text = "Did you win?"
         roundsLeftLabel.text = "XXX left?"
         additionalSwitchLabel.text = "Additional switch?"
+        additionalSecondSwitchLabel.text = "Additional second switch"
         additionalLabel.text = "Additional"
         additionalSecondLabel.text = "Additional2"
         additionalThirdLabel.text = "Additional3"
@@ -140,14 +148,15 @@ class AddMatchView: UIView {
         loosersLabel.leadingAnchor.constraint(equalTo: pointsLabel.leadingAnchor).isActive = true
         pointsLabel.leadingAnchor.constraint(equalTo: placesLabel.leadingAnchor).isActive = true
         placesLabel.leadingAnchor.constraint(equalTo: pointsExtendedLabel.leadingAnchor).isActive = true
-        pointsExtendedLabel.leadingAnchor.constraint(equalTo: professionsLabel.leadingAnchor).isActive = true
-        professionsLabel.leadingAnchor.constraint(equalTo: expansionsLabel.leadingAnchor).isActive = true
+        pointsExtendedLabel.leadingAnchor.constraint(equalTo: classesLabel.leadingAnchor).isActive = true
+        classesLabel.leadingAnchor.constraint(equalTo: expansionsLabel.leadingAnchor).isActive = true
         expansionsLabel.leadingAnchor.constraint(equalTo: scenariosLabel.leadingAnchor).isActive = true
         scenariosLabel.leadingAnchor.constraint(equalTo: difficultyLabel.leadingAnchor).isActive = true
         difficultyLabel.leadingAnchor.constraint(equalTo: winSwitchLabel.leadingAnchor).isActive = true
         winSwitchLabel.leadingAnchor.constraint(equalTo: roundsLeftLabel.leadingAnchor).isActive = true
         roundsLeftLabel.leadingAnchor.constraint(equalTo: additionalSwitchLabel.leadingAnchor).isActive = true
-        additionalSwitchLabel.leadingAnchor.constraint(equalTo: additionalLabel.leadingAnchor).isActive = true
+        additionalSwitchLabel.leadingAnchor.constraint(equalTo: additionalSecondSwitchLabel.leadingAnchor).isActive = true
+        additionalSecondSwitchLabel.leadingAnchor.constraint(equalTo: additionalLabel.leadingAnchor).isActive = true
         additionalLabel.leadingAnchor.constraint(equalTo: additionalSecondLabel.leadingAnchor).isActive = true
         additionalSecondLabel.leadingAnchor.constraint(equalTo: additionalThirdLabel.leadingAnchor).isActive = true
         additionalThirdLabel.leadingAnchor.constraint(equalTo: dateLabel.leadingAnchor).isActive = true
@@ -160,8 +169,8 @@ class AddMatchView: UIView {
         loosersLabel.trailingAnchor.constraint(equalTo: pointsLabel.trailingAnchor).isActive = true
         pointsLabel.trailingAnchor.constraint(equalTo: placesLabel.trailingAnchor).isActive = true
         placesLabel.trailingAnchor.constraint(equalTo: pointsExtendedLabel.trailingAnchor).isActive = true
-        pointsExtendedLabel.trailingAnchor.constraint(equalTo: professionsLabel.trailingAnchor).isActive = true
-        professionsLabel.trailingAnchor.constraint(equalTo: expansionsLabel.trailingAnchor).isActive = true
+        pointsExtendedLabel.trailingAnchor.constraint(equalTo: classesLabel.trailingAnchor).isActive = true
+        classesLabel.trailingAnchor.constraint(equalTo: expansionsLabel.trailingAnchor).isActive = true
         expansionsLabel.trailingAnchor.constraint(equalTo: scenariosLabel.trailingAnchor).isActive = true
         scenariosLabel.trailingAnchor.constraint(equalTo: difficultyLabel.trailingAnchor).isActive = true
         difficultyLabel.trailingAnchor.constraint(equalTo: roundsLeftLabel.trailingAnchor).isActive = true
@@ -174,14 +183,13 @@ class AddMatchView: UIView {
         
         winSwitch.widthAnchor.constraint(equalToConstant: 49).isActive = true
         winSwitch.leadingAnchor.constraint(equalTo: additionalSwitch.leadingAnchor).isActive = true
+        additionalSwitch.leadingAnchor.constraint(equalTo: additionalSecondSwitch.leadingAnchor).isActive = true
 
         
-        winSwitchLabel.trailingAnchor.constraint(equalTo: roundsLeftLabel.trailingAnchor).isActive = false
-        additionalSwitchLabel.trailingAnchor.constraint(equalTo: additionalLabel.trailingAnchor).isActive = false
         
         winSwitchStackView.distribution = .fillProportionally
         additionalSwitchStackView.distribution = .fillProportionally
-        
+        additionalSecondSwitchStackView.distribution = .fillProportionally
 
         
         
@@ -197,7 +205,7 @@ class AddMatchView: UIView {
         for label in labels {
             guard let labelWidth = label.text?.width(withConstrainedHeight: 100, font: UIFont.systemFont(ofSize: 17)) else { return }
             if labelWidth > width {
-                if label != winSwitchLabel && label != additionalSwitchLabel {
+                if label != winSwitchLabel && label != additionalSwitchLabel && label != additionalSecondSwitchLabel {
                     width = labelWidth
                 }
             }
@@ -244,9 +252,9 @@ class AddMatchView: UIView {
         pointsExtendedLabel.translatesAutoresizingMaskIntoConstraints = false
         pointsExtendedTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        professionsStackView.translatesAutoresizingMaskIntoConstraints = false
-        professionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        professionsTextView.translatesAutoresizingMaskIntoConstraints = false
+        classesStackView.translatesAutoresizingMaskIntoConstraints = false
+        classesLabel.translatesAutoresizingMaskIntoConstraints = false
+        classesTextView.translatesAutoresizingMaskIntoConstraints = false
         
         expansionsStackView.translatesAutoresizingMaskIntoConstraints = false
         expansionsLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -267,6 +275,10 @@ class AddMatchView: UIView {
         additionalSwitchStackView.translatesAutoresizingMaskIntoConstraints = false
         additionalSwitchLabel.translatesAutoresizingMaskIntoConstraints = false
         additionalSwitch.translatesAutoresizingMaskIntoConstraints = false
+        
+        additionalSecondSwitchStackView.translatesAutoresizingMaskIntoConstraints = false
+        additionalSecondSwitchLabel.translatesAutoresizingMaskIntoConstraints = false
+        additionalSecondSwitch.translatesAutoresizingMaskIntoConstraints = false
         
         additionalStackView.translatesAutoresizingMaskIntoConstraints = false
         additionalLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -326,9 +338,9 @@ class AddMatchView: UIView {
         pointsExtendedStackView.addArrangedSubview(pointsExtendedLabel)
         pointsExtendedStackView.addArrangedSubview(pointsExtendedTextView)
         
-        verticalStackView.addArrangedSubview(professionsStackView)
-        professionsStackView.addArrangedSubview(professionsLabel)
-        professionsStackView.addArrangedSubview(professionsTextView)
+        verticalStackView.addArrangedSubview(classesStackView)
+        classesStackView.addArrangedSubview(classesLabel)
+        classesStackView.addArrangedSubview(classesTextView)
         
         verticalStackView.addArrangedSubview(expansionsStackView)
         expansionsStackView.addArrangedSubview(expansionsLabel)
@@ -353,6 +365,10 @@ class AddMatchView: UIView {
         verticalStackView.addArrangedSubview(additionalSwitchStackView)
         additionalSwitchStackView.addArrangedSubview(additionalSwitchLabel)
         additionalSwitchStackView.addArrangedSubview(additionalSwitch)
+        
+        verticalStackView.addArrangedSubview(additionalSecondSwitchStackView)
+        additionalSecondSwitchStackView.addArrangedSubview(additionalSecondSwitchLabel)
+        additionalSecondSwitchStackView.addArrangedSubview(additionalSecondSwitch)
         
         verticalStackView.addArrangedSubview(additionalStackView)
         additionalStackView.addArrangedSubview(additionalLabel)
@@ -389,13 +405,14 @@ class AddMatchView: UIView {
         pointsStackView.isHidden = true
         placesStackView.isHidden = true
         pointsExtendedStackView.isHidden = true
-        professionsStackView.isHidden = true
+        classesStackView.isHidden = true
         expansionsStackView.isHidden = true
         scenariosStackView.isHidden = true
         difficultyStackView.isHidden = true
         winSwitchStackView.isHidden = true
         roundsLeftStackView.isHidden = true
         additionalSwitchStackView.isHidden = true
+        additionalSecondSwitchStackView.isHidden = true
         additionalStackView.isHidden = true
         additionalSecondStackView.isHidden = true
         additionalThirdStackView.isHidden = true

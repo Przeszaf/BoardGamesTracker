@@ -28,8 +28,12 @@ class GameStore {
         }
         
         //FIXME: Add all premade games
-        let game = Game(name: "Aaaa", type: .SoloWithPlaces, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, professionsArray: ["Class1", "Class2"], evilProfessionsArray: nil, goodProfessionsArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: nil, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchName: nil)
+        let game = Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: ["Good", "Good", "Good", "Bad", "Bad", "Bad", "Bad"], goodClassesArray: ["Good", "Good", "Good"], evilClassesArray: ["Bad", "Bad", "Bad", "Bad"], expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: nil, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchName: nil, additionalSecondSwitchName: nil)
         allGames.append(game)
+        
+        let fullPointsGame = Game(name: "All options points", type: .SoloWithPoints, maxNoOfPlayers: 10, pointsExtendedNameArray: ["War", "Leaders", "Knowledge", "Hihihi", "Others"], classesArray: ["Class coop1", "Class coop2", "Class coop3", "Class coop4"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Expansion 1 coop", "Expansion 2 coop"], expansionsAreMultiple: true, scenariosArray: ["Scenario 1", "Scenario 2", "Scenario 3", "Scenario 4", ], scenariosAreMultiple: false, winSwitch: true, difficultyNames: ["Easy", "Medium", "Hard"], roundsLeftName: "Days", additionalSwitchName: "Playing with Dog", additionalSecondSwitchName: "Playing with Friday")
+        allGames.append(fullPointsGame)
+
         //Check if premadeGames were already added to allGames, if so then remove from premadeGames
         
     }

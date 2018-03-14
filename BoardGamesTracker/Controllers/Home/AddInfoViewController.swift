@@ -17,14 +17,14 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     var myPickerDataGood: [String]!
     
     var dictionaryName: String!
-    var dictionaryKey: [String]!
-    var dictionaryValue: [String]!
+    var dictionaryKeys: [String]!
+    var dictionaryValues: [String]!
     
     var game: Game!
-    var availablePlayers: [Player]?
+    var availablePlayers: [Player]!
     var playersClasses = [Player: String]()
-    var winners: [Player]?
-    var loosers: [Player]?
+    var winners: [Player]!
+    var loosers: [Player]!
     var toolbar: UIToolbar!
     var currentRow: Int?
     var segueKey: String?
@@ -45,8 +45,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         toolbar = Constants.Functions.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
         
         
-        //FIXME: Check why must be game.name == "Avalon"
-        if winners != nil, loosers != nil, game.name == "Avalon" {
+        if !winners.isEmpty, !loosers.isEmpty {
             availablePlayers = winners! + loosers!
         }
         tableView.backgroundColor = Constants.Global.backgroundColor
@@ -72,7 +71,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             cell.leftLabel.text = player.name
             cell.rightTextView.text = playersClasses[player]
         } else if segueKey == "Other" {
-            let key = dictionaryKey[indexPath.row]
+            let key = dictionaryKeys[indexPath.row]
             cell.leftLabel.text = key
             cell.rightTextView.text = dictionary[key] as? String
         }
@@ -85,7 +84,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         if segueKey == "Classes" {
             return availablePlayers!.count
         } else if segueKey == "Other" {
-            return dictionaryKey.count
+            return dictionaryKeys.count
         }
         return 0
     }
@@ -155,9 +154,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 textView.text = myPickerData[0]
                 playersClasses[player] = myPickerData[0]
             } else if segueKey == "Other" {
-                let value = dictionaryValue[0]
+                let value = dictionaryValues[0]
                 textView.text = value
-                let key = dictionaryKey[currentRow!]
+                let key = dictionaryKeys[currentRow!]
                 dictionary[key] = value
             }
             //Else go to position of picker data that is alredy chosen in dictionary
@@ -165,9 +164,6 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             if let player = availablePlayers?[currentRow!], let playerClass = playersClasses[player] {
                 var index = myPickerData.index(of: playerClass)
                 
-                //Make correct index for different Avalon players - there are lawful and evil professions
-                //If it is evil player (tag == 1), then it shows only 5 evil profession, starting at [3] to [7]
-                //But on picker, the [3] profession will be at top 0 index, therefore need to subtract
                 if (myPickerDataEvil != nil && myPickerDataGood != nil) && picker.tag == 0 {
                     index = myPickerDataGood.index(of: playerClass)
                 } else if (myPickerDataEvil != nil && myPickerDataGood != nil) && picker.tag == 1 {
@@ -176,9 +172,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 picker.selectRow(index!, inComponent: 0, animated: false)
             }
         } else if segueKey == "Other" {
-            let key = dictionaryKey[currentRow!]
+            let key = dictionaryKeys[currentRow!]
             let value = dictionary[key] as! String
-            let index = dictionaryValue.index(of: value)
+            let index = dictionaryValues.index(of: value)
             picker.selectRow(index!, inComponent: 0, animated: false)
         }
         return true
@@ -201,7 +197,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         } else if segueKey == "Classes" {
             return myPickerData.count
         } else if segueKey == "Other" {
-            return dictionaryValue.count
+            return dictionaryValues.count
         }
         return 0
     }
@@ -220,7 +216,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         } else if segueKey == "Classes" {
             return myPickerData[row]
         } else if segueKey == "Other" {
-            return PandemicDiseasesCureStatus.array[row]
+            return ""
         }
         return ""
     }
@@ -246,8 +242,8 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             playersClasses[player] = myPickerData[row]
             cell.rightTextView.text = myPickerData[row]
         } else if segueKey == "Other" {
-            let value = dictionaryValue[row]
-            let key = dictionaryKey[currentRow!]
+            let value = dictionaryValues[row]
+            let key = dictionaryKeys[currentRow!]
             cell.rightTextView.text = value
             dictionary[key] = value
         }

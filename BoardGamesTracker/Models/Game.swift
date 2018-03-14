@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RandomColorSwift
 
 class Game: NSObject, Comparable, NSCoding {
     
@@ -22,9 +21,9 @@ class Game: NSObject, Comparable, NSCoding {
     var thereArePoints: Bool
     var type: GameType
     var pointsExtendedNameArray: [String]?
-    var professionsArray: [String]?
-    var evilProfessionsArray: [String]?
-    var goodProfessionsArray: [String]?
+    var classesArray: [String]?
+    var evilClassesArray: [String]?
+    var goodClassesArray: [String]?
     var expansionsArray: [String]?
     var expansionsAreMultiple: Bool?
     var scenariosArray: [String]?
@@ -33,6 +32,7 @@ class Game: NSObject, Comparable, NSCoding {
     var difficultyNames: [String]?
     var roundsLeftName: String?
     var additionalSwitchName: String?
+    var additionalSecondSwitchName: String?
     var dictionary: [String: Any]?
     
     //Derived later
@@ -68,10 +68,21 @@ class Game: NSObject, Comparable, NSCoding {
         super.init()
     }
     
-    convenience init(name: String, type: GameType, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, professionsArray: [String]?, evilProfessionsArray: [String]?, goodProfessionsArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool?, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchName: String?) {
+    convenience init(name: String, type: GameType, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool?, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchName: String?, additionalSecondSwitchName: String?) {
         self.init(name: name, type: type, maxNoOfPlayers: maxNoOfPlayers)
-        
         self.pointsExtendedNameArray = pointsExtendedNameArray
+        self.classesArray = classesArray
+        self.goodClassesArray = goodClassesArray
+        self.evilClassesArray = evilClassesArray
+        self.expansionsArray = expansionsArray
+        self.expansionsAreMultiple = expansionsAreMultiple
+        self.scenariosArray = scenariosArray
+        self.scenariosAreMultiple = scenariosAreMultiple
+        self.winSwitch = winSwitch
+        self.difficultyNames = difficultyNames
+        self.roundsLeftName = roundsLeftName
+        self.additionalSwitchName = additionalSwitchName
+        self.additionalSecondSwitchName = additionalSecondSwitchName
     }
     
     //MARK: - Functions
@@ -181,23 +192,6 @@ class Game: NSObject, Comparable, NSCoding {
         return newAverage
     }
     
-    func createIcon() -> UIImage? {
-        let frame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        let nameLabel = UILabel(frame: frame)
-        nameLabel.textAlignment = .center
-        nameLabel.backgroundColor = randomColor(hue: .random, luminosity: .light)
-        nameLabel.textColor = randomColor(hue: .blue, luminosity: .bright)
-        nameLabel.font = UIFont.init(name: "MarkerFelt-Wide", size: 30)
-        
-        nameLabel.text = String(describing: name.first?.description ?? "")
-        UIGraphicsBeginImageContext(frame.size)
-        if let currentContext = UIGraphicsGetCurrentContext() {
-            nameLabel.layer.render(in: currentContext)
-            let icon = UIGraphicsGetImageFromCurrentImageContext()
-            return icon
-        }
-        return nil
-    }
     
     //MARK: - Conforming to protocols
     //Equatable
@@ -253,9 +247,9 @@ class Game: NSObject, Comparable, NSCoding {
         aCoder.encode(averageTime, forKey: "averageTime")
         aCoder.encode(icon, forKey: "icon")
         aCoder.encode(pointsExtendedNameArray, forKey: "pointsExtendedNameArray")
-        aCoder.encode(professionsArray, forKey: "professionsArray")
-        aCoder.encode(evilProfessionsArray, forKey: "evilProfessionsArray")
-        aCoder.encode(goodProfessionsArray, forKey: "goodProfessionsArray")
+        aCoder.encode(classesArray, forKey: "classesArray")
+        aCoder.encode(evilClassesArray, forKey: "evilClassesArray")
+        aCoder.encode(goodClassesArray, forKey: "goodClassesArray")
         aCoder.encode(expansionsArray, forKey: "expansionsArray")
         aCoder.encode(expansionsAreMultiple, forKey: "expansionsAreMultiple")
         aCoder.encode(scenariosArray, forKey: "scenariosArray")
@@ -283,9 +277,9 @@ class Game: NSObject, Comparable, NSCoding {
         totalTime = aDecoder.decodeDouble(forKey: "totalTime")
         averageTime = aDecoder.decodeDouble(forKey: "averageTime")
         pointsExtendedNameArray = aDecoder.decodeObject(forKey: "pointsExtendedNameArray") as? [String]
-        professionsArray = aDecoder.decodeObject(forKey: "professionsArray") as? [String]
-        evilProfessionsArray = aDecoder.decodeObject(forKey: "evilProfessionsArray") as? [String]
-        goodProfessionsArray = aDecoder.decodeObject(forKey: "goodProfessionsArray") as? [String]
+        classesArray = aDecoder.decodeObject(forKey: "classesArray") as? [String]
+        evilClassesArray = aDecoder.decodeObject(forKey: "evilClassesArray") as? [String]
+        goodClassesArray = aDecoder.decodeObject(forKey: "goodClassesArray") as? [String]
         expansionsArray = aDecoder.decodeObject(forKey: "expansionsArray") as? [String]
         expansionsAreMultiple = aDecoder.decodeObject(forKey: "expansionsAreMultiple") as? Bool
         scenariosArray = aDecoder.decodeObject(forKey: "scenariosArray") as? [String]

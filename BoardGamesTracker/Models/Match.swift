@@ -34,7 +34,7 @@ class Match: NSObject, Comparable, NSCoding {
         matchID = aDecoder.decodeObject(forKey: "matchID") as! String
         location = aDecoder.decodeObject(forKey: "location") as? CLLocation
         imageKey = aDecoder.decodeObject(forKey: "imageKey") as! String
-        dictionary = aDecoder.decodeObject(forKey: "dictionary") as? [String: Any]
+        dictionary = aDecoder.decodeObject(forKey: "dictionary") as! [String: Any]
         super.init()
     }
     
@@ -47,7 +47,7 @@ class Match: NSObject, Comparable, NSCoding {
     var time: TimeInterval?
     var location: CLLocation?
     let imageKey: String
-    var dictionary: [String: Any]?
+    var dictionary = [String: Any]()
     
     let matchID: String
     
@@ -66,8 +66,6 @@ class Match: NSObject, Comparable, NSCoding {
         super.init()
         if let dictionary = dictionary {
             self.dictionary = toCodable(dictionary: dictionary)
-        } else {
-            self.dictionary = nil
         }
     }
     
@@ -114,7 +112,7 @@ class Match: NSObject, Comparable, NSCoding {
     
     
     //Turns [Player: Any] into [String: Any] by using playerID instead of direct reference to Player as key
-    private func toCodable(dictionary: [String: Any]) -> [String: Any]? {
+    private func toCodable(dictionary: [String: Any]) -> [String: Any] {
         var dictionaryCodable = dictionary
         
         if game?.pointsExtendedNameArray != nil {
@@ -127,13 +125,13 @@ class Match: NSObject, Comparable, NSCoding {
             }
         }
         
-        if game?.professionsArray != nil {
-            if let profDictionary = dictionary["Professions"] as? [Player: String] {
-                var profDictCodable = [String: String]()
-                for (player, profession) in profDictionary {
-                    profDictCodable[player.playerID] = profession
+        if game?.classesArray != nil {
+            if let classesDictionary = dictionary["Classes"] as? [Player: String] {
+                var classDictCodable = [String: String]()
+                for (player, playerClass) in classesDictionary {
+                    classDictCodable[player.playerID] = playerClass
                 }
-                dictionaryCodable["Professions"] = profDictCodable
+                dictionaryCodable["Classes"] = classDictCodable
             }
         }
         

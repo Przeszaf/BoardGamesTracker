@@ -127,7 +127,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         myView.hideAllStackViews()
         myView.gameStackView.isHidden = false
         
-        
+        imageView.isHidden = false
         if imageView.image == nil {
             imageView.contentMode = .center
             imageView.backgroundColor = UIColor.lightGray
@@ -152,8 +152,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             myView.placesStackView.isHidden = false
         }
         
-        if selectedGame?.professionsArray != nil {
-            myView.professionsStackView.isHidden = false
+        if selectedGame?.classesArray != nil {
+            myView.classesStackView.isHidden = false
         }
         
         if selectedGame?.expansionsArray != nil {
@@ -171,15 +171,25 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         if let difficultyNames = selectedGame?.difficultyNames {
             pickerDifficultyNames = difficultyNames
             myView.difficultyStackView.isHidden = false
+            myView.difficultyTextView.inputView = picker
+            myView.difficultyTextView.inputAccessoryView = pickerToolbar
         }
         
-        if selectedGame?.roundsLeftName != nil {
+        if let roundsName = selectedGame?.roundsLeftName {
             myView.roundsLeftStackView.isHidden = false
+            myView.roundsLeftLabel.text = "\(roundsName) left?"
+            myView.roundsLeftTextView.inputView = picker
+            myView.roundsLeftTextView.inputAccessoryView = pickerToolbar
         }
         
         if let switchName = selectedGame?.additionalSwitchName {
             myView.additionalSwitchStackView.isHidden = false
             myView.additionalSwitchLabel.text = switchName + "?"
+        }
+        
+        if let secondSwitchName = selectedGame?.additionalSecondSwitchName {
+            myView.additionalSecondSwitchStackView.isHidden = false
+            myView.additionalSecondSwitchLabel.text = secondSwitchName + "?"
         }
         
         updateTextViews()
@@ -238,9 +248,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 addNumsSegueKey = "Places"
                 performSegue(withIdentifier: "addNums", sender: self)
             } else if textView == myView.pointsExtendedTextView {
-                addNumsSegueKey = "Extended"
+                addNumsSegueKey = "Extended Points"
                 performSegue(withIdentifier: "addNums", sender: self)
-            } else if textView == myView.professionsTextView {
+            } else if textView == myView.classesTextView {
                 addInfoSegueKey = "Classes"
                 performSegue(withIdentifier: "addInfo", sender: self)
             } else if textView == myView.expansionsTextView {
@@ -278,7 +288,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 let index = pickerDataNumbers.index(of: num)
                 picker.selectRow(index!, inComponent: 0, animated: false)
             }
-        } else if textView == myView.additionalThirdTextView {
+            return true
+        } else if textView == myView.difficultyTextView {
             picker.tag = 2
             picker.reloadAllComponents()
             if textView.text == "" {
@@ -331,16 +342,16 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     controller.maxPlayers = game.maxNoOfPlayers - winners.count
                 }
             case "Expansions"?:
-                controller.availableExpansions = (selectedGame?.expansionsArray)!
+                controller.availableArray = (selectedGame?.expansionsArray)!
                 controller.multipleAllowed = selectedGame?.expansionsAreMultiple
-                if let expansionsArray = dictionary["Expansions"] as? [String] {
-                    controller.selectedExpansions = expansionsArray
+                if let selectedExpansions = dictionary["Expansions"] as? [String] {
+                    controller.selectedArray = selectedExpansions
                 }
             case "Scenarios"?:
-                controller.availableScenarios = (selectedGame?.scenariosArray)!
+                controller.availableArray = (selectedGame?.scenariosArray)!
                 controller.multipleAllowed = selectedGame?.scenariosAreMultiple
-                if let scenariosArray = dictionary["Scenarios"] as? [String] {
-                    controller.selectedScenarios = scenariosArray
+                if let selectedScenarios = dictionary["Scenarios"] as? [String] {
+                    controller.selectedArray = selectedScenarios
                 }
             default:
                 preconditionFailure("Wrong segue key")
@@ -351,12 +362,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             updateDictionary()
             controller.availablePlayers = selectedPlayers
             controller.segueKey = addNumsSegueKey
+            controller.game = selectedGame!
             switch addNumsSegueKey {
             case "Points"?:
                 controller.playersPoints = playersPoints
             case "Places"?:
                 controller.playersPlaces = playersPlaces
-            case "Extended"?:
+            case "Extended Points"?:
                 guard let sectionNames = selectedGame?.pointsExtendedNameArray else { return }
                 controller.playersPoints = playersPoints
                 controller.sectionNames = sectionNames
@@ -387,15 +399,20 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 controller.winners = winners
                 controller.loosers = loosers
                 controller.availablePlayers = selectedPlayers
-                controller.playersClasses = playersClasses
-                if let professionsArray = selectedGame?.professionsArray {
-                    controller.myPickerData = professionsArray
-                    if let evilProfessionsArray = selectedGame?.evilProfessionsArray, let goodProfessionsArray = selectedGame?.goodProfessionsArray {
-                        controller.myPickerDataEvil = evilProfessionsArray
-                        controller.myPickerDataGood = goodProfessionsArray
+                if let classesDict = dictionary["Classes"] as? [Player: String] {
+                    controller.playersClasses = classesDict
+                }
+                if let classesArray = selectedGame?.classesArray {
+                    controller.myPickerData = classesArray
+                    if let evilClassesArray = selectedGame?.evilClassesArray, let goodClassesArray = selectedGame?.goodClassesArray {
+                        //Only Avalon have implementation how to distinguish evil classes from good classes
+                        if selectedGame?.name == "Avalon" {
+                            controller.myPickerDataEvil = evilClassesArray
+                            controller.myPickerDataGood = goodClassesArray
+                        }
                     }
                 }
-            } else if addInfoSegueKey == "Diseases" {
+            } else if addInfoSegueKey == "Other" {
                 if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
                     controller.dictionary = diseasesDictionary
                 }
@@ -545,8 +562,10 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         myView.loosersTextView.text = loosers.map{$0.name}.joined(separator: ", ")
         var string = [String]()
         for player in selectedPlayers {
-            if addNumsSegueKey == "Points" {
-                string.append("\(player.name): \(playersPoints[player] ?? 0)")
+            if addNumsSegueKey == "Points" || addNumsSegueKey == "Extended Points" {
+                if let points = playersPoints[player] {
+                     string.append("\(player.name): \(points)")
+                }
             } else if addNumsSegueKey == "Places" {
                 if let place = playersPlaces[player] {
                     if place == 0 {
@@ -557,12 +576,34 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 }
             }
         }
-        myView.pointsTextView.text = string.joined(separator: ", ")
+        myView.pointsTextView.text = string.joined(separator: "\n")
+        myView.pointsExtendedTextView.text = string.joined(separator: "\n")
+        myView.placesTextView.text = string.joined(separator: "\n")
         locationManager.locationToString(location: location, textView: myView.locationTextView)
         
-        //Creates strings for custom games
         string.removeAll()
+        if let scenariosArray = dictionary["Scenarios"] as? [String] {
+            for scenario in scenariosArray {
+                string.append(scenario)
+            }
+        }
+        myView.scenariosTextView.text = string.joined(separator: "\n")
         
+        string.removeAll()
+        if let expansionsArray = dictionary["Expansions"] as? [String] {
+            for expansion in expansionsArray {
+                string.append(expansion)
+            }
+        }
+        myView.expansionsTextView.text = string.joined(separator: "\n")
+        
+        string.removeAll()
+        if let playerClassDict = dictionary["Classes"] as? [Player: String] {
+            for (player, playerClass) in playerClassDict {
+                string.append("\(player) - \(playerClass)")
+            }
+        }
+        myView.classesTextView.text = string.joined(separator: "\n")
     }
     
     
@@ -752,9 +793,9 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     @objc func donePicker() {
         if picker.tag == 1 {
-            myView.additionalSecondTextView.resignFirstResponder()
+            myView.roundsLeftTextView.resignFirstResponder()
         } else if picker.tag == 2 {
-            myView.additionalThirdTextView.resignFirstResponder()
+            myView.difficultyTextView.resignFirstResponder()
         }
     }
     

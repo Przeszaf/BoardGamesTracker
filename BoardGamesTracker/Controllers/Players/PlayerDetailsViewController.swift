@@ -96,12 +96,12 @@ class PlayerDetailsViewController: UITableViewController {
         }
         
         //Correct classes cell
-        let playerProfession = getPlayerProfession(game: game, match: match)
-        cell.classLabel.text = playerProfession
+        let playerClass = getPlayerClass(game: game, match: match)
+        cell.classLabel.text = playerClass
 
         //Change color depending on team in Avalon
         if game.name == "Avalon" {
-            if let playerProfession = playerProfession, playerProfession.contains("Arthur") || playerProfession.contains("Merlin") || playerProfession.contains("Percival") {
+            if let playerClass = playerClass, playerClass.contains("Arthur") || playerClass.contains("Merlin") || playerClass.contains("Percival") {
                 cell.classLabel.textColor = UIColor.blue
             } else {
                 cell.classLabel.textColor = UIColor.red
@@ -174,8 +174,8 @@ class PlayerDetailsViewController: UITableViewController {
         let players = match.players
         var height: CGFloat = 0
         height += playersToString(game: game, match: match, players: players).height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
-        if let professionString = getPlayerProfession(game: game, match: match) {
-            height += professionString.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        if let classString = getPlayerClass(game: game, match: match) {
+            height += classString.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
         }
         return height + 30
     }
@@ -242,10 +242,10 @@ class PlayerDetailsViewController: UITableViewController {
         return string
     }
     
-    func getPlayerProfession(game: Game, match: Match) -> String? {
-        if game.professionsArray != nil {
-            if let playersProfessions = match.dictionary!["Professions"] as? [String: String] {
-                return playersProfessions[player.playerID]
+    func getPlayerClass(game: Game, match: Match) -> String? {
+        if game.classesArray != nil {
+            if let playersClasses = match.dictionary["Classes"] as? [String: String] {
+                return playersClasses[player.playerID]
             }
         }
         return nil
