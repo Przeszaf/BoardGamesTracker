@@ -433,7 +433,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         var places = [Int]()
         var players = [Player]()
         var points = [Int]()
-        var match: Match!
         
         //Update places, players and points variables according to game type
         //When team with places game, then the winners and loosers fields cannot be empty
@@ -503,13 +502,59 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        if game.pointsExtendedNameArray != nil {
+            guard let _ = dictionary["Points"] as? [Player: [Int]] else {
+                createFailureAlert(with: "Assign points!")
+                return
+            }
+        }
         
+        if game.classesArray != nil {
+            guard let playersClassesDict = dictionary["Classes"] as? [Player: String] else {
+                createFailureAlert(with: "Assign classes!")
+                return
+            }
+            if !areClassesAssigned(playersClasses: playersClassesDict) {
+                createFailureAlert(with: "Assign classes!")
+                return
+            }
+        }
+        
+        if game.difficultyNames != nil {
+            guard let _ = dictionary["Difficulty"] as? String else {
+                createFailureAlert(with: "Assign difficulty!")
+                return
+            }
+        }
+        
+        if let roundsName = game.roundsLeftName {
+            guard let _ = dictionary["Rounds left"] as? Int else {
+                createFailureAlert(with: "How many \(roundsName.lowercased()) were left?")
+                return
+            }
+        }
+        
+        if game.winSwitch != nil {
+            dictionary["Win"] = myView.winSwitch.isOn
+        }
+        
+        if let switchName = game.additionalSwitchName {
+            dictionary[switchName] = myView.additionalSwitch.isOn
+        }
+        
+        if let secondSwitchName = game.additionalSecondSwitchName {
+            dictionary[secondSwitchName] = myView.additionalSecondSwitch.isOn
+        }
+        
+        let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, dictionary: dictionary, date: date!, time: time, location: location)
+        game.addMatch(match: match)
         //If image was changed from default, then setImage
         if imageView.image != UIImage(named: "camera") {
-            imageStore.setImage(image: imageView.image!, forKey: match!.imageKey)
+            imageStore.setImage(image: imageView.image!, forKey: match.imageKey)
         }
         createSuccessAlert(with: "Created \(game.name)")
         playerStore.allPlayers.sort()
+        gameStore.allGames.sort()
         return
     }
     
@@ -696,7 +741,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return true
     }
     
-    func areClassesAssigned() -> Bool {
+    func areClassesAssigned(playersClasses: [Player: String]) -> Bool {
         if winners.isEmpty && loosers.isEmpty {
             for player in selectedPlayers {
                 if playersClasses[player] == nil {
