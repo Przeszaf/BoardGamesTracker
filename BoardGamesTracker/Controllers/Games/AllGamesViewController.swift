@@ -190,8 +190,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         }
     }
     
+    //Reloads header view - generates new chart etc.
     func reloadHeaderView() {
-        
         let gamesPlayed = gameStore.allGames.count
         var matchesPlayed = 0
         for game in gameStore.allGames {

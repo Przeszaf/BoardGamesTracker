@@ -10,13 +10,19 @@ import UIKit
 
 class PieChartView: UIView {
     
+    //dataSet and dataName must have the same indexes, i.e.
+    //dataSet[0] corrseponds to name dataName[0]
     var dataSet: [Int]!
     var dataName: [String]!
     var radius: CGFloat!
-    var lastAngle: CGFloat = 0
+    
+    //Maximum amount of letters in word.
     var truncating: Int!
+    
+    //Colors can be predefined or randomly generated
     var colorsArray: [UIColor]?
     
+    var lastAngle: CGFloat = 0
     var labels: [UILabel]!
     
     convenience init(dataSet: [Int], dataName: [String], radius: CGFloat, frame: CGRect, truncating: Int?, colorsArray: [UIColor]?) {
@@ -43,6 +49,7 @@ class PieChartView: UIView {
     
     
     func setup() {
+        
         //Calcualtes sum of all data
         let dataSetSum = { () -> Int in
             var sum = 0
@@ -55,7 +62,7 @@ class PieChartView: UIView {
         for i in 0..<dataSet.count {
             //Creates pie chart
             let shapeLayerPieChart = CAShapeLayer()
-            shapeLayerPieChart.path = createPieChartPath(dataSetSum: dataSetSum, dataSetIndex: i).cgPath
+            shapeLayerPieChart.path = createPieChartPath(dataSetSum: dataSetSum, data: dataSet[i]).cgPath
             
             //Pie chart colors are either chosen by user or generated randomly
             var color: UIColor!
@@ -91,11 +98,13 @@ class PieChartView: UIView {
             label.font = UIFont.systemFont(ofSize: 10)
             print(label.frame)
             addSubview(label)
-            let height: CGFloat = 10
+            
+            //Sets square side
+            let squareSide: CGFloat = 10
             
             //Add square with given color next to the label
             let shapeLayerSquare = CAShapeLayer()
-            shapeLayerSquare.path = createSquarePath(x: x - 15, y: label.frame.midY - height / 2, height: height).cgPath
+            shapeLayerSquare.path = createSquarePath(x: x - 15, y: label.frame.midY - squareSide / 2, height: squareSide).cgPath
             
             shapeLayerSquare.fillColor = color.cgColor
             shapeLayerSquare.lineWidth = 1
@@ -104,11 +113,12 @@ class PieChartView: UIView {
         }
     }
     
-    func createPieChartPath(dataSetSum: Int, dataSetIndex: Int) -> UIBezierPath {
+    //Creates sectir of pie chart
+    func createPieChartPath(dataSetSum: Int, data: Int) -> UIBezierPath {
         let path = UIBezierPath()
         let center = CGPoint(x: radius, y: radius)
         let sum = CGFloat(dataSetSum)
-        let data = CGFloat(dataSet[dataSetIndex])
+        let data = CGFloat(data)
         let startingAngle = lastAngle
         let endingAngle = startingAngle + data / sum * 2.0 * CGFloat.pi
         lastAngle = endingAngle
@@ -119,6 +129,7 @@ class PieChartView: UIView {
         return path
     }
     
+    //Creates square path
     func createSquarePath(x: CGFloat, y: CGFloat, height: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: x, y: y))

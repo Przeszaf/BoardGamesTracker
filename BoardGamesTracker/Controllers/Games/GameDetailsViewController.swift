@@ -31,8 +31,6 @@ class GameDetailsViewController: UITableViewController {
         //Register cell and create button item
         tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
-        
-        
     }
     
     
@@ -42,7 +40,6 @@ class GameDetailsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
         
-        //FIXME: use different Cell - Win/Lose instead of game name etc.
         cell.dateLabel.text = game.matches[indexPath.row].date.toStringWithHour()
         
         let match = game.matches[indexPath.row]
@@ -77,6 +74,7 @@ class GameDetailsViewController: UITableViewController {
         return 44
     }
     
+    //Assigns backgroundView, because cell height might be different than when initialising cell.
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
     }
@@ -102,6 +100,7 @@ class GameDetailsViewController: UITableViewController {
     }
     
     
+    //Sets correct background views for cell
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -141,8 +140,7 @@ class GameDetailsViewController: UITableViewController {
 
     //MARK: - Other
     
-    //Getting string to put into playersField
-    
+    //Getting string to put into playersField. Depends on game type.
     func playersToString(game: Game, match: Match, players: [Player]) -> String {
         var stringArray = [String]()
         for (i, player) in players.enumerated() {
@@ -152,6 +150,7 @@ class GameDetailsViewController: UITableViewController {
                 stringArray.append("\(match.playersPlaces![i]). \(player.name)")
             } else if game.type == .TeamWithPlaces {
                 if i > 0 {
+                    //Detects when players change from winning to losing
                     if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
                         stringArray.append("\nLosers: \(player.name)")
                     } else {
@@ -165,6 +164,8 @@ class GameDetailsViewController: UITableViewController {
             }
         }
         var string = stringArray.joined(separator: ", ")
+        
+        //Delete coma after all winners
         string = string.replacingOccurrences(of: ", \n", with: "\n")
         return string
     }
@@ -219,12 +220,15 @@ class GameDetailsViewController: UITableViewController {
                 return Float(points) / Float(count)
             }()
             
+            //Change string format to have 2 decimal places only.
             let averageWinningPointsString = String.init(format: "%.2f%", averageWinningPoints)
             let averagePointsString = String.init(format: "%.2f", game.averagePoints)
             firstHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
             firstHeaderView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
         }
         
+        //Game-specific data
+        //FIXME: - with new data build it can be done better
         if game.name == "Avalon" {
             var dataSet = [Int](repeatElement(0, count: 3))
             for match in game.matches {

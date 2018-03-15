@@ -32,7 +32,6 @@ class PlayerDetailsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerDetailsCell", for: indexPath) as! PlayerDetailsCell
         
-        //Correct general cell options
         cell.backgroundColor = UIColor.clear
         if isEditing{
             cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
@@ -50,11 +49,11 @@ class PlayerDetailsViewController: UITableViewController {
         
         var playersString = playersToString(game: game, match: match, players: players)
         
+        //Bolds player name
         playersString = playersString.replacingOccurrences(of: "\(player.name)", with: "<b>\(player.name)</b>")
-        
         cell.playersLabel.attributedText = playersString.styled(with: Constants.myStyle)
         
-        //Correcy places label
+        //Correct places label
         var placeString = ""
         let place = player.gamesPlace[game]![indexPath.row]
         if game.type == .SoloWithPoints || game.type == .SoloWithPlaces {
@@ -80,6 +79,8 @@ class PlayerDetailsViewController: UITableViewController {
         }
         cell.placeLabel.text = placeString
         
+        //Different colors for different places
+        //FIXME: Better colors
         switch placeString {
         case "1st":
             cell.placeLabel.textColor = UIColor.yellow
@@ -95,24 +96,25 @@ class PlayerDetailsViewController: UITableViewController {
             cell.placeLabel.textColor = UIColor.black
         }
         
-        //Correct classes cell
-        let playerClass = getPlayerClass(game: game, match: match)
-        cell.classLabel.text = playerClass
+        //Correct classes string
+        let playerClassString = getPlayerClass(game: game, match: match, player: player)
+        cell.classLabel.text = playerClassString
 
+        //FIXME: Can be done better now
         //Change color depending on team in Avalon
         if game.name == "Avalon" {
-            if let playerClass = playerClass, playerClass.contains("Arthur") || playerClass.contains("Merlin") || playerClass.contains("Percival") {
+            if let playerClass = playerClassString, playerClass.contains("Arthur") || playerClass.contains("Merlin") || playerClass.contains("Percival") {
                 cell.classLabel.textColor = UIColor.blue
             } else {
                 cell.classLabel.textColor = UIColor.red
             }
         }
-        
         return cell
     }
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //If there are no expanded sections, then no rows, else show matches.
         if expandedSections.index(of: section) != nil {
             let game = player.gamesPlayed[section]
             return player.matchesPlayed[game]!.count
@@ -137,6 +139,7 @@ class PlayerDetailsViewController: UITableViewController {
             view.expandButton.setImage(UIImage.init(named: "expand_arrow"), for: .normal)
         }
         
+        //If it is game with points, then show average and maximum points that player got
         if game.type == .SoloWithPoints {
             view.averagePointsLabel.isHidden = false
             view.maxPointsLabel.isHidden = false
@@ -159,7 +162,7 @@ class PlayerDetailsViewController: UITableViewController {
                 loseCount += 1
             }
         }
-        
+        //Show win ratio for game
         view.winRatioLabel.text = "Win ratio: \(winCount * 100 / (winCount + loseCount))%"
         return view
     }
@@ -174,7 +177,7 @@ class PlayerDetailsViewController: UITableViewController {
         let players = match.players
         var height: CGFloat = 0
         height += playersToString(game: game, match: match, players: players).height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
-        if let classString = getPlayerClass(game: game, match: match) {
+        if let classString = getPlayerClass(game: game, match: match, player: player) {
             height += classString.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
         }
         return height + 30
@@ -242,7 +245,7 @@ class PlayerDetailsViewController: UITableViewController {
         return string
     }
     
-    func getPlayerClass(game: Game, match: Match) -> String? {
+    func getPlayerClass(game: Game, match: Match, player: Player) -> String? {
         if game.classesArray != nil {
             if let playersClasses = match.dictionary["Classes"] as? [String: String] {
                 return playersClasses[player.playerID]

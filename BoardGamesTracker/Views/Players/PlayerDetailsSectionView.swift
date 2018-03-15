@@ -88,7 +88,6 @@ class PlayerDetailsSectionView: UIView {
         shapeLayer.lineWidth = Constants.Header.lineWidth
         shapeLayer.position = CGPoint(x: 0, y: 68)
         self.layer.addSublayer(shapeLayer)
-        
     }
     
     func createBezierPath() -> UIBezierPath {

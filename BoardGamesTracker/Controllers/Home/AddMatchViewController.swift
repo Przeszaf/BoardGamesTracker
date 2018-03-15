@@ -33,11 +33,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var date: Date?
     var time: TimeInterval?
     var location: CLLocation?
-    
-    //Used to pass correct values to ChooserViewController
-    var chooserSegueKey: String?
-    var addInfoSegueKey: String?
-    var addNumsSegueKey: String?
+    var dictionary = [String: Any]()
     
     //Needed for team games without points
     var winners = [Player]()
@@ -49,10 +45,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Needed for solo games with places
     var playersPlaces = [Player: Int]()
-    
-    //For custom matches
-    var playersClasses = [Player: String]()
-    var dictionary = [String: Any]()
+
+    //Used to pass correct values to ChooserViewController
+    var chooserSegueKey: String?
+    var addInfoSegueKey: String?
+    var addNumsSegueKey: String?
     
     //Workaround of double segues
     var dateSinceSegue = Date(timeIntervalSinceNow: -1)
@@ -89,26 +86,28 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         //Creating date picker with toolbar
         myView.dateTextView.inputView = datePicker
         myView.timeTextView.inputView = datePicker
-        datePicker.addTarget(self, action: #selector(pickerChanged(_:)), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(datePickerChanged(_:)), for: .valueChanged)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelDatePicker))
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(doneDatePicker))
         let datePickerToolbar = Constants.Functions.createToolbarWith(leftButton: cancelButton, rightButton: doneButton)
         myView.dateTextView.inputAccessoryView = datePickerToolbar
         myView.timeTextView.inputAccessoryView = datePickerToolbar
         
-        
+        //Set date to current date
         date = Date()
         
+        //Set locationManager delegate, request authorization and start getting location
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
+        //Recognizes when tapped on image
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapGestureRecognizer)
         
-        
+        //Create picker and pickerToolbar for difficulty and roundsLeft textViews
         picker.delegate = self
         picker.dataSource = self
         let cancelPickerButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(cancelPicker))
@@ -127,14 +126,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         myView.hideAllStackViews()
         myView.gameStackView.isHidden = false
         
-        imageView.isHidden = false
-        if imageView.image == nil {
-            imageView.contentMode = .center
-            imageView.backgroundColor = UIColor.lightGray
-            imageView.image = UIImage(named: "camera")
-        } else if imageView.image != UIImage(named: "camera") {
-            imageView.contentMode = .scaleAspectFit
-            imageView.backgroundColor = nil
+        if selectedGame != nil {
+            imageView.isHidden = false
         }
         
         if selectedGame?.thereAreTeams == true {
@@ -192,18 +185,29 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             myView.additionalSecondSwitchLabel.text = secondSwitchName + "?"
         }
         
+        //Set image to camera if there is nothing chosen yet.
+        if imageView.image == nil {
+            imageView.contentMode = .center
+            imageView.backgroundColor = UIColor.lightGray
+            imageView.image = UIImage(named: "camera")
+        } else if imageView.image != UIImage(named: "camera") {
+            imageView.contentMode = .scaleAspectFit
+            imageView.backgroundColor = nil
+        }
+        
         updateTextViews()
     }
     
     override func loadView() {
         super.loadView()
+        
+        //Makes the view scrollable
         scrollView = UIScrollView(frame: view.frame)
         myView = AddMatchView(frame: view.frame)
         view.addSubview(scrollView)
         scrollView.addSubview(myView)
         
         scrollView.contentSize = CGSize(width: view.frame.width, height: view.frame.height)
-        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -275,7 +279,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             return true
         }
         
-        
+        //Set picker tag, if nothing is chosen, then choose first option
         if textView == myView.roundsLeftTextView {
             picker.tag = 1
             picker.reloadAllComponents()
@@ -305,6 +309,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         return false
     }
     
+    //No change in text is allowed - all is done by pickers and other viewControllers
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         return false
     }
@@ -344,12 +349,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             case "Expansions"?:
                 controller.availableArray = (selectedGame?.expansionsArray)!
                 controller.multipleAllowed = selectedGame?.expansionsAreMultiple
+                //Pass already chosen expansions
                 if let selectedExpansions = dictionary["Expansions"] as? [String] {
                     controller.selectedArray = selectedExpansions
                 }
             case "Scenarios"?:
                 controller.availableArray = (selectedGame?.scenariosArray)!
                 controller.multipleAllowed = selectedGame?.scenariosAreMultiple
+                //Pass already chosen scenarios
                 if let selectedScenarios = dictionary["Scenarios"] as? [String] {
                     controller.selectedArray = selectedScenarios
                 }
@@ -369,9 +376,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             case "Places"?:
                 controller.playersPlaces = playersPlaces
             case "Extended Points"?:
+                //If there are extended points, then user must have provided name array of the sections
+                //E.g. in 7 Wonders that would be War, Leaders, Wonder etc.
                 guard let sectionNames = selectedGame?.pointsExtendedNameArray else { return }
                 controller.playersPoints = playersPoints
                 controller.sectionNames = sectionNames
+                
+                //If the dictionary is empty, then create one and set all numbers to
+                //magic number (-99), so we know that nothing is chosen
                 if dictionary["Points"] == nil {
                     var pointsDict = [Player: [Int]]()
                     for player in selectedPlayers {
@@ -379,6 +391,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     }
                     dictionary["Points"] = pointsDict
                 } else {
+                    //Else update the dictionary only for new players
                     var pointsDict = dictionary["Points"] as! [Player: [Int]]
                     for player in selectedPlayers {
                         if pointsDict[player] == nil {
@@ -406,6 +419,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     controller.myPickerData = classesArray
                     if let evilClassesArray = selectedGame?.evilClassesArray, let goodClassesArray = selectedGame?.goodClassesArray {
                         //Only Avalon have implementation how to distinguish evil classes from good classes
+                        //if winners.count < loosers.count then it means that winners are evil and loosers are good
                         if selectedGame?.name == "Avalon" {
                             controller.myPickerDataEvil = evilClassesArray
                             controller.myPickerDataGood = goodClassesArray
@@ -413,6 +427,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     }
                 }
             } else if addInfoSegueKey == "Other" {
+                //FIXME: Change
                 if let diseasesDictionary = dictionary["Diseases"] as? [String: String] {
                     controller.dictionary = diseasesDictionary
                 }
@@ -435,7 +450,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         var points = [Int]()
         
         //Update places, players and points variables according to game type
-        //When team with places game, then the winners and loosers fields cannot be empty
+        //If it is team with places game, then the winners and loosers fields cannot be empty
         if game.type == .TeamWithPlaces {
             if winners.isEmpty {
                 createFailureAlert(with: "Winners field cannot be empty!")
@@ -455,7 +470,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
-        //When plaing solo game with points, then must select players and assign points to all players
+        //When playing solo game with points, then must select players and assign points to all players
         if game.type == .SoloWithPoints {
             if selectedPlayers.isEmpty {
                 createFailureAlert(with: "Players field cannot be empty!")
@@ -465,12 +480,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 return
             }
             
+            //Sort points and assign places according to those points
             //Choose correct order - ascending (higher points win) or descending (lower points win)
             players = selectedPlayers
             points = sortPlayersPoints(players: &players, pointsDict: playersPoints, order: "ascending")
-            places = assignPlayersPlaces(sortedPoints: points)
+            places = assignPlayersPlacesFrom(sortedPoints: points)
         }
         
+        //In solo with places games, user must select players and assign places.
         if game.type == .SoloWithPlaces {
             if selectedPlayers.isEmpty {
                 createFailureAlert(with: "Players field cannot be empty!")
@@ -486,6 +503,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //In cooperation game user must choose users
         if game.type == .Cooperation {
             if selectedPlayers.isEmpty {
                 createFailureAlert(with: "Players field cannot be empty!")
@@ -493,6 +511,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
             players = selectedPlayers
             
+            //In cooperation game there are only 2 places - either all players win (1st place) or all players lose (2nd place)
             for _ in players {
                 if myView.winSwitch.isOn {
                     places.append(1)
@@ -502,6 +521,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //In games where there are extended points, then user must assign those points
         if game.pointsExtendedNameArray != nil {
             guard let _ = dictionary["Points"] as? [Player: [Int]] else {
                 createFailureAlert(with: "Assign points!")
@@ -509,6 +529,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //In games with classes, user must assign class to each player
         if game.classesArray != nil {
             guard let playersClassesDict = dictionary["Classes"] as? [Player: String] else {
                 createFailureAlert(with: "Assign classes!")
@@ -520,6 +541,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //User must set difficulty if available
         if game.difficultyNames != nil {
             guard let _ = dictionary["Difficulty"] as? String else {
                 createFailureAlert(with: "Assign difficulty!")
@@ -527,6 +549,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //User must provide rounds left if available in game
         if let roundsName = game.roundsLeftName {
             guard let _ = dictionary["Rounds left"] as? Int else {
                 createFailureAlert(with: "How many \(roundsName.lowercased()) were left?")
@@ -534,10 +557,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         
+        //If there is winSwitch, ten add info if game was won
         if game.winSwitch != nil {
             dictionary["Win"] = myView.winSwitch.isOn
         }
         
+        //Add info provided by additionalSwitches
         if let switchName = game.additionalSwitchName {
             dictionary[switchName] = myView.additionalSwitch.isOn
         }
@@ -546,13 +571,17 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             dictionary[secondSwitchName] = myView.additionalSecondSwitch.isOn
         }
         
+        //Create and add match
         let match = Match(game: game, players: players, playersPoints: points, playersPlaces: places, dictionary: dictionary, date: date!, time: time, location: location)
         game.addMatch(match: match)
-        //If image was changed from default, then setImage
+        
+        //If image was changed from default, then add image
         if imageView.image != UIImage(named: "camera") {
             imageStore.setImage(image: imageView.image!, forKey: match.imageKey)
         }
         createSuccessAlert(with: "Created \(game.name)")
+        
+        //sort player and gameStore by date
         playerStore.allPlayers.sort()
         gameStore.allGames.sort()
         return
@@ -596,6 +625,14 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
             for player in deselectedPlayers {
                 playersPlaces[player] = nil
+            }
+        } else if addNumsSegueKey == "Extended Points" {
+            for player in deselectedPlayers {
+                if let pointsDict = dictionary["Points"] as? [Player: [Int]]{
+                    var newPointsDict = pointsDict
+                    newPointsDict[player] = nil
+                    dictionary["Points"] = newPointsDict
+                }
             }
         }
     }
@@ -686,7 +723,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     //Function takes points array (MUST BE SORTED!!) as an argument and return places
-    func assignPlayersPlaces(sortedPoints: [Int]) -> [Int] {
+    func assignPlayersPlacesFrom(sortedPoints: [Int]) -> [Int] {
         if sortedPoints.sorted(by: {$0 > $1}) != sortedPoints {
             preconditionFailure("Points not sorted when assigning places!")
         }
@@ -780,7 +817,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     //MARK: - Picker
-    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -836,14 +872,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
     }
     
-    @objc func donePicker() {
-        if picker.tag == 1 {
-            myView.roundsLeftTextView.resignFirstResponder()
-        } else if picker.tag == 2 {
-            myView.difficultyTextView.resignFirstResponder()
-        }
-    }
-    
     //If cancel picker, then accordingly reverts correct views to default values
     //And resigns first responder
     @objc func cancelDatePicker() {
@@ -859,6 +887,27 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         datePicker.resignFirstResponder()
     }
     
+    //If picker value is changed, then update views and variables
+    @objc func datePickerChanged(_ sender: UIDatePicker) {
+        if sender.datePickerMode == .countDownTimer {
+            myView.timeTextView.text = sender.countDownDuration.toString()
+            time = sender.countDownDuration
+        } else if sender.datePickerMode == .dateAndTime {
+            myView.dateTextView.text = sender.date.toStringWithHour()
+            date = sender.date
+        }
+    }
+
+    
+    //Takes care of roundsLeft and difficulty picker
+    @objc func donePicker() {
+        if picker.tag == 1 {
+            myView.roundsLeftTextView.resignFirstResponder()
+        } else if picker.tag == 2 {
+            myView.difficultyTextView.resignFirstResponder()
+        }
+    }
+
     @objc func cancelPicker() {
         if picker.tag == 1 {
             myView.roundsLeftTextView.resignFirstResponder()
@@ -871,29 +920,18 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
     }
     
-    //If picker value is changed, then update views and variables
-    @objc func pickerChanged(_ sender: UIDatePicker) {
-        if sender.datePickerMode == .countDownTimer {
-            myView.timeTextView.text = sender.countDownDuration.toString()
-            time = sender.countDownDuration
-        } else if sender.datePickerMode == .dateAndTime {
-            myView.dateTextView.text = sender.date.toStringWithHour()
-            date = sender.date
-        }
-    }
     
-    
-    //MARK: - Image handling
+    //MARK: - Image
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
     {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
+        //FIXME: Ask user if wants to use camera or photoLibrary
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             imagePicker.sourceType = .camera
         } else {
             imagePicker.sourceType = .photoLibrary
         }
-        
         present(imagePicker, animated: true, completion: nil)
     }
     
@@ -904,7 +942,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     //MARK: - Location
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         location = locations.first
         updateTextViews()

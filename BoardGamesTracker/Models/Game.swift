@@ -83,6 +83,9 @@ class Game: NSObject, Comparable, NSCoding {
         self.roundsLeftName = roundsLeftName
         self.additionalSwitchName = additionalSwitchName
         self.additionalSecondSwitchName = additionalSecondSwitchName
+        if classesArray == nil, let goodClassesArray = goodClassesArray, let evilClassesArray = evilClassesArray{
+            self.classesArray = goodClassesArray + evilClassesArray
+        }
     }
     
     //MARK: - Functions

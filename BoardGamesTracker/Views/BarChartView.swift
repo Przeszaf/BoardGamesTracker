@@ -11,6 +11,7 @@ import UIKit
 class BarChartView: UIView {
     
     var dataSet: [Int]!
+    var dataSetMapped: [Int]!
     var newDataSet: [Int]?
     var xAxisLabels: [String]?
     var labelsRotated: Bool!
@@ -20,7 +21,7 @@ class BarChartView: UIView {
     var maxX: Int!
     var step: Int!
     
-    convenience init(dataSet: [Int], frame: CGRect, reverse: Bool, labelsRotated: Bool, newDataSet: [Int]?, xAxisLabels: [String]?, truncating: Int?) {
+    convenience init(dataSet: [Int], dataSetMapped: [Int]?, frame: CGRect, reverse: Bool, labelsRotated: Bool, newDataSet: [Int]?, xAxisLabels: [String]?, truncating: Int?) {
         self.init(frame: frame)
         self.dataSet = dataSet
         self.newDataSet = newDataSet
@@ -28,6 +29,7 @@ class BarChartView: UIView {
         self.reverse = reverse
         self.labelsRotated = labelsRotated
         self.truncating = truncating
+        self.dataSetMapped = dataSetMapped
         setup()
     }
     
@@ -76,30 +78,35 @@ class BarChartView: UIView {
         shapeLayerYAxis.strokeColor = UIColor.blue.cgColor
         self.layer.addSublayer(shapeLayerYAxis)
         
-        //Calculating minimum and maximum value for X axis
-        dataSetMinMaxX(dataSet: dataSet)
         
-        //Mapping data
-        var dataSetMapped = map(dataSet)
-        print(dataSetMapped)
+        if dataSetMapped != nil {
+            minX = 0
+            maxX = 10
+        } else {
+            //Calculating minimum and maximum value for X axis
+            dataSetMinMaxX(dataSet: dataSet)
+            
+            //Map data
+            dataSetMapped = map(dataSet)
+        }
         
         //Setting all neccessery variables
         let width = frame.width - 2 * offsetX
         let height = frame.height - 2 * offsetY - 10
         var barsCount: CGFloat = 11
+        let stepXWidth = width / barsCount - 1
+        let stepYHeight = height / CGFloat(dataSetMapped.max()!)
+        let barWidth = stepXWidth - 4
+        var font = UIFont.systemFont(ofSize: 8)
         
+        //If there are fewer labels given, then set barsCount to amount of labels
         if let count = xAxisLabels?.count {
             if count < 11 {
                 barsCount = CGFloat(count)
             }
         }
         
-        let stepXWidth = width / barsCount - 1
-        let stepYHeight = height / CGFloat(dataSetMapped.max()!)
-        let barWidth = stepXWidth - 4
-        var font = UIFont.systemFont(ofSize: 8)
-        
-        
+        //If we want graph reversed, then to following
         if reverse {
             xAxisLabels = xAxisLabels?.reversed()
             dataSetMapped = dataSetMapped.reversed()
@@ -107,8 +114,11 @@ class BarChartView: UIView {
         
         
         for i in 0..<Int(barsCount) {
+            //Calculate center X and Y of bar
             let barCenterX: CGFloat = offsetX + stepXWidth / 2 + CGFloat(i) * stepXWidth
             let barY: CGFloat = frame.height - offsetY
+            
+            //Set string to correct value - either label or num between minX and maxX
             var string = ""
             if let labels = xAxisLabels {
                 string = labels[i]
@@ -125,6 +135,8 @@ class BarChartView: UIView {
                     string = truncatedString
                 }
             }
+            
+            //calculate width of label
             let labelWidth = string.width(withConstrainedHeight: 20, font: font)
             if labelsRotated {
                 //0.54 and 0.84 multipliers are cos(1) and sin(1), i.e. rotation angle,
@@ -136,6 +148,7 @@ class BarChartView: UIView {
                 label = UILabel(frame: CGRect(x: barCenterX - labelWidth / 2, y: barY, width: 30, height: 20))
             }
             
+            //Add labels describing bars
             label.text = string
             label.numberOfLines = 1
             label.textAlignment = .center
@@ -144,9 +157,11 @@ class BarChartView: UIView {
             addSubview(label)
             
             
+            //count - how many bars are on this position
             let count = dataSetMapped[i]
             var bottomY: CGFloat = barY
             for _ in 0..<count {
+                //create bar paths
                 let barPath = createBarPath(leftX: barCenterX - barWidth / 2, rightX: barCenterX + barWidth / 2, bottomY: bottomY, topY: bottomY - stepYHeight)
                 let shapeLayerBar = CAShapeLayer()
                 shapeLayerBar.path = barPath.cgPath
@@ -159,6 +174,7 @@ class BarChartView: UIView {
         }
         
         
+        //If there is also newData, then indicate it with different color
         if let newDataSet = newDataSet {
             let newDataSetMapped = map(newDataSet)
             for i in 0..<11 {
@@ -181,6 +197,7 @@ class BarChartView: UIView {
         }
         
         
+        //Set 2 ticks with labels
         for i in 1...2 {
             let tickFrame = CAShapeLayer()
             var y: CGFloat = 0
@@ -208,14 +225,9 @@ class BarChartView: UIView {
             label.sizeToFit()
             addSubview(label)
         }
-        
     }
     
-    func createLinePath(dataSetSum: Int, dataSetIndex: Int) -> UIBezierPath {
-        let path = UIBezierPath()
-        return path
-    }
-    
+    //Creates path for frame of bar chart
     func createFramePath(x: CGFloat, y: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: x, y: y))
@@ -265,7 +277,7 @@ class BarChartView: UIView {
     }
     
     
-    //Set minimum and maximum values for X-axis
+    //Set minimum and maximum values for X-axis if not given
     func dataSetMinMaxX(dataSet: [Int]) {
         guard let max = dataSet.last else { return }
         guard let min = dataSet.first else { return }
