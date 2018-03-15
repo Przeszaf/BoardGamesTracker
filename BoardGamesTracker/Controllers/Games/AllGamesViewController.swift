@@ -221,7 +221,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             return nameArray
         }()
         
-        let pieChartView = AllGamesBarView(frame: CGRect(x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40, height: 200), dataSet: gamesPlayedCount, dataName: gameNames)
+        let pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: gameNames, colorsArray: [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.green], title: "Most popular games", radius: 80, truncating: 90, x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40)
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + pieChartView.frame.height + 10))
         headerView.addSubview(firstHeaderView)

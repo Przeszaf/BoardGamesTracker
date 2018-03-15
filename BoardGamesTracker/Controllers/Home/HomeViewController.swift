@@ -175,7 +175,7 @@ class HomeViewController: UIViewController {
         }
         gamesDaysAgo.sort()
         
-        return LastGamesBarChartView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: 150), dataSet: gamesDaysAgo, xAxisLabels: mondaysArray)
+        return BarChartView(dataSet: gamesDaysAgo, dataSetMapped: nil, newDataSet: nil, xAxisLabels: mondaysArray, barGapWidth: 4, reverse: true, labelsRotated: false, truncating: nil, title: "Last matches", frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: 150))
     }
     
     

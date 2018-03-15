@@ -226,41 +226,41 @@ class GameDetailsViewController: UITableViewController {
             firstHeaderView.averagePointsLabel.text = "Average points: \(averagePointsString)"
             firstHeaderView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
         }
-        
-        //Game-specific data
-        //FIXME: - with new data build it can be done better
-        if game.name == "Avalon" {
-            var dataSet = [Int](repeatElement(0, count: 3))
-            for match in game.matches {
-                if let winnerID = match.players.first?.playerID, let classesDictionary = match.dictionary["Classes"] as? [String: String], let winnerClass = classesDictionary[winnerID] {
-                    print(winnerClass)
-                    if winnerClass.contains("Arthur") || winnerClass.contains("Merlin") || winnerClass.contains("Percival") {
-                        dataSet[0] += 1
-                    } else if match.dictionary["Killed by Assassin?"] as! Bool == true {
-                        dataSet[2] += 1
-                    } else {
-                        dataSet[1] += 1
-                    }
-                }
-            }
-            
-            let secondHeaderView = GameDetailsPieChartView(frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 240), dataSet: dataSet, dataName: ["Good", "Evil", "Assassin"])
-            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
-            tableHeaderView.addSubview(firstHeaderView)
-            tableHeaderView.addSubview(secondHeaderView)
-            tableView.tableHeaderView = tableHeaderView
-        }
-        else if game.type == .SoloWithPoints && !game.pointsArray.isEmpty {
-            let secondHeaderView = GameDetailsPointsBarView(frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 200), dataSet: game.pointsArray)
-            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
-            tableHeaderView.addSubview(firstHeaderView)
-            tableHeaderView.addSubview(secondHeaderView)
-            tableView.tableHeaderView = tableHeaderView
-        } else {
-            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height))
-            tableHeaderView.addSubview(firstHeaderView)
-            tableView.tableHeaderView = tableHeaderView
-        }
+//
+//        //Game-specific data
+//        //FIXME: - with new data build it can be done better
+//        if game.name == "Avalon" {
+//            var dataSet = [Int](repeatElement(0, count: 3))
+//            for match in game.matches {
+//                if let winnerID = match.players.first?.playerID, let classesDictionary = match.dictionary["Classes"] as? [String: String], let winnerClass = classesDictionary[winnerID] {
+//                    print(winnerClass)
+//                    if winnerClass.contains("Arthur") || winnerClass.contains("Merlin") || winnerClass.contains("Percival") {
+//                        dataSet[0] += 1
+//                    } else if match.dictionary["Killed by Assassin?"] as! Bool == true {
+//                        dataSet[2] += 1
+//                    } else {
+//                        dataSet[1] += 1
+//                    }
+//                }
+//            }
+//
+//            let secondHeaderView = GameDetailsPieChartView(frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 240), dataSet: dataSet, dataName: ["Good", "Evil", "Assassin"])
+//            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
+//            tableHeaderView.addSubview(firstHeaderView)
+//            tableHeaderView.addSubview(secondHeaderView)
+//            tableView.tableHeaderView = tableHeaderView
+//        }
+//        else if game.type == .SoloWithPoints && !game.pointsArray.isEmpty {
+//            let secondHeaderView = BarChartView(dataSet: game.pointsArray, dataSetMapped: nil, newDataSet: nil, xAxisLabels: nil, barGapWidth: 0, reverse: false, labelsRotated: false, truncating: 0, title: "Points distribution", frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 200))
+//            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + secondHeaderView.frame.height + 20))
+//            tableHeaderView.addSubview(firstHeaderView)
+//            tableHeaderView.addSubview(secondHeaderView)
+//            tableView.tableHeaderView = tableHeaderView
+//        } else {
+//            let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height))
+//            tableHeaderView.addSubview(firstHeaderView)
+//            tableView.tableHeaderView = tableHeaderView
+//        }
         
         
         

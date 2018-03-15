@@ -9,11 +9,12 @@
 import UIKit
 
 class BarChartView: UIView {
-    
     var dataSet: [Int]!
     var dataSetMapped: [Int]!
     var newDataSet: [Int]?
     var xAxisLabels: [String]?
+    var barGapWidth: CGFloat!
+    var title: String?
     var labelsRotated: Bool!
     var reverse: Bool!
     var truncating: Int?
@@ -21,15 +22,17 @@ class BarChartView: UIView {
     var maxX: Int!
     var step: Int!
     
-    convenience init(dataSet: [Int], dataSetMapped: [Int]?, frame: CGRect, reverse: Bool, labelsRotated: Bool, newDataSet: [Int]?, xAxisLabels: [String]?, truncating: Int?) {
+    convenience init(dataSet: [Int]?, dataSetMapped: [Int]?, newDataSet: [Int]?, xAxisLabels: [String]?, barGapWidth: CGFloat, reverse: Bool, labelsRotated: Bool, truncating: Int?, title: String?, frame: CGRect) {
         self.init(frame: frame)
         self.dataSet = dataSet
         self.newDataSet = newDataSet
         self.xAxisLabels = xAxisLabels
+        self.barGapWidth = barGapWidth
         self.reverse = reverse
         self.labelsRotated = labelsRotated
         self.truncating = truncating
         self.dataSetMapped = dataSetMapped
+        self.title = title
         setup()
     }
     
@@ -48,32 +51,58 @@ class BarChartView: UIView {
     
     func setup() {
         
+        if let title = title {
+            let label = UILabel(frame: CGRect(x: 0, y: 0, width: frame.width, height: 20))
+            label.text = title
+            label.textAlignment = .center
+            label.font = UIFont.boldSystemFont(ofSize: 21)
+            addSubview(label)
+        }
+        
         //Setting the offset
         let offsetX: CGFloat = 20
-        let offsetY: CGFloat!
+        let offsetYBottom: CGFloat!
+        let offsetYTop: CGFloat!
         
         if labelsRotated {
-            offsetY = 30
+            offsetYBottom = 30
         } else {
-            offsetY = 20
+            offsetYBottom = 20
+        }
+        
+        if title != nil {
+            offsetYTop = 25
+        } else {
+            offsetYTop = 5
         }
         
         //Creating frame layer
         let shapeLayerFrame = CAShapeLayer()
-        shapeLayerFrame.path = createFramePath(x: offsetX, y: offsetY).cgPath
-        shapeLayerFrame.fillColor = UIColor(red: 1, green: 0, blue: 0, alpha: 0.2).cgColor
-        self.layer.addSublayer(shapeLayerFrame)
+        shapeLayerFrame.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        shapeLayerFrame.path = createFramePath(x: offsetX, yBottom: offsetYBottom, yTop: offsetYTop).cgPath
+        shapeLayerFrame.fillColor = UIColor(red: 1, green: 0.6, blue: 0, alpha: 0.2).cgColor
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = shapeLayerFrame.frame
+        gradient.colors = [UIColor.blue.cgColor,
+                           UIColor.red.cgColor]
+        gradient.startPoint = CGPoint(x: 0, y: 1)
+        gradient.endPoint = CGPoint(x: 1, y: 0)
+        gradient.mask = shapeLayerFrame
+        
+        self.layer.addSublayer(gradient)
+        
         
         //Creating X-Axis
         let shapeLayerXAxis = CAShapeLayer()
-        shapeLayerXAxis.path = createXAxisPath(x: offsetX, y: offsetY).cgPath
+        shapeLayerXAxis.path = createXAxisPath(x: offsetX, yBottom: offsetYBottom).cgPath
         shapeLayerXAxis.fillColor = UIColor.clear.cgColor
         shapeLayerXAxis.strokeColor = UIColor.blue.cgColor
         self.layer.addSublayer(shapeLayerXAxis)
         
         //Creating Y-Axis
         let shapeLayerYAxis = CAShapeLayer()
-        shapeLayerYAxis.path = createYAxisPath(x: offsetX, y: offsetY).cgPath
+        shapeLayerYAxis.path = createYAxisPath(x: offsetX, yBottom: offsetYBottom, yTop: offsetYTop).cgPath
         shapeLayerYAxis.fillColor = UIColor.clear.cgColor
         shapeLayerYAxis.strokeColor = UIColor.blue.cgColor
         self.layer.addSublayer(shapeLayerYAxis)
@@ -90,14 +119,16 @@ class BarChartView: UIView {
             dataSetMapped = map(dataSet)
         }
         
+        
+        
         //Setting all neccessery variables
         let width = frame.width - 2 * offsetX
-        let height = frame.height - 2 * offsetY - 10
+        let height = frame.height - offsetYBottom - offsetYTop - 10
         var barsCount: CGFloat = 11
-        let stepXWidth = width / barsCount - 1
         let stepYHeight = height / CGFloat(dataSetMapped.max()!)
-        let barWidth = stepXWidth - 4
         var font = UIFont.systemFont(ofSize: 8)
+        let stepXWidth = width / barsCount - 1
+        let barWidth = stepXWidth - barGapWidth
         
         //If there are fewer labels given, then set barsCount to amount of labels
         if let count = xAxisLabels?.count {
@@ -116,7 +147,7 @@ class BarChartView: UIView {
         for i in 0..<Int(barsCount) {
             //Calculate center X and Y of bar
             let barCenterX: CGFloat = offsetX + stepXWidth / 2 + CGFloat(i) * stepXWidth
-            let barY: CGFloat = frame.height - offsetY
+            let barY: CGFloat = frame.height - offsetYBottom
             
             //Set string to correct value - either label or num between minX and maxX
             var string = ""
@@ -181,7 +212,7 @@ class BarChartView: UIView {
                 let barCenterX: CGFloat = offsetX + stepXWidth / 2 + CGFloat(i) * stepXWidth
                 let newDataCount = newDataSetMapped[i]
                 let oldDataCount = dataSetMapped[i]
-                let topY: CGFloat = frame.height - offsetY - CGFloat(oldDataCount) * stepYHeight
+                let topY: CGFloat = frame.height - offsetYTop - CGFloat(oldDataCount) * stepYHeight
                 var bottomY: CGFloat = topY + stepYHeight
                 for _ in 0..<newDataCount {
                     let barPath = createBarPath(leftX: barCenterX - barWidth / 2, rightX: barCenterX + barWidth / 2, bottomY: bottomY, topY: bottomY - stepYHeight)
@@ -204,13 +235,13 @@ class BarChartView: UIView {
             var string: String = ""
             if dataSetMapped.max()! == 1 {
                 string = "\(1)"
-                y = frame.height - offsetY - height
+                y = frame.height - offsetYBottom - height
             } else if dataSetMapped.max()! % 2 == 1 {
                 string = "\((dataSetMapped.max()! - 1) / i)"
-                y = frame.height - offsetY - (height - stepYHeight) / CGFloat(i)
+                y = frame.height - offsetYBottom - (height - stepYHeight) / CGFloat(i)
             } else {
                 string = "\(dataSetMapped.max()! / i)"
-                y = frame.height - offsetY - height / CGFloat(i)
+                y = frame.height - offsetYBottom - height / CGFloat(i)
             }
             tickFrame.path = createYAxisTickAt(leftX: offsetX, y: y).cgPath
             tickFrame.strokeColor = UIColor.lightGray.cgColor
@@ -228,34 +259,34 @@ class BarChartView: UIView {
     }
     
     //Creates path for frame of bar chart
-    func createFramePath(x: CGFloat, y: CGFloat) -> UIBezierPath {
+    func createFramePath(x: CGFloat, yBottom: CGFloat, yTop: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x, y: y))
-        path.addLine(to: CGPoint(x: frame.width - x, y: y))
-        path.addLine(to: CGPoint(x: frame.width - x, y: frame.height - y))
-        path.addLine(to: CGPoint(x: x, y: frame.height - y))
+        path.move(to: CGPoint(x: x, y: yTop))
+        path.addLine(to: CGPoint(x: frame.width - x, y: yTop))
+        path.addLine(to: CGPoint(x: frame.width - x, y: frame.height - yBottom))
+        path.addLine(to: CGPoint(x: x, y: frame.height - yBottom))
         path.close()
         return path
     }
     
-    func createXAxisPath(x: CGFloat, y: CGFloat) -> UIBezierPath {
+    func createXAxisPath(x: CGFloat, yBottom: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x, y: frame.height - y))
-        path.addLine(to: CGPoint(x: frame.width - x, y: frame.height - y))
-        path.addLine(to: CGPoint(x: frame.width - x - 5, y: frame.height - y - 5))
-        path.move(to: CGPoint(x: frame.width - x, y: frame.height - y))
-        path.addLine(to: CGPoint(x: frame.width - x - 5, y: frame.height - y + 5))
+        path.move(to: CGPoint(x: x, y: frame.height - yBottom))
+        path.addLine(to: CGPoint(x: frame.width - x, y: frame.height - yBottom))
+        path.addLine(to: CGPoint(x: frame.width - x - 5, y: frame.height - yBottom - 5))
+        path.move(to: CGPoint(x: frame.width - x, y: frame.height - yBottom))
+        path.addLine(to: CGPoint(x: frame.width - x - 5, y: frame.height - yBottom + 5))
         return path
     }
     
     
-    func createYAxisPath(x: CGFloat, y: CGFloat) -> UIBezierPath {
+    func createYAxisPath(x: CGFloat, yBottom: CGFloat, yTop: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: x, y: frame.height - y))
-        path.addLine(to: CGPoint(x: x, y: y))
-        path.addLine(to: CGPoint(x: x - 5, y: y + 5))
-        path.move(to: CGPoint(x: x, y: y))
-        path.addLine(to: CGPoint(x: x + 5, y: y + 5))
+        path.move(to: CGPoint(x: x, y: frame.height - yBottom))
+        path.addLine(to: CGPoint(x: x, y: yTop))
+        path.addLine(to: CGPoint(x: x - 5, y: yTop + 5))
+        path.move(to: CGPoint(x: x, y: yTop))
+        path.addLine(to: CGPoint(x: x + 5, y: yTop + 5))
         return path
     }
     
