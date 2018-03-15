@@ -285,10 +285,11 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             picker.reloadAllComponents()
             if textView.text == "" {
                 textView.text = String(pickerDataNumbers[0])
+                dictionary["Rounds left"] = pickerDataNumbers[0]
                 picker.selectRow(0, inComponent: 0, animated: false)
             } else {
                 //Else go to already chosen option
-                guard let num = Int(textView.text) else { return false }
+                guard let num = dictionary["Rounds left"] as? Int else { return false }
                 let index = pickerDataNumbers.index(of: num)
                 picker.selectRow(index!, inComponent: 0, animated: false)
             }
@@ -297,10 +298,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             picker.tag = 2
             picker.reloadAllComponents()
             if textView.text == "" {
+                dictionary["Difficulty"] = pickerDifficultyNames[0]
                 textView.text = pickerDifficultyNames[0]
                 picker.selectRow(0, inComponent: 0, animated: false)
             } else {
-                let index = pickerDifficultyNames.index(of: textView.text)
+                guard let difficulty = dictionary["Difficulty"] as? String else { return false }
+                let index = pickerDifficultyNames.index(of: difficulty)
                 picker.selectRow(index!, inComponent: 0, animated: false)
             }
             return true
@@ -608,7 +611,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Updates playersPoints and playersPlaces dictionaries - sets playersPlaces and playersPoints to 0 for selectedPlayers
     //And deletes deselectedPlayers from dictionary
     func updateDictionary() {
-        if addNumsSegueKey == "Points" {
+        if addNumsSegueKey == "Points"{
             for player in selectedPlayers {
                 if playersPoints[player] == nil {
                     playersPoints[player] = 0
@@ -627,7 +630,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 playersPlaces[player] = nil
             }
         } else if addNumsSegueKey == "Extended Points" {
+            for player in selectedPlayers {
+                if playersPoints[player] == nil {
+                    playersPoints[player] = 0
+                }
+            }
             for player in deselectedPlayers {
+                playersPoints[player] = nil
                 if let pointsDict = dictionary["Points"] as? [Player: [Int]]{
                     var newPointsDict = pointsDict
                     newPointsDict[player] = nil
@@ -681,6 +690,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         string.removeAll()
         if let playerClassDict = dictionary["Classes"] as? [Player: String] {
+            //FIXME: change to go through all players and none if didnt find
             for (player, playerClass) in playerClassDict {
                 string.append("\(player) - \(playerClass)")
             }
@@ -691,6 +701,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Function sorts players by amount of points, either ascending or descending, returning the points array
     func sortPlayersPoints(players: inout [Player], pointsDict: [Player: Int], order key: String) -> [Int] {
+
         var points = [Int]()
         for player in players {
             let point = pointsDict[player]
@@ -761,7 +772,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Checks if all players in playersPoints dictionary have points assigned
     func arePointsAssigned() -> Bool {
         for player in selectedPlayers {
-            if playersPoints[player] == 0 {
+            if playersPoints[player] == 0 || playersPoints[player] == nil {
                 return false
             }
         }
@@ -771,7 +782,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     //Checks if all selectedPlayers are in playersPlaces dictionary and have places assigned
     func arePlacesAssigned() -> Bool {
         for player in selectedPlayers {
-            if playersPlaces[player] == 0 {
+            if playersPlaces[player] == 0 || playersPlaces[player] == nil {
                 return false
             }
         }

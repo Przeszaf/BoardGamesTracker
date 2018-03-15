@@ -103,10 +103,14 @@ class Game: NSObject, Comparable, NSCoding {
         
         //Add match to each player
         for (i, player) in match.players.enumerated() {
-            player.addMatch(game: self, match: match, place: match.playersPlaces?[i], points: match.playersPoints?[i])
+            if let points = match.playersPoints, points.isEmpty {
+                player.addMatch(game: self, match: match, place: match.playersPlaces?[i], points: nil)
+            } else {
+                player.addMatch(game: self, match: match, place: match.playersPlaces?[i], points: match.playersPoints?[i])
+            }
         }
         //If there are points, then append pointsArray and sort it
-        if let points = match.playersPoints {
+        if let points = match.playersPoints, !points.isEmpty{
             averagePoints = calcAveragePoints(points: points)
             pointsArray += points
         }
