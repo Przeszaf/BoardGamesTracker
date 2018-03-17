@@ -67,6 +67,9 @@ class Match: NSObject, Comparable, NSCoding {
         if let dictionary = dictionary {
             self.dictionary = toCodable(dictionary: dictionary)
         }
+        if let points = playersPoints, points.isEmpty {
+            self.playersPoints = nil
+        }
     }
     
     //MARK: - Conforming to protocols
