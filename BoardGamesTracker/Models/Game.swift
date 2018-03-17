@@ -40,7 +40,13 @@ class Game: NSObject, Comparable, NSCoding {
     var lastTimePlayed: Date?
     var matches = [Match]()
     var pointsArray = [Int]()
-    var averagePoints = 0.0
+    var averagePoints: Float {
+        var sum: Float = 0
+        for point in pointsArray {
+            sum += Float(point)
+        }
+        return sum / Float(pointsArray.count)
+    }
     var totalTime = TimeInterval(exactly: 0)!
     var averageTime = TimeInterval(exactly: 0)!
     
@@ -65,6 +71,9 @@ class Game: NSObject, Comparable, NSCoding {
         
         timesPlayed = 0
         lastTimePlayed = nil
+        if let iconImage = UIImage(named: name) {
+            icon = iconImage
+        }
         super.init()
     }
     
@@ -110,8 +119,7 @@ class Game: NSObject, Comparable, NSCoding {
             }
         }
         //If there are points, then append pointsArray and sort it
-        if let points = match.playersPoints, !points.isEmpty{
-            averagePoints = calcAveragePoints(points: points)
+        if let points = match.playersPoints {
             pointsArray += points
         }
         pointsArray.sort()
@@ -160,7 +168,6 @@ class Game: NSObject, Comparable, NSCoding {
                 let index = pointsArray.index(of: point)
                 pointsArray.remove(at: index!)
             }
-            averagePoints = calcAveragePoints(points: [])
         }
         
         
@@ -188,16 +195,6 @@ class Game: NSObject, Comparable, NSCoding {
         timesPlayed -= 1
     }
     
-    
-    //Calculates average points
-    func calcAveragePoints(points: [Int]) -> Double {
-        var sum = averagePoints * Double(pointsArray.count)
-        for point in points {
-            sum += Double(point)
-        }
-        let newAverage = sum / (Double(pointsArray.count) + Double(points.count))
-        return newAverage
-    }
     
     
     //MARK: - Conforming to protocols
@@ -249,7 +246,6 @@ class Game: NSObject, Comparable, NSCoding {
         aCoder.encode(gameID, forKey: "gameID")
         aCoder.encode(matches, forKey: "matches")
         aCoder.encode(pointsArray, forKey: "pointsArray")
-        aCoder.encode(averagePoints, forKey: "averagePoints")
         aCoder.encode(totalTime, forKey: "totalTime")
         aCoder.encode(averageTime, forKey: "averageTime")
         aCoder.encode(icon, forKey: "icon")
@@ -272,6 +268,7 @@ class Game: NSObject, Comparable, NSCoding {
     required init?(coder aDecoder: NSCoder) {
         name = aDecoder.decodeObject(forKey: "name") as! String
         maxNoOfPlayers = aDecoder.decodeInteger(forKey: "maxNoOfPlayers")
+        icon = aDecoder.decodeObject(forKey: "icon") as? UIImage
         thereAreTeams = aDecoder.decodeBool(forKey: "thereAreTeams")
         thereArePoints = aDecoder.decodeBool(forKey: "thereArePoints")
         type = GameType(rawValue: aDecoder.decodeInteger(forKey: "type"))!
@@ -280,7 +277,6 @@ class Game: NSObject, Comparable, NSCoding {
         gameID = aDecoder.decodeObject(forKey: "gameID") as! String
         matches = aDecoder.decodeObject(forKey: "matches") as! [Match]
         pointsArray = aDecoder.decodeObject(forKey: "pointsArray") as! [Int]
-        averagePoints = aDecoder.decodeDouble(forKey: "averagePoints")
         totalTime = aDecoder.decodeDouble(forKey: "totalTime")
         averageTime = aDecoder.decodeDouble(forKey: "averageTime")
         pointsExtendedNameArray = aDecoder.decodeObject(forKey: "pointsExtendedNameArray") as? [String]

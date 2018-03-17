@@ -65,10 +65,22 @@ class BarChartView: UIView {
         let offsetYTop: CGFloat!
         
         if labelsRotated {
-            offsetYBottom = 30
+            if truncating == nil, let xAxisLabels = xAxisLabels {
+                var maxWidth: CGFloat = 0
+                for axisLabel in xAxisLabels {
+                    let labelWidth = axisLabel.width(withConstrainedHeight: 200, font: UIFont.systemFont(ofSize: 17))
+                    if maxWidth < labelWidth {
+                        maxWidth = labelWidth
+                    }
+                }
+                offsetYBottom = maxWidth * 0.7
+            } else {
+                offsetYBottom = 45
+            }
         } else {
             offsetYBottom = 20
         }
+        print(offsetYBottom)
         
         if title != nil {
             offsetYTop = 25
@@ -127,15 +139,16 @@ class BarChartView: UIView {
         var barsCount: CGFloat = 11
         let stepYHeight = height / CGFloat(dataSetMapped.max()!)
         var font = UIFont.systemFont(ofSize: 8)
-        let stepXWidth = width / barsCount - 1
-        let barWidth = stepXWidth - barGapWidth
-        
+        let normalStepWidth = width / barsCount - 1
+        let barWidth = normalStepWidth - barGapWidth
         //If there are fewer labels given, then set barsCount to amount of labels
         if let count = xAxisLabels?.count {
             if count < 11 {
                 barsCount = CGFloat(count)
             }
         }
+        
+        let stepXWidth = width / barsCount - 1
         
         //If we want graph reversed, then to following
         if reverse {
@@ -173,10 +186,10 @@ class BarChartView: UIView {
                 //0.54 and 0.84 multipliers are cos(1) and sin(1), i.e. rotation angle,
                 //so width and height can be calculated
                 font = UIFont.systemFont(ofSize: 10)
-                label = UILabel(frame: CGRect(x: barCenterX - labelWidth * 0.54 / 2 - 5, y: barY + labelWidth * 0.84 / 2 - 7, width: 30, height: 20))
+                label = UILabel(frame: CGRect(x: barCenterX - labelWidth * 0.54 / 2 - 5, y: barY + labelWidth * 0.84 / 2 - 2, width: 30, height: 20))
                 label.transform = CGAffineTransform(rotationAngle: -1)
             } else {
-                label = UILabel(frame: CGRect(x: barCenterX - labelWidth / 2, y: barY, width: 30, height: 20))
+                label = UILabel(frame: CGRect(x: barCenterX - labelWidth / 2, y: barY + 2, width: 30, height: 20))
             }
             
             //Add labels describing bars
@@ -196,9 +209,9 @@ class BarChartView: UIView {
                 let barPath = createBarPath(leftX: barCenterX - barWidth / 2, rightX: barCenterX + barWidth / 2, bottomY: bottomY, topY: bottomY - stepYHeight)
                 let shapeLayerBar = CAShapeLayer()
                 shapeLayerBar.path = barPath.cgPath
-                shapeLayerBar.fillColor = UIColor.brown.cgColor
+                shapeLayerBar.fillColor = UIColor.green.cgColor
                 shapeLayerBar.strokeColor = UIColor.black.cgColor
-                shapeLayerBar.lineWidth = 2
+                shapeLayerBar.lineWidth = 0.1
                 self.layer.addSublayer(shapeLayerBar)
                 bottomY = bottomY - stepYHeight
             }
@@ -244,8 +257,8 @@ class BarChartView: UIView {
                 y = frame.height - offsetYBottom - height / CGFloat(i)
             }
             tickFrame.path = createYAxisTickAt(leftX: offsetX, y: y).cgPath
-            tickFrame.strokeColor = UIColor.lightGray.cgColor
-            tickFrame.lineWidth = 1
+            tickFrame.strokeColor = UIColor(red: 0.5, green: 0, blue: 0, alpha: 0.5).cgColor
+            tickFrame.lineWidth = 0.5
             self.layer.addSublayer(tickFrame)
             let labelHeight = string.height(withConstrainedWidth: 20, font: font)
             let label = UILabel(frame: CGRect(x: offsetX - 10, y: y - labelHeight / 2, width: 20, height: 20))
@@ -310,14 +323,16 @@ class BarChartView: UIView {
     
     //Set minimum and maximum values for X-axis if not given
     func dataSetMinMaxX(dataSet: [Int]) {
+        print(dataSet)
         guard let max = dataSet.last else { return }
         guard let min = dataSet.first else { return }
         var barsNumber = 0
-        for step in 1...20 {
+        for step in 1...50 {
             let maxValue = max - max % step
             let minValue = min - min % step
             let diff = maxValue - minValue
             let bars = diff / step + 1
+            print(bars)
             if bars <= 11 {
                 barsNumber = bars
                 maxX = maxValue

@@ -18,15 +18,16 @@ class PieChartView: UIView {
     var title: String?
     
     //Maximum amount of letters in word.
-    var truncating: Int!
+    var truncating: Int?
     
     //Colors can be predefined or randomly generated
     var colorsArray: [UIColor]?
+    var dataLabels: [String]?
     
     var lastAngle: CGFloat = 0
     var labels: [UILabel]!
     
-    convenience init(dataSet: [Int], dataName: [String], colorsArray: [UIColor]?, title: String?, radius: CGFloat, truncating: Int?, x: CGFloat, y: CGFloat, width: CGFloat) {
+    convenience init(dataSet: [Int], dataName: [String], dataLabels: [String]?, colorsArray: [UIColor]?, title: String?, radius: CGFloat, truncating: Int?, x: CGFloat, y: CGFloat, width: CGFloat) {
         let frame = CGRect(x: x, y: y, width: width, height: 2 * radius + 25 + 10)
         self.init(frame: frame)
         self.dataSet = dataSet
@@ -35,6 +36,7 @@ class PieChartView: UIView {
         self.truncating = truncating
         self.colorsArray = colorsArray
         self.title = title
+        self.dataLabels = dataLabels
         setup()
     }
     
@@ -76,7 +78,7 @@ class PieChartView: UIView {
         }()
         
         let offsetX: CGFloat = 10
-        let offsetY: CGFloat = 25
+        let offsetY: CGFloat = 20
         
         for i in 0..<dataSet.count {
             //Creates pie chart
@@ -102,17 +104,22 @@ class PieChartView: UIView {
             let label = UILabel(frame: CGRect(x: x, y: y, width: self.frame.width -  shapeLayerPieChart.frame.width, height: 21))
             label.numberOfLines = 1
             
+            
             //Calculates percent and sets it to have only 1 decimal place
             let percent = Float(dataSet[i]) / Float(dataSetSum) * 100
             let percentShort = String.init(format: "%.1f%", percent)
+            var dataLabel = "\(dataSet[i])(\(percentShort)%)"
+            if let labels = dataLabels {
+                dataLabel = labels[i]
+            }
             let temp = dataName[i] as NSString
             //Truncates string if it's too long
-            if dataName[i].count >= truncating {
+            if let truncating = truncating, dataName[i].count >= truncating {
                 let range = NSRange.init(location: truncating, length: dataName[i].count - truncating)
                 let name = temp.replacingCharacters(in: range, with: "...")
-                label.text = "\(name) - \(dataSet[i])(\(percentShort)%)"
+                label.text = "\(name) - \(dataLabel)"
             } else {
-                label.text = "\(dataName[i]) - \(dataSet[i])(\(percentShort)%)"
+                label.text = "\(dataName[i]) - \(dataLabel)"
             }
             label.textAlignment = .left
             label.font = UIFont.systemFont(ofSize: 10)

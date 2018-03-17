@@ -141,7 +141,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             myView.pointsExtendedStackView.isHidden = false
         } else if selectedGame?.thereArePoints == true {
             myView.pointsStackView.isHidden = false
-        } else if selectedGame?.thereAreTeams == false {
+        } else if selectedGame?.type == .SoloWithPlaces {
             myView.placesStackView.isHidden = false
         }
         
@@ -529,6 +529,18 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             guard let _ = dictionary["Points"] as? [Player: [Int]] else {
                 createFailureAlert(with: "Assign points!")
                 return
+            }
+        }
+        
+        if game.scenariosArray != nil {
+            if dictionary["Scenarios"] == nil {
+                dictionary["Scenarios"] = [String]()
+            }
+        }
+        
+        if game.expansionsArray != nil {
+            if dictionary["Expansions"] == nil {
+                dictionary["Expansions"] = [String]()
             }
         }
         

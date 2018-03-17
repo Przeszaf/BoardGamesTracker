@@ -29,7 +29,10 @@ class GameStore {
         
         //FIXME: Add all premade games
         //Check if premadeGames were already added to allGames, if so then remove from premadeGames
-        
+        premadeGames.append(Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: ["Loyal servant of Arthur", "Merlin", "Percival"], evilClassesArray: ["Minion of Mordred", "Assassin", "Oberon", "Morgana"], expansionsArray: ["Lady of the Lake", "Excalibur"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: true, difficultyNames: nil, roundsLeftName: nil, additionalSwitchName: "Merlin killed", additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12))
+        premadeGames.append(Game(name: "Robinson Crusoe", type: .Cooperation, maxNoOfPlayers: 4, pointsExtendedNameArray: nil, classesArray: ["Ranger", "Warrior", "Cook", "Builder"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: ["Scenario 1", "Scenario 2", "Scenario 3"], scenariosAreMultiple: false, winSwitch: true, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchName: "Playing with Friday", additionalSecondSwitchName: "Playing with Dog"))
+        premadeGames.append(Game(name: "Wanna bet?", type: .SoloWithPlaces, maxNoOfPlayers: 10))
     }
 
     //MARK: - Functions

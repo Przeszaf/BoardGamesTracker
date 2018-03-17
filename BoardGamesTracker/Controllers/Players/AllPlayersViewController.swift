@@ -298,7 +298,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }()
         
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 270))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 300))
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends! See their statistics below!"
         headerView.addSubview(firstHeaderView)
@@ -307,7 +307,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         label.text = "Most active players"
         label.textAlignment = .center
         if !dataSet.isEmpty {
-            let barChartView = BarChartView(dataSet: dataSet, dataSetMapped: nil, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 150))
+            let barChartView = BarChartView(dataSet: dataSet, dataSetMapped: nil, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 200))
 //            headerView.addSubview(label)
             headerView.addSubview(barChartView)
         }
