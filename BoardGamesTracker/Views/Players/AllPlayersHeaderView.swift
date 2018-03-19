@@ -9,6 +9,7 @@
 import UIKit
 
 
+//first TableHeaderView for AllPlayersViewController
 class AllPlayersHeaderView: UIView {
     var label = UILabel()
     
@@ -62,6 +63,7 @@ class AllPlayersHeaderView: UIView {
         
     }
     
+    //Creates bezier path of line at the bottom of view
     func createBezierPath() -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 10, y: 0))

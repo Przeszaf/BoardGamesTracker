@@ -104,6 +104,8 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             return true
         }
         
+        //When clicked on maxPlayers or gameType field, then choose first option
+        //If something was already chosen, the go to that option in picker.
         guard let picker = textField.inputView as? UIPickerView else { return false }
         if textField == maxPlayersField {
             picker.tag = 0
@@ -138,6 +140,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 0 {
+            //+1, because there is also option for Unlimited players
             return myPickerDataPlayers.count + 1
         } else if pickerView.tag == 1 {
             return myPickerDataTypes.count
@@ -175,6 +178,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView,
                     didSelectRow row: Int,
                     inComponent component: Int) {
+        //Set field's text to correct string
         if pickerView.tag == 0 {
             if row == myPickerDataPlayers.count {
                 maxPlayersField.text = "99+"
@@ -213,6 +217,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         }
     }
     
+    //If cancel is pressed, then text is set to nothing and fields resign first responder.
     @objc func cancelPicker() {
         if picker.tag == 0 {
             maxPlayersField.text = ""

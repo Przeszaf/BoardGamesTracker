@@ -39,19 +39,15 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         
         //If it is custom game, then use different cell style with icon
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
-        cell.gameName.text = gameStore.allGames[indexPath.row].name
-        cell.gameDate.text = gameStore.allGames[indexPath.row].lastTimePlayed?.toStringWithHour()
-        cell.gameTimesPlayed.text = "\(gameStore.allGames[indexPath.row].timesPlayed) times played"
+        cell.gameName.text = game.name
+        cell.gameDate.text = game.lastTimePlayed?.toStringWithHour()
+        cell.gameTimesPlayed.text = "\(game.timesPlayed) times played"
         cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
         cell.gameName.delegate = self
         cell.selectionStyle = .none
         
-        //Assign correct image to icon
-        if let customGame = game as? CustomGame {
-            cell.gameIconImageView.image = customGame.gameIcon
-        } else {
-            cell.gameIconImageView.image = game.createdIcon
-        }
+        //FIXME: Assign correct image to icon
+        cell.gameIconImageView.image = game.icon
         
         //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row
@@ -162,8 +158,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "addCustomGame"?:
-            let controller = segue.destination as! AddCustomGameViewController
+        case "addPremadeGame"?:
+            let controller = segue.destination as! AddPremadeGameViewController
             controller.gameStore = gameStore
         case "showGameDetails"?:
             //sender is indexPath.row, so now we can pass correct game to view controller
@@ -195,8 +191,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         }
     }
     
+    //Reloads header view - generates new chart etc.
     func reloadHeaderView() {
-        
         let gamesPlayed = gameStore.allGames.count
         var matchesPlayed = 0
         for game in gameStore.allGames {
@@ -226,7 +222,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             return nameArray
         }()
         
-        let pieChartView = AllGamesBarView(frame: CGRect(x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40, height: 200), dataSet: gamesPlayedCount, dataName: gameNames)
+        let pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: gameNames, dataLabels: nil, colorsArray: [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.green], title: "Most popular games", radius: 80, truncating: 90, x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40)
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + pieChartView.frame.height + 10))
         headerView.addSubview(firstHeaderView)

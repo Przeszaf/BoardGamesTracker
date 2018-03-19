@@ -36,7 +36,7 @@
                     <navigationItem key="navigationItem" title="All Games" id="fU1-fW-nmX">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hMQ-li-GZ9">
                             <connections>
-                                <segue destination="e8h-8H-svm" kind="show" identifier="addCustomGame" id="GyH-qD-iFJ"/>
+                                <segue destination="e8h-8H-svm" kind="show" identifier="addPremadeGame" id="GyH-qD-iFJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -48,10 +48,10 @@
             </objects>
             <point key="canvasLocation" x="1929" y="178"/>
         </scene>
-        <!--Add Custom Game View Controller-->
+        <!--Add Premade Game View Controller-->
         <scene sceneID="eNU-gX-H6r">
             <objects>
-                <tableViewController id="e8h-8H-svm" customClass="AddCustomGameViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="e8h-8H-svm" customClass="AddPremadeGameViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6tx-B8-Bn2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -11,12 +11,13 @@ import CoreLocation
 
 class HomeViewController: UIViewController {
     
+    //MARK: Stores and timer
     var gameStore: GameStore!
     var playerStore: PlayerStore!
     var imageStore: ImageStore!
     var timer: MyTimer!
     
-    
+    //MARK: Outlets
     @IBOutlet var timeLabel: UILabel!
     @IBOutlet var startButton: UIButton!
     @IBOutlet var lastMatchPlayedLabel: UILabel!
@@ -25,18 +26,26 @@ class HomeViewController: UIViewController {
     var lastGamesBarChart: UIView!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        
+        //Set timer.label to timeLabel, sot timer can update it
         timer.label = timeLabel
         timeLabel.text = timer.time.toStringWithSeconds()
+        
+        //Set correct button title
         if timer.isRunning {
             startButton.setTitle("Stop", for: .normal)
         }
+        
         if let lastGame = gameStore.allGames.first, let lastMatch = lastGame.matches.first {
             let timeInterval = -lastMatch.date.timeIntervalSinceNow
             lastMatchPlayedLabel.text = "You played \(lastGame.name) \(timeInterval.toStringWithDays()) ago."
         }
+        
+        
         view.backgroundColor = Constants.Global.backgroundColor
+        
+        
         lastGamesBarChart = createLastGamesBarChart()
         lastGamesChart.addSubview(lastGamesBarChart)
     }
@@ -44,6 +53,8 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tabBarController?.tabBar.isHidden = false
+        
+        //Updates lastGamesBarChart
         lastGamesBarChart.removeFromSuperview()
         lastGamesBarChart = createLastGamesBarChart()
         lastGamesChart.addSubview(lastGamesBarChart)
@@ -59,6 +70,8 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: "showMap", sender: self)
     }
     
+    //FIXME: Make Collection View Controller that shows photos.
+    //First version of button
     @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
         var matchesWithPhoto = [Match]()
         for game in gameStore.allGames {
@@ -97,6 +110,8 @@ class HomeViewController: UIViewController {
             addMatchController.gameStore = gameStore
             addMatchController.playerStore = playerStore
             addMatchController.imageStore = imageStore
+            
+            //If timer is over 1 minute, then set the time of addMatchController to that value (in minutes)
             if timer.time > 60 {
                 addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
             }
@@ -124,7 +139,6 @@ class HomeViewController: UIViewController {
     
     func createLastGamesBarChart() -> UIView {
         var mondaysArray = [String]()
-        
         let calendar = Calendar.current
         
         var dateComponents = DateComponents()
@@ -142,14 +156,15 @@ class HomeViewController: UIViewController {
         
         let firstWeekVisible = calendar.date(byAdding: .day, value: -70, to: lastMonday)!
         
-        print(nextMonday)
-        
+        //Create array of mondays, so it can be displayed as first day of week on graph
         for i in 0..<11 {
             let monday = calendar.date(byAdding: .day, value: -7 * i, to: lastMonday)!
             mondaysArray.append(dateFormatter.string(from: monday))
         }
         
         var gamesDaysAgo = [Int]()
+        
+        //Calculate how many weeks ago were all matches
         for game in gameStore.allGames {
             for match in game.matches {
                 let daysSinceMatch = calendar.dateComponents([.day], from: match.date, to: nextMonday).day!
@@ -160,7 +175,7 @@ class HomeViewController: UIViewController {
         }
         gamesDaysAgo.sort()
         
-        return LastGamesBarChartView(frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: 150), dataSet: gamesDaysAgo, xAxisLabels: mondaysArray)
+        return BarChartView(dataSet: gamesDaysAgo, dataSetMapped: nil, newDataSet: nil, xAxisLabels: mondaysArray, barGapWidth: 4, reverse: true, labelsRotated: false, truncating: nil, title: "Last matches", frame: CGRect.init(x: 0, y: 0, width: view.frame.width, height: 150))
     }
     
     

@@ -50,11 +50,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         cell.gameDate.text = game.lastTimePlayed?.toStringWithHour()
         cell.gameTimesPlayed.text = "\(game.timesPlayed) times played"
         cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
-        if let customGame = game as? CustomGame {
-            cell.gameIconImageView.image = customGame.gameIcon
-        } else {
-            cell.gameIconImageView.image = game.createdIcon
-        }
+        //FIXME: - assign icon
         
         //Added so clicking on gameName will be registered as clicking on cell
         cell.gameName.isEditable = false

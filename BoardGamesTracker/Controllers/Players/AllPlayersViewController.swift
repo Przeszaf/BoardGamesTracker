@@ -29,7 +29,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         tableView.register(AllPlayersCell.self, forCellReuseIdentifier: "AllPlayersCell")
         tableView.register(AddPlayersCell.self, forCellReuseIdentifier: "AddPlayersCell")
         tableView.rowHeight = 50
-        //Adding right bar button
+        //Adding right and left bar buttons
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonBar))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
@@ -85,6 +85,8 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         cell.playerName.delegate = self
         cell.playerName.tag = indexPath.row
         cell.playerName.backgroundColor = UIColor.clear
+        
+        
         if isEditing{
             cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
         } else {
@@ -113,10 +115,9 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             }
         }
         return 52
-        
     }
     
-    
+    //Updating cell background view when selected, deselected, highlighted, unhighlighted
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -275,6 +276,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         let playersSortedByActivity = playerStore.allPlayers.sorted(by: { $0.timesPlayed > $1.timesPlayed })
         print(playersSortedByActivity)
         
+        //FIXME: Can be done better
         let dataSet = { () -> [Int] in
             var dataArray = [Int]()
             for (i, player) in playersSortedByActivity.enumerated() {
@@ -296,7 +298,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }()
         
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 270))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 300))
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends! See their statistics below!"
         headerView.addSubview(firstHeaderView)
@@ -304,9 +306,11 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         let label = UILabel(frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 20))
         label.text = "Most active players"
         label.textAlignment = .center
-        let barChartView = BarChartView(dataSet: dataSet, frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 150), reverse: true, labelsRotated: true, newDataSet: nil, xAxisLabels: dataName, truncating: 8)
-        headerView.addSubview(label)
-        headerView.addSubview(barChartView)
+        if !dataSet.isEmpty {
+            let barChartView = BarChartView(dataSet: dataSet, dataSetMapped: nil, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 200))
+//            headerView.addSubview(label)
+            headerView.addSubview(barChartView)
+        }
         tableView.tableHeaderView = headerView
     }
     

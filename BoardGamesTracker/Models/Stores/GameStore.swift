@@ -13,7 +13,7 @@ class GameStore {
     //MARK: - Variables
     var allGames = [Game]()
     var playerStore: PlayerStore!
-    var customGames = [CustomGame]()
+    var premadeGames = [Game]()
     
     let gamesArchiveURL: URL = {
         let directories = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -27,25 +27,28 @@ class GameStore {
             allGames = archivedGames
         }
         
-        //Add all custom games
-        customGames.append(CustomGame(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Pandemic", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Carcassonne", type: .SoloWithPoints, maxNoOfPlayers: 5, icon: UIImage(named: "Avalon")))
-        customGames.append(CustomGame(name: "Codenames", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Codenames")))
-        customGames.append(CustomGame(name: "7 Wonders", type: .SoloWithPoints, maxNoOfPlayers: 8, icon: UIImage(named: "7 Wonders")))
-        customGames.append(CustomGame(name: "Robinson Crusoe", type: .Cooperation, maxNoOfPlayers: 4, icon: UIImage(named: "Robinson Crusoe")))
-        customGames.append(CustomGame(name: "Time's up", type: .TeamWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Time's up")))
-        customGames.append(CustomGame(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 10, icon: UIImage(named: "Dixit")))
-        customGames.append(CustomGame(name: "Mascarade", type: .SoloWithPlaces, maxNoOfPlayers: 10, icon: UIImage(named: "Mascarade")))
-        customGames.append(CustomGame(name: "5 Second Rule", type: .SoloWithPoints, maxNoOfPlayers: 10, icon: UIImage(named: "5 Second Rule")))
-        //Check if customGames were already added to allGames, if so then remove from customGames
-        for game in allGames {
-            if let customGame = game as? CustomGame {
-                let index = customGames.index(where: {$0.name == customGame.name})
-                customGames.remove(at: index!)
+        //Check if premadeGames were already added to allGames, if so then remove from premadeGames
+        premadeGames.append(Game(name: "Avalon", type: .TeamWithPlaces, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: ["Loyal servant of Arthur", "Merlin", "Percival"], evilClassesArray: ["Minion of Mordred", "Assassin", "Oberon", "Morgana"], expansionsArray: ["Lady of the Lake", "Excalibur"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: true, difficultyNames: nil, roundsLeftName: nil, additionalSwitchName: "Merlin killed", additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "Dixit", type: .SoloWithPoints, maxNoOfPlayers: 12))
+        premadeGames.append(Game(name: "Robinson Crusoe", type: .Cooperation, maxNoOfPlayers: 4, pointsExtendedNameArray: nil, classesArray: ["Ranger", "Warrior", "Cook", "Builder"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: ["Scenario 1", "Scenario 2", "Scenario 3"], scenariosAreMultiple: false, winSwitch: true, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchName: "Playing with Friday", additionalSecondSwitchName: "Playing with Dog"))
+        premadeGames.append(Game(name: "Wanna bet?", type: .SoloWithPlaces, maxNoOfPlayers: 10))
+        premadeGames.append(Game(name: "Pandemic", type: .Cooperation, maxNoOfPlayers: 5, pointsExtendedNameArray: nil, classesArray: ["Researcher", "Scientist", "Quarantine Specialist", "Researcher", "Medic", "Contigency Planner"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: true, difficultyNames: ["Easy", "Medium", "Hard"], roundsLeftName: "Cards", additionalSwitchName: nil, additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "Carcassonne", type: .SoloWithPoints, maxNoOfPlayers: 5, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["River", "Other"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: true, difficultyNames: nil, roundsLeftName: nil, additionalSwitchName: nil, additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "Codenames", type: .TeamWithPlaces, maxNoOfPlayers: 20, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: nil, difficultyNames: nil, roundsLeftName: "Cards left", additionalSwitchName: "Killed by Assassin", additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "7 Wonders", type: .SoloWithPoints, maxNoOfPlayers: 8, pointsExtendedNameArray: ["War", "Knowledge", "Leaders", "Other"], classesArray: ["Rome", "Alexandria", "Giza", "Other"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Leaders", "Cities", "Babel"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: nil, difficultyNames: ["A", "B"], roundsLeftName: nil, additionalSwitchName: nil, additionalSecondSwitchName: nil))
+        premadeGames.append(Game(name: "Mascarade", type: .SoloWithPoints, maxNoOfPlayers: 12))
+        premadeGames.append(Game(name: "i Know", type: .SoloWithPoints, maxNoOfPlayers: 6))
+        premadeGames.append(Game(name: "Time's Up", type: .TeamWithPlaces, maxNoOfPlayers: 20))
+        premadeGames.append(Game(name: "5 Second Rule", type: .SoloWithPlaces, maxNoOfPlayers: 20))
+        
+        for premadeGame in premadeGames {
+            if allGames.contains(where: { (game) -> Bool in
+                game.name == premadeGame.name
+            }) {
+                let index = premadeGames.index(of: premadeGame)!
+                premadeGames.remove(at: index)
             }
         }
-        
     }
 
     //MARK: - Functions
