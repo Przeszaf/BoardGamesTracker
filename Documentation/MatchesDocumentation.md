@@ -27,6 +27,13 @@ additionalSwitchName | additionalSwitchName | Bool | Some game-specific event ha
 additionalSecondSwitchName | additionalSecondSwitchName | Bool | Some game-specific event happening or not.
 
 
+## additionalSwitchName and additionalSecondSwitchName in use
+
+### Avalon
+| Dictionary query | Value type | Description |
+| Merlin killed | Bool | Indicates if evil players won by killing Merlin |
+
+
 ## Authors
 
 * **Przemyslaw Szafulski**
