@@ -17,8 +17,8 @@ extension Game {
         return NSFetchRequest<Game>(entityName: "Game")
     }
 
-    @NSManaged public var additionalSecondSwitchName: Bool
-    @NSManaged public var additionalSwitchName: Bool
+    @NSManaged public var additionalSecondSwitchName: String?
+    @NSManaged public var additionalSwitchName: String?
     @NSManaged public var expansionsAreMultiple: Bool
     @NSManaged public var lastTimePlayed: NSDate?
     @NSManaged public var maxNoOfPlayers: Int32

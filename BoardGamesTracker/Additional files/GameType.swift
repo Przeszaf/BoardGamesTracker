@@ -14,3 +14,8 @@ struct GameType {
     static let SoloWithPlaces = "Solo With Places"
     static let Cooperation = "Cooperation"
 }
+
+struct ClassType {
+    static let Good = "Good"
+    static let Evil = "Evil"
+}
