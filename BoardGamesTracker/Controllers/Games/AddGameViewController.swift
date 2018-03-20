@@ -11,8 +11,7 @@ import UIKit
 class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     
-    var gameStore: GameStore!
-    var gameType: GameType?
+    var gameType: String?
     
     var picker: UIPickerView!
     let myPickerDataPlayers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
@@ -71,9 +70,9 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             return
         }
         
-        let game = Game(name: nameField.text!, type: type, maxNoOfPlayers: maxPlayers)
-        gameStore.addGame(game)
-        createSuccessAlert(with: "Created \(game.name)!")
+        //FIXME: Add game
+//        let game = Game(name: nameField.text!, type: type, maxNoOfPlayers: maxPlayers)
+        createSuccessAlert(with: "Created!")
     }
     
     
@@ -121,7 +120,7 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             picker.tag = 1
             if gameTypeField.text == "" {
                 gameTypeField.text = "Solo game with points"
-                gameType = .SoloWithPoints
+                gameType = GameType.SoloWithPoints
             }
             if let num = myPickerDataTypes.index(of: gameType!) {
                 picker.selectRow(num, inComponent: 0, animated: false)
@@ -161,14 +160,16 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
             }
         }  else if pickerView.tag == 1 {
             switch myPickerDataTypes[row] {
-            case .Cooperation:
+            case GameType.Cooperation:
                 return "Cooperation game"
-            case .SoloWithPlaces:
+            case GameType.SoloWithPlaces:
                 return "Solo game with places"
-            case .SoloWithPoints:
+            case GameType.SoloWithPoints:
                 return "Solo game with points"
-            case .TeamWithPlaces:
+            case GameType.TeamWithPlaces:
                 return "Team game"
+            default:
+                return "Other"
             }
         }
         return nil
@@ -188,14 +189,16 @@ class AddGameViewController: UIViewController, UITextFieldDelegate, UIPickerView
         } else if pickerView.tag == 1 {
             gameType = myPickerDataTypes[row]
             switch myPickerDataTypes[row] {
-            case .Cooperation:
+            case GameType.Cooperation:
                 gameTypeField.text = "Cooperation game"
-            case .SoloWithPlaces:
+            case GameType.SoloWithPlaces:
                 gameTypeField.text = "Solo game with places"
-            case .SoloWithPoints:
+            case GameType.SoloWithPoints:
                 gameTypeField.text = "Solo game with points"
-            case .TeamWithPlaces:
+            case GameType.TeamWithPlaces:
                 gameTypeField.text = "Team game"
+            default:
+                gameTypeField.text = "Other"
             }
         }
     }

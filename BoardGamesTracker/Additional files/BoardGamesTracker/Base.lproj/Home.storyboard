@@ -302,14 +302,6 @@
                             <constraint firstItem="rXy-KB-PUX" firstAttribute="top" secondItem="XHQ-57-dgF" secondAttribute="bottom" constant="-8" id="zsd-qc-j2Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="qCJ-i2-4EQ"/>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="startGradientColor">
-                                <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="color" keyPath="endGradientColor">
-                                <color key="value" red="1" green="0.67972983663259356" blue="0.59505208333333337" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="aZV-f1-Ost"/>
                     <connections>
