@@ -12,7 +12,7 @@ import CoreData
 class Helper {
     
     
-    static func addGame(name: String, type: String, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchName: String?, additionalSecondSwitchName: String?) {
+    static func addGame(name: String, type: String, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchNames: [String]?) {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -75,10 +75,59 @@ class Helper {
         game.roundsLeftName = roundsLeftName
         game.winSwitch = winSwitch
         
-        game.additionalSwitchName = additionalSwitchName
-        game.additionalSecondSwitchName = additionalSecondSwitchName
+        if let additionalSwitchNames = additionalSwitchNames {
+            for additionalSwitchName in additionalSwitchNames {
+                let additionalBool = AdditionalBool(context: managedContext)
+                game.addToAdditionalBools(additionalBool)
+                additionalBool.name = additionalSwitchName
+            }
+        }
         
         print(game)
+    }
+    
+    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any]) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let match = Match(context: managedContext)
+        match.game = game
+        
+        let playersClasses = dictionary["Classes"] as? [Player: GameClass]
+        for (i, player) in players.enumerated() {
+            let playerResult = PlayerResult(context: managedContext)
+            playerResult.player = player
+            playerResult.match = match
+            playerResult.place = Int32(places[i])
+            if let point = points?[i] {
+                playerResult.point = Int32(point)
+            }
+            playerResult.gameClass = playersClasses?[player]
+            if let pointsExtendedDict = dictionary["Points"] as? [Player: Any], let pointsExtendedPlayer = pointsExtendedDict[player] as? [String: Int] {
+                for (sectionName, point) in pointsExtendedPlayer {
+                    let extendedPoint = ExtendedPoint(context: managedContext)
+                    extendedPoint.name = sectionName
+                    extendedPoint.point = Int32(point)
+                    extendedPoint.result = playerResult
+                }
+            }
+        }
+        
+        if let scenarioArray = dictionary["Scenarios"] as? [Scenario] {
+            match.addToScenarios(NSSet(array: scenarioArray))
+        }
+        
+        if let expansionArray = dictionary["Expansions"] as? [Expansion] {
+            match.addToExpansions(NSSet(array: expansionArray))
+        }
+        
+        if let difficulty = dictionary["Difficulty"] as? Difficulty {
+            match.difficulty = difficulty
+        }
+        
+        
+        
+        
     }
 }
 

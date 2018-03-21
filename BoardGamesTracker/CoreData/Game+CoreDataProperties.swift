@@ -2,7 +2,7 @@
 //  Game+CoreDataProperties.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 20/03/2018.
+//  Created by Przemyslaw Szafulski on 21/03/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 //
@@ -17,8 +17,6 @@ extension Game {
         return NSFetchRequest<Game>(entityName: "Game")
     }
 
-    @NSManaged public var additionalSecondSwitchName: String?
-    @NSManaged public var additionalSwitchName: String?
     @NSManaged public var expansionsAreMultiple: Bool
     @NSManaged public var lastTimePlayed: NSDate?
     @NSManaged public var maxNoOfPlayers: Int32
@@ -29,11 +27,12 @@ extension Game {
     @NSManaged public var winSwitch: Bool
     @NSManaged public var classes: NSSet?
     @NSManaged public var difficulties: NSSet?
-    @NSManaged public var expansions: NSSet?
+    @NSManaged public var extendedPointNames: NSSet?
     @NSManaged public var matches: NSSet?
     @NSManaged public var players: NSSet?
     @NSManaged public var scenarios: NSSet?
-    @NSManaged public var extendedPointName: NSSet?
+    @NSManaged public var expansions: NSSet?
+    @NSManaged public var additionalBools: NSSet?
 
 }
 
@@ -71,20 +70,20 @@ extension Game {
 
 }
 
-// MARK: Generated accessors for expansions
+// MARK: Generated accessors for extendedPointNames
 extension Game {
 
-    @objc(addExpansionsObject:)
-    @NSManaged public func addToExpansions(_ value: Expansion)
+    @objc(addExtendedPointNamesObject:)
+    @NSManaged public func addToExtendedPointNames(_ value: ExtendedPointName)
 
-    @objc(removeExpansionsObject:)
-    @NSManaged public func removeFromExpansions(_ value: Expansion)
+    @objc(removeExtendedPointNamesObject:)
+    @NSManaged public func removeFromExtendedPointNames(_ value: ExtendedPointName)
 
-    @objc(addExpansions:)
-    @NSManaged public func addToExpansions(_ values: NSSet)
+    @objc(addExtendedPointNames:)
+    @NSManaged public func addToExtendedPointNames(_ values: NSSet)
 
-    @objc(removeExpansions:)
-    @NSManaged public func removeFromExpansions(_ values: NSSet)
+    @objc(removeExtendedPointNames:)
+    @NSManaged public func removeFromExtendedPointNames(_ values: NSSet)
 
 }
 
@@ -139,19 +138,36 @@ extension Game {
 
 }
 
-// MARK: Generated accessors for extendedPointName
+// MARK: Generated accessors for expansions
 extension Game {
 
-    @objc(addExtendedPointNameObject:)
-    @NSManaged public func addToExtendedPointName(_ value: ExtendedPointName)
+    @objc(addExpansionsObject:)
+    @NSManaged public func addToExpansions(_ value: Expansion)
 
-    @objc(removeExtendedPointNameObject:)
-    @NSManaged public func removeFromExtendedPointName(_ value: ExtendedPointName)
+    @objc(removeExpansionsObject:)
+    @NSManaged public func removeFromExpansions(_ value: Expansion)
 
-    @objc(addExtendedPointName:)
-    @NSManaged public func addToExtendedPointName(_ values: NSSet)
+    @objc(addExpansions:)
+    @NSManaged public func addToExpansions(_ values: NSSet)
 
-    @objc(removeExtendedPointName:)
-    @NSManaged public func removeFromExtendedPointName(_ values: NSSet)
+    @objc(removeExpansions:)
+    @NSManaged public func removeFromExpansions(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for additionalBools
+extension Game {
+
+    @objc(addAdditionalBoolsObject:)
+    @NSManaged public func addToAdditionalBools(_ value: AdditionalBool)
+
+    @objc(removeAdditionalBoolsObject:)
+    @NSManaged public func removeFromAdditionalBools(_ value: AdditionalBool)
+
+    @objc(addAdditionalBools:)
+    @NSManaged public func addToAdditionalBools(_ values: NSSet)
+
+    @objc(removeAdditionalBools:)
+    @NSManaged public func removeFromAdditionalBools(_ values: NSSet)
 
 }

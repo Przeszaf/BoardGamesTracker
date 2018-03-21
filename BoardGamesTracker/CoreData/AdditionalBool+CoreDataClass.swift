@@ -1,5 +1,5 @@
 //
-//  PlayerResult+CoreDataClass.swift
+//  AdditionalBool+CoreDataClass.swift
 //  BoardGamesTracker
 //
 //  Created by Przemyslaw Szafulski on 21/03/2018.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(PlayerResult)
-public class PlayerResult: NSManagedObject {
+@objc(AdditionalBool)
+public class AdditionalBool: NSManagedObject {
 
 }

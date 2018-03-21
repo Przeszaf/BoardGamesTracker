@@ -38,7 +38,7 @@ class HomeViewController: UIViewController {
         
         if let lastGame = games.first, let lastMatch = lastGame.matches?.anyObject() as? Match {
             let timeInterval = -(lastMatch.date?.timeIntervalSinceNow)!
-            lastMatchPlayedLabel.text = "You played \(lastGame.name) \(timeInterval.toStringWithDays()) ago."
+            lastMatchPlayedLabel.text = "You played \(lastGame.name!) \(timeInterval.toStringWithDays()) ago."
         }
         
         
@@ -67,24 +67,17 @@ class HomeViewController: UIViewController {
     
     @IBAction func showMapButtonPressed(_ sender: UIButton) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        let gameRequest = NSFetchRequest<Game>(entityName: "Game")
-        let playerRequest = NSFetchRequest<Player>(entityName: "Player")
-        
-        var games = [Game]()
-        var players = [Player]()
         do {
-            games = try managedContext.fetch(gameRequest)
-            players = try managedContext.fetch(playerRequest)
-        } catch let error as NSError {
-            print("Error: \(error)\n \(error.userInfo)")
+            let extendedPoints: [ExtendedPoint] = try managedContext.fetch(ExtendedPoint.fetchRequest())
+            for extendedPoint in extendedPoints {
+                print("\(extendedPoint.result?.player?.name), section \(extendedPoint.name), \(extendedPoint.point)")
+            }
+        } catch {
+            print(error)
         }
-        
-        let matchEntity = NSEntityDescription.entity(forEntityName: "Match", in: managedContext)!
-        
-        let match = Match(entity: matchEntity, insertInto: managedContext)
-        
     }
     
     //FIXME: Make Collection View Controller that shows photos.

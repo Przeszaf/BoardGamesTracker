@@ -2,7 +2,7 @@
 //  Match+CoreDataProperties.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 20/03/2018.
+//  Created by Przemyslaw Szafulski on 21/03/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 //
@@ -19,29 +19,31 @@ extension Match {
 
     @NSManaged public var date: NSDate?
     @NSManaged public var time: Double
+    @NSManaged public var roundsLeft: Int32
     @NSManaged public var difficulty: Difficulty?
-    @NSManaged public var expansions: NSSet?
+    @NSManaged public var scenarios: NSSet?
     @NSManaged public var game: Game?
     @NSManaged public var players: NSSet?
-    @NSManaged public var result: PlayerResult?
-    @NSManaged public var scenarios: NSSet?
+    @NSManaged public var results: PlayerResult?
+    @NSManaged public var expansions: NSSet?
+    @NSManaged public var additionalBool: AdditionalBool?
 
 }
 
-// MARK: Generated accessors for expansions
+// MARK: Generated accessors for scenarios
 extension Match {
 
-    @objc(addExpansionsObject:)
-    @NSManaged public func addToExpansions(_ value: Expansion)
+    @objc(addScenariosObject:)
+    @NSManaged public func addToScenarios(_ value: Scenario)
 
-    @objc(removeExpansionsObject:)
-    @NSManaged public func removeFromExpansions(_ value: Expansion)
+    @objc(removeScenariosObject:)
+    @NSManaged public func removeFromScenarios(_ value: Scenario)
 
-    @objc(addExpansions:)
-    @NSManaged public func addToExpansions(_ values: NSSet)
+    @objc(addScenarios:)
+    @NSManaged public func addToScenarios(_ values: NSSet)
 
-    @objc(removeExpansions:)
-    @NSManaged public func removeFromExpansions(_ values: NSSet)
+    @objc(removeScenarios:)
+    @NSManaged public func removeFromScenarios(_ values: NSSet)
 
 }
 
@@ -62,19 +64,19 @@ extension Match {
 
 }
 
-// MARK: Generated accessors for scenarios
+// MARK: Generated accessors for expansions
 extension Match {
 
-    @objc(addScenariosObject:)
-    @NSManaged public func addToScenarios(_ value: Scenario)
+    @objc(addExpansionsObject:)
+    @NSManaged public func addToExpansions(_ value: Expansion)
 
-    @objc(removeScenariosObject:)
-    @NSManaged public func removeFromScenarios(_ value: Scenario)
+    @objc(removeExpansionsObject:)
+    @NSManaged public func removeFromExpansions(_ value: Expansion)
 
-    @objc(addScenarios:)
-    @NSManaged public func addToScenarios(_ values: NSSet)
+    @objc(addExpansions:)
+    @NSManaged public func addToExpansions(_ values: NSSet)
 
-    @objc(removeScenarios:)
-    @NSManaged public func removeFromScenarios(_ values: NSSet)
+    @objc(removeExpansions:)
+    @NSManaged public func removeFromExpansions(_ values: NSSet)
 
 }

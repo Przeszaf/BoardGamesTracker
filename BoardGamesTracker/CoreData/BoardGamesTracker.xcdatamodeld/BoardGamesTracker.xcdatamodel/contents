@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17D102" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="AdditionalBool" representedClassName="AdditionalBool" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="additionalBools" inverseEntity="Game" syncable="YES"/>
+        <relationship name="matches" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match" inverseName="additionalBool" inverseEntity="Match" syncable="YES"/>
+    </entity>
     <entity name="Difficulty" representedClassName="Difficulty" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="difficulties" inverseEntity="Game" syncable="YES"/>
@@ -17,11 +22,9 @@
     </entity>
     <entity name="ExtendedPointName" representedClassName="ExtendedPointName" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="extendedPointName" inverseEntity="Game" syncable="YES"/>
+        <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="extendedPointNames" inverseEntity="Game" syncable="YES"/>
     </entity>
     <entity name="Game" representedClassName="Game" syncable="YES">
-        <attribute name="additionalSecondSwitchName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="additionalSwitchName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="expansionsAreMultiple" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastTimePlayed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="maxNoOfPlayers" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -30,10 +33,11 @@
         <attribute name="scenariosAreMultiple" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="type" attributeType="String" syncable="YES"/>
         <attribute name="winSwitch" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="additionalBools" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdditionalBool" inverseName="game" inverseEntity="AdditionalBool" syncable="YES"/>
         <relationship name="classes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GameClass" inverseName="game" inverseEntity="GameClass" syncable="YES"/>
         <relationship name="difficulties" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Difficulty" inverseName="game" inverseEntity="Difficulty" syncable="YES"/>
         <relationship name="expansions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expansion" inverseName="game" inverseEntity="Expansion" syncable="YES"/>
-        <relationship name="extendedPointName" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExtendedPointName" inverseName="game" inverseEntity="ExtendedPointName" syncable="YES"/>
+        <relationship name="extendedPointNames" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExtendedPointName" inverseName="game" inverseEntity="ExtendedPointName" syncable="YES"/>
         <relationship name="matches" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Match" inverseName="game" inverseEntity="Match" syncable="YES"/>
         <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="games" inverseEntity="Player" syncable="YES"/>
         <relationship name="scenarios" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Scenario" inverseName="game" inverseEntity="Scenario" syncable="YES"/>
@@ -46,12 +50,14 @@
     </entity>
     <entity name="Match" representedClassName="Match" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="roundsLeft" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <relationship name="additionalBool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AdditionalBool" inverseName="matches" inverseEntity="AdditionalBool" syncable="YES"/>
         <relationship name="difficulty" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Difficulty" inverseName="matches" inverseEntity="Difficulty" syncable="YES"/>
         <relationship name="expansions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expansion" inverseName="matches" inverseEntity="Expansion" syncable="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="matches" inverseEntity="Game" syncable="YES"/>
         <relationship name="players" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Player" inverseName="matches" inverseEntity="Player" syncable="YES"/>
-        <relationship name="result" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlayerResult" inverseName="match" inverseEntity="PlayerResult" syncable="YES"/>
+        <relationship name="results" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlayerResult" inverseName="match" inverseEntity="PlayerResult" syncable="YES"/>
         <relationship name="scenarios" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Scenario" inverseName="matches" inverseEntity="Scenario" syncable="YES"/>
     </entity>
     <entity name="Player" representedClassName="Player" syncable="YES">
@@ -63,10 +69,10 @@
     </entity>
     <entity name="PlayerResult" representedClassName="PlayerResult" syncable="YES">
         <attribute name="place" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="point" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="point" optional="YES" attributeType="Integer 32" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="extendedPoint" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExtendedPoint" inverseName="result" inverseEntity="ExtendedPoint" syncable="YES"/>
         <relationship name="gameClass" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="GameClass" inverseName="results" inverseEntity="GameClass" syncable="YES"/>
-        <relationship name="match" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match" inverseName="result" inverseEntity="Match" syncable="YES"/>
+        <relationship name="match" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match" inverseName="results" inverseEntity="Match" syncable="YES"/>
         <relationship name="player" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Player" inverseName="results" inverseEntity="Player" syncable="YES"/>
     </entity>
     <entity name="Scenario" representedClassName="Scenario" syncable="YES">
@@ -76,14 +82,15 @@
     </entity>
     <elements>
         <element name="Difficulty" positionX="88" positionY="-63" width="128" height="88"/>
-        <element name="Expansion" positionX="-144" positionY="45" width="128" height="88"/>
+        <element name="Scenario" positionX="-144" positionY="45" width="128" height="88"/>
         <element name="ExtendedPoint" positionX="-630" positionY="288" width="128" height="88"/>
-        <element name="Game" positionX="-398" positionY="-405" width="128" height="298"/>
+        <element name="ExtendedPointName" positionX="-47" positionY="-324" width="128" height="73"/>
+        <element name="Game" positionX="-398" positionY="-405" width="128" height="283"/>
         <element name="GameClass" positionX="-641" positionY="72" width="128" height="103"/>
-        <element name="Match" positionX="-164" positionY="227" width="128" height="163"/>
+        <element name="Match" positionX="-164" positionY="227" width="128" height="193"/>
         <element name="Player" positionX="-405" positionY="-13" width="128" height="118"/>
         <element name="PlayerResult" positionX="-425" positionY="287" width="128" height="133"/>
-        <element name="Scenario" positionX="16" positionY="-171" width="128" height="88"/>
-        <element name="ExtendedPointName" positionX="-47" positionY="-324" width="128" height="73"/>
+        <element name="Expansion" positionX="-0" positionY="-205" width="128" height="88"/>
+        <element name="AdditionalBool" positionX="160" positionY="-162" width="128" height="88"/>
     </elements>
 </model>

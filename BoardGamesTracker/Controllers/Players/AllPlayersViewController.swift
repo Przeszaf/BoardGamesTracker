@@ -15,6 +15,8 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     var addingPlayer = false
     var currentCell: Int?
     
+    var managedContext: NSManagedObjectContext!
+    
     var toolbar: UIToolbar!
     
     //MARK: - Overriding functions
@@ -24,9 +26,11 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<Player>(entityName: "Player")
-        
+        let sortByDate = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
+        let sortByName = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortByDate, sortByName]
         do {
             players = try managedContext.fetch(request)
             tableView.reloadData()
@@ -82,10 +86,10 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         
         //How many times played
         let timesPlayed = players[indexPath.row].matches?.count
-        if timesPlayed == 0 {
+        if timesPlayed == 0 || timesPlayed == nil {
             cell.playerTimesPlayed.text = "Never played yet"
         } else {
-            cell.playerTimesPlayed.text = "\(timesPlayed) times played"
+            cell.playerTimesPlayed.text = "\(timesPlayed!) times played"
         }
         cell.playerTimesPlayed.textColor = Constants.Global.detailTextColor
         //Make playerName textView editable if table is editing and vice versa
@@ -190,11 +194,17 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         if cell.playerName.text == "" {
             
         } else {
-            //FIXME ADDING
-//            let player = Player(name: cell.playerName.text!)
-//            players(player)
+            let newPlayer = Player(context: managedContext)
+            newPlayer.name = cell.playerName.text
+            players.append(newPlayer)
             addingPlayer = false
             cell.playerName.text = ""
+            
+            do {
+                try managedContext.save()
+            } catch {
+                print(error)
+            }
             tableView.reloadData()
 //            reloadHeaderView()
         }
@@ -243,7 +253,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
                 present(alert, animated: true, completion: nil)
                 return
             }
-            let title = "Are you sure you want to delete \(player.name)?"
+            let title = "Are you sure you want to delete \(player.name!)?"
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
