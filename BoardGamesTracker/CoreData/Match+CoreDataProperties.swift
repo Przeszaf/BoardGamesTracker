@@ -25,7 +25,7 @@ extension Match {
     @NSManaged public var expansions: NSSet?
     @NSManaged public var game: Game?
     @NSManaged public var players: NSSet?
-    @NSManaged public var results: PlayerResult?
+    @NSManaged public var results: NSSet?
     @NSManaged public var scenarios: NSSet?
 
 }
@@ -78,6 +78,23 @@ extension Match {
 
     @objc(removePlayers:)
     @NSManaged public func removeFromPlayers(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for results
+extension Match {
+
+    @objc(addResultsObject:)
+    @NSManaged public func addToResults(_ value: PlayerResult)
+
+    @objc(removeResultsObject:)
+    @NSManaged public func removeFromResults(_ value: PlayerResult)
+
+    @objc(addResults:)
+    @NSManaged public func addToResults(_ values: NSSet)
+
+    @objc(removeResults:)
+    @NSManaged public func removeFromResults(_ values: NSSet)
 
 }
 
