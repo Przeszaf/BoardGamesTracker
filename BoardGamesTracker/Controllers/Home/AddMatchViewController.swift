@@ -182,18 +182,19 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             myView.roundsLeftTextView.inputAccessoryView = pickerToolbar
         }
         
-        if selectedGame?.additionalBools?.allObjects.count == 1 {
-            let boolObj = selectedGame?.additionalBools?.allObjects[0] as! AdditionalBool
-            let switchName = boolObj.name!
-            myView.additionalSwitchStackView.isHidden = false
-            myView.additionalSwitchLabel.text = switchName + "?"
-        }
-        
-        if selectedGame?.additionalBools?.allObjects.count == 2 {
-            let boolObj = selectedGame?.additionalBools?.allObjects[1] as! AdditionalBool
-            let switchName = boolObj.name!
-            myView.additionalSecondSwitchStackView.isHidden = false
-            myView.additionalSecondSwitchLabel.text = switchName + "?"
+        if let boolArray = selectedGame?.additionalBools?.allObjects as? [AdditionalBool] {
+            if boolArray.count >= 1 {
+                let boolObj = selectedGame?.additionalBools?.allObjects[0] as! AdditionalBool
+                let switchName = boolObj.name!
+                myView.additionalSwitchStackView.isHidden = false
+                myView.additionalSwitchLabel.text = switchName + "?"
+            }
+            if boolArray.count >= 2 {
+                let boolObj = selectedGame?.additionalBools?.allObjects[1] as! AdditionalBool
+                let switchName = boolObj.name!
+                myView.additionalSecondSwitchStackView.isHidden = false
+                myView.additionalSecondSwitchLabel.text = switchName + "?"
+            }
         }
         
         //Set image to camera if there is nothing chosen yet.
@@ -612,14 +613,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         //Add info provided by additionalSwitches
         //FIXME:
-//        if selectedGame?.additionalBools?.allObjects.count == 1 {
-//            let additionalBool = selectedGame?.additionalBools?.allObjects
-//            dictionary[switchName] = myView.additionalSwitch.isOn
-//        }
-//
-//        if let secondSwitchName = game.additionalSecondSwitchName {
-//            dictionary[secondSwitchName] = myView.additionalSecondSwitch.isOn
-//        }
+        if let boolArray = selectedGame?.additionalBools?.allObjects as? [AdditionalBool] {
+            for (i, additionalBool) in boolArray.enumerated() {
+                if i == 0 && myView.additionalSwitch.isOn {
+                    dictionary["Bools"] = additionalBool
+                } else if i == 1 && myView.additionalSecondSwitch.isOn {
+                    dictionary["Bools"] = additionalBool
+                }
+            }
+        }
         
         //If image was changed from default, then add image
         //FIXME: IMAGES

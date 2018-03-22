@@ -2,7 +2,7 @@
 //  Game+CoreDataProperties.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 21/03/2018.
+//  Created by Przemyslaw Szafulski on 22/03/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 //
@@ -25,14 +25,31 @@ extension Game {
     @NSManaged public var scenariosAreMultiple: Bool
     @NSManaged public var type: String?
     @NSManaged public var winSwitch: Bool
+    @NSManaged public var additionalBools: NSSet?
     @NSManaged public var classes: NSSet?
     @NSManaged public var difficulties: NSSet?
+    @NSManaged public var expansions: NSSet?
     @NSManaged public var extendedPointNames: NSSet?
     @NSManaged public var matches: NSSet?
     @NSManaged public var players: NSSet?
     @NSManaged public var scenarios: NSSet?
-    @NSManaged public var expansions: NSSet?
-    @NSManaged public var additionalBools: NSSet?
+
+}
+
+// MARK: Generated accessors for additionalBools
+extension Game {
+
+    @objc(addAdditionalBoolsObject:)
+    @NSManaged public func addToAdditionalBools(_ value: AdditionalBool)
+
+    @objc(removeAdditionalBoolsObject:)
+    @NSManaged public func removeFromAdditionalBools(_ value: AdditionalBool)
+
+    @objc(addAdditionalBools:)
+    @NSManaged public func addToAdditionalBools(_ values: NSSet)
+
+    @objc(removeAdditionalBools:)
+    @NSManaged public func removeFromAdditionalBools(_ values: NSSet)
 
 }
 
@@ -67,6 +84,23 @@ extension Game {
 
     @objc(removeDifficulties:)
     @NSManaged public func removeFromDifficulties(_ values: NSSet)
+
+}
+
+// MARK: Generated accessors for expansions
+extension Game {
+
+    @objc(addExpansionsObject:)
+    @NSManaged public func addToExpansions(_ value: Expansion)
+
+    @objc(removeExpansionsObject:)
+    @NSManaged public func removeFromExpansions(_ value: Expansion)
+
+    @objc(addExpansions:)
+    @NSManaged public func addToExpansions(_ values: NSSet)
+
+    @objc(removeExpansions:)
+    @NSManaged public func removeFromExpansions(_ values: NSSet)
 
 }
 
@@ -135,39 +169,5 @@ extension Game {
 
     @objc(removeScenarios:)
     @NSManaged public func removeFromScenarios(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for expansions
-extension Game {
-
-    @objc(addExpansionsObject:)
-    @NSManaged public func addToExpansions(_ value: Expansion)
-
-    @objc(removeExpansionsObject:)
-    @NSManaged public func removeFromExpansions(_ value: Expansion)
-
-    @objc(addExpansions:)
-    @NSManaged public func addToExpansions(_ values: NSSet)
-
-    @objc(removeExpansions:)
-    @NSManaged public func removeFromExpansions(_ values: NSSet)
-
-}
-
-// MARK: Generated accessors for additionalBools
-extension Game {
-
-    @objc(addAdditionalBoolsObject:)
-    @NSManaged public func addToAdditionalBools(_ value: AdditionalBool)
-
-    @objc(removeAdditionalBoolsObject:)
-    @NSManaged public func removeFromAdditionalBools(_ value: AdditionalBool)
-
-    @objc(addAdditionalBools:)
-    @NSManaged public func addToAdditionalBools(_ values: NSSet)
-
-    @objc(removeAdditionalBools:)
-    @NSManaged public func removeFromAdditionalBools(_ values: NSSet)
 
 }

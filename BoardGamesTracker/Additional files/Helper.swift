@@ -125,7 +125,17 @@ class Helper {
             match.difficulty = difficulty
         }
         
+        if let booleans = dictionary["Booleans"] as? [AdditionalBool] {
+            for additionalBool in booleans {
+                additionalBool.addToMatches(match)
+            }
+        }
         
+        do {
+            try managedContext.save()
+        } catch {
+            print("Cannot save match! \(error)")
+        }
         
         
     }

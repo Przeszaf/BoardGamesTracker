@@ -3,7 +3,7 @@
     <entity name="AdditionalBool" representedClassName="AdditionalBool" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="additionalBools" inverseEntity="Game" syncable="YES"/>
-        <relationship name="matches" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Match" inverseName="additionalBool" inverseEntity="Match" syncable="YES"/>
+        <relationship name="matches" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Match" inverseName="additionalBools" inverseEntity="Match" syncable="YES"/>
     </entity>
     <entity name="Difficulty" representedClassName="Difficulty" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -52,7 +52,7 @@
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="roundsLeft" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="time" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="additionalBool" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AdditionalBool" inverseName="matches" inverseEntity="AdditionalBool" syncable="YES"/>
+        <relationship name="additionalBools" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AdditionalBool" inverseName="matches" inverseEntity="AdditionalBool" syncable="YES"/>
         <relationship name="difficulty" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Difficulty" inverseName="matches" inverseEntity="Difficulty" syncable="YES"/>
         <relationship name="expansions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Expansion" inverseName="matches" inverseEntity="Expansion" syncable="YES"/>
         <relationship name="game" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Game" inverseName="matches" inverseEntity="Game" syncable="YES"/>
@@ -81,8 +81,9 @@
         <relationship name="matches" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Match" inverseName="scenarios" inverseEntity="Match" syncable="YES"/>
     </entity>
     <elements>
+        <element name="AdditionalBool" positionX="160" positionY="-162" width="128" height="88"/>
         <element name="Difficulty" positionX="88" positionY="-63" width="128" height="88"/>
-        <element name="Scenario" positionX="-144" positionY="45" width="128" height="88"/>
+        <element name="Expansion" positionX="-0" positionY="-205" width="128" height="88"/>
         <element name="ExtendedPoint" positionX="-630" positionY="288" width="128" height="88"/>
         <element name="ExtendedPointName" positionX="-47" positionY="-324" width="128" height="73"/>
         <element name="Game" positionX="-398" positionY="-405" width="128" height="283"/>
@@ -90,7 +91,6 @@
         <element name="Match" positionX="-164" positionY="227" width="128" height="193"/>
         <element name="Player" positionX="-405" positionY="-13" width="128" height="118"/>
         <element name="PlayerResult" positionX="-425" positionY="287" width="128" height="133"/>
-        <element name="Expansion" positionX="-0" positionY="-205" width="128" height="88"/>
-        <element name="AdditionalBool" positionX="160" positionY="-162" width="128" height="88"/>
+        <element name="Scenario" positionX="-144" positionY="45" width="128" height="88"/>
     </elements>
 </model>
