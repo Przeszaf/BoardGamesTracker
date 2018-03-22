@@ -1,240 +1,300 @@
-////
-////  AllMatchesViewController.swift
-////  BoardGamesTracker
-////
-////  Created by Przemyslaw Szafulski on 22/01/2018.
-////  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
-////
 //
-//import UIKit
+//  AllMatchesViewController.swift
+//  BoardGamesTracker
 //
-//class GameDetailsViewController: UITableViewController {
+//  Created by Przemyslaw Szafulski on 22/01/2018.
+//  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
-//    var game: Game!
-//    var gameStore: GameStore!
-//    var tableHeaderView: GameDetailsHeaderView!
-//
-//
-//    //MARK: - Overriding functions
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        reloadHeaderView()
-//
-//        tableView.backgroundColor = Constants.Global.backgroundColor
-//        tableView.reloadData()
-//    }
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        //Register cell and create button item
-//        tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
-//    }
-//
-//
-//    //MARK: - UITableView
-//
-//    //Conforming to UITableViewDataSource protocol
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
-//
-//        cell.dateLabel.text = game.matches[indexPath.row].date.toStringWithHour()
-//
-//        let match = game.matches[indexPath.row]
-//        let players = match.players
-//        cell.playersLabel.text = playersToString(game: game, match: match, players: players)
-//
-//        cell.backgroundColor = UIColor.clear
-//        if isEditing {
-//            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//        } else {
-//            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//        }
-//
-//        cell.selectionStyle = .none
-//        return cell
-//    }
-//
-//    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return game.matches.count
-//    }
-//
-//
-//    //Setting correct height of row
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let match = game.matches[indexPath.row]
-//        let players = match.players
-//        let string = playersToString(game: game, match: match, players: players)
-//        let height = string.height(withConstrainedWidth: view.frame.width - 25, font: UIFont.systemFont(ofSize: 17)) + 28
-//        if height > 44 {
-//            return height
-//        }
-//        return 44
-//    }
-//
-//    //Assigns backgroundView, because cell height might be different than when initialising cell.
-//    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//    }
-//
-//
-//    //Deletions
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        if editingStyle == .delete {
-//            let match = game.matches[indexPath.row]
-//            let title = "Are you sure you want to delete 1 match of \(match.game!.name)?"
-//            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
-//            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-//            alert.addAction(cancelAction)
-//            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-//                if let index = self.gameStore.allGames.index(of: match.game!) {
-//                    self.gameStore.allGames[index].removeMatch(match: match)
-//                }
-//                tableView.deleteRows(at: [indexPath], with: .automatic)
-//            })
-//            alert.addAction(deleteAction)
-//            present(alert, animated: true, completion: nil)
-//        }
-//    }
-//
-//
-//    //Sets correct background views for cell
-//    override func tableView(_ tableView: UITableView,
-//                            didSelectRowAt indexPath: IndexPath) {
-//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-//        cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//    }
-//
-//    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-//        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//    }
-//
-//    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-//        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//    }
-//
-//    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-//        guard let cell = tableView.cellForRow(at: indexPath) else { return }
-//        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
-//    }
-//
-//    //MARK: - Buttons
-//
-//    //Button set to toggle editing mode
-//    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
-//        if isEditing {
-//            setEditing(false, animated: true)
-//            sender.title = "Edit"
-//            tableView.reloadData()
-//        } else {
-//            setEditing(true, animated: true)
-//            sender.title = "Done"
-//            tableView.reloadData()
-//        }
-//    }
-//
-//
-//    //MARK: - Other
-//
-//    //Getting string to put into playersField. Depends on game type.
-//    func playersToString(game: Game, match: Match, players: [Player]) -> String {
-//        var stringArray = [String]()
-//        for (i, player) in players.enumerated() {
-//            if game.type == .SoloWithPoints {
-//                stringArray.append("\(player.name): \(match.playersPoints![i])")
-//            } else if game.type == .SoloWithPlaces {
-//                stringArray.append("\(match.playersPlaces![i]). \(player.name)")
-//            } else if game.type == .TeamWithPlaces {
-//                if i > 0 {
-//                    //Detects when players change from winning to losing
-//                    if match.playersPlaces![i-1] == 1 && match.playersPlaces![i] == 2 {
-//                        stringArray.append("\nLosers: \(player.name)")
-//                    } else {
-//                        stringArray.append("\(player.name)")
-//                    }
-//                } else {
-//                    stringArray.append("Winners: \(player)")
-//                }
-//            } else if game.type == .Cooperation {
-//                stringArray.append("\(player.name)")
-//            }
-//        }
-//        var string = stringArray.joined(separator: ", ")
-//
-//        //Delete coma after all winners
-//        string = string.replacingOccurrences(of: ", \n", with: "\n")
-//        return string
-//    }
-//
-//    func reloadHeaderView() {
-//
-//        if game.matches.isEmpty {
-//            return
-//        }
-//
-//        var headerViews = [UIView]()
-//
-//        //Creating game statistics view
-//        var height: CGFloat = 90
-//        if game.type == .SoloWithPoints {
-//            height = 100
-//        } else {
-//            height = 65
-//        }
-//        let gameStatisticsView = GameDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
-//
-//
-//        //Add info about total matches
-//        gameStatisticsView.totalMatchesLabel.text = "Total matches: \(game.matches.count)"
-//
-//        //Calculate amount of unique players that played this game
-//        var players = [Player]()
-//        for match in game.matches {
-//            for player in match.players {
-//                players.append(player)
-//            }
-//        }
-//        players = Array(Set(players))
-//        gameStatisticsView.totalPlayersLabel.text = "Total players: \(players.count)"
-//
-//        //Get total and average time of match
-//        gameStatisticsView.totalTimePlayedLabel.text = "Total time played: \(game.totalTime.toString())"
-//        gameStatisticsView.averageTimePlayedLabel.text = "Average time of match: \(game.averageTime.toString())"
-//
-//        //For SoloWithPoints game display more information
-//        if game.type == .SoloWithPoints && game.pointsArray.count != 0 {
-//            gameStatisticsView.maxPointsLabel.isHidden = false
-//            gameStatisticsView.minPointsLabel.isHidden = false
-//            gameStatisticsView.averageWinningPointsLabel.isHidden = false
-//            gameStatisticsView.averagePointsLabel.isHidden = false
-//
-//            gameStatisticsView.maxPointsLabel.text = "Max points: \(game.pointsArray.last!)"
-//            gameStatisticsView.minPointsLabel.text = "Min points: \(game.pointsArray.first!)"
-//
-//            let averageWinningPoints = { () -> Float in
-//                var points = 0
-//                var count = 0
-//                for match in self.game.matches {
-//                    guard let winningPoint = match.playersPoints?.first else { return 0 }
-//                    points += winningPoint
-//                    count += 1
-//                }
-//                return Float(points) / Float(count)
-//            }()
-//
-//            //Change string format to have 2 decimal places only.
-//            let averageWinningPointsString = String.init(format: "%.2f%", averageWinningPoints)
-//            let averagePointsString = String.init(format: "%.2f", game.averagePoints)
-//            gameStatisticsView.averagePointsLabel.text = "Average points: \(averagePointsString)"
-//            gameStatisticsView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
-//        }
-//        headerViews.append(gameStatisticsView)
-//
-//
+
+import UIKit
+import CoreData
+
+class GameDetailsViewController: UITableViewController {
+
+    var game: Game!
+    var matches: [Match]!
+    var managedContext: NSManagedObjectContext!
+    var tableHeaderView: GameDetailsHeaderView!
+
+
+    //MARK: - Overriding functions
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        reloadHeaderView()
+
+        tableView.backgroundColor = Constants.Global.backgroundColor
+        tableView.reloadData()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        managedContext = appDelegate.persistentContainer.viewContext
+
+        let dateSortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        
+        matches = game.matches?.sortedArray(using: [dateSortDescriptor]) as! [Match]
+        //Register cell and create button item
+        tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
+    }
+
+
+    //MARK: - UITableView
+
+    //Conforming to UITableViewDataSource protocol
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedGameMatchesCell") as! SelectedGameMatchesCell
+
+        cell.dateLabel.text = matches[indexPath.row].date?.toStringWithHour()
+
+        let match = matches[indexPath.row]
+        
+        let players = match.players?.allObjects as! [Player]
+        
+        cell.playersLabel.text = playersToString(game: game, match: match, players: players)
+
+        cell.backgroundColor = UIColor.clear
+        if isEditing {
+            cell.backgroundView = CellBackgroundEditingView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        } else {
+            cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+        }
+
+        cell.selectionStyle = .none
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return matches.count
+    }
+
+
+    //Setting correct height of row
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let match = matches[indexPath.row]
+        let players = match.players?.allObjects as! [Player]
+        let string = playersToString(game: game, match: match, players: players)
+        let height = string.height(withConstrainedWidth: view.frame.width - 25, font: UIFont.systemFont(ofSize: 17)) + 28
+        if height > 44 {
+            return height
+        }
+        return 44
+    }
+
+    //Assigns backgroundView, because cell height might be different than when initialising cell.
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
+
+    //Deletions
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let match = matches[indexPath.row]
+            let title = "Are you sure you want to delete 1 match of \(match.game!.name!)?"
+            let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(cancelAction)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                //FIXME: Deletions
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            })
+            alert.addAction(deleteAction)
+            present(alert, animated: true, completion: nil)
+        }
+    }
+
+
+    //Sets correct background views for cell
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundSelectView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
+    override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
+    override func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else { return }
+        cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
+    }
+
+    //MARK: - Buttons
+
+    //Button set to toggle editing mode
+    @IBAction func toggleEditingMode(_ sender: UIBarButtonItem) {
+        if isEditing {
+            setEditing(false, animated: true)
+            sender.title = "Edit"
+            tableView.reloadData()
+        } else {
+            setEditing(true, animated: true)
+            sender.title = "Done"
+            tableView.reloadData()
+        }
+    }
+
+
+    //MARK: - Other
+
+    //Getting string to put into playersField. Depends on game type.
+    func playersToString(game: Game, match: Match, players: [Player]) -> String {
+        var pointsDict = [Player: Int]()
+        var placesDict = [Player: Int]()
+        for playerResult in match.results?.allObjects as! [PlayerResult] {
+            pointsDict[playerResult.player!] = Int(playerResult.point)
+            placesDict[playerResult.player!] = Int(playerResult.place)
+        }
+        let sortedPlayers = players.sorted(by: {placesDict[$0]! > placesDict[$1]!})
+        
+        var stringArray = [String]()
+        for (i, player) in sortedPlayers.enumerated() {
+            if game.type == GameType.SoloWithPoints {
+                stringArray.append("\(player.name!): \(pointsDict[player]!)")
+            } else if game.type == GameType.SoloWithPlaces {
+                stringArray.append("\(placesDict[player]!). \(player.name!)")
+            } else if game.type == GameType.TeamWithPlaces {
+                if i > 0 {
+                    //Detects when players change from winning to losing
+                    if placesDict[sortedPlayers[i-1]]! == 1 && placesDict[player]! == 2 {
+                        stringArray.append("\nLosers: \(player.name!)")
+                    } else {
+                        stringArray.append("\(player.name!)")
+                    }
+                } else {
+                    stringArray.append("Winners: \(player.name!)")
+                }
+            } else if game.type == GameType.Cooperation {
+                stringArray.append("\(player.name!)")
+            }
+        }
+        var string = stringArray.joined(separator: ", ")
+
+        //Delete coma after all winners
+        string = string.replacingOccurrences(of: ", \n", with: "\n")
+        return string
+    }
+
+    func reloadHeaderView() {
+
+        if matches.isEmpty {
+            return
+        }
+
+        var headerViews = [UIView]()
+
+        //Creating game statistics view
+        var height: CGFloat = 90
+        if game.type == GameType.SoloWithPoints {
+            height = 100
+        } else {
+            height = 65
+        }
+        let gameStatisticsView = GameDetailsHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+
+
+        //Add info about total matches
+        gameStatisticsView.totalMatchesLabel.text = "Total matches: \(matches.count)"
+
+        gameStatisticsView.totalPlayersLabel.text = "Total players: \(game.players?.count ?? 0)"
+
+        //Get total and average time of match
+        let (totalTime, averageTime) = { () -> (TimeInterval, Double) in
+            var time: TimeInterval = 0
+            var count: Double = 0
+            for match in matches {
+                time += match.time
+                if match.time != 0 {
+                    count += 1
+                }
+            }
+            if count == 0 {
+                return (0, 0)
+            }
+            return (time, time/count)
+        }()
+        
+        gameStatisticsView.totalTimePlayedLabel.text = "Total time played: \(totalTime.toString())"
+        gameStatisticsView.averageTimePlayedLabel.text = "Average time of match: \(averageTime.toString())"
+
+        //For SoloWithPoints game display more information
+        if game.type == GameType.SoloWithPoints && game.matches?.anyObject() != nil {
+            gameStatisticsView.maxPointsLabel.isHidden = false
+            gameStatisticsView.minPointsLabel.isHidden = false
+            gameStatisticsView.averageWinningPointsLabel.isHidden = false
+            gameStatisticsView.averagePointsLabel.isHidden = false
+            
+            
+            
+            //Using fetching to get min, max, average and averageWinning points
+            
+            let keypathExpression = NSExpression(forKeyPath: "point")
+            let maxExpression = NSExpression(forFunction: "max:", arguments: [keypathExpression])
+            let minExpression = NSExpression(forFunction: "min:", arguments: [keypathExpression])
+            let averageExpression = NSExpression(forFunction: "average:", arguments: [keypathExpression])
+            
+            let maxExpressionDescription = NSExpressionDescription()
+            maxExpressionDescription.expression = maxExpression
+            maxExpressionDescription.name = "maxPoint"
+            maxExpressionDescription.expressionResultType = .integer32AttributeType
+            
+            let minExpressionDescription = NSExpressionDescription()
+            minExpressionDescription.expression = minExpression
+            minExpressionDescription.name = "minPoint"
+            minExpressionDescription.expressionResultType = .doubleAttributeType
+            
+            let averageExpressionDescription = NSExpressionDescription()
+            averageExpressionDescription.expression = averageExpression
+            averageExpressionDescription.name = "averagePoint"
+            averageExpressionDescription.expressionResultType = .doubleAttributeType
+            
+            let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
+            request.entity = NSEntityDescription.entity(forEntityName: "PlayerResult", in: managedContext)
+            request.resultType = NSFetchRequestResultType.dictionaryResultType
+            request.predicate = NSPredicate(format: "%K == %@", #keyPath(PlayerResult.match.game.name), game.name!)
+            request.propertiesToFetch = [maxExpressionDescription, minExpressionDescription, averageExpressionDescription]
+            
+            let requestAverageWinning: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
+            requestAverageWinning.entity = NSEntityDescription.entity(forEntityName: "PlayerResult", in: managedContext)
+            requestAverageWinning.predicate = NSPredicate(format: "%K == %ld AND %K == %@", #keyPath(PlayerResult.place), 1, #keyPath(PlayerResult.match.game.name), game.name!)
+            requestAverageWinning.propertiesToFetch = [averageExpressionDescription]
+            requestAverageWinning.resultType = .dictionaryResultType
+            
+            
+            do {
+                let result = try managedContext.fetch(request) as? [[String: Double]]
+                let resultWinning = try managedContext.fetch(requestAverageWinning) as? [[String: Double]]
+                if let dict = result?.first {
+                    let maxPoints = Int(dict["maxPoint"] ?? 0)
+                    let minPoints = Int(dict["minPoint"] ?? 0)
+                    gameStatisticsView.maxPointsLabel.text = "Max points: \(maxPoints)"
+                    gameStatisticsView.minPointsLabel.text = "Min points: \(minPoints)"
+                    let averagePointsString = String.init(format: "%.2f", dict["averagePoint"] ?? 0)
+                    gameStatisticsView.averagePointsLabel.text = "Average points: \(averagePointsString)"
+                }
+                if let dict = resultWinning?.first {
+                    let averageWinningPointsString = String.init(format: "%.2f", dict["averagePoint"] ?? 0)
+                    gameStatisticsView.averageWinningPointsLabel.text = "Average winning points: \(averageWinningPointsString)"
+                }
+            } catch {
+                print("Error fetching result")
+            }
+        }
+        headerViews.append(gameStatisticsView)
+
+
 //        if !players.isEmpty {
 //            let playersSortedByActivity = players.sorted(by: { $0.matchesPlayed[game]!.count < $1.matchesPlayed[game]!.count })
 //            var playersCountMapped = [Int](repeating: 0, count: players.count)
@@ -391,19 +451,19 @@
 //        }
 //
 //
-//        let tableHeaderHeight: CGFloat = headerViews.last!.frame.maxY + 5
+        let tableHeaderHeight: CGFloat = headerViews.last!.frame.maxY + 5
 //
-//        let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableHeaderHeight))
-//
-//        for headerView in headerViews {
-//            tableHeaderView.addSubview(headerView)
-//        }
-//
-//        tableView.tableHeaderView = tableHeaderView
-//
-//
-//
-//
-//    }
-//}
+        let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableHeaderHeight))
+
+        for headerView in headerViews {
+            tableHeaderView.addSubview(headerView)
+        }
+
+        tableView.tableHeaderView = tableHeaderView
+
+
+
+
+    }
+}
 

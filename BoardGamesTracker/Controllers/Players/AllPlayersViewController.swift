@@ -259,7 +259,12 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
                 //FIXME: Deletions
-//                self.playerStore.removePlayer(player)
+                do {
+                    self.managedContext.delete(player)
+                    try self.managedContext.save()
+                } catch {
+                    print("Error deleting player. \(error)")
+                }
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)

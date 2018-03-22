@@ -86,12 +86,26 @@ class Helper {
         print(game)
     }
     
-    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any]) {
+    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
         let match = Match(context: managedContext)
         match.game = game
+        match.date = date as NSDate
+        if let time = time {
+            match.time = time
+        }
+        
+        if let gameDate = game.lastTimePlayed as? Date {
+            if gameDate.compare(date).rawValue < 0 {
+                game.lastTimePlayed = date as NSDate
+            }
+        } else {
+            game.lastTimePlayed = date as NSDate
+        }
+        
+        game.addToPlayers(NSSet(array: players))
         
         let playersClasses = dictionary["Classes"] as? [Player: GameClass]
         for (i, player) in players.enumerated() {

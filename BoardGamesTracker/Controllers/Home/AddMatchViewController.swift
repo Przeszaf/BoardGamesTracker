@@ -612,7 +612,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         
         //Add info provided by additionalSwitches
-        //FIXME:
         if let boolArray = selectedGame?.additionalBools?.allObjects as? [AdditionalBool] {
             for (i, additionalBool) in boolArray.enumerated() {
                 if i == 0 && myView.additionalSwitch.isOn {
@@ -629,7 +628,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
 //            imageStore.setImage(image: imageView.image!, forKey: match.imageKey)
 //        }
         createSuccessAlert(with: "Created \(game.name!)")
-        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary)
+        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time)
         //sort player and gameStore by date
         return
     }

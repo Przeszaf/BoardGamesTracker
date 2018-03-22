@@ -63,9 +63,9 @@
     <entity name="Player" representedClassName="Player" syncable="YES">
         <attribute name="lastTimePlayed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
-        <relationship name="games" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Game" inverseName="players" inverseEntity="Game" syncable="YES"/>
-        <relationship name="matches" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Match" inverseName="players" inverseEntity="Match" syncable="YES"/>
-        <relationship name="results" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="PlayerResult" inverseName="player" inverseEntity="PlayerResult" syncable="YES"/>
+        <relationship name="games" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Game" inverseName="players" inverseEntity="Game" syncable="YES"/>
+        <relationship name="matches" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Match" inverseName="players" inverseEntity="Match" syncable="YES"/>
+        <relationship name="results" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="PlayerResult" inverseName="player" inverseEntity="PlayerResult" syncable="YES"/>
     </entity>
     <entity name="PlayerResult" representedClassName="PlayerResult" syncable="YES">
         <attribute name="place" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>

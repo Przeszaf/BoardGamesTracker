@@ -13,6 +13,7 @@ import CoreData
 class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     var games = [Game]()
+    var managedContext: NSManagedObjectContext!
     
     var currentCell: Int?
     
@@ -22,12 +23,15 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
-        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext = appDelegate.persistentContainer.viewContext
+        
         let request = NSFetchRequest<Game>(entityName: "Game")
+        let dateSortDescriptor = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
+        let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [dateSortDescriptor, nameSortDescriptor]
         
         do {
             games = try managedContext.fetch(request)
-            print(games)
             tableView.reloadData()
         } catch let error as NSError {
             print("Could not fetch: \(error)")
@@ -105,7 +109,13 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                //FIXME: Deletions!
+                do {
+                    self.managedContext.delete(game)
+                    try self.managedContext.save()
+                } catch {
+                    print("Cannot delete game! \(error)")
+                }
+                self.games.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)
@@ -180,11 +190,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             //FIXME
 //        case "addPremadeGame"?:
 //            let controller = segue.destination as! AddPremadeGameViewController
-//        case "showGameDetails"?:
-//            //sender is indexPath.row, so now we can pass correct game to view controller
-//            let index = sender as! Int
-//            let controller = segue.destination as! GameDetailsViewController
-//            controller.game = games[index]
+        case "showGameDetails"?:
+            //sender is indexPath.row, so now we can pass correct game to view controller
+            let index = sender as! Int
+            let controller = segue.destination as! GameDetailsViewController
+            controller.game = games[index]
         default:
             preconditionFailure("Wrong segue identifier")
         }

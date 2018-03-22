@@ -72,6 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error)
         }
         
+        Helper.addGame(name: "Simple points", type: GameType.SoloWithPoints, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: ["Some additional bool"])
+        
         return true
     }
 
