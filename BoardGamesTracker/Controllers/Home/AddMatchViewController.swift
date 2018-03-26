@@ -423,7 +423,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                     dictionary["Points"] = playersDict
                 }
                 controller.dictionary = dictionary["Points"] as? [Player: Any]
-                print(controller.dictionary)
             default:
                 preconditionFailure("Wronge addNumsSegueKey")
             }

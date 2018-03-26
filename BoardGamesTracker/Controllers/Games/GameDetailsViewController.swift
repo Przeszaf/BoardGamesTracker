@@ -100,7 +100,8 @@ class GameDetailsViewController: UITableViewController {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                //FIXME: Deletions
+                Helper.removeMatch(match: match)
+                self.matches.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)
@@ -157,7 +158,8 @@ class GameDetailsViewController: UITableViewController {
             pointsDict[playerResult.player!] = Int(playerResult.point)
             placesDict[playerResult.player!] = Int(playerResult.place)
         }
-        let sortedPlayers = players.sorted(by: {placesDict[$0]! > placesDict[$1]!})
+        let sortedPlayers = players.sorted(by: {placesDict[$0]! < placesDict[$1]!})
+        
         
         var stringArray = [String]()
         for (i, player) in sortedPlayers.enumerated() {
@@ -294,163 +296,214 @@ class GameDetailsViewController: UITableViewController {
         }
         headerViews.append(gameStatisticsView)
 
+        let players = game.players?.allObjects as! [Player]
+        var playersMatchesCountDict = [Player: Int].init()
+        for player in players {
+            playersMatchesCountDict[player] = 0
+        }
+        
+        for match in matches {
+            for player in match.players?.allObjects as! [Player] {
+                playersMatchesCountDict[player]! += 1
+            }
+        }
+        
+        let playersSortedByActivity = players.sorted(by: {playersMatchesCountDict[$0]! > playersMatchesCountDict[$1]!})
+        print(playersSortedByActivity.map({$0.name}))
+        var playersCountMapped = [Int].init(repeating: 0, count: playersSortedByActivity.count)
+        for (i, player) in playersSortedByActivity.enumerated() {
+            playersCountMapped[i] = playersMatchesCountDict[player]!
+        }
+        let playersNames = playersSortedByActivity.map({$0.name!})
+        
+        let playersPlayingBarChart = BarChartView(dataSet: nil, dataSetMapped: playersCountMapped, newDataSet: nil, xAxisLabels: playersNames, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: nil, title: "Most active players", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5, height: 150))
+        headerViews.append(playersPlayingBarChart)
 
-//        if !players.isEmpty {
-//            let playersSortedByActivity = players.sorted(by: { $0.matchesPlayed[game]!.count < $1.matchesPlayed[game]!.count })
-//            var playersCountMapped = [Int](repeating: 0, count: players.count)
-//            var playersNames = [String]()
-//            for (i, player) in playersSortedByActivity.enumerated() {
-//                let matchesCount = player.matchesPlayed[game]!.count
-//                playersCountMapped[i] = matchesCount
-//                playersNames.append(player.name)
-//            }
-//            let playersPlayingBarChart = BarChartView(dataSet: nil, dataSetMapped: playersCountMapped, newDataSet: nil, xAxisLabels: playersNames, barGapWidth: 4, reverse: false, labelsRotated: true, truncating: nil, title: "Most active players", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5, height: 150))
-//            headerViews.append(playersPlayingBarChart)
-//        }
-//
-//
-//        if !game.pointsArray.isEmpty {
-//            let pointsArray = game.pointsArray
-//            let pointsBarChartView = BarChartView(dataSet: pointsArray, dataSetMapped: nil, newDataSet: nil, xAxisLabels: nil, barGapWidth: 4, reverse: false, labelsRotated: false, truncating: nil, title: "Points distribution", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 15, height: 150))
-//            headerViews.append(pointsBarChartView)
-//        }
-//
-//
-//        if let expansionsArray = game.expansionsArray {
-//            var expansionsCount = [Int](repeating: 0, count: expansionsArray.count + 1)
-//            for match in game.matches {
-//                let expansionsUsedArray = match.dictionary["Expansions"]! as! [String]
-//                if expansionsUsedArray.isEmpty {
-//                    expansionsCount[expansionsArray.count] += 1
-//                }
-//                for expansionUsed in expansionsUsedArray {
-//                    let indexOfExpansion = expansionsArray.index(of: expansionUsed)!
-//                    expansionsCount[indexOfExpansion] += 1
-//                }
-//            }
-//            var expansionsNames = [String]()
-//            for expansion in expansionsArray {
-//                expansionsNames.append(expansion)
-//            }
-//            expansionsNames.append("None")
-//            print(headerViews)
-//            let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: nil, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
-//            headerViews.append(expansionsPieChartView)
-//        }
-//
-//        if let scenariosArray = game.scenariosArray {
-//            var scenariosCount = [Int](repeating: 0, count: scenariosArray.count + 1)
-//            for match in game.matches {
-//                let scenariosUsedArray = match.dictionary["Scenarios"]! as! [String]
-//                if scenariosUsedArray.isEmpty {
-//                    scenariosCount[scenariosArray.count] += 1
-//                }
-//                for scenarioUsed in scenariosUsedArray {
-//                    let indexOfScenario = scenariosArray.index(of: scenarioUsed)!
-//                    scenariosCount[indexOfScenario] += 1
-//                }
-//            }
-//            var scenariosNames = [String]()
-//            for scenario in scenariosArray {
-//                scenariosNames.append(scenario)
-//            }
-//            scenariosNames.append("None")
-//            let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: nil, colorsArray: nil, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
-//            headerViews.append(scenariosPieChartView)
-//        }
-//
-//        if let classesArray = game.classesArray, game.evilClassesArray == nil {
-//            var classesCount = [Int](repeating: 0, count: classesArray.count)
-//            var winningClassesCount = [Int](repeating: 0, count: classesArray.count)
-//            for match in game.matches {
-//                var classesInMatchCount = [Int](repeating: 0, count: classesArray.count)
-//                let classesUsedDict = match.dictionary["Classes"]! as! [String: String]
-//                for (_, classUsed) in classesUsedDict {
-//                    let indexOfClass = classesArray.index(of: classUsed)!
-//                    classesInMatchCount[indexOfClass] = 1
-//                }
-//                //If there are 2 same classes in match, classesCount only increments its value by 1
-//                for i in 0..<classesInMatchCount.count {
-//                    classesCount[i] += classesInMatchCount[i]
-//                }
-//                if let playersPlaces = match.playersPlaces {
-//                    for (i, playerPlace) in playersPlaces.enumerated() {
-//                        if playerPlace == 1 {
-//                            let winningPlayer = match.players[i]
-//                            let winningPlayerClass = classesUsedDict[winningPlayer.playerID]!
-//                            let indexOfWinningClass = classesArray.index(of: winningPlayerClass)!
-//                            winningClassesCount[indexOfWinningClass] += 1
-//                        }
-//                    }
-//                }
-//            }
-//
-//            var classesNames = [String]()
-//            for className in classesArray {
-//                classesNames.append(className)
-//            }
-//
-//            var dataLabels = [String]()
-//            for classCount in classesCount {
-//                let winPercent = Float(classCount) / Float(game.matches.count) * 100
-//                let winPercentShort = String.init(format: "%.1f%", winPercent)
-//                dataLabels.append("\(classCount)(\(winPercentShort)%)")
-//            }
-//
-//            let classesPieChartView = PieChartView(dataSet: classesCount, dataName: classesNames, dataLabels: dataLabels, colorsArray: nil, title: "Most used classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
-//            headerViews.append(classesPieChartView)
-//
-//            if !winningClassesCount.isEmpty {
-//                if game.type == .Cooperation {
-//                    var dataLabels = [String]()
-//                    for classCount in winningClassesCount {
-//                        let winPercent = Float(classCount) / Float(game.matches.count) * 100
-//                        let winPercentShort = String.init(format: "%.1f%", winPercent)
-//                        dataLabels.append("\(classCount)(\(winPercentShort)%)")
-//                    }
-//                    let winningClassesPieChartView = PieChartView(dataSet: winningClassesCount, dataName: classesNames, dataLabels: dataLabels, colorsArray: nil, title: "Classes that win most time", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
-//                    headerViews.append(winningClassesPieChartView)
-//                } else {
-//                    let winningClassesPieChartView = PieChartView(dataSet: winningClassesCount, dataName: classesNames, dataLabels: nil, colorsArray: nil, title: "Classes that win most time", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
-//                    headerViews.append(winningClassesPieChartView)
-//                }
-//            }
-//        }
-//
-//        if let evilClassesArray = game.evilClassesArray, let goodClassesArray = game.goodClassesArray {
-//            var evilWinCount = 0
-//            var goodWinCount = 0
-//
-//            var avalonKilledByAssassin = 0
-//
-//            for match in game.matches {
-//                let winningPlayer = match.players.first!
-//                let classesDict = match.dictionary["Classes"] as! [String: String]
-//                let winningClass = classesDict[winningPlayer.playerID]!
-//
-//                if evilClassesArray.contains(winningClass) {
-//                    evilWinCount += 1
-//                    if game.name == "Avalon" {
-//                        let wonByKillingMerlin = match.dictionary["Merlin killed"] as! Bool
-//                        if wonByKillingMerlin {
-//                            avalonKilledByAssassin += 1
-//                        }
-//                    }
-//                } else if goodClassesArray.contains(winningClass) {
-//                    goodWinCount += 1
-//                }
-//            }
-//
-//            if game.name == "Avalon" {
-//                let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount - avalonKilledByAssassin, avalonKilledByAssassin], dataName: ["Good", "Evil", "Killed Merlin"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red, UIColor.orange], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
-//                headerViews.append(teamPieChartView)
-//            } else {
-//                let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount], dataName: ["Good", "Evil"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
-//                headerViews.append(teamPieChartView)
-//            }
-//        }
-//
-//
+        
+        if !matches.isEmpty && game.type == GameType.SoloWithPoints {
+            do {
+                let request = NSFetchRequest<PlayerResult>(entityName: "PlayerResult")
+                request.predicate = NSPredicate(format: "%K = %@", #keyPath(PlayerResult.match.game), game)
+                let gamePoints: [PlayerResult] = try managedContext.fetch(request)
+                let pointsArray = gamePoints.map({Int($0.point)}).sorted(by: {$0 < $1})
+                print(pointsArray)
+                let pointsBarChartView = BarChartView(dataSet: pointsArray, dataSetMapped: nil, newDataSet: nil, xAxisLabels: nil, barGapWidth: 4, reverse: false, labelsRotated: false, truncating: nil, title: "Points distribution", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 15, height: 150))
+                headerViews.append(pointsBarChartView)
+            } catch {
+                print("Error \(error)")
+            }
+        }
+        
+        
+        if game.expansions?.anyObject() != nil {
+            let gameExpansions = game.expansions?.allObjects as! [Expansion]
+            var expansionsCount = [Int].init(repeating: 0, count: gameExpansions.count + 1)
+            for match in matches {
+                if let expansions = match.expansions?.allObjects as? [Expansion], !expansions.isEmpty {
+                    for expansion in expansions {
+                        let index = gameExpansions.index(of: expansion)!
+                        expansionsCount[index] += 1
+                    }
+                } else {
+                    expansionsCount[gameExpansions.count] += 1
+                }
+            }
+            var expansionsNames = gameExpansions.map({$0.name!})
+            if expansionsCount[gameExpansions.count + 1] == 0 {
+                expansionsCount.removeLast()
+            } else {
+                expansionsNames.append("None")
+            }
+            
+            if !matches.isEmpty {
+                if game.expansionsAreMultiple {
+                    var dataLabels = [String]()
+                    for expansionCount in expansionsCount {
+                        let winPercent = Float(expansionCount) / Float(matches.count) * 100
+                        let winPercentShort = String.init(format: "%.1f%", winPercent)
+                        dataLabels.append("\(expansionCount)(\(winPercentShort)%)")
+                    }
+                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: dataLabels, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(expansionsPieChartView)
+                } else {
+                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: nil, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(expansionsPieChartView)
+                }
+            }
+        }
+        
+        if game.scenarios?.anyObject() != nil {
+            let gameScenarios = game.scenarios?.allObjects as! [Scenario]
+            var scenariosCount = [Int].init(repeating: 0, count: gameScenarios.count + 1)
+            for match in matches {
+                if let scenarios = match.scenarios?.allObjects as? [Scenario], !scenarios.isEmpty {
+                    for scenario in scenarios {
+                        let index = gameScenarios.index(of: scenario)!
+                        scenariosCount[index] += 1
+                    }
+                } else {
+                    scenariosCount[gameScenarios.count] += 1
+                }
+            }
+            var scenariosNames = gameScenarios.map({$0.name!})
+            
+            if scenariosCount[gameScenarios.count] == 0 {
+                scenariosCount.removeLast()
+            } else {
+                scenariosNames.append("None")
+            }
+            
+            if !matches.isEmpty {
+                if game.scenariosAreMultiple {
+                    var dataLabels = [String]()
+                    for scenarioCount in scenariosCount {
+                        let winPercent = Float(scenarioCount) / Float(matches.count) * 100
+                        let winPercentShort = String.init(format: "%.1f%", winPercent)
+                        dataLabels.append("\(scenarioCount)(\(winPercentShort)%)")
+                    }
+                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: dataLabels, colorsArray: nil, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(scenariosPieChartView)
+                } else {
+                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: nil, colorsArray: nil, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(scenariosPieChartView)
+                }
+            }
+        }
+        
+        //Creating pie charts for classes
+        var classesArray = [GameClass]()
+        
+        //fetch classes used in game as array
+        do {
+            let classesRequest = NSFetchRequest<GameClass>(entityName: "GameClass")
+            classesRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(GameClass.game.name), game.name!)
+            classesArray = try managedContext.fetch(classesRequest)
+        } catch {
+            print(error)
+        }
+        
+        //If there are classes
+        if !classesArray.isEmpty{
+            var goodClasses = [GameClass]()
+            var evilClasses = [GameClass]()
+            var classesDict = [GameClass: Int]()
+            var winningClassesDict = [GameClass: Int]()
+            
+            //Sort into good and evil classes
+            for gameClass in classesArray {
+                if gameClass.type == ClassType.Evil {
+                    evilClasses.append(gameClass)
+                } else if gameClass.type == ClassType.Good {
+                    goodClasses.append(gameClass)
+                }
+                classesDict[gameClass] = 0
+                winningClassesDict[gameClass] = 0
+            }
+            //Assign count of classes in each match
+            for match in matches {
+                for playerResult in match.results?.allObjects as! [PlayerResult] {
+                    if let playerClass = playerResult.gameClass {
+                        classesDict[playerClass]! += 1
+                        if playerResult.place == 1 {
+                            winningClassesDict[playerClass]! += 1
+                        }
+                    }
+                }
+            }
+            if evilClasses.isEmpty {
+                let sortedClasses = classesArray.sorted(by: {classesDict[$0]! > classesDict[$1]!})
+                let sorterdClassesNames = sortedClasses.map({$0.name!})
+                let classesCount = sortedClasses.map({classesDict[$0]!})
+                
+                var dataLabels = [String]()
+                for classCount in classesCount {
+                    let winPercent = Float(classCount) / Float(matches.count) * 100
+                    let winPercentShort = String.init(format: "%.1f%", winPercent)
+                    dataLabels.append("\(classCount)(\(winPercentShort)%)")
+                }
+                let classesPieChartView = PieChartView(dataSet: classesCount, dataName: sorterdClassesNames, dataLabels: dataLabels, colorsArray: nil, title: "Most used classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                headerViews.append(classesPieChartView)
+                
+                
+                let sortedWinningClasses = classesArray.sorted(by: {winningClassesDict[$0]! > winningClassesDict[$1]!})
+                let sorterdWinningClassesNames = sortedWinningClasses.map({$0.name!})
+                let winningClassesCount = sortedWinningClasses.map({winningClassesDict[$0]!})
+                
+                //In Coop games, the whole team can win, therefore there are many winning classes
+                //So we need to take it into account when creating a pie chart
+                var coopDataLabels: [String]?
+                if game.type == GameType.Cooperation {
+                    print("HERE")
+                    coopDataLabels = [String]()
+                    for classCount in winningClassesCount {
+                        let winPercent = Float(classCount) / Float(matches.count) * 100
+                        let winPercentShort = String.init(format: "%.1f%", winPercent)
+                        coopDataLabels?.append("\(classCount)(\(winPercentShort)%)")
+                    }
+                }
+                if !sortedWinningClasses.isEmpty {
+                    let winningClassesPieChartView = PieChartView(dataSet: winningClassesCount, dataName: sorterdWinningClassesNames, dataLabels: coopDataLabels, colorsArray: nil, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(winningClassesPieChartView)
+                } else {
+                    let winningClassesPieChartView = PieChartView(dataSet: [matches.count], dataName: ["None"], dataLabels: nil, colorsArray: nil, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    headerViews.append(winningClassesPieChartView)
+                }
+            } else {
+                var evilWinCount = 0
+                var goodWinCount = 0
+                
+                for (gameClass, winCount) in winningClassesDict {
+                    if gameClass.type == ClassType.Evil {
+                        evilWinCount += winCount
+                    } else if gameClass.type == ClassType.Good {
+                        goodWinCount += winCount
+                    }
+                }
+                let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount], dataName: ["Good", "Evil"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
+                headerViews.append(teamPieChartView)
+            }
+        }
+        
         let tableHeaderHeight: CGFloat = headerViews.last!.frame.maxY + 5
 //
         let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableHeaderHeight))

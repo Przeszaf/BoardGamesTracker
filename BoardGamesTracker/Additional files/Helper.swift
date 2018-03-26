@@ -97,7 +97,8 @@ class Helper {
             match.time = time
         }
         
-        if let gameDate = game.lastTimePlayed as? Date {
+        if let gameDate = game.lastTimePlayed {
+            let gameDate = gameDate as Date
             if gameDate.compare(date).rawValue < 0 {
                 game.lastTimePlayed = date as NSDate
             }
@@ -106,6 +107,7 @@ class Helper {
         }
         
         game.addToPlayers(NSSet(array: players))
+        match.addToPlayers(NSSet(array: players))
         
         let playersClasses = dictionary["Classes"] as? [Player: GameClass]
         for (i, player) in players.enumerated() {
@@ -124,6 +126,15 @@ class Helper {
                     extendedPoint.point = Int32(point)
                     extendedPoint.result = playerResult
                 }
+            }
+            
+            if let lastTimePlayed = player.lastTimePlayed {
+                let lastTimePlayed = lastTimePlayed as Date
+                if lastTimePlayed.compare(date).rawValue < 0 {
+                    player.lastTimePlayed = date as NSDate
+                }
+            } else {
+                player.lastTimePlayed = date as NSDate
             }
         }
         
@@ -150,8 +161,88 @@ class Helper {
         } catch {
             print("Cannot save match! \(error)")
         }
+    }
+    
+    static func removeMatch(match: Match) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
         
+        let players = match.players!.allObjects as! [Player]
         
+        let matchDate = match.date!
+        for player in players {
+            if player.lastTimePlayed == matchDate {
+                do {
+                    let request = NSFetchRequest<Match>(entityName: "Match")
+                    request.predicate = NSPredicate(format: "ANY players == %@", player)
+                    request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+                    request.fetchLimit = 2
+                    let lastMatches = try managedContext.fetch(request)
+                    if lastMatches.count == 2 {
+                        player.lastTimePlayed = lastMatches.last?.date
+                    } else {
+                        player.lastTimePlayed = nil
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
+        if match.game!.lastTimePlayed == match.date! {
+            do {
+                let request = NSFetchRequest<Match>(entityName: "Match")
+                request.predicate = NSPredicate(format: "game == %@", match.game!)
+                request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+                request.fetchLimit = 2
+                let lastMatches = try managedContext.fetch(request)
+                if lastMatches.count == 2 {
+                    match.game!.lastTimePlayed = lastMatches.last?.date
+                } else {
+                    match.game!.lastTimePlayed = nil
+                }
+            } catch {
+                print(error)
+            }
+        }
+        managedContext.delete(match)
+        do {
+            try managedContext.save()
+        } catch {
+            print(error)
+        }
+    }
+    
+    static func removeGame(game: Game) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        managedContext.delete(game)
+        
+        if let players = game.players?.allObjects as? [Player] {
+            for player in players {
+                if player.lastTimePlayed == game.lastTimePlayed {
+                    do {
+                        let request = NSFetchRequest<Match>(entityName: "Match")
+                        request.predicate = NSPredicate(format: "ANY players == %@", player)
+                        request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+                        request.fetchLimit = 1
+                        let lastMatches = try managedContext.fetch(request)
+                        if lastMatches.count == 1 {
+                            player.lastTimePlayed = lastMatches.last?.date
+                        } else {
+                            player.lastTimePlayed = nil
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+        }
+        do {
+            try managedContext.save()
+        } catch {
+            print(error)
+        }
     }
 }
 

@@ -109,12 +109,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                do {
-                    self.managedContext.delete(game)
-                    try self.managedContext.save()
-                } catch {
-                    print("Cannot delete game! \(error)")
-                }
+                Helper.removeGame(game: game)
                 self.games.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })

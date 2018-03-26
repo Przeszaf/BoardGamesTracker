@@ -38,7 +38,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             print("Could not fetch: \(error)")
         }
         
-//        reloadHeaderView()
+        reloadHeaderView()
     }
     
     override func viewDidLoad() {
@@ -160,16 +160,16 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     //MARK: - Segues
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        switch segue.identifier {
-//        case "showPlayerDetails"?:
-//            let index = sender as! Int
-//            let controller = segue.destination as! PlayerDetailsViewController
-//            controller.player = players[index]
-//        default:
-//            preconditionFailure("Wrong segue identifier")
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "showPlayerDetails"?:
+            let index = sender as! Int
+            let controller = segue.destination as! PlayerDetailsViewController
+            controller.player = players[index]
+        default:
+            preconditionFailure("Wrong segue identifier")
+        }
+    }
     
     //MARK: - Adding new players
     
@@ -303,47 +303,37 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     }
     
     
-//    func reloadHeaderView() {
-//        let playersSortedByActivity = players.sorted(by: { $0.matches?.count > $1.matches?.count }) as [Player]
-//        print(playersSortedByActivity)
-//
-//        //FIXME: Can be done better
-//        let dataSet = { () -> [Int] in
-//            var dataArray = [Int]()
-//            for (i, player) in playersSortedByActivity.enumerated() {
-//                for _ in 0..<player.timesPlayed {
-//                    dataArray.append(i)
-//                }
-//            }
-//            return dataArray
-//        }()
-//
-//        let dataName = { () -> [String] in
-//            var nameArray = [String]()
-//            for player in playersSortedByActivity {
-//                if player.timesPlayed != 0 {
-//                    nameArray.append(player.name)
-//                }
-//            }
-//            return nameArray
-//        }()
-//
-//
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 300))
-//        let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
-//        firstHeaderView.label.text = "You played with \(players.count) friends! See their statistics below!"
-//        headerView.addSubview(firstHeaderView)
-//
-//        let label = UILabel(frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 20))
-//        label.text = "Most active players"
-//        label.textAlignment = .center
-//        if !dataSet.isEmpty {
-//            let barChartView = BarChartView(dataSet: dataSet, dataSetMapped: nil, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 200))
-////            headerView.addSubview(label)
-//            headerView.addSubview(barChartView)
-//        }
-//        tableView.tableHeaderView = headerView
-//    }
+    func reloadHeaderView() {
+        let playersSortedByActivity = players.sorted(by: { (firstPlayer, secondPlayer) -> Bool in
+            if let firstPlayerCount = firstPlayer.matches?.count, let secondPlayerCount = secondPlayer.matches?.count {
+                return firstPlayerCount > secondPlayerCount
+            } else if secondPlayer.matches?.anyObject() == nil {
+                return true
+            } else {
+                return false
+            }
+            })
+        
+        let dataSetMapped = playersSortedByActivity.map({$0.matches?.count ?? 0})
+
+        let dataName = playersSortedByActivity.map({$0.name!})
+
+        var viewsToAdd = [UIView]()
+
+        let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
+        firstHeaderView.label.text = "You played with \(players.count) friends! See their statistics below!"
+        viewsToAdd.append(firstHeaderView)
+
+        if !dataSetMapped.isEmpty {
+            let barChartView = BarChartView(dataSet: nil, dataSetMapped: dataSetMapped, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: viewsToAdd.last!.frame.height + 10, width: tableView.frame.width, height: 200))
+            viewsToAdd.append(barChartView)
+        }
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: viewsToAdd.last!.frame.maxY + 15))
+        for viewToAdd in viewsToAdd {
+            headerView.addSubview(viewToAdd)
+        }
+        tableView.tableHeaderView = headerView
+    }
     
     
 }

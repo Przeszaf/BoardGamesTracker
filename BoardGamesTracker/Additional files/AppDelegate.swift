@@ -72,7 +72,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error)
         }
         
-        Helper.addGame(name: "Simple points", type: GameType.SoloWithPoints, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: ["Some additional bool"])
+//        Helper.addGame(name: "Full game", type: GameType.Cooperation, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: ["AAA", "BBB", "CCC"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Expansion 1", "Expansion 2"], expansionsAreMultiple: true, scenariosArray: ["Scenario1", "Scenario2", "Scenario 3"], scenariosAreMultiple: false, winSwitch: true, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+//        do {
+//            try managedContext.save()
+//        } catch {
+//            print(error)
+//        }
+        
         
         return true
     }
