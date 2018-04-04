@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ppJ-vc-uIc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ppJ-vc-uIc">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="AcademyEngraved.ttf">
-            <string>AcademyEngravedLetPlain</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Home-->
         <scene sceneID="7Zr-hO-xhS">
@@ -172,6 +167,58 @@
             </objects>
             <point key="canvasLocation" x="3852" y="68.815592203898049"/>
         </scene>
+        <!--Photo Details View Controller-->
+        <scene sceneID="4nQ-C9-sP4">
+            <objects>
+                <viewController id="3eg-Gv-T6Z" customClass="PhotoDetailsViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="X7j-0g-Q76">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="YPO-np-BD1"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U5N-9P-yuN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2040" y="-2107"/>
+        </scene>
+        <!--Photos View Controller-->
+        <scene sceneID="9Nw-7g-sbR">
+            <objects>
+                <collectionViewController id="JIH-zW-WcU" customClass="PhotosViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="xLY-fV-l8G">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vq1-d0-JwA">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="NRQ-yk-Gq6">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="JIH-zW-WcU" id="5WS-Db-4Pw"/>
+                            <outlet property="delegate" destination="JIH-zW-WcU" id="Zko-fA-ftq"/>
+                        </connections>
+                    </collectionView>
+                    <connections>
+                        <segue destination="3eg-Gv-T6Z" kind="presentation" identifier="photoDetails" id="0jE-5e-Vq8"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vSI-bS-TnU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2035" y="-1410"/>
+        </scene>
         <!--Home-->
         <scene sceneID="PJv-u6-WKc">
             <objects>
@@ -181,7 +228,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="taM-8L-nAO">
-                                <rect key="frame" x="90.5" y="336" width="54" height="44"/>
+                                <rect key="frame" x="90.5" y="408.5" width="54" height="44"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <state key="normal" title="Start"/>
                                 <connections>
@@ -189,7 +236,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="24L-81-XG3">
-                                <rect key="frame" x="225.5" y="336" width="64" height="44"/>
+                                <rect key="frame" x="225.5" y="408.5" width="64" height="44"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <state key="normal" title="Reset"/>
                                 <connections>
@@ -197,19 +244,19 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHQ-57-dgF">
-                                <rect key="frame" x="128" y="292.5" width="119" height="33.5"/>
+                                <rect key="frame" x="128" y="365" width="119" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Board Games Tracker" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aWW-mt-3ed">
-                                <rect key="frame" x="35" y="72" width="305" height="46.5"/>
+                                <rect key="frame" x="35" y="72" width="305" height="92.5"/>
                                 <fontDescription key="fontDescription" name="AcademyEngravedLetPlain" family="Academy Engraved LET" pointSize="39"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iN9-yF-5UE" customClass="AddMatchButton" customModule="BoardGamesTracker" customModuleProvider="target">
-                                <rect key="frame" x="107.5" y="232.5" width="160" height="40"/>
+                                <rect key="frame" x="107.5" y="305" width="160" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5MK-Hv-isO"/>
                                     <constraint firstAttribute="width" constant="160" id="SiM-gU-f9X"/>
@@ -221,23 +268,23 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TED-3n-veL" customClass="WelcomePlayerView" customModule="BoardGamesTracker" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="126" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="172" width="375" height="60"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="rX5-gh-hzR"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You played XXXXXXX YYYYY hours ago" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGk-bg-2Cc">
-                                <rect key="frame" x="8" y="196" width="359" height="26.5"/>
+                                <rect key="frame" x="8" y="242" width="359" height="53"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timer" translatesAutoresizingMaskIntoConstraints="NO" id="rXy-KB-PUX">
-                                <rect key="frame" x="155" y="318" width="60.5" height="80"/>
+                                <rect key="frame" x="155" y="390.5" width="60.5" height="80"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWF-nZ-rmm">
-                                <rect key="frame" x="204" y="413" width="136" height="39"/>
+                                <rect key="frame" x="204" y="485.5" width="136" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="SEE PHOTOS!"/>
                                 <connections>
@@ -245,7 +292,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zG-Kr-iwB">
-                                <rect key="frame" x="35" y="413" width="96" height="39"/>
+                                <rect key="frame" x="35" y="485.5" width="96" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="SEE MAP!"/>
                                 <connections>
@@ -295,6 +342,7 @@
                         <outlet property="timeLabel" destination="XHQ-57-dgF" id="vVd-36-ahc"/>
                         <segue destination="3J2-60-qHH" kind="show" identifier="addMatch" id="OE1-XZ-EPt"/>
                         <segue destination="Bkg-WK-mJ5" kind="show" identifier="showMap" id="DtA-rw-tDt"/>
+                        <segue destination="JIH-zW-WcU" kind="show" identifier="showPhotos" id="YIL-Q1-aks"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tl6-py-UMl" userLabel="First Responder" sceneMemberID="firstResponder"/>

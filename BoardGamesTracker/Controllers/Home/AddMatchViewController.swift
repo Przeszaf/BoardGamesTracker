@@ -623,12 +623,12 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         
         //If image was changed from default, then add image
-        //FIXME: IMAGES
-//        if imageView.image != UIImage(named: "camera") {
-//            imageStore.setImage(image: imageView.image!, forKey: match.imageKey)
-//        }
+        var image: UIImage? = nil
+        if imageView.image != UIImage(named: "camera") {
+            image = imageView.image
+        }
         createSuccessAlert(with: "Created \(game.name!)")
-        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time, location: location)
+        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time, location: location, image: image)
         //sort player and gameStore by date
         return
     }

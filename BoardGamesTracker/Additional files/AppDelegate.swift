@@ -67,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let games: [Game] = try managedContext.fetch(Game.fetchRequest())
                 if games.count == 0 {
                     //FIXME: ADD GAMES
+                    Helper.addGame(name: "Abvd", type: GameType.SoloWithPlaces, inCollection: true, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
                 }
                 try managedContext.save()
             }

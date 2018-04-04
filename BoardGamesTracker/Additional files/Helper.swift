@@ -88,7 +88,7 @@ class Helper {
         print(game)
     }
     
-    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?, location: CLLocation?) {
+    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?, location: CLLocation?, image: UIImage?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
@@ -161,6 +161,11 @@ class Helper {
         if let location = location {
             match.longitude = location.coordinate.longitude
             match.latitude = location.coordinate.latitude
+        }
+        
+        if let image = image {
+            let imageData = UIImageJPEGRepresentation(image, 1)
+            match.image = NSData(data: imageData!)
         }
         
         

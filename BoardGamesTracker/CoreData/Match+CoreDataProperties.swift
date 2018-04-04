@@ -22,6 +22,7 @@ extension Match {
     @NSManaged public var time: Double
     @NSManaged public var longitude: Double
     @NSManaged public var latitude: Double
+    @NSManaged public var image: NSData?
     @NSManaged public var additionalBools: NSSet?
     @NSManaged public var difficulty: Difficulty?
     @NSManaged public var expansions: NSSet?

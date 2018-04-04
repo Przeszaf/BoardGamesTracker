@@ -93,19 +93,18 @@ class HomeViewController: UIViewController {
     
     //FIXME: Make Collection View Controller that shows photos.
     //First version of button
-//    @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
-//        var matchesWithPhoto = [Match]()
-//        for game in games {
-//            for match in game.matches {
-//                if let _ = imageStore.image(forKey: match.imageKey) {
-//                    print(imageStore.imageURL(forKey: match.imageKey).path)
-//                    matchesWithPhoto.append(match)
-//                } else {
-//                    print("No photo for match of \(game.name)")
-//                }
-//            }
-//        }
-//    }
+    @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
+        var matchesWithPhoto = [Match]()
+        do {
+            let request = NSFetchRequest<Match>(entityName: "Match")
+            request.predicate = NSPredicate(format: "image != NIL", argumentArray: nil)
+            matchesWithPhoto = try managedContext.fetch(request)
+            print(matchesWithPhoto.map({$0.game?.name}))
+        } catch {
+            print("Error fetching matches")
+        }
+        performSegue(withIdentifier: "showPhotos", sender: matchesWithPhoto)
+    }
     
     
     @IBAction func startTimerButtonPressed(_ sender: UIButton) {
@@ -135,6 +134,9 @@ class HomeViewController: UIViewController {
             }
         case "showMap"?:
             let controller = segue.destination as! MapViewController
+            controller.matches = sender as! [Match]
+        case "showPhotos"?:
+            let controller = segue.destination as! PhotosViewController
             controller.matches = sender as! [Match]
         case "test"?:
             print("Test")
