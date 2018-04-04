@@ -2,7 +2,7 @@
 //  Scenario+CoreDataProperties.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 27/03/2018.
+//  Created by Przemyslaw Szafulski on 04/04/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 //

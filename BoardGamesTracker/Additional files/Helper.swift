@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 class Helper {
     
@@ -87,7 +88,7 @@ class Helper {
         print(game)
     }
     
-    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?) {
+    static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?, location: CLLocation?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
@@ -156,6 +157,12 @@ class Helper {
                 additionalBool.addToMatches(match)
             }
         }
+        
+        if let location = location {
+            match.longitude = location.coordinate.longitude
+            match.latitude = location.coordinate.latitude
+        }
+        
         
         do {
             try managedContext.save()

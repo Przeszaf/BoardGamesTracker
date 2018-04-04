@@ -22,6 +22,8 @@ class HomeViewController: UIViewController {
     @IBOutlet var lastMatchPlayedLabel: UILabel!
     @IBOutlet var lastGamesChart: UIView!
     
+    var managedContext: NSManagedObjectContext!
+    
     var lastGamesBarChart: UIView!
     
     override func viewDidLoad() {
@@ -29,7 +31,7 @@ class HomeViewController: UIViewController {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
-        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext = appDelegate.persistentContainer.viewContext
         
         do {
             let request = NSFetchRequest<Game>(entityName: "Game")
@@ -78,6 +80,15 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func showMapButtonPressed(_ sender: UIButton) {
+        var matches = [Match]()
+        do {
+            let request = NSFetchRequest<Match>(entityName: "Match")
+            request.predicate = NSPredicate(format: "longitude != nil AND latitude != nil", argumentArray: nil)
+            matches = try managedContext.fetch(request)
+        } catch {
+            print("Error fetching locations")
+        }
+        performSegue(withIdentifier: "showMap", sender: matches)
     }
     
     //FIXME: Make Collection View Controller that shows photos.
@@ -113,35 +124,24 @@ class HomeViewController: UIViewController {
     }
     
     //MARK: - Segues
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        switch segue.identifier {
-//        case "addMatch"?:
-//            let addMatchController = segue.destination as! AddMatchViewController
-//            
-//            //If timer is over 1 minute, then set the time of addMatchController to that value (in minutes)
-//            if timer.time > 60 {
-//                addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
-//            }
-//        case "showMap"?:
-//            var locations = [CLLocation]()
-//            var matches = [Match]()
-//            for game in games {
-//                for match in game.matches {
-//                    if let location = match.location {
-//                        locations.append(location)
-//                        matches.append(match)
-//                    }
-//                }
-//            }
-//            let controller = segue.destination as! MapViewController
-//            controller.locations = locations
-//            controller.matches = matches
-//        case "test"?:
-//            print("Test")
-//        default:
-//            preconditionFailure("Wrong segue identifier")
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "addMatch"?:
+            let addMatchController = segue.destination as! AddMatchViewController
+            
+            //If timer is over 1 minute, then set the time of addMatchController to that value (in minutes)
+            if timer.time > 60 {
+                addMatchController.time = timer.time - timer.time.truncatingRemainder(dividingBy: 60)
+            }
+        case "showMap"?:
+            let controller = segue.destination as! MapViewController
+            controller.matches = sender as! [Match]
+        case "test"?:
+            print("Test")
+        default:
+            preconditionFailure("Wrong segue identifier")
+        }
+    }
     
     
     func createLastGamesBarChart() -> UIView {

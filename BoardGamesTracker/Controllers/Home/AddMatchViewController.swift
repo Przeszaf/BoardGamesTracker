@@ -135,6 +135,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         if selectedGame != nil {
             imageView.isHidden = false
+            myView.locationStackView.isHidden = false
         }
         
         if selectedGame?.type == GameType.TeamWithPlaces {
@@ -627,7 +628,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
 //            imageStore.setImage(image: imageView.image!, forKey: match.imageKey)
 //        }
         createSuccessAlert(with: "Created \(game.name!)")
-        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time)
+        Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time, location: location)
         //sort player and gameStore by date
         return
     }
