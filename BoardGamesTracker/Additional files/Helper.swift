@@ -12,7 +12,7 @@ import CoreData
 class Helper {
     
     
-    static func addGame(name: String, type: String, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchNames: [String]?) {
+    static func addGame(name: String, type: String, inCollection: Bool, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchNames: [String]?) {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -22,6 +22,7 @@ class Helper {
         
         game.name = name
         game.type = type
+        game.inCollection = inCollection
         game.maxNoOfPlayers = Int32(maxNoOfPlayers)
         if let extendedPointsNames = pointsExtendedNameArray {
             for pointName in extendedPointsNames {

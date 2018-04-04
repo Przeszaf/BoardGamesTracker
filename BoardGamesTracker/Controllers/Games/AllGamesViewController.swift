@@ -29,7 +29,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         let dateSortDescriptor = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
         let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
         request.sortDescriptors = [dateSortDescriptor, nameSortDescriptor]
-        
+        request.predicate = NSPredicate(format: "inCollection == YES", argumentArray: nil)
         do {
             games = try managedContext.fetch(request)
             tableView.reloadData()
@@ -71,7 +71,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         cell.gameName.delegate = self
         cell.selectionStyle = .none
         
-        //FIXME: Assign correct image to icon
+        cell.imageView?.image = UIImage(named: game.name!)
         
         //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row
@@ -183,8 +183,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
             //FIXME
-//        case "addPremadeGame"?:
-//            let controller = segue.destination as! AddPremadeGameViewController
+        case "addPremadeGame"?:
+            let controller = segue.destination as! AddPremadeGameViewController
         case "showGameDetails"?:
             //sender is indexPath.row, so now we can pass correct game to view controller
             let index = sender as! Int

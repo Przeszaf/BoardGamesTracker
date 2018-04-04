@@ -65,6 +65,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         cell.gameTimesPlayed.text = "\(game.matches?.count ?? 0) times played"
         cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
         //FIXME: - assign icon
+        cell.gameIconImageView.image = UIImage(named: game.name!)
         
         //Added so clicking on gameName will be registered as clicking on cell
         cell.gameName.isEditable = false

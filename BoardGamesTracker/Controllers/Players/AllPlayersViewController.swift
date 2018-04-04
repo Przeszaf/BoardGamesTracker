@@ -258,7 +258,6 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                //FIXME: Deletions
                 do {
                     self.managedContext.delete(player)
                     try self.managedContext.save()

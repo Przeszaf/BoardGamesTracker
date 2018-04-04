@@ -26,6 +26,7 @@
     </entity>
     <entity name="Game" representedClassName="Game" syncable="YES">
         <attribute name="expansionsAreMultiple" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="inCollection" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="lastTimePlayed" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="maxNoOfPlayers" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
@@ -86,7 +87,7 @@
         <element name="Expansion" positionX="-0" positionY="-205" width="128" height="88"/>
         <element name="ExtendedPoint" positionX="-630" positionY="288" width="128" height="88"/>
         <element name="ExtendedPointName" positionX="-47" positionY="-324" width="128" height="73"/>
-        <element name="Game" positionX="-398" positionY="-405" width="128" height="283"/>
+        <element name="Game" positionX="-398" positionY="-405" width="128" height="298"/>
         <element name="GameClass" positionX="-641" positionY="72" width="128" height="103"/>
         <element name="Match" positionX="-164" positionY="227" width="128" height="193"/>
         <element name="Player" positionX="-405" positionY="-13" width="128" height="118"/>

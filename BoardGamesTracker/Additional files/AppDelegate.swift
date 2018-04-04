@@ -64,8 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         player.name = "Other name"
                     }
                 }
-                let anotherPlayer = Player(context: managedContext)
-                anotherPlayer.name = "Kinga"
+                let games: [Game] = try managedContext.fetch(Game.fetchRequest())
+                if games.count == 0 {
+                    //FIXME: ADD GAMES
+                }
                 try managedContext.save()
             }
         } catch {

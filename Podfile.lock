@@ -1,14 +1,14 @@
 PODS:
-  - BonMot (5.0.1)
-  - Cluster (2.1.2)
+  - BonMot (5.2)
+  - Cluster (2.1.5)
 
 DEPENDENCIES:
   - BonMot
   - Cluster
 
 SPEC CHECKSUMS:
-  BonMot: f61b678e2fe8a7591d93d854795bc047fc3a189f
-  Cluster: 7ae5f723b1993e59bb7326dad059a7022f181e42
+  BonMot: 68da0bd7c2f602aca85511bedabd211eb0fae666
+  Cluster: fc4dd6581f5410bcffb298d32551a13b677494aa
 
 PODFILE CHECKSUM: bf41b17ddfb6a5cb4b1306064b08d0f83c7be4e8
 

@@ -736,7 +736,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         
         string.removeAll()
         if let playerClassDict = dictionary["Classes"] as? [Player: GameClass] {
-            //FIXME: change to go through all players and none if didnt find
             if selectedGame?.type == GameType.TeamWithPlaces {
                 selectedPlayers = winners + loosers
             }

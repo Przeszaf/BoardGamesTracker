@@ -119,7 +119,6 @@ class PlayerDetailsViewController: UITableViewController {
         cell.placeLabel.text = placeString
 
         //Different colors for different places
-        //FIXME: Better colors
         switch placeString {
         case "1st":
             cell.placeLabel.textColor = UIColor.yellow
@@ -266,7 +265,7 @@ class PlayerDetailsViewController: UITableViewController {
         if let classString = getPlayerClass(playerResult: playerResult) {
             height += classString.height(withConstrainedWidth: tableView.frame.width - 70, font: UIFont.systemFont(ofSize: 17))
         }
-        return height + 40
+        return height + 30
     }
 
     override func tableView(_ tableView: UITableView,

@@ -2,7 +2,7 @@
 //  Game+CoreDataProperties.swift
 //  BoardGamesTracker
 //
-//  Created by Przemyslaw Szafulski on 22/03/2018.
+//  Created by Przemyslaw Szafulski on 27/03/2018.
 //  Copyright © 2018 Przemyslaw Szafulski. All rights reserved.
 //
 //
@@ -25,6 +25,7 @@ extension Game {
     @NSManaged public var scenariosAreMultiple: Bool
     @NSManaged public var type: String?
     @NSManaged public var winSwitch: Bool
+    @NSManaged public var inCollection: Bool
     @NSManaged public var additionalBools: NSSet?
     @NSManaged public var classes: NSSet?
     @NSManaged public var difficulties: NSSet?

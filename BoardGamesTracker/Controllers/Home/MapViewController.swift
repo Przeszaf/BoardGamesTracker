@@ -43,7 +43,7 @@ class MapViewController: UIViewController {
             annotations.append(annotation)
         }
         manager.add(annotations)
-        manager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        manager.reload(mapView: mapView)
     }
 }
 
@@ -80,7 +80,7 @@ class MapViewController: UIViewController {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        manager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        manager.reload(mapView: mapView)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

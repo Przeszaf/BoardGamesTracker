@@ -77,7 +77,7 @@
 		0CB8B2CB2007B53100B63148 /* AllGamesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */; };
 		0CBC0F31205444F200C255B5 /* PieChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBC0F30205444F200C255B5 /* PieChartView.swift */; };
 		0CBC0F3320545A4C00C255B5 /* BarChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBC0F3220545A4C00C255B5 /* BarChartView.swift */; };
-		0CC5F6FF203F10450026B12A /* AddCustomGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC5F6FE203F10450026B12A /* AddCustomGameViewController.swift */; };
+		0CC5F6FF203F10450026B12A /* AddPremadeGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC5F6FE203F10450026B12A /* AddPremadeGameViewController.swift */; };
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 		0CCA0F862031A33500D52421 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F852031A33500D52421 /* TimeIntervalExtension.swift */; };
 		0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F872031A33F00D52421 /* MyTimer.swift */; };
@@ -182,7 +182,7 @@
 		0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllGamesViewController.swift; sourceTree = "<group>"; };
 		0CBC0F30205444F200C255B5 /* PieChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieChartView.swift; sourceTree = "<group>"; };
 		0CBC0F3220545A4C00C255B5 /* BarChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarChartView.swift; sourceTree = "<group>"; };
-		0CC5F6FE203F10450026B12A /* AddCustomGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomGameViewController.swift; sourceTree = "<group>"; };
+		0CC5F6FE203F10450026B12A /* AddPremadeGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPremadeGameViewController.swift; sourceTree = "<group>"; };
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0CCA0F852031A33500D52421 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
 		0CCA0F872031A33F00D52421 /* MyTimer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyTimer.swift; sourceTree = "<group>"; };
@@ -368,7 +368,7 @@
 			isa = PBXGroup;
 			children = (
 				0CB8B2CA2007B53100B63148 /* AllGamesViewController.swift */,
-				0CC5F6FE203F10450026B12A /* AddCustomGameViewController.swift */,
+				0CC5F6FE203F10450026B12A /* AddPremadeGameViewController.swift */,
 				0C58DC0120051F4F009FD235 /* AddGameViewController.swift */,
 				0C5C332E2016504600626E6A /* GameDetailsViewController.swift */,
 			);
@@ -524,7 +524,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Przemyslaw Szafulski";
 				TargetAttributes = {
 					0C58DBCD20051219009FD235 = {
@@ -710,7 +710,7 @@
 				0C0FC201206296E600B9B71D /* Game+CoreDataClass.swift in Sources */,
 				0C0FC1FB206296E600B9B71D /* Player+CoreDataClass.swift in Sources */,
 				0CD9C3552061471C000CD80F /* NSDateExtension.swift in Sources */,
-				0CC5F6FF203F10450026B12A /* AddCustomGameViewController.swift in Sources */,
+				0CC5F6FF203F10450026B12A /* AddPremadeGameViewController.swift in Sources */,
 				0C0FC2102062BA1A00B9B71D /* AdditionalBool+CoreDataProperties.swift in Sources */,
 				0C0FC1F9206296E600B9B71D /* Match+CoreDataClass.swift in Sources */,
 				0C7462B82021FA4F000603C4 /* AllGamesCell.swift in Sources */,
@@ -800,6 +800,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -807,6 +808,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -857,6 +859,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -864,6 +867,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
