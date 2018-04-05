@@ -36,7 +36,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         
         
         //Select players that are passed from previous view controller
-        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             if !selectedPlayers.isEmpty {
                 for player in selectedPlayers {
                     if let playerIndex = availablePlayers.index(of: player) {
@@ -80,6 +80,11 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         } else {
             tableView.allowsMultipleSelection = true
         }
+        
+        if segueKey == "PVP" {
+            let button = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextButtonPressed(_:)))
+            navigationItem.rightBarButtonItem = button
+        }
     }
     
     //MARK: - UITableView
@@ -87,7 +92,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
-        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             cell.textLabel?.text = availablePlayers[indexPath.row].name
         } else if segueKey == "Expansions" {
             cell.textLabel?.text = availableExpansions[indexPath.row].name!
@@ -106,7 +111,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             return availablePlayers.count
         } else if segueKey == "Scenarios" {
             return availableScenarios.count
@@ -121,7 +126,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Making tick marks
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
-        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             let player = availablePlayers[indexPath.row]
             selectedPlayers.append(player)
             if let index = deselectedPlayers.index(of: player) {
@@ -141,7 +146,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" {
+        if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             let player = availablePlayers[indexPath.row]
             let index = selectedPlayers.index(of: player)
             selectedPlayers.remove(at: index!)
@@ -197,6 +202,23 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             controller.viewWillAppear(true)
         }
     }
+    
+    //MARK: - PVP handling
+    
+    @objc func nextButtonPressed(_ sender: UIBarButtonItem) {
+        if selectedPlayers.count == 2 {
+            performSegue(withIdentifier: "PVP", sender: nil)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PVP" {
+            let controller = segue.destination as! PVPViewController
+            controller.firstPlayer = selectedPlayers.first
+            controller.secondPlayer = selectedPlayers.last
+        }
+    }
+    
     
 }
 

@@ -80,6 +80,9 @@
 		0CC0F0FF2074F773000CA0E4 /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F0FE2074F773000CA0E4 /* PhotosViewController.swift */; };
 		0CC0F1012074FD51000CA0E4 /* PhotoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F1002074FD51000CA0E4 /* PhotoDetailsViewController.swift */; };
 		0CC0F1032075049D000CA0E4 /* PhotoDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F1022075049D000CA0E4 /* PhotoDetailsView.swift */; };
+		0CC0F10520752DBC000CA0E4 /* PVPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F10420752DBC000CA0E4 /* PVPViewController.swift */; };
+		0CC0F10720753372000CA0E4 /* PVPCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F10620753372000CA0E4 /* PVPCell.swift */; };
+		0CC0F1092075389F000CA0E4 /* PVPCellBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC0F1082075389F000CA0E4 /* PVPCellBackgroundView.swift */; };
 		0CC5F6FF203F10450026B12A /* AddPremadeGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC5F6FE203F10450026B12A /* AddPremadeGameViewController.swift */; };
 		0CC8EF7E201656D2009C9CF9 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */; };
 		0CCA0F862031A33500D52421 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCA0F852031A33500D52421 /* TimeIntervalExtension.swift */; };
@@ -88,6 +91,7 @@
 		0CD9C33220613CFD000CD80F /* BoardGamesTracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0CD9C33020613CFD000CD80F /* BoardGamesTracker.xcdatamodeld */; };
 		0CD9C3552061471C000CD80F /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CD9C3542061471C000CD80F /* NSDateExtension.swift */; };
 		0CEA092B202384E50081F56A /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEA092A202384E50081F56A /* StringExtension.swift */; };
+		0CFAA87A20763A8E0064F74E /* PVPHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFAA87920763A8E0064F74E /* PVPHeaderView.swift */; };
 		5803C5A54145CE52B8BD2A41 /* Pods_BoardGamesTracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F986A1DA4442732E87A94649 /* Pods_BoardGamesTracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -188,6 +192,9 @@
 		0CC0F0FE2074F773000CA0E4 /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
 		0CC0F1002074FD51000CA0E4 /* PhotoDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewController.swift; sourceTree = "<group>"; };
 		0CC0F1022075049D000CA0E4 /* PhotoDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDetailsView.swift; sourceTree = "<group>"; };
+		0CC0F10420752DBC000CA0E4 /* PVPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPViewController.swift; sourceTree = "<group>"; };
+		0CC0F10620753372000CA0E4 /* PVPCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPCell.swift; sourceTree = "<group>"; };
+		0CC0F1082075389F000CA0E4 /* PVPCellBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPCellBackgroundView.swift; sourceTree = "<group>"; };
 		0CC5F6FE203F10450026B12A /* AddPremadeGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPremadeGameViewController.swift; sourceTree = "<group>"; };
 		0CC8EF7D201656D2009C9CF9 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		0CCA0F852031A33500D52421 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
@@ -196,6 +203,7 @@
 		0CD9C33120613CFD000CD80F /* BoardGamesTracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BoardGamesTracker.xcdatamodel; sourceTree = "<group>"; };
 		0CD9C3542061471C000CD80F /* NSDateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		0CEA092A202384E50081F56A /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		0CFAA87920763A8E0064F74E /* PVPHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPHeaderView.swift; sourceTree = "<group>"; };
 		41778D2F7101B2374CA1D229 /* Pods-BoardGamesTracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoardGamesTracker.release.xcconfig"; path = "Pods/Target Support Files/Pods-BoardGamesTracker/Pods-BoardGamesTracker.release.xcconfig"; sourceTree = "<group>"; };
 		78C64759903F9DA50AAD3CE8 /* Pods-BoardGamesTracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BoardGamesTracker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BoardGamesTracker/Pods-BoardGamesTracker.debug.xcconfig"; sourceTree = "<group>"; };
 		F986A1DA4442732E87A94649 /* Pods_BoardGamesTracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BoardGamesTracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +251,8 @@
 				0C819D06204B17EF00DA8BDB /* CellBackgroundSelectView.swift */,
 				0C819D04204B079100DA8BDB /* CellBackgroundEditingView.swift */,
 				0C819D0A204B1F4E00DA8BDB /* CellBackgroundHighlightView.swift */,
+				0CC0F1082075389F000CA0E4 /* PVPCellBackgroundView.swift */,
+				0CC0F10620753372000CA0E4 /* PVPCell.swift */,
 				0C029BA5201D016200E9F435 /* AddNumsCell.swift */,
 				0C0D7EDC203F33C400CA3141 /* AddInfoCell.swift */,
 				0C7462B920233C24000603C4 /* AllPlayersCell.swift */,
@@ -262,6 +272,7 @@
 				0C11E6C220471243004EDD93 /* AddMatchButton.swift */,
 				0C953981204822B700E49825 /* WelcomePlayerView.swift */,
 				0CC0F1022075049D000CA0E4 /* PhotoDetailsView.swift */,
+				0CFAA87920763A8E0064F74E /* PVPHeaderView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -389,6 +400,7 @@
 				0C92A0F22034694600EE194B /* MapViewController.swift */,
 				0CC0F0FE2074F773000CA0E4 /* PhotosViewController.swift */,
 				0CC0F1002074FD51000CA0E4 /* PhotoDetailsViewController.swift */,
+				0CC0F10420752DBC000CA0E4 /* PVPViewController.swift */,
 				0C884E44201112C700D301B0 /* AddMatchViewController.swift */,
 				0C5AA38C20177B0E00C94FF6 /* ChooseGameViewController.swift */,
 				0C50B705201A348100BE7040 /* ChooserViewController.swift */,
@@ -676,11 +688,13 @@
 				0C0FC203206296E600B9B71D /* PlayerResult+CoreDataClass.swift in Sources */,
 				0C0FC202206296E600B9B71D /* Game+CoreDataProperties.swift in Sources */,
 				0C0FC200206296E600B9B71D /* Difficulty+CoreDataProperties.swift in Sources */,
+				0CC0F1092075389F000CA0E4 /* PVPCellBackgroundView.swift in Sources */,
 				0C0FC207206296E600B9B71D /* ExtendedPoint+CoreDataClass.swift in Sources */,
 				0CD1BD7B20483A5A00094DF5 /* CellBackgroundView.swift in Sources */,
 				0C5AA38D20177B0E00C94FF6 /* ChooseGameViewController.swift in Sources */,
 				0CCA0F862031A33500D52421 /* TimeIntervalExtension.swift in Sources */,
 				0C58DBD220051219009FD235 /* AppDelegate.swift in Sources */,
+				0CC0F10520752DBC000CA0E4 /* PVPViewController.swift in Sources */,
 				0C0FC206206296E600B9B71D /* Expansion+CoreDataProperties.swift in Sources */,
 				0CEA092B202384E50081F56A /* StringExtension.swift in Sources */,
 				0CCA0F882031A33F00D52421 /* MyTimer.swift in Sources */,
@@ -700,6 +714,7 @@
 				0C1A6AC7202B3A93000A4983 /* PlayerDetailsCell.swift in Sources */,
 				0C0FC1FF206296E600B9B71D /* Difficulty+CoreDataClass.swift in Sources */,
 				0C0FC209206296E600B9B71D /* ExtendedPointName+CoreDataClass.swift in Sources */,
+				0CC0F10720753372000CA0E4 /* PVPCell.swift in Sources */,
 				0C11E6C320471243004EDD93 /* AddMatchButton.swift in Sources */,
 				0C7462BA20233C24000603C4 /* AllPlayersCell.swift in Sources */,
 				0C029BA6201D016200E9F435 /* AddNumsCell.swift in Sources */,
@@ -721,6 +736,7 @@
 				0C92A0F32034694600EE194B /* MapViewController.swift in Sources */,
 				0C0FC201206296E600B9B71D /* Game+CoreDataClass.swift in Sources */,
 				0C0FC1FB206296E600B9B71D /* Player+CoreDataClass.swift in Sources */,
+				0CFAA87A20763A8E0064F74E /* PVPHeaderView.swift in Sources */,
 				0CD9C3552061471C000CD80F /* NSDateExtension.swift in Sources */,
 				0CC5F6FF203F10450026B12A /* AddPremadeGameViewController.swift in Sources */,
 				0C0FC2102062BA1A00B9B71D /* AdditionalBool+CoreDataProperties.swift in Sources */,

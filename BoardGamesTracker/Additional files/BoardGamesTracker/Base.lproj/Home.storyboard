@@ -54,7 +54,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Jz-gB-Wcx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4786" y="-1567"/>
+            <point key="canvasLocation" x="2972" y="-1567"/>
         </scene>
         <!--Chooser View Controller-->
         <scene sceneID="xDo-Gg-b1T">
@@ -79,10 +79,13 @@
                             <outlet property="delegate" destination="JEr-pJ-ija" id="TFB-yb-01s"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="yna-2f-cev" kind="show" identifier="PVP" id="OEz-Sk-g0Z"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQx-12-D7T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3833" y="-1567"/>
+            <point key="canvasLocation" x="2972" y="94"/>
         </scene>
         <!--Choose Game View Controller-->
         <scene sceneID="PCP-Nb-d5s">
@@ -165,7 +168,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="piq-zb-fTD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3852" y="68.815592203898049"/>
+            <point key="canvasLocation" x="3833" y="-1567"/>
         </scene>
         <!--Photo Details View Controller-->
         <scene sceneID="4nQ-C9-sP4">
@@ -284,7 +287,7 @@
                                 <rect key="frame" x="155" y="390.5" width="60.5" height="80"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DWF-nZ-rmm">
-                                <rect key="frame" x="204" y="485.5" width="136" height="39"/>
+                                <rect key="frame" x="229" y="485.5" width="136" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="SEE PHOTOS!"/>
                                 <connections>
@@ -292,7 +295,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1zG-Kr-iwB">
-                                <rect key="frame" x="35" y="485.5" width="96" height="39"/>
+                                <rect key="frame" x="10" y="485.5" width="96" height="39"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                 <state key="normal" title="SEE MAP!"/>
                                 <connections>
@@ -304,6 +307,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1x-oE-vcb">
+                                <rect key="frame" x="167" y="485.5" width="41" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="PVP"/>
+                                <connections>
+                                    <segue destination="JEr-pJ-ija" kind="show" identifier="choosePlayers" id="kJ6-in-THK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -313,11 +324,13 @@
                             <constraint firstItem="24L-81-XG3" firstAttribute="top" secondItem="XHQ-57-dgF" secondAttribute="bottom" constant="10" id="5f5-g6-m7d"/>
                             <constraint firstItem="taM-8L-nAO" firstAttribute="top" secondItem="XHQ-57-dgF" secondAttribute="bottom" constant="10" id="7kk-5k-Yky"/>
                             <constraint firstItem="TED-3n-veL" firstAttribute="trailing" secondItem="qCJ-i2-4EQ" secondAttribute="trailing" id="9lf-4x-uRh"/>
-                            <constraint firstItem="1zG-Kr-iwB" firstAttribute="leading" secondItem="qCJ-i2-4EQ" secondAttribute="leading" constant="35" id="9tF-14-KNY"/>
+                            <constraint firstItem="1zG-Kr-iwB" firstAttribute="leading" secondItem="qCJ-i2-4EQ" secondAttribute="leading" constant="10" id="9tF-14-KNY"/>
+                            <constraint firstItem="y1x-oE-vcb" firstAttribute="top" secondItem="DWF-nZ-rmm" secondAttribute="top" id="AP9-Tf-tsR"/>
                             <constraint firstItem="PGk-bg-2Cc" firstAttribute="leading" secondItem="qCJ-i2-4EQ" secondAttribute="leading" constant="8" id="CLc-Pw-U4T"/>
-                            <constraint firstItem="qCJ-i2-4EQ" firstAttribute="trailing" secondItem="DWF-nZ-rmm" secondAttribute="trailing" constant="35" id="HRi-2J-prs"/>
+                            <constraint firstItem="qCJ-i2-4EQ" firstAttribute="trailing" secondItem="DWF-nZ-rmm" secondAttribute="trailing" constant="10" id="HRi-2J-prs"/>
                             <constraint firstItem="aWW-mt-3ed" firstAttribute="leading" secondItem="qCJ-i2-4EQ" secondAttribute="leading" constant="35" id="NZW-ZG-VRX"/>
                             <constraint firstItem="PGk-bg-2Cc" firstAttribute="top" secondItem="TED-3n-veL" secondAttribute="bottom" constant="10" id="SgD-6X-xaw"/>
+                            <constraint firstItem="y1x-oE-vcb" firstAttribute="centerX" secondItem="SUP-Zc-fYi" secondAttribute="centerX" id="TXB-ix-eig"/>
                             <constraint firstItem="iN9-yF-5UE" firstAttribute="centerX" secondItem="SUP-Zc-fYi" secondAttribute="centerX" id="YMs-XZ-9OL"/>
                             <constraint firstItem="1zG-Kr-iwB" firstAttribute="top" secondItem="DWF-nZ-rmm" secondAttribute="top" id="YpZ-z8-szX"/>
                             <constraint firstItem="qCJ-i2-4EQ" firstAttribute="trailing" secondItem="aWW-mt-3ed" secondAttribute="trailing" constant="35" id="cRJ-Qf-YqC"/>
@@ -348,6 +361,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tl6-py-UMl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2032.8" y="-672.41379310344837"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="X5B-Hj-Vug">
+            <objects>
+                <viewController id="yna-2f-cev" customClass="PVPViewController" customModule="BoardGamesTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8H8-xL-XbX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="qgk-l1-wPb"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="esF-rn-jsu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2972" y="808"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="RUJ-iS-Shj">
@@ -396,4 +424,7 @@
     <resources>
         <image name="timer" width="80" height="80"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="kJ6-in-THK"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -48,7 +48,7 @@ class PhotoDetailsView: UIView {
         imageView.heightAnchor.constraint(equalToConstant: self.frame.height / 2).isActive = true
         
         
-        mapView.topAnchor.constraint(equalTo: imageView.bottomAnchor).isActive = true
+        mapView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 10).isActive = true
         mapView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
         mapView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
         mapView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true

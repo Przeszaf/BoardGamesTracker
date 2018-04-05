@@ -106,6 +106,10 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: "showPhotos", sender: matchesWithPhoto)
     }
     
+    @IBAction func PVPButtonPressed(_ sender: UIButton) {
+        performSegue(withIdentifier: "choosePlayers", sender: nil)
+    }
+    
     
     @IBAction func startTimerButtonPressed(_ sender: UIButton) {
         if sender.currentTitle == "Start" {
@@ -121,6 +125,7 @@ class HomeViewController: UIViewController {
         timer.resetTimer()
         startButton.setTitle("Start", for: .normal)
     }
+    
     
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -138,6 +143,15 @@ class HomeViewController: UIViewController {
         case "showPhotos"?:
             let controller = segue.destination as! PhotosViewController
             controller.matches = sender as! [Match]
+        case "choosePlayers"?:
+            let controller = segue.destination as! ChooserViewController
+            controller.segueKey = "PVP"
+            do {
+                controller.availablePlayers = try managedContext.fetch(Player.fetchRequest())
+                controller.selectedPlayers = [Player]()
+            } catch {
+                print("Error fetching players")
+            }
         case "test"?:
             print("Test")
         default:
