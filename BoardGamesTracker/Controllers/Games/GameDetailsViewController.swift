@@ -316,7 +316,7 @@ class GameDetailsViewController: UITableViewController {
         }
         let playersNames = playersSortedByActivity.map({$0.name!})
         
-        let playersPlayingBarChart = BarChartView(dataSet: nil, dataSetMapped: playersCountMapped, newDataSet: nil, xAxisLabels: playersNames, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: nil, title: "Most active players", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5, height: 150))
+        let playersPlayingBarChart = BarChartView(dataSet: nil, dataSetMapped: playersCountMapped, newDataSet: nil, xAxisLabels: playersNames, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10, height: 160))
         headerViews.append(playersPlayingBarChart)
 
         

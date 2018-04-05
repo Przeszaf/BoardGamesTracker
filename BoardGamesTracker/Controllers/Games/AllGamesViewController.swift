@@ -181,17 +181,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-            //FIXME
-        case "addPremadeGame"?:
-            let controller = segue.destination as! AddPremadeGameViewController
-        case "showGameDetails"?:
+        if segue.identifier == "showGameDetails" {
             //sender is indexPath.row, so now we can pass correct game to view controller
             let index = sender as! Int
             let controller = segue.destination as! GameDetailsViewController
             controller.game = games[index]
-        default:
-            preconditionFailure("Wrong segue identifier")
         }
     }
     

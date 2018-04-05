@@ -91,8 +91,7 @@ class HomeViewController: UIViewController {
         performSegue(withIdentifier: "showMap", sender: matches)
     }
     
-    //FIXME: Make Collection View Controller that shows photos.
-    //First version of button
+    
     @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
         var matchesWithPhoto = [Match]()
         do {

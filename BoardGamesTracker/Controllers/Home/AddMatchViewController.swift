@@ -986,9 +986,17 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        //FIXME: Ask user if wants to use camera or photoLibrary
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePicker.sourceType = .camera
+            let alert = UIAlertController(title: "Which source do you want to use?", message: nil, preferredStyle: .actionSheet)
+            let cameraButton = UIAlertAction(title: "Camera", style: .default) { (action) in
+                imagePicker.sourceType = .camera
+            }
+            let photoLibraryButton = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+                imagePicker.sourceType = .photoLibrary
+            }
+            alert.addAction(cameraButton)
+            alert.addAction(photoLibraryButton)
+            present(alert, animated: true, completion: nil)
         } else {
             imagePicker.sourceType = .photoLibrary
         }
