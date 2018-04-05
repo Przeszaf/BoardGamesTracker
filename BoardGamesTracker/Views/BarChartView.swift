@@ -80,7 +80,6 @@ class BarChartView: UIView {
         } else {
             offsetYBottom = 20
         }
-        print(offsetYBottom)
         
         if title != nil {
             offsetYTop = 25
@@ -323,7 +322,6 @@ class BarChartView: UIView {
     
     //Set minimum and maximum values for X-axis if not given
     func dataSetMinMaxX(dataSet: [Int]) {
-        print(dataSet)
         guard let max = dataSet.last else { return }
         guard let min = dataSet.first else { return }
         var barsNumber = 0
@@ -332,7 +330,6 @@ class BarChartView: UIView {
             let minValue = min - min % step
             let diff = maxValue - minValue
             let bars = diff / step + 1
-            print(bars)
             if bars <= 11 {
                 barsNumber = bars
                 maxX = maxValue

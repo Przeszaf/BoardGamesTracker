@@ -18,8 +18,8 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     var currentRow: Int?
     var currentSection: Int?
     var segueKey: String?
-    var dictionary: [Player: [Int]]?
-    var sectionNames: [String]!
+    var dictionary: [Player: Any]?
+    var sectionNames: [ExtendedPointName]!
     
     //Key is used to determine whether this controller is used to assign places or points to players
     //MARK: - UITableViewController
@@ -38,6 +38,7 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         
     }
     
@@ -77,10 +78,10 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
             }
         } else if segueKey == "Extended Points" {
             cell.playerNumField.keyboardType = .numbersAndPunctuation
-            if let pointsDictionary = dictionary, let pointsArray = pointsDictionary[player] {
+            if let playerDict = dictionary, let pointsDict = playerDict[player] as? [String: Int] {
                 cell.playerNumField.tag = indexPath.section * 100 + indexPath.row
-                if pointsArray[indexPath.section] != -99 {
-                    cell.playerNumField.text = String(pointsArray[indexPath.section])
+                if let point = pointsDict[sectionNames[indexPath.section].name!], point != -99 {
+                    cell.playerNumField.text = String(point)
                 } else {
                     cell.playerNumField.text = ""
                 }
@@ -107,7 +108,7 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
             label.textAlignment = .center
             view.backgroundColor = Constants.Global.backgroundColor
             view.addSubview(label)
-            label.text = sectionNames[section]
+            label.text = sectionNames[section].name!
             if game.name == "7 Wonders" {
                 switch section {
                 case 0:
@@ -147,8 +148,8 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
             } else if segueKey == "Extended Points" {
                 for player in availablePlayers {
                     var pointSum = 0
-                    for i in 0..<sectionNames.count {
-                        let playerPoint = dictionary![player]![i]
+                    let playerDict = dictionary![player] as! [String: Int]
+                    for (_, playerPoint) in playerDict {
                         if playerPoint != -99 {
                             pointSum += playerPoint
                         }
@@ -187,9 +188,12 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
             }
             if num >= -98 && num <= 999 && segueKey == "Extended Points" {
                 let playerIndex = currentRow!
-                let pointsIndex = currentSection!
+                let sectionName = sectionNames[currentSection!].name!
                 let player = availablePlayers[playerIndex]
-                dictionary![player]![pointsIndex] = num
+                guard let playersDict = dictionary?[player] as? [String: Int] else { return false }
+                var newPlayersDict = playersDict
+                newPlayersDict[sectionName] = num
+                dictionary![player] = newPlayersDict
                 return true
             }
         }
@@ -247,3 +251,4 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     
     
 }
+

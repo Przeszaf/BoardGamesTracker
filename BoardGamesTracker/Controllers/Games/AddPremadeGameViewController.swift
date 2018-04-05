@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class AddPremadeGameViewController: UITableViewController {
     
-    var gameStore: GameStore!
+
+    var premadeGames: [Game]!
     
-    
+    var managedContext: NSManagedObjectContext!
     //MARK: - ViewController functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -26,15 +28,27 @@ class AddPremadeGameViewController: UITableViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addMyOwnGame))
         
         tableView.backgroundColor = Constants.Global.backgroundColor
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        managedContext = appDelegate.persistentContainer.viewContext
+        
+        do {
+            let request = NSFetchRequest<Game>(entityName: "Game")
+            request.predicate = NSPredicate(format: "inCollection == NO", argumentArray: nil)
+            request.sortDescriptors = [NSSortDescriptor.init(key: "name", ascending: true)]
+            premadeGames = try managedContext.fetch(request)
+        } catch {
+            print(error)
+        }
     }
     
     
     //MARK: - TableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PremadeGamesCell", for: indexPath) as! PremadeGamesCell
-        cell.gameNameLabel.text = gameStore.premadeGames[indexPath.row].name
+        cell.gameNameLabel.text = premadeGames[indexPath.row].name
         cell.gameTypeLabel.text = "Team game"
-        cell.gameIconImageView.image = gameStore.premadeGames[indexPath.row].icon
+        cell.gameIconImageView.image = UIImage(named: premadeGames[indexPath.row].name!)
         
         cell.backgroundColor = UIColor.clear
         cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
@@ -42,20 +56,25 @@ class AddPremadeGameViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameStore.premadeGames.count
+        return premadeGames.count
     }
     
     //If game is selected, then adds it to allGames in gameStore and removes from premadeGames
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let game = gameStore.premadeGames[indexPath.row]
-        gameStore.addGame(game)
-        gameStore.premadeGames.remove(at: indexPath.row)
+        let game = premadeGames[indexPath.row]
+        game.inCollection = true
+        premadeGames.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+        do {
+            try managedContext.save()
+        } catch {
+            print(error)
+        }
     }
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = gameStore.premadeGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
+        let height = premadeGames[indexPath.row].name!.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
         return height + 35
     }
     
@@ -66,14 +85,5 @@ class AddPremadeGameViewController: UITableViewController {
         performSegue(withIdentifier: "addGame", sender: self)
     }
     
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "addGame"?:
-            let controller = segue.destination as! AddGameViewController
-            controller.gameStore = gameStore
-        default:
-            preconditionFailure("Wrong segue identifier!")
-        }
-    }
 }
+

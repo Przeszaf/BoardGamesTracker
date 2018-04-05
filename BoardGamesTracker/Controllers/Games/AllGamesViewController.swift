@@ -7,17 +7,36 @@
 //
 
 import UIKit
+import CoreData
 
 
 class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
-    var gameStore: GameStore!
+    var games = [Game]()
+    var managedContext: NSManagedObjectContext!
     
     var currentCell: Int?
     
     //MARK: - ViewController functions
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        managedContext = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<Game>(entityName: "Game")
+        let dateSortDescriptor = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
+        let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [dateSortDescriptor, nameSortDescriptor]
+        request.predicate = NSPredicate(format: "inCollection == YES", argumentArray: nil)
+        do {
+            games = try managedContext.fetch(request)
+            tableView.reloadData()
+        } catch let error as NSError {
+            print("Could not fetch: \(error)")
+        }
+        
         tableView.reloadData()
         reloadHeaderView()
     }
@@ -29,25 +48,30 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         tableView.backgroundColor = Constants.Global.backgroundColor
         tableView.separatorStyle = .none
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
+        
+        
     }
     
     //MARK: - TableView functions
     
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let game = gameStore.allGames[indexPath.row]
         
         //If it is custom game, then use different cell style with icon
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
+        let game = games[indexPath.row]
+        
+        if let lastTimePlayed = game.lastTimePlayed {
+            let date = lastTimePlayed as Date
+            cell.gameDate.text = date.toStringWithHour()
+        }
         cell.gameName.text = game.name
-        cell.gameDate.text = game.lastTimePlayed?.toStringWithHour()
-        cell.gameTimesPlayed.text = "\(game.timesPlayed) times played"
+        cell.gameTimesPlayed.text = "\(game.matches?.count ?? 0) times played"
         cell.gameTimesPlayed.textColor = Constants.Global.detailTextColor
         cell.gameName.delegate = self
         cell.selectionStyle = .none
         
-        //FIXME: Assign correct image to icon
-        cell.gameIconImageView.image = game.icon
+        cell.imageView?.image = UIImage(named: game.name!)
         
         //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row
@@ -70,23 +94,23 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameStore.allGames.count
+        return games.count
     }
     
     
     //Deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let game = gameStore.allGames[indexPath.row]
+            let game = games[indexPath.row]
             let matches = game.matches
-            let title = "Are you sure you want to delete \(game.name)?"
-            let message = "This will also delete \(matches.count) matches associated with this game."
-            
+            let title = "Are you sure you want to delete \(game.name!)?"
+            let message = "This will also delete \(matches?.count ?? 0) matches associated with this game."
             let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                self.gameStore.removeGame(game)
+                Helper.removeGame(game: game)
+                self.games.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)
@@ -96,8 +120,8 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //Setting correct height of table - depends on length of game name
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = gameStore.allGames[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
-        if let heightOfDate = gameStore.allGames[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+        guard let height = games[indexPath.row].name?.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17)) else { return 50 }
+        if let heightOfDate = games[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
             return height + heightOfDate + 14
         }
         return height + 35
@@ -126,7 +150,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //Update game name if text changes
     func textViewDidChange(_ textView: UITextView) {
-        gameStore.allGames[textView.tag].name = textView.text
+        games[textView.tag].name = textView.text
         currentCell = textView.tag
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -157,18 +181,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "addPremadeGame"?:
-            let controller = segue.destination as! AddPremadeGameViewController
-            controller.gameStore = gameStore
-        case "showGameDetails"?:
+        if segue.identifier == "showGameDetails" {
             //sender is indexPath.row, so now we can pass correct game to view controller
             let index = sender as! Int
             let controller = segue.destination as! GameDetailsViewController
-            controller.game = gameStore.allGames[index]
-            controller.gameStore = gameStore
-        default:
-            preconditionFailure("Wrong segue identifier")
+            controller.game = games[index]
         }
     }
     
@@ -193,20 +210,19 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     
     //Reloads header view - generates new chart etc.
     func reloadHeaderView() {
-        let gamesPlayed = gameStore.allGames.count
+        let gamesPlayed = games.count
         var matchesPlayed = 0
-        for game in gameStore.allGames {
-            matchesPlayed += game.matches.count
+        for game in games {
+            matchesPlayed += (game.matches?.count)!
         }
-        
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You have \(gamesPlayed) games in your collection and played \(matchesPlayed) matches. See your statistics below."
         
         let gamesPlayedCount = { () -> [Int] in
             var array = [Int]()
-            for game in gameStore.allGames {
-                if game.timesPlayed != 0 {
-                    array.append(game.timesPlayed)
+            for game in games {
+                if game.matches?.count != 0 {
+                    array.append(game.matches!.count)
                 }
             }
             return array
@@ -214,9 +230,9 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         
         let gameNames = { () -> [String] in
             var nameArray = [String]()
-            for game in self.gameStore.allGames {
-                if game.timesPlayed != 0 {
-                    nameArray.append(game.name)
+            for game in self.games {
+                if game.matches?.count != 0 {
+                    nameArray.append(game.name!)
                 }
             }
             return nameArray

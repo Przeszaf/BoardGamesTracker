@@ -12,9 +12,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     
     var picker: UIPickerView!
     
-    var myPickerData: [String]!
-    var myPickerDataEvil: [String]!
-    var myPickerDataGood: [String]!
+    var myPickerData: [GameClass]!
+    var myPickerDataEvil: [GameClass]!
+    var myPickerDataGood: [GameClass]!
     
     var dictionaryName: String!
     var dictionaryKeys: [String]!
@@ -22,7 +22,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     
     var game: Game!
     var availablePlayers: [Player]!
-    var playersClasses = [Player: String]()
+    var playersClasses = [Player: GameClass]()
     var winners: [Player]!
     var loosers: [Player]!
     var toolbar: UIToolbar!
@@ -45,7 +45,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         toolbar = Constants.Functions.createToolbarWith(leftButton: leftButton, rightButton: rightButton)
         
         
-        if !winners.isEmpty, !loosers.isEmpty {
+        if !winners.isEmpty || !loosers.isEmpty {
             availablePlayers = winners! + loosers!
         }
         tableView.backgroundColor = Constants.Global.backgroundColor
@@ -69,7 +69,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
         
         if segueKey == "Classes", let player = availablePlayers?[indexPath.row] {
             cell.leftLabel.text = player.name
-            cell.rightTextView.text = playersClasses[player]
+            cell.rightTextView.text = playersClasses[player]?.name!
         } else if segueKey == "Other" {
             let key = dictionaryKeys[indexPath.row]
             cell.leftLabel.text = key
@@ -142,16 +142,16 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 let player = availablePlayers![currentRow!]
                 //If there are good guys
                 if picker.tag == 0 {
-                    textView.text = myPickerDataGood[0]
+                    textView.text = myPickerDataGood[0].name
                     playersClasses[player] = myPickerDataGood[0]
                     //If there are evil guys
                 } else if picker.tag == 1 {
-                    textView.text = myPickerDataEvil[0]
+                    textView.text = myPickerDataEvil[0].name
                     playersClasses[player] = myPickerDataEvil[0]
                 }
             } else if segueKey == "Classes" {
                 let player = availablePlayers![currentRow!]
-                textView.text = myPickerData[0]
+                textView.text = myPickerData[0].name
                 playersClasses[player] = myPickerData[0]
             } else if segueKey == "Other" {
                 let value = dictionaryValues[0]
@@ -207,14 +207,14 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                     forComponent component: Int) -> String? {
         if (myPickerDataEvil != nil && myPickerDataGood != nil) {
             if picker.tag == 0 {
-                return myPickerDataGood[row]
+                return myPickerDataGood[row].name
             } else if picker.tag == 1 {
-                return myPickerDataEvil[row]
+                return myPickerDataEvil[row].name
             } else if picker.tag == 2 {
                 return "Pick correct amount of players!"
             }
         } else if segueKey == "Classes" {
-            return myPickerData[row]
+            return myPickerData[row].name
         } else if segueKey == "Other" {
             return ""
         }
@@ -231,16 +231,16 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
             if picker.tag == 0 {
                 let player = availablePlayers![currentRow!]
                 playersClasses[player] = myPickerDataGood[row]
-                cell.rightTextView.text = myPickerDataGood[row]
+                cell.rightTextView.text = myPickerDataGood[row].name
             } else if picker.tag == 1 {
                 let player = availablePlayers![currentRow!]
                 playersClasses[player] = myPickerDataEvil[row]
-                cell.rightTextView.text = myPickerDataEvil[row]
+                cell.rightTextView.text = myPickerDataEvil[row].name
             }
         } else if segueKey == "Classes" {
             let player = availablePlayers![currentRow!]
             playersClasses[player] = myPickerData[row]
-            cell.rightTextView.text = myPickerData[row]
+            cell.rightTextView.text = myPickerData[row].name
         } else if segueKey == "Other" {
             let value = dictionaryValues[row]
             let key = dictionaryKeys[currentRow!]
@@ -273,3 +273,4 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     }
     
 }
+

@@ -74,6 +74,22 @@ open class ClusterManager {
      */
     open var clusterPosition: ClusterPosition = .nearCenter
     
+    /**
+     The list of annotations associated.
+     
+     The objects in this array must adopt the MKAnnotation protocol. If no annotations are associated with the cluster manager, the value of this property is an empty array.
+     */
+    open var annotations: [MKAnnotation] {
+        return tree.annotations(in: MKMapRectWorld)
+    }
+    
+    /**
+     The list of visible annotations associated.
+     */
+    open var visibleAnnotations = [MKAnnotation]()
+    
+    open var queue = OperationQueue()
+    
     public init() {}
     
     /**
@@ -128,18 +144,16 @@ open class ClusterManager {
     }
     
     /**
-     The list of annotations associated.
+     Reload the annotations on the map view.
      
-     The objects in this array must adopt the MKAnnotation protocol. If no annotations are associated with the cluster manager, the value of this property is an empty array.
+     - Parameters:
+        - mapView: The map view object to reload.
+        - visibleMapRect: The area currently displayed by the map view.
      */
-    open var annotations: [MKAnnotation] {
-        return tree.annotations(in: MKMapRectWorld)
+    @available(*, deprecated: 2.1.4, message: "Use reload(mapView:)")
+    open func reload(_ mapView: MKMapView, visibleMapRect: MKMapRect) {
+        reload(mapView: mapView)
     }
-    
-    /**
-     The list of visible annotations associated.
-     */
-    public var visibleAnnotations = [MKAnnotation]()
     
     /**
      Reload the annotations on the map view.
@@ -147,20 +161,24 @@ open class ClusterManager {
      - Parameters:
         - mapView: The map view object to reload.
      */
-    open func reload(_ mapView: MKMapView, visibleMapRect: MKMapRect) {
-        autoreleasepool {
-            let (toAdd, toRemove) = clusteredAnnotations(mapView, visibleMapRect: visibleMapRect)
-            mapView.removeAnnotations(toRemove)
-            mapView.addAnnotations(toAdd)
-            visibleAnnotations.subtract(toRemove)
-            visibleAnnotations.add(toAdd)
+    open func reload(mapView: MKMapView) {
+        let mapBounds = mapView.bounds
+        let visibleMapRect = mapView.visibleMapRect
+        let visibleMapRectWidth = visibleMapRect.size.width
+        let zoomScale = Double(mapBounds.width) / visibleMapRectWidth
+        queue.cancelAllOperations()
+        queue.addOperation { [unowned self, unowned mapView] operation in
+            autoreleasepool {
+                let (toAdd, toRemove) = self.clusteredAnnotations(zoomScale: zoomScale, visibleMapRect: visibleMapRect)
+                guard !operation.isCancelled else { return }
+                DispatchQueue.main.async { [unowned self, unowned mapView] in
+                    self.display(mapView: mapView, toAdd: toAdd, toRemove: toRemove)
+                }
+            }
         }
     }
     
-    func clusteredAnnotations(_ mapView: MKMapView, visibleMapRect: MKMapRect) -> (toAdd: [MKAnnotation], toRemove: [MKAnnotation]) {
-        let mapRectWidth = Double(mapView.bounds.width)
-        let visibleMapRectWidth = visibleMapRect.size.width
-        let zoomScale = mapRectWidth / visibleMapRectWidth
+    open func clusteredAnnotations(zoomScale: Double, visibleMapRect: MKMapRect) -> (toAdd: [MKAnnotation], toRemove: [MKAnnotation]) {
         guard !zoomScale.isInfinite else { return (toAdd: [], toRemove: []) }
         
         zoomLevel = zoomScale.zoomLevel
@@ -251,6 +269,13 @@ open class ClusterManager {
         }
         
         return (toAdd: toAdd, toRemove: toRemove)
+    }
+    
+    open func display(mapView: MKMapView, toAdd: [MKAnnotation], toRemove: [MKAnnotation]) {
+        mapView.removeAnnotations(toRemove)
+        mapView.addAnnotations(toAdd)
+        visibleAnnotations.subtract(toRemove)
+        visibleAnnotations.add(toAdd)
     }
     
 }

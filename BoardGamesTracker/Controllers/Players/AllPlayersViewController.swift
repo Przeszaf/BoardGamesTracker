@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import CoreData
 
 class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
-    var playerStore: PlayerStore!
+    var players = [Player]()
     var addingPlayer = false
     var currentCell: Int?
+    
+    var managedContext: NSManagedObjectContext!
     
     var toolbar: UIToolbar!
     
@@ -20,6 +23,21 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        managedContext = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<Player>(entityName: "Player")
+        let sortByDate = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
+        let sortByName = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [sortByDate, sortByName]
+        do {
+            players = try managedContext.fetch(request)
+            tableView.reloadData()
+        } catch let error as NSError {
+            print("Could not fetch: \(error)")
+        }
+        
         reloadHeaderView()
     }
     
@@ -48,7 +66,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //If we want to add new player, then create additional cell
-        if indexPath.row == playerStore.allPlayers.count {
+        if indexPath.row == players.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddPlayersCell", for: indexPath) as! AddPlayersCell
             cell.addButton.addTarget(self, action: #selector(addPlayer), for: .touchUpInside)
             cell.playerName.inputAccessoryView = toolbar
@@ -57,21 +75,21 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllPlayersCell", for: indexPath) as! AllPlayersCell
-        cell.playerName.text = playerStore.allPlayers[indexPath.row].name
+        cell.playerName.text = players[indexPath.row].name
         
         //Get last time played
-        if let lastTimePlayed = playerStore.allPlayers[indexPath.row].lastTimePlayed {
+        if let lastTimePlayed = players[indexPath.row].lastTimePlayed {
             cell.playerDate.text = lastTimePlayed.toStringWithHour()
         } else {
             cell.playerDate.text = "00-00-0000 00:00"
         }
         
         //How many times played
-        let timesPlayed = playerStore.allPlayers[indexPath.row].timesPlayed
-        if timesPlayed == 0 {
+        let timesPlayed = players[indexPath.row].matches?.count
+        if timesPlayed == 0 || timesPlayed == nil {
             cell.playerTimesPlayed.text = "Never played yet"
         } else {
-            cell.playerTimesPlayed.text = "\(playerStore.allPlayers[indexPath.row].timesPlayed) times played"
+            cell.playerTimesPlayed.text = "\(timesPlayed!) times played"
         }
         cell.playerTimesPlayed.textColor = Constants.Global.detailTextColor
         //Make playerName textView editable if table is editing and vice versa
@@ -101,16 +119,16 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if addingPlayer {
-            return playerStore.allPlayers.count + 1
+            return players.count + 1
         }
-        return playerStore.allPlayers.count
+        return players.count
     }
     
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row < playerStore.allPlayers.count {
-            let heightOfName = playerStore.allPlayers[indexPath.row].name.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17))
-            if let heightOfDate = playerStore.allPlayers[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+        if indexPath.row < players.count {
+            guard let heightOfName = players[indexPath.row].name?.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17)) else { return 52 }
+            if let heightOfDate = players[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
                 return heightOfDate + heightOfName + 10
             }
         }
@@ -147,7 +165,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         case "showPlayerDetails"?:
             let index = sender as! Int
             let controller = segue.destination as! PlayerDetailsViewController
-            controller.player = playerStore.allPlayers[index]
+            controller.player = players[index]
         default:
             preconditionFailure("Wrong segue identifier")
         }
@@ -163,31 +181,38 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         tableView.reloadData()
         DispatchQueue.main.async {
             //If add button in bar is touched, then scroll to bottom and make the new cell a first responder
-            self.tableView.scrollToRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0), at: .top, animated: false)
-            let cell = self.tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
+            self.tableView.scrollToRow(at: IndexPath(item: self.players.count, section: 0), at: .top, animated: false)
+            let cell = self.tableView.cellForRow(at: IndexPath(item: self.players.count, section: 0)) as! AddPlayersCell
             cell.playerName.becomeFirstResponder()
         }
     }
     
     @IBAction func addPlayer() {
-        let cell = tableView.cellForRow(at: IndexPath(item: self.playerStore.allPlayers.count, section: 0)) as! AddPlayersCell
+        let cell = tableView.cellForRow(at: IndexPath(item: self.players.count, section: 0)) as! AddPlayersCell
         
         //Cannot create player without name
         if cell.playerName.text == "" {
             
         } else {
-            let player = Player(name: cell.playerName.text!)
-            playerStore.addPlayer(player)
+            let newPlayer = Player(context: managedContext)
+            newPlayer.name = cell.playerName.text
+            players.append(newPlayer)
             addingPlayer = false
             cell.playerName.text = ""
+            
+            do {
+                try managedContext.save()
+            } catch {
+                print(error)
+            }
             tableView.reloadData()
-            reloadHeaderView()
+//            reloadHeaderView()
         }
     }
     
     
     @objc func cancelAddingPlayerButtonPressed() {
-        guard let cell = tableView.cellForRow(at: IndexPath(row: playerStore.allPlayers.count, section: 0)) as? AddPlayersCell else { return }
+        guard let cell = tableView.cellForRow(at: IndexPath(row: players.count, section: 0)) as? AddPlayersCell else { return }
         addingPlayer = false
         cell.playerName.text = ""
         cell.resignFirstResponder()
@@ -220,20 +245,27 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let player = playerStore.allPlayers[indexPath.row]
-            if player.timesPlayed != 0 {
+            let player = players[indexPath.row]
+            if player.matches?.count != 0 {
                 let alert = Constants.Functions.createAlert(title: "Failure!", message: "You cannot delete player with matches. Delete matches first.")
                 let action = UIAlertAction(title: "Ok!", style: .cancel, handler: nil)
                 alert.addAction(action)
                 present(alert, animated: true, completion: nil)
                 return
             }
-            let title = "Are you sure you want to delete \(player.name)?"
+            let title = "Are you sure you want to delete \(player.name!)?"
             let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             alert.addAction(cancelAction)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                self.playerStore.removePlayer(player)
+                do {
+                    self.players.remove(at: indexPath.row)
+                    self.managedContext.delete(player)
+                    try self.managedContext.save()
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                } catch {
+                    print("Error deleting player. \(error)")
+                }
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             })
             alert.addAction(deleteAction)
@@ -245,7 +277,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     //Update game name if text changes
     func textViewDidChange(_ textView: UITextView) {
-        playerStore.allPlayers[textView.tag].name = textView.text
+        players[textView.tag].name = textView.text
         currentCell = textView.tag
         tableView.beginUpdates()
         tableView.endUpdates()
@@ -273,43 +305,33 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     
     func reloadHeaderView() {
-        let playersSortedByActivity = playerStore.allPlayers.sorted(by: { $0.timesPlayed > $1.timesPlayed })
-        print(playersSortedByActivity)
-        
-        //FIXME: Can be done better
-        let dataSet = { () -> [Int] in
-            var dataArray = [Int]()
-            for (i, player) in playersSortedByActivity.enumerated() {
-                for _ in 0..<player.timesPlayed {
-                    dataArray.append(i)
-                }
+        let playersSortedByActivity = players.sorted(by: { (firstPlayer, secondPlayer) -> Bool in
+            if let firstPlayerCount = firstPlayer.matches?.count, let secondPlayerCount = secondPlayer.matches?.count {
+                return firstPlayerCount > secondPlayerCount
+            } else if secondPlayer.matches?.anyObject() == nil {
+                return true
+            } else {
+                return false
             }
-            return dataArray
-        }()
+            })
         
-        let dataName = { () -> [String] in
-            var nameArray = [String]()
-            for player in playersSortedByActivity {
-                if player.timesPlayed != 0 {
-                    nameArray.append(player.name)
-                }
-            }
-            return nameArray
-        }()
-        
-        
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 300))
+        let dataSetMapped = playersSortedByActivity.map({$0.matches?.count ?? 0})
+
+        let dataName = playersSortedByActivity.map({$0.name!})
+
+        var viewsToAdd = [UIView]()
+
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
-        firstHeaderView.label.text = "You played with \(playerStore.allPlayers.count) friends! See their statistics below!"
-        headerView.addSubview(firstHeaderView)
-        
-        let label = UILabel(frame: CGRect(x: 0, y: firstHeaderView.frame.height + 5, width: tableView.frame.width, height: 20))
-        label.text = "Most active players"
-        label.textAlignment = .center
-        if !dataSet.isEmpty {
-            let barChartView = BarChartView(dataSet: dataSet, dataSetMapped: nil, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: firstHeaderView.frame.height + 25, width: tableView.frame.width, height: 200))
-//            headerView.addSubview(label)
-            headerView.addSubview(barChartView)
+        firstHeaderView.label.text = "You played with \(players.count) friends! See their statistics below!"
+        viewsToAdd.append(firstHeaderView)
+
+        if !dataSetMapped.isEmpty {
+            let barChartView = BarChartView(dataSet: nil, dataSetMapped: dataSetMapped, newDataSet: nil, xAxisLabels: dataName, barGapWidth: 4, reverse: true, labelsRotated: true, truncating: 8, title: "Most active players", frame: CGRect.init(x: 0, y: viewsToAdd.last!.frame.height + 10, width: tableView.frame.width, height: 200))
+            viewsToAdd.append(barChartView)
+        }
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: viewsToAdd.last!.frame.maxY + 15))
+        for viewToAdd in viewsToAdd {
+            headerView.addSubview(viewToAdd)
         }
         tableView.tableHeaderView = headerView
     }

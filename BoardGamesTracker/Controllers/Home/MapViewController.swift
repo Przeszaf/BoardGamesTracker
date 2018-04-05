@@ -13,7 +13,7 @@ import Cluster
 
 class MapViewController: UIViewController {
     
-    var locations: [CLLocation]!
+    var locations = [CLLocation]()
     var matches: [Match]!
     var annotations = [Annotation]()
     let manager = ClusterManager()
@@ -22,6 +22,11 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        for match in matches {
+            let location = CLLocation(latitude: match.latitude, longitude: match.longitude)
+            locations.append(location)
+        }
         
         mapView = MKMapView()
         mapView.mapType = .standard
@@ -43,7 +48,7 @@ class MapViewController: UIViewController {
             annotations.append(annotation)
         }
         manager.add(annotations)
-        manager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        manager.reload(mapView: mapView)
     }
 }
 
@@ -80,7 +85,7 @@ class MapViewController: UIViewController {
     }
     
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        manager.reload(mapView, visibleMapRect: mapView.visibleMapRect)
+        manager.reload(mapView: mapView)
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

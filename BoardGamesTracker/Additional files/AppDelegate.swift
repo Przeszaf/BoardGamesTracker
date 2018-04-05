@@ -7,15 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    let playerStore = PlayerStore()
-    let gameStore = GameStore()
-    let imageStore = ImageStore()
     
     var timer = MyTimer()
     
@@ -31,21 +29,58 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navControllerMatches = tabBarController.viewControllers?[0] as! UINavigationController
         let homeController = navControllerMatches.topViewController as! HomeViewController
         
-        let navControllerGames = tabBarController.viewControllers?[1] as! UINavigationController
-        let allGamesController = navControllerGames.topViewController as! AllGamesViewController
-        
-        let navControllerPlayers = tabBarController.viewControllers?[2] as! UINavigationController
-        let allPlayersController = navControllerPlayers.topViewController as! AllPlayersViewController
-        
-        allGamesController.gameStore = gameStore
-        allPlayersController.playerStore = playerStore
-        homeController.gameStore = gameStore
-        homeController.playerStore = playerStore
         homeController.timer = timer
-        homeController.imageStore = imageStore
         
-        gameStore.playerStore = playerStore
-        gameStore.setPlayerStore()
+        let urls = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        print("Core data")
+        print(urls[urls.count-1] as URL)
+        
+        
+        let managedContext = persistentContainer.viewContext
+
+        do {
+            let players: [Player] = try managedContext.fetch(Player.fetchRequest())
+            print(players.map({$0.name!}).joined(separator: ", "))
+            if players.count == 0 {
+                let playerEntity = NSEntityDescription.entity(forEntityName: "Player", in: managedContext)!
+                for i in 0..<7 {
+                    let player = Player(entity: playerEntity, insertInto: managedContext)
+                    switch i {
+                    case 0:
+                        player.name = "Przemek"
+                    case 1:
+                        player.name = "Daria"
+                    case 2:
+                        player.name = "Igor"
+                    case 3:
+                        player.name = "Koksu"
+                    case 4:
+                        player.name = "Marzena"
+                    case 5:
+                        player.name = "Robert"
+                    case 6:
+                        player.name = "Sagan"
+                    default:
+                        player.name = "Other name"
+                    }
+                }
+                let games: [Game] = try managedContext.fetch(Game.fetchRequest())
+                if games.count == 0 {
+                    //FIXME: ADD GAMES
+                    Helper.addGame(name: "Abvd", type: GameType.SoloWithPlaces, inCollection: true, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                }
+                try managedContext.save()
+            }
+        } catch {
+            print(error)
+        }
+        
+//        Helper.addGame(name: "Full game", type: GameType.Cooperation, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: ["AAA", "BBB", "CCC"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Expansion 1", "Expansion 2"], expansionsAreMultiple: true, scenariosArray: ["Scenario1", "Scenario2", "Scenario 3"], scenariosAreMultiple: false, winSwitch: true, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+//        do {
+//            try managedContext.save()
+//        } catch {
+//            print(error)
+//        }
         
         
         return true
@@ -59,15 +94,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-        for player in playerStore.allPlayers {
-            if player.name == "" {
-                player.name = "Change me!"
-            }
-        }
         timer.saveTimer()
-        if gameStore.save() && playerStore.save() {
-            print("Successfully saved all files")
-        }
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -82,6 +109,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    // MARK: - Core Data stack
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        /*
+         The persistent container for the application. This implementation
+         creates and returns a container, having loaded the store for the
+         application to it. This property is optional since there are legitimate
+         error conditions that could cause the creation of the store to fail.
+         */
+        let container = NSPersistentContainer(name: "BoardGamesTracker")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                
+                /*
+                 Typical reasons for an error here include:
+                 * The parent directory does not exist, cannot be created, or disallows writing.
+                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
+                 * The device is out of space.
+                 * The store could not be migrated to the current model version.
+                 Check the error message to determine what the actual problem was.
+                 */
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    
+    // MARK: - Core Data Saving support
+    
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                // Replace this implementation with code to handle the error appropriately.
+                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
+    
 
 }
 
