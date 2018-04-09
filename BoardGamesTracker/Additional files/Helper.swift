@@ -12,19 +12,23 @@ import CoreLocation
 
 class Helper {
     
-    
+    //Function that adds game with specific options
     static func addGame(name: String, type: String, inCollection: Bool, maxNoOfPlayers: Int, pointsExtendedNameArray: [String]?, classesArray: [String]?, goodClassesArray: [String]?, evilClassesArray: [String]?, expansionsArray: [String]?, expansionsAreMultiple: Bool?, scenariosArray: [String]?, scenariosAreMultiple: Bool?, winSwitch: Bool, difficultyNames: [String]?, roundsLeftName: String?, additionalSwitchNames: [String]?) {
         
+        //Get correct managed object context
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
         
         let game = Game(context: managedContext)
         
+        //Set game, type and if the game is in collection
         game.name = name
         game.type = type
         game.inCollection = inCollection
         game.maxNoOfPlayers = Int32(maxNoOfPlayers)
+        
+        //If there are extended points, then create new object and set correct name and game
         if let extendedPointsNames = pointsExtendedNameArray {
             for pointName in extendedPointsNames {
                 let extendedPointName = ExtendedPointName(context: managedContext)
@@ -88,6 +92,7 @@ class Helper {
         print(game)
     }
     
+    //Adds match
     static func addMatch(game: Game, players: [Player], points: [Int]?, places: [Int], dictionary: [String: Any], date: Date, time: TimeInterval?, location: CLLocation?, image: UIImage?) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -99,6 +104,7 @@ class Helper {
             match.time = time
         }
         
+        //Sets correct date to game
         if let gameDate = game.lastTimePlayed {
             let gameDate = gameDate as Date
             if gameDate.compare(date).rawValue < 0 {
@@ -130,6 +136,7 @@ class Helper {
                 }
             }
             
+            //Set correct date of last match to player
             if let lastTimePlayed = player.lastTimePlayed {
                 let lastTimePlayed = lastTimePlayed as Date
                 if lastTimePlayed.compare(date).rawValue < 0 {
@@ -176,6 +183,7 @@ class Helper {
         }
     }
     
+    //Removes match
     static func removeMatch(match: Match) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -183,6 +191,8 @@ class Helper {
         let players = match.players!.allObjects as! [Player]
         
         let matchDate = match.date!
+        
+        //Updates players' lastTimePlayed variable
         for player in players {
             if player.lastTimePlayed == matchDate {
                 do {
@@ -201,6 +211,8 @@ class Helper {
                 }
             }
         }
+        
+        //Updates game lastTimePlayed variable
         if match.game!.lastTimePlayed == match.date! {
             do {
                 let request = NSFetchRequest<Match>(entityName: "Match")
@@ -225,12 +237,15 @@ class Helper {
         }
     }
     
+    
+    //Removes games
     static func removeGame(game: Game) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
         managedContext.delete(game)
         
+        //Updates players' lastTimePlayed variable
         if let players = game.players?.allObjects as? [Player] {
             for player in players {
                 if player.lastTimePlayed == game.lastTimePlayed {

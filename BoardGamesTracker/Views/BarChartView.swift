@@ -22,6 +22,8 @@ class BarChartView: UIView {
     var maxX: Int!
     var step: Int!
     
+    
+    //MARK: - Initializers
     convenience init(dataSet: [Int]?, dataSetMapped: [Int]?, newDataSet: [Int]?, xAxisLabels: [String]?, barGapWidth: CGFloat, reverse: Bool, labelsRotated: Bool, truncating: Int?, title: String?, frame: CGRect) {
         self.init(frame: frame)
         self.dataSet = dataSet
@@ -45,10 +47,8 @@ class BarChartView: UIView {
         setup()
     }
     
-    override func layoutSubviews() {
-    }
     
-    
+    //MARK: - Creating view
     func setup() {
         
         if let title = title {
@@ -149,7 +149,7 @@ class BarChartView: UIView {
         
         let stepXWidth = width / barsCount - 1
         
-        //If we want graph reversed, then to following
+        //If we want graph reversed, then do following
         if reverse {
             xAxisLabels = xAxisLabels?.reversed()
             dataSetMapped = dataSetMapped.reversed()
@@ -270,6 +270,8 @@ class BarChartView: UIView {
         }
     }
     
+    //MARK: - Bezier Paths
+    
     //Creates path for frame of bar chart
     func createFramePath(x: CGFloat, yBottom: CGFloat, yTop: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()
@@ -320,6 +322,8 @@ class BarChartView: UIView {
     }
     
     
+    
+    //MARK: - Other functions
     //Set minimum and maximum values for X-axis if not given
     func dataSetMinMaxX(dataSet: [Int]) {
         guard let max = dataSet.last else { return }

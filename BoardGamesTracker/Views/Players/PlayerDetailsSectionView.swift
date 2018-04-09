@@ -90,6 +90,7 @@ class PlayerDetailsSectionView: UIView {
         self.layer.addSublayer(shapeLayer)
     }
     
+    //Creates path at the bottom of view
     func createBezierPath() -> UIBezierPath {
         let path = UIBezierPath()
         path.move(to: CGPoint(x: 10, y: 0))

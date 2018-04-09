@@ -67,7 +67,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let games: [Game] = try managedContext.fetch(Game.fetchRequest())
                 if games.count == 0 {
                     //FIXME: ADD GAMES
-                    Helper.addGame(name: "Abvd", type: GameType.SoloWithPlaces, inCollection: true, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                    Helper.addGame(name: "7 Wonders", type: GameType.SoloWithPoints, inCollection: false, maxNoOfPlayers: 8, pointsExtendedNameArray: ["Military (red)", "Gold", "Wonders", "Civic (blue)", "Commercial (gold)", "Guilds (purple)", "Scientific (green)", "Leaders"], classesArray: ["Rome", "Alexandria", "Rhodos", "Ephesos", "Olympia", "Halikarnassos", "Gizah"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Leaders", "Cities", "Babylon"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                    
+                    Helper.addGame(name: "Robinson Crusoe", type: GameType.Cooperation, inCollection: false, maxNoOfPlayers: 4, pointsExtendedNameArray: nil, classesArray: ["Cook", "Soldier", "Explorer", "Carpenter"], goodClassesArray: nil, evilClassesArray: nil, expansionsArray: ["Mystery Tales", "Voyage of the Beagle"], expansionsAreMultiple: false, scenariosArray: [""], scenariosAreMultiple: false, winSwitch: true, difficultyNames: nil, roundsLeftName: "Days", additionalSwitchNames: ["Playing with Friday", "Playing with Dog"])
+                    
+                    Helper.addGame(name: "Time's Up", type: GameType.TeamWithPlaces, inCollection: false, maxNoOfPlayers: 99, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                    
+                    Helper.addGame(name: "Mascarade", type: GameType.SoloWithPlaces, inCollection: false, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                    
+                    Helper.addGame(name: "Wanna Bet?", type: GameType.SoloWithPlaces, inCollection: false, maxNoOfPlayers: 99, pointsExtendedNameArray: nil, classesArray: nil, goodClassesArray: nil, evilClassesArray: nil, expansionsArray: nil, expansionsAreMultiple: nil, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: nil)
+                    
+                    Helper.addGame(name: "Avalon", type: GameType.TeamWithPlaces, inCollection: false, maxNoOfPlayers: 10, pointsExtendedNameArray: nil, classesArray: [""], goodClassesArray: [""], evilClassesArray: [""], expansionsArray: ["Excalibur", "Lady of the Lake"], expansionsAreMultiple: true, scenariosArray: nil, scenariosAreMultiple: nil, winSwitch: false, difficultyNames: nil, roundsLeftName: nil, additionalSwitchNames: ["Killed by Assassin"])
                 }
                 try managedContext.save()
             }

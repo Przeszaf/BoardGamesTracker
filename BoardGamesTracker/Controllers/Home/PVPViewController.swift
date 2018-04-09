@@ -19,12 +19,14 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     
     var managedContext: NSManagedObjectContext!
     
+    //MARK: - Lifecycle of VC
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         managedContext = appDelegate.persistentContainer.viewContext
         
+        //Fetch all matches where both player participated sorted by date
         do {
             let request = NSFetchRequest<Match>(entityName: "Match")
             request.predicate = NSPredicate(format: "ANY players == %@ AND ANY players == %@", firstPlayer, secondPlayer)
@@ -36,6 +38,7 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             print("Error fetching matches")
         }
         
+        //Calculate wins of both players
         var firstPlayerWins = 0
         var secondPlayerWins = 0
         for match in matches {
@@ -57,12 +60,14 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         
+        //If there are no matches in common, then display another view
         if matches.count == 0 {
             let label = UILabel(frame: view.frame)
             label.textAlignment = .center
             label.text = "You do not have matches in common :("
             view.addSubview(label)
             return
+            //Else create tableView
         } else {
             tableView = UITableView(frame: view.frame, style: .plain)
             view.addSubview(tableView)
@@ -71,12 +76,14 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         tableView.delegate = self
         tableView.register(PVPCell.self, forCellReuseIdentifier: "PVPCell")
         
+        //Create Header View
         let headerView = PVPHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 50))
         headerView.firstPlayerNameLabel.text = firstPlayer.name!
         headerView.secondPlayerNameLabel.text = secondPlayer.name!
         headerView.firstPlayerScoreLabel.text = String(firstPlayerWins)
         headerView.secondPlayerScoreLabel.text = String(secondPlayerWins)
         
+        //Different colours and gradients depending on which player won
         if firstPlayerWins > secondPlayerWins {
             headerView.firstPlayerNameLabel.textColor = UIColor.green
             headerView.secondPlayerNameLabel.textColor = UIColor.red
@@ -95,6 +102,7 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PVPCell", for: indexPath) as! PVPCell
         let result = results[indexPath.row]
+        //Depending on who won, there is different Cell Background View
         if result.0.place > result.1.place {
             cell.firstPlayerResultLabel.textColor = UIColor.white
             cell.secondPlayerResultLabel.textColor = UIColor.white
@@ -109,6 +117,8 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
             cell.backgroundView = PVPCellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height), leftColor: UIColor(red: 0, green: 0.5, blue: 1, alpha: 1), rightColor: UIColor(red: 0.5, green: 0, blue: 1, alpha: 1))
         }
         cell.backgroundColor = UIColor.clear
+        
+        //Place string is different if there are points in match
         var placeString = ""
         switch result.0.place {
         case 1:
@@ -154,6 +164,8 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 65
     }
+    
+    //MARK: - Other Functions
     
     func configureGradient(leftColor: UIColor, rightColor: UIColor) {
         let gradientBackgroundColors = [leftColor.cgColor, rightColor.cgColor]

@@ -14,6 +14,7 @@ class PhotoDetailsViewController: UIViewController, MKMapViewDelegate {
     var match: Match!
     var photoDetailsView: PhotoDetailsView!
     
+    //MARK: - Lifecycle of ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +47,7 @@ class PhotoDetailsViewController: UIViewController, MKMapViewDelegate {
         view.addSubview(photoDetailsView)
     }
     
+    //Dismiss VC if touches began
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         dismiss(animated: true, completion: nil)

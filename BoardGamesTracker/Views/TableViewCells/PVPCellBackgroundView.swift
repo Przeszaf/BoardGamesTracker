@@ -8,7 +8,7 @@
 
 import UIKit
 
-//Cell used to display all games
+//Background view for PVP Cells
 class PVPCellBackgroundView: UIView {
     
     var leftColor: UIColor!

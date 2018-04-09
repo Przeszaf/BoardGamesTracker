@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PVPCell: UITableViewCell {
     
     var firstPlayerResultLabel = UILabel()
