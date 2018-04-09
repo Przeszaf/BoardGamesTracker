@@ -73,7 +73,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         cell.gameName.delegate = self
         cell.selectionStyle = .none
         
-        cell.imageView?.image = UIImage(named: game.name!)
+        cell.gameIconImageView.image = UIImage(named: game.name!)
         
         //Set tag so we can update gameName when editing
         cell.gameName.tag = indexPath.row
@@ -248,7 +248,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         }()
         
         //Create a pie Chart of popularity of games and set it as tableHeaderView
-        let pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: gameNames, dataLabels: nil, colorsArray: [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.green], title: "Most popular games", radius: 80, truncating: 90, x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40)
+        let pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: gameNames, dataLabels: nil, colorsArray: Constants.Global.chartColors, title: "Most popular games", radius: 80, truncating: 90, x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40)
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + pieChartView.frame.height + 10))
         headerView.addSubview(firstHeaderView)

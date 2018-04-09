@@ -50,7 +50,7 @@ class AddPremadeGameViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PremadeGamesCell", for: indexPath) as! PremadeGamesCell
         cell.gameNameLabel.text = premadeGames[indexPath.row].name
-        cell.gameTypeLabel.text = "Team game"
+        cell.gameTypeLabel.text = premadeGames[indexPath.row].type
         cell.gameIconImageView.image = UIImage(named: premadeGames[indexPath.row].name!)
         
         cell.backgroundColor = UIColor.clear

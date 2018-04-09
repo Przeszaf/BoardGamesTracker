@@ -25,7 +25,9 @@ struct Constants {
         
         static let mainTextColor: UIColor = UIColor.black
         
-        static let detailTextColor: UIColor = UIColor.lightText
+        static let detailTextColor: UIColor = UIColor(white: 0.9, alpha: 1)
+        
+        static let chartColors: [UIColor] = [UIColor.red, UIColor.blue, UIColor.green, UIColor.yellow, UIColor.cyan, UIColor(red: 0.5, green: 0, blue: 1, alpha: 1), UIColor(red: 0.9, green: 0.2, blue: 0.6, alpha: 1), UIColor.orange, UIColor(red: 0.1, green: 0.8, blue: 0.8, alpha: 1), UIColor(red: 0.1, green: 1, blue: 0.7, alpha: 1)]
     }
     
     struct Header {
@@ -42,9 +44,9 @@ struct Constants {
         
         static let gradientEndColor: CGColor = UIColor.blue.cgColor
         
-        static let gradientStartPoint: CGPoint = CGPoint(x: 0, y: 0)
+        static let gradientStartPoint: CGPoint = CGPoint(x: -0.5, y: 0)
         
-        static let gradientEndPoint: CGPoint = CGPoint(x: 2, y: 2)
+        static let gradientEndPoint: CGPoint = CGPoint(x: 1.5, y: 1.5)
         
         static let radius: CGFloat = 15
         
@@ -54,20 +56,20 @@ struct Constants {
         
         static let lineWidth: CGFloat = 1
         
-        static let gradientSelectStartColor: CGColor = UIColor(white: 3/4, alpha: 1).cgColor
+        static let gradientSelectStartColor: CGColor = UIColor(white: 5/6, alpha: 1).cgColor
         
-        static let gradientSelectEndColor: CGColor = UIColor.blue.cgColor
+        static let gradientSelectEndColor: CGColor = UIColor(red: 0, green: 0, blue: 0.9, alpha: 1).cgColor
         
-        static let gradientHighlightStartColor: CGColor = UIColor(white: 3/4, alpha: 1).cgColor
+        static let gradientHighlightStartColor: CGColor = UIColor(white: 5/6, alpha: 1).cgColor
         
-        static let gradientHighlightEndColor: CGColor = UIColor.blue.cgColor
+        static let gradientHighlightEndColor: CGColor = UIColor(red: 0, green: 0, blue: 0.9, alpha: 1).cgColor
     }
     
     struct Functions {
         
         static func createAlert(title: String, message: String) -> UIAlertController {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.magenta]), forKey: "attributedTitle")
+            alert.setValue(NSAttributedString(string: alert.title!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.red]), forKey: "attributedTitle")
             alert.setValue(NSAttributedString(string: alert.message!, attributes: [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.medium), NSAttributedStringKey.foregroundColor : UIColor.blue]), forKey: "attributedMessage")
             return alert
         }

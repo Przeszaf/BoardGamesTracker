@@ -767,7 +767,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let alert = UIAlertController(title: "Which source do you want to use?", message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "Which source do you want to use?", message: nil, preferredStyle: .alert)
             let cameraButton = UIAlertAction(title: "Camera", style: .default) { (action) in
                 imagePicker.sourceType = .camera
             }
@@ -776,11 +776,15 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
             alert.addAction(cameraButton)
             alert.addAction(photoLibraryButton)
-            present(alert, animated: true, completion: nil)
+            present(alert, animated: true) {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.35, execute: {
+                    self.present(imagePicker, animated: true, completion: nil)
+                })
+            }
         } else {
             imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
         }
-        present(imagePicker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

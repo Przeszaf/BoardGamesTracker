@@ -154,6 +154,8 @@ class PVPViewController: UIViewController, UITableViewDelegate, UITableViewDataS
         }
         
         cell.dateLabel.text = matches[indexPath.row].date?.toString()
+        
+        cell.gameImageView.image = UIImage(named: matches[indexPath.row].game!.name!)
         return cell
     }
     

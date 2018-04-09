@@ -363,7 +363,7 @@ class GameDetailsViewController: UITableViewController {
                 }
             }
             var expansionsNames = gameExpansions.map({$0.name!})
-            if expansionsCount[gameExpansions.count + 1] == 0 {
+            if expansionsCount[gameExpansions.count] == 0 {
                 expansionsCount.removeLast()
             } else {
                 expansionsNames.append("None")
@@ -379,11 +379,11 @@ class GameDetailsViewController: UITableViewController {
                         let winPercentShort = String.init(format: "%.1f%", winPercent)
                         dataLabels.append("\(expansionCount)(\(winPercentShort)%)")
                     }
-                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: dataLabels, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: dataLabels, colorsArray: Constants.Global.chartColors.reversed(), title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(expansionsPieChartView)
                     //If expansions are not multiple
                 } else {
-                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: nil, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: nil, colorsArray: Constants.Global.chartColors.reversed(), title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(expansionsPieChartView)
                 }
             }
@@ -419,10 +419,10 @@ class GameDetailsViewController: UITableViewController {
                         let winPercentShort = String.init(format: "%.1f%", winPercent)
                         dataLabels.append("\(scenarioCount)(\(winPercentShort)%)")
                     }
-                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: dataLabels, colorsArray: nil, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: dataLabels, colorsArray: Constants.Global.chartColors, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(scenariosPieChartView)
                 } else {
-                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: nil, colorsArray: nil, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let scenariosPieChartView = PieChartView(dataSet: scenariosCount, dataName: scenariosNames, dataLabels: nil, colorsArray: Constants.Global.chartColors, title: "Scenarios", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(scenariosPieChartView)
                 }
             }
@@ -491,7 +491,7 @@ class GameDetailsViewController: UITableViewController {
                 }
                 
                 //Create pie chart view of most used classes
-                let classesPieChartView = PieChartView(dataSet: classesCount, dataName: sorterdClassesNames, dataLabels: dataLabels, colorsArray: nil, title: "Most used classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                let classesPieChartView = PieChartView(dataSet: classesCount, dataName: sorterdClassesNames, dataLabels: dataLabels, colorsArray: Constants.Global.chartColors.reversed(), title: "Most used classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                 headerViews.append(classesPieChartView)
                 
                 //Get only winning classes
@@ -511,10 +511,10 @@ class GameDetailsViewController: UITableViewController {
                     }
                 }
                 if !sortedWinningClasses.isEmpty {
-                    let winningClassesPieChartView = PieChartView(dataSet: winningClassesCount, dataName: sorterdWinningClassesNames, dataLabels: coopDataLabels, colorsArray: nil, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let winningClassesPieChartView = PieChartView(dataSet: winningClassesCount, dataName: sorterdWinningClassesNames, dataLabels: coopDataLabels, colorsArray: Constants.Global.chartColors, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(winningClassesPieChartView)
                 } else {
-                    let winningClassesPieChartView = PieChartView(dataSet: [matches.count], dataName: ["None"], dataLabels: nil, colorsArray: nil, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
+                    let winningClassesPieChartView = PieChartView(dataSet: [matches.count], dataName: ["None"], dataLabels: nil, colorsArray: Constants.Global.chartColors, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(winningClassesPieChartView)
                 }
                 //If EvilClasses is not empty
@@ -542,7 +542,7 @@ class GameDetailsViewController: UITableViewController {
                         print(error)
                     }
                     evilWinCount -= killedByAssassin
-                    let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount, killedByAssassin], dataName: ["Good", "Evil", "Assassin"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red, UIColor(red: 0.8, green: 0.1, blue: 0.1, alpha: 1)], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
+                    let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount, killedByAssassin], dataName: ["Good", "Evil", "Assassin"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red, UIColor(red: 1, green: 0.4, blue: 0.2, alpha: 1)], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
                     headerViews.append(teamPieChartView)
                     //If other than Avalon, then
                 } else {

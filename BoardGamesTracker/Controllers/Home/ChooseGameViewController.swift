@@ -38,11 +38,17 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //Fetch all games
+        //Fetching all games sorted by lastTimePlayed and name that are inCollection
+        let request = NSFetchRequest<Game>(entityName: "Game")
+        let dateSortDescriptor = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
+        let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        request.sortDescriptors = [dateSortDescriptor, nameSortDescriptor]
+        request.predicate = NSPredicate(format: "inCollection == YES", argumentArray: nil)
         do {
-            games = try managedContext.fetch(Game.fetchRequest())
-        } catch {
-            print(error)
+            games = try managedContext.fetch(request)
+            tableView.reloadData()
+        } catch let error as NSError {
+            print("Could not fetch: \(error)")
         }
         
         //If there is selected game already, then select it
