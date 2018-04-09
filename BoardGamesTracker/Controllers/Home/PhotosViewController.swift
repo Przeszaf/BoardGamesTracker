@@ -12,6 +12,7 @@ class PhotosViewController: UICollectionViewController, UICollectionViewDelegate
     
     var matches: [Match]!
     
+    //MARK: - Lifecycle of ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.dataSource = self
@@ -20,6 +21,7 @@ class PhotosViewController: UICollectionViewController, UICollectionViewDelegate
         collectionView?.contentInset = UIEdgeInsets(top: 5, left: 5, bottom: 0, right: 5)
     }
     
+    //MARK: - CollectionView
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         
@@ -27,10 +29,10 @@ class PhotosViewController: UICollectionViewController, UICollectionViewDelegate
         let imageData = match.image! as Data
         let image = UIImage(data: imageData, scale: 1)
         
+        //Set imageView to image of match
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.frame.width, height: cell.frame.height))
         imageView.image = image
         imageView.contentMode = .scaleAspectFit
-        print("HERE")
         
         cell.contentView.addSubview(imageView)
         return cell
@@ -40,13 +42,8 @@ class PhotosViewController: UICollectionViewController, UICollectionViewDelegate
         return matches.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let numberOfCell: CGFloat = 3
-        let cellWidth = UIScreen.main.bounds.size.width / numberOfCell - 10
-        return CGSize(width: cellWidth, height: cellWidth)
-    }
-    
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //After selecting cell show photo details
         let match = matches[indexPath.row]
         let photoDetailsViewController = PhotoDetailsViewController()
         photoDetailsViewController.match = match
@@ -54,5 +51,13 @@ class PhotosViewController: UICollectionViewController, UICollectionViewDelegate
         photoDetailsViewController.modalPresentationStyle = .overCurrentContext
         present(photoDetailsViewController, animated: true, completion: nil)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //Set square cells and set width to fit 3 cells
+        let numberOfCells: CGFloat = 3
+        let cellWidth = UIScreen.main.bounds.size.width / numberOfCells - 10
+        return CGSize(width: cellWidth, height: cellWidth)
+    }
+    
     
 }

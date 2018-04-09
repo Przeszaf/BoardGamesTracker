@@ -26,6 +26,7 @@ class HomeViewController: UIViewController {
     
     var lastGamesBarChart: UIView!
     
+    //MARK: - Lifecycle of ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,6 +34,7 @@ class HomeViewController: UIViewController {
         
         managedContext = appDelegate.persistentContainer.viewContext
         
+        //Fetch games and sort by date Played
         do {
             let request = NSFetchRequest<Game>(entityName: "Game")
             request.sortDescriptors = [NSSortDescriptor(key: "lastTimePlayed", ascending: false)]
@@ -81,6 +83,7 @@ class HomeViewController: UIViewController {
     
     @IBAction func showMapButtonPressed(_ sender: UIButton) {
         var matches = [Match]()
+        //Fetch matches with locations only
         do {
             let request = NSFetchRequest<Match>(entityName: "Match")
             request.predicate = NSPredicate(format: "longitude != nil AND latitude != nil", argumentArray: nil)
@@ -94,11 +97,13 @@ class HomeViewController: UIViewController {
     
     @IBAction func showPhotosButtonPressed(_ sender: UIButton) {
         var matchesWithPhoto = [Match]()
+        //Fetch matches with photos only and sort by date
         do {
             let request = NSFetchRequest<Match>(entityName: "Match")
+            let dateSort = NSSortDescriptor(key: "date", ascending: true)
             request.predicate = NSPredicate(format: "image != NIL", argumentArray: nil)
+            request.sortDescriptors = [dateSort]
             matchesWithPhoto = try managedContext.fetch(request)
-            print(matchesWithPhoto.map({$0.game?.name}))
         } catch {
             print("Error fetching matches")
         }
@@ -158,8 +163,10 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
+    //MARK: - Other functions
     func createLastGamesBarChart() -> UIView {
+        
+        //Array of mondays
         var mondaysArray = [String]()
         let calendar = Calendar.current
 
@@ -172,10 +179,12 @@ class HomeViewController: UIViewController {
         dateFormatter.dateFormat = "MM/dd"
 
 
+        //Get date of next and last Monday
         let nextMonday = calendar.nextDate(after: Date(), matching: dateComponents, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .forward)!
 
         let lastMonday = calendar.nextDate(after: Date(), matching: dateComponents, matchingPolicy: .nextTime, repeatedTimePolicy: .first, direction: .backward)!
 
+        //First week visible is 10 weeks ago
         let firstWeekVisible = calendar.date(byAdding: .day, value: -70, to: lastMonday)!
 
         //Create array of mondays, so it can be displayed as first day of week on graph
@@ -193,6 +202,7 @@ class HomeViewController: UIViewController {
                     if let matchDate = match.date {
                         let matchDate = matchDate as Date
                         let daysSinceMatch = calendar.dateComponents([.day], from: matchDate, to: nextMonday).day!
+                        //If the date was after firstWeekVisible
                         if matchDate.timeIntervalSince(firstWeekVisible) > 0 {
                             gamesDaysAgo.append(daysSinceMatch/7)
                         }

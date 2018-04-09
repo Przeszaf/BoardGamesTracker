@@ -10,7 +10,7 @@ import UIKit
 
 extension NSDate {
     
-    //Used to get string from Date
+    //Used to get string from NSDate
     func toString() -> String {
         let date = self as Date
         return date.toString()

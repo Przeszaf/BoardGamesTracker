@@ -18,7 +18,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     
     
     
-    //MARK: - Overriding UITablViewController functions
+    //MARK: - Lifecycle of VC
     override func viewDidLoad() {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -38,13 +38,14 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //Fetch all games
         do {
             games = try managedContext.fetch(Game.fetchRequest())
         } catch {
             print(error)
         }
         
-//        If there is selectedGame, then select it
+        //If there is selected game already, then select it
         if let game = selectedGame, let gameIndex = games.index(of: game) {
             let index = IndexPath(row: gameIndex, section: 0)
             tableView.selectRow(at: index, animated: false, scrollPosition: .bottom)
@@ -95,7 +96,7 @@ class ChooseGameViewController: UITableViewController, UINavigationControllerDel
         return height + 35
     }
     
-    //Making tick marks
+    //Making tick marks and correct background view
     override func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         selectedGame = games[indexPath.row]

@@ -30,7 +30,7 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     var segueKey: String?
     var dictionary = [String: Any]()
     
-    //MARK: - UITableViewController
+    //MARK: - Lifecycle of ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = self
@@ -59,7 +59,6 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
     
     //MARK: - UITableView
     
-    //MARK
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddInfoCell", for: indexPath) as! AddInfoCell
         cell.rightTextView.delegate = self
@@ -192,8 +191,9 @@ class AdditionalInfoViewController: UITableViewController, UINavigationControlle
                 return myPickerDataGood.count
             } else if picker.tag == 1 {
                 return myPickerDataEvil.count
+            } else {
+                return 1
             }
-            return 1
         } else if segueKey == "Classes" {
             return myPickerData.count
         } else if segueKey == "Other" {

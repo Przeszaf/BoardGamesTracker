@@ -21,10 +21,13 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        
+        //setting corrects managed object context
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
         managedContext = appDelegate.persistentContainer.viewContext
         
+        //Fetching all games sorted by lastTimePlayed and name that are inCollection
         let request = NSFetchRequest<Game>(entityName: "Game")
         let dateSortDescriptor = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
         let nameSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
@@ -48,8 +51,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         tableView.backgroundColor = Constants.Global.backgroundColor
         tableView.separatorStyle = .none
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
-        
-        
     }
     
     //MARK: - TableView functions
@@ -57,10 +58,11 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //If it is custom game, then use different cell style with icon
+        //Using AllGamesCell in tableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "AllGamesCell", for: indexPath) as! AllGamesCell
         let game = games[indexPath.row]
         
+        //If player played some games, then display the date of last match
         if let lastTimePlayed = game.lastTimePlayed {
             let date = lastTimePlayed as Date
             cell.gameDate.text = date.toStringWithHour()
@@ -97,6 +99,15 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         return games.count
     }
     
+    //Setting correct height of table - depends on length of game name
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        guard let height = games[indexPath.row].name?.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17)) else { return 50 }
+        if let heightOfDate = games[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
+            return height + heightOfDate + 14
+        }
+        return height + 35
+    }
+    
     
     //Deletions
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -116,15 +127,6 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             alert.addAction(deleteAction)
             present(alert, animated: true, completion: nil)
         }
-    }
-    
-    //Setting correct height of table - depends on length of game name
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let height = games[indexPath.row].name?.height(withConstrainedWidth: tableView.frame.width - 60, font: UIFont.systemFont(ofSize: 17)) else { return 50 }
-        if let heightOfDate = games[indexPath.row].lastTimePlayed?.toString().height(withConstrainedWidth: tableView.frame.width/2, font: UIFont.systemFont(ofSize: 17)) {
-            return height + heightOfDate + 14
-        }
-        return height + 35
     }
     
     //Perform segue when selects row and if it is not in editing mode
@@ -182,7 +184,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
     //MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showGameDetails" {
-            //sender is indexPath.row, so now we can pass correct game to view controller
+            //sender is indexPath.row, so now we can pass correct game to next ViewController
             let index = sender as! Int
             let controller = segue.destination as! GameDetailsViewController
             controller.game = games[index]
@@ -208,6 +210,9 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         }
     }
     
+    
+    //MARK: - Other functions
+    
     //Reloads header view - generates new chart etc.
     func reloadHeaderView() {
         let gamesPlayed = games.count
@@ -215,9 +220,12 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
         for game in games {
             matchesPlayed += (game.matches?.count)!
         }
+        
+        //Create first headerView for table - amount of games and matches played so far
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You have \(gamesPlayed) games in your collection and played \(matchesPlayed) matches. See your statistics below."
         
+        //Get amount of matches in games
         let gamesPlayedCount = { () -> [Int] in
             var array = [Int]()
             for game in games {
@@ -228,6 +236,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             return array
         }()
         
+        //Get those game names
         let gameNames = { () -> [String] in
             var nameArray = [String]()
             for game in self.games {
@@ -238,6 +247,7 @@ class AllGamesViewController: UITableViewController, UITextViewDelegate {
             return nameArray
         }()
         
+        //Create a pie Chart of popularity of games and set it as tableHeaderView
         let pieChartView = PieChartView(dataSet: gamesPlayedCount, dataName: gameNames, dataLabels: nil, colorsArray: [UIColor.red, UIColor.blue, UIColor.yellow, UIColor.green], title: "Most popular games", radius: 80, truncating: 90, x: 10, y: firstHeaderView.frame.height, width: tableView.frame.width - 40)
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: firstHeaderView.frame.height + pieChartView.frame.height + 10))

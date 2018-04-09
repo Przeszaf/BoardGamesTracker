@@ -21,7 +21,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     var selectedScenarios = [Scenario]()
     var multipleAllowed: Bool?
     
-    //MARK: - UITableViewController
+    //MARK: - Lifecycle of VC
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.allowsMultipleSelection = true
@@ -50,6 +50,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                     }
                 }
             }
+            //Select scenarios and expansions passed from previous VC
         } else if (!selectedScenarios.isEmpty || !selectedExpansions.isEmpty) && multipleAllowed == true {
             for selection in selectedScenarios {
                 let selectionIndex = availableScenarios.index(of: selection)!
@@ -72,7 +73,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
                 }
             }
         }
-        
+
         if multipleAllowed == false {
             tableView.allowsMultipleSelection = false
             selectedExpansions.removeAll()
@@ -81,6 +82,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
             tableView.allowsMultipleSelection = true
         }
         
+        //Add new button if chooser if for PVP
         if segueKey == "PVP" {
             let button = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(nextButtonPressed(_:)))
             navigationItem.rightBarButtonItem = button
@@ -92,6 +94,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     //Conforming to UITableViewDataSource protocol
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "choosePlayersViewCell", for: indexPath)
+        //Set correct textLabel
         if segueKey == "all" || segueKey == "winners" || segueKey == "loosers" || segueKey == "PVP" {
             cell.textLabel?.text = availablePlayers[indexPath.row].name
         } else if segueKey == "Expansions" {
@@ -120,8 +123,6 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         }
         return 0
     }
-    
-    //MARK: - Using TableViewDelegate functions
     
     //Making tick marks
     override func tableView(_ tableView: UITableView,
@@ -166,6 +167,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
         }
     }
     
+    //Setting correct background views for cells
     override func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         cell.backgroundView = CellBackgroundHighlightView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
@@ -180,7 +182,7 @@ class ChooserViewController: UITableViewController, UINavigationControllerDelega
     
     //MARK: - UINavigationControllerDelegate
     
-    //Passing selected players to previous View Controller
+    //Passing data to previous View Controller
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if let controller = viewController as? AddMatchViewController {
             switch segueKey {

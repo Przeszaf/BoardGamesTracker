@@ -248,6 +248,7 @@ class PlayerDetailsViewController: UITableViewController {
         let game = games[indexPath.section]
         let match = matches[game]![indexPath.row]
         
+        //Fetch request of player for given match
         var playerResult: PlayerResult!
         do {
             let request = NSFetchRequest<PlayerResult>(entityName: "PlayerResult")
@@ -268,6 +269,7 @@ class PlayerDetailsViewController: UITableViewController {
         return height + 30
     }
 
+    //MARK: - Cells Background View
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
@@ -302,6 +304,7 @@ class PlayerDetailsViewController: UITableViewController {
         }
     }
 
+    //MARK: - Other functions
     func playersToString(playersResults: [PlayerResult]) -> String {
         let game = playersResults.first!.match!.game!
         var stringArray = [String]()

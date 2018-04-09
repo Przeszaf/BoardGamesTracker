@@ -17,7 +17,7 @@ class GameDetailsViewController: UITableViewController {
     var tableHeaderView: GameDetailsHeaderView!
 
 
-    //MARK: - Overriding functions
+    //MARK: - Lifecycle of ViewController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -36,6 +36,7 @@ class GameDetailsViewController: UITableViewController {
 
         let dateSortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         
+        //Get all matches of given game sorted by date
         matches = game.matches?.sortedArray(using: [dateSortDescriptor]) as! [Match]
         //Register cell and create button item
         tableView.register(SelectedGameMatchesCell.self, forCellReuseIdentifier: "SelectedGameMatchesCell")
@@ -110,6 +111,7 @@ class GameDetailsViewController: UITableViewController {
     }
 
 
+    //MARK: - Cell Background Views
     //Sets correct background views for cell
     override func tableView(_ tableView: UITableView,
                             didSelectRowAt indexPath: IndexPath) {
@@ -148,7 +150,7 @@ class GameDetailsViewController: UITableViewController {
     }
 
 
-    //MARK: - Other
+    //MARK: - Other functions
 
     //Getting string to put into playersField. Depends on game type.
     func playersToString(game: Game, match: Match, players: [Player]) -> String {
@@ -184,13 +186,12 @@ class GameDetailsViewController: UITableViewController {
         }
         var string = stringArray.joined(separator: ", ")
 
-        //Delete coma after all winners
+        //Delete coma after all winners in TeamWithPlaces game
         string = string.replacingOccurrences(of: ", \n", with: "\n")
         return string
     }
 
     func reloadHeaderView() {
-
         if matches.isEmpty {
             return
         }
@@ -198,7 +199,9 @@ class GameDetailsViewController: UITableViewController {
         var headerViews = [UIView]()
 
         //Creating game statistics view
-        var height: CGFloat = 90
+        
+        //Height is different depending on game type
+        var height: CGFloat = 0
         if game.type == GameType.SoloWithPoints {
             height = 100
         } else {
@@ -270,6 +273,7 @@ class GameDetailsViewController: UITableViewController {
             
             let requestAverageWinning: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest()
             requestAverageWinning.entity = NSEntityDescription.entity(forEntityName: "PlayerResult", in: managedContext)
+            //Predicate that checks for results with playerPlace == 1
             requestAverageWinning.predicate = NSPredicate(format: "%K == %ld AND %K == %@", #keyPath(PlayerResult.place), 1, #keyPath(PlayerResult.match.game.name), game.name!)
             requestAverageWinning.propertiesToFetch = [averageExpressionDescription]
             requestAverageWinning.resultType = .dictionaryResultType
@@ -278,6 +282,7 @@ class GameDetailsViewController: UITableViewController {
             do {
                 let result = try managedContext.fetch(request) as? [[String: Double]]
                 let resultWinning = try managedContext.fetch(requestAverageWinning) as? [[String: Double]]
+                //Extracts data from dict
                 if let dict = result?.first {
                     let maxPoints = Int(dict["maxPoint"] ?? 0)
                     let minPoints = Int(dict["minPoint"] ?? 0)
@@ -296,6 +301,7 @@ class GameDetailsViewController: UITableViewController {
         }
         headerViews.append(gameStatisticsView)
 
+        //Creates dictionary of players as keys with amount of matches as value
         let players = game.players?.allObjects as! [Player]
         var playersMatchesCountDict = [Player: Int].init()
         for player in players {
@@ -308,8 +314,10 @@ class GameDetailsViewController: UITableViewController {
             }
         }
         
+        //Sorts players by activity
         let playersSortedByActivity = players.sorted(by: {playersMatchesCountDict[$0]! > playersMatchesCountDict[$1]!})
-        print(playersSortedByActivity.map({$0.name}))
+        
+        //Creates array of players' match count
         var playersCountMapped = [Int].init(repeating: 0, count: playersSortedByActivity.count)
         for (i, player) in playersSortedByActivity.enumerated() {
             playersCountMapped[i] = playersMatchesCountDict[player]!
@@ -320,13 +328,16 @@ class GameDetailsViewController: UITableViewController {
         headerViews.append(playersPlayingBarChart)
 
         
+        //Creates points distribution bar chart
         if !matches.isEmpty && game.type == GameType.SoloWithPoints {
             do {
                 let request = NSFetchRequest<PlayerResult>(entityName: "PlayerResult")
                 request.predicate = NSPredicate(format: "%K = %@", #keyPath(PlayerResult.match.game), game)
+                //Fetch all playerResults from given game
                 let gamePoints: [PlayerResult] = try managedContext.fetch(request)
+                
+                //Create points array fom fetched results sorted by points
                 let pointsArray = gamePoints.map({Int($0.point)}).sorted(by: {$0 < $1})
-                print(pointsArray)
                 let pointsBarChartView = BarChartView(dataSet: pointsArray, dataSetMapped: nil, newDataSet: nil, xAxisLabels: nil, barGapWidth: 4, reverse: false, labelsRotated: false, truncating: nil, title: "Points distribution", frame: CGRect(x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 15, height: 150))
                 headerViews.append(pointsBarChartView)
             } catch {
@@ -335,9 +346,12 @@ class GameDetailsViewController: UITableViewController {
         }
         
         
+        //Creates statistics for expansions
         if game.expansions?.anyObject() != nil {
             let gameExpansions = game.expansions?.allObjects as! [Expansion]
             var expansionsCount = [Int].init(repeating: 0, count: gameExpansions.count + 1)
+            
+            //Calculates popularity of expansions
             for match in matches {
                 if let expansions = match.expansions?.allObjects as? [Expansion], !expansions.isEmpty {
                     for expansion in expansions {
@@ -356,6 +370,8 @@ class GameDetailsViewController: UITableViewController {
             }
             
             if !matches.isEmpty {
+                //If there are many expansions available at the same time, then calculates in how many games
+                //Those expansions were used
                 if game.expansionsAreMultiple {
                     var dataLabels = [String]()
                     for expansionCount in expansionsCount {
@@ -365,6 +381,7 @@ class GameDetailsViewController: UITableViewController {
                     }
                     let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: dataLabels, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(expansionsPieChartView)
+                    //If expansions are not multiple
                 } else {
                     let expansionsPieChartView = PieChartView(dataSet: expansionsCount, dataName: expansionsNames, dataLabels: nil, colorsArray: nil, title: "Expansions", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(expansionsPieChartView)
@@ -372,6 +389,7 @@ class GameDetailsViewController: UITableViewController {
             }
         }
         
+        //Creates scenario statistics, very similar to expansions
         if game.scenarios?.anyObject() != nil {
             let gameScenarios = game.scenarios?.allObjects as! [Scenario]
             var scenariosCount = [Int].init(repeating: 0, count: gameScenarios.count + 1)
@@ -422,14 +440,13 @@ class GameDetailsViewController: UITableViewController {
             print(error)
         }
         
-        //If there are classes
         if !classesArray.isEmpty{
             var goodClasses = [GameClass]()
             var evilClasses = [GameClass]()
             var classesDict = [GameClass: Int]()
             var winningClassesDict = [GameClass: Int]()
             
-            //Sort into good and evil classes
+            //Sort into good and evil classes (if available)
             for gameClass in classesArray {
                 if gameClass.type == ClassType.Evil {
                     evilClasses.append(gameClass)
@@ -443,17 +460,28 @@ class GameDetailsViewController: UITableViewController {
             for match in matches {
                 for playerResult in match.results?.allObjects as! [PlayerResult] {
                     if let playerClass = playerResult.gameClass {
+                        //Calculates how many matches were with given class
                         classesDict[playerClass]! += 1
+                        
+                        //Calculates how many time given class won
                         if playerResult.place == 1 {
                             winningClassesDict[playerClass]! += 1
                         }
                     }
                 }
             }
+            
+            //If there are no evil and good classes
             if evilClasses.isEmpty {
+                
+                //Sort classes by populatiry
                 let sortedClasses = classesArray.sorted(by: {classesDict[$0]! > classesDict[$1]!})
+                
+                //Get name of those classes
                 let sorterdClassesNames = sortedClasses.map({$0.name!})
                 let classesCount = sortedClasses.map({classesDict[$0]!})
+                
+                //Create dataLabels for classes
                 
                 var dataLabels = [String]()
                 for classCount in classesCount {
@@ -461,10 +489,12 @@ class GameDetailsViewController: UITableViewController {
                     let winPercentShort = String.init(format: "%.1f%", winPercent)
                     dataLabels.append("\(classCount)(\(winPercentShort)%)")
                 }
+                
+                //Create pie chart view of most used classes
                 let classesPieChartView = PieChartView(dataSet: classesCount, dataName: sorterdClassesNames, dataLabels: dataLabels, colorsArray: nil, title: "Most used classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                 headerViews.append(classesPieChartView)
                 
-                
+                //Get only winning classes
                 let sortedWinningClasses = classesArray.sorted(by: {winningClassesDict[$0]! > winningClassesDict[$1]!})
                 let sorterdWinningClassesNames = sortedWinningClasses.map({$0.name!})
                 let winningClassesCount = sortedWinningClasses.map({winningClassesDict[$0]!})
@@ -473,7 +503,6 @@ class GameDetailsViewController: UITableViewController {
                 //So we need to take it into account when creating a pie chart
                 var coopDataLabels: [String]?
                 if game.type == GameType.Cooperation {
-                    print("HERE")
                     coopDataLabels = [String]()
                     for classCount in winningClassesCount {
                         let winPercent = Float(classCount) / Float(matches.count) * 100
@@ -488,10 +517,12 @@ class GameDetailsViewController: UITableViewController {
                     let winningClassesPieChartView = PieChartView(dataSet: [matches.count], dataName: ["None"], dataLabels: nil, colorsArray: nil, title: "Winning classes", radius: 50, truncating: nil, x: 10, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 10)
                     headerViews.append(winningClassesPieChartView)
                 }
+                //If EvilClasses is not empty
             } else {
                 var evilWinCount = 0
                 var goodWinCount = 0
                 
+                //Create
                 for (gameClass, winCount) in winningClassesDict {
                     if gameClass.type == ClassType.Evil {
                         evilWinCount += winCount
@@ -499,13 +530,31 @@ class GameDetailsViewController: UITableViewController {
                         goodWinCount += winCount
                     }
                 }
-                let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount], dataName: ["Good", "Evil"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
-                headerViews.append(teamPieChartView)
+                
+                //For Avalon there are some additional statistics that need to be taken into consideration
+                if game.name == "Avalon" {
+                    var killedByAssassin = 0
+                    do {
+                        let request = NSFetchRequest<AdditionalBool>(entityName: "Additional Bool")
+                        request.predicate = NSPredicate(format: "game == %@", game)
+                        killedByAssassin = try managedContext.count(for: request)
+                    } catch {
+                        print(error)
+                    }
+                    evilWinCount -= killedByAssassin
+                    let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount, killedByAssassin], dataName: ["Good", "Evil", "Assassin"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red, UIColor(red: 0.8, green: 0.1, blue: 0.1, alpha: 1)], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
+                    headerViews.append(teamPieChartView)
+                    //If other than Avalon, then
+                } else {
+                    let teamPieChartView = PieChartView(dataSet: [goodWinCount, evilWinCount], dataName: ["Good", "Evil"], dataLabels: nil, colorsArray: [UIColor.blue, UIColor.red], title: "Win distribution", radius: 50, truncating: nil, x: 5, y: headerViews.last!.frame.maxY + 5, width: tableView.frame.width - 5)
+                    headerViews.append(teamPieChartView)
+                }
             }
         }
         
+        //Table header view height is set to the last headerView maxY + 5
         let tableHeaderHeight: CGFloat = headerViews.last!.frame.maxY + 5
-//
+
         let tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: tableHeaderHeight))
 
         for headerView in headerViews {
@@ -513,9 +562,6 @@ class GameDetailsViewController: UITableViewController {
         }
 
         tableView.tableHeaderView = tableHeaderView
-
-
-
 
     }
 }

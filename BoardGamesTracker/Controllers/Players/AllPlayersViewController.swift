@@ -19,7 +19,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     var toolbar: UIToolbar!
     
-    //MARK: - Overriding functions
+    //MARK: - Lifecycle of ViewController
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -27,6 +27,8 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
         managedContext = appDelegate.persistentContainer.viewContext
+        
+        //Fetch players and sort by lastTimePlayed and name
         let request = NSFetchRequest<Player>(entityName: "Player")
         let sortByDate = NSSortDescriptor(key: "lastTimePlayed", ascending: false)
         let sortByName = NSSortDescriptor(key: "name", ascending: true)
@@ -43,11 +45,12 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Registering cells so we can use them
+        //Registering cells used in tableView
         tableView.register(AllPlayersCell.self, forCellReuseIdentifier: "AllPlayersCell")
         tableView.register(AddPlayersCell.self, forCellReuseIdentifier: "AddPlayersCell")
         tableView.rowHeight = 50
-        //Adding right and left bar buttons
+        
+        //Adding right and left bar buttons and adding actions to them
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonBar))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(toggleEditingMode(_:)))
         
@@ -62,9 +65,10 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     }
     
     
-    //MARK: - UITableView - conforming etc
+    //MARK: - UITableView
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         //If we want to add new player, then create additional cell
         if indexPath.row == players.count {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddPlayersCell", for: indexPath) as! AddPlayersCell
@@ -92,6 +96,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             cell.playerTimesPlayed.text = "\(timesPlayed!) times played"
         }
         cell.playerTimesPlayed.textColor = Constants.Global.detailTextColor
+        
         //Make playerName textView editable if table is editing and vice versa
         if isEditing {
             cell.playerName.isEditable = true
@@ -103,7 +108,6 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         cell.playerName.delegate = self
         cell.playerName.tag = indexPath.row
         cell.playerName.backgroundColor = UIColor.clear
-        
         
         if isEditing{
             cell.backgroundView = CellBackgroundEditingView(frame: cell.frame)
@@ -118,6 +122,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //Additional cell if adding players
         if addingPlayer {
             return players.count + 1
         }
@@ -143,6 +148,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         performSegue(withIdentifier: "showPlayerDetails", sender: indexPath.row)
     }
     
+    //MARK: - Cell Background Views
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         cell.backgroundView = CellBackgroundView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: cell.frame.height))
@@ -242,10 +248,10 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     }
     
     //Deletions
-    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let player = players[indexPath.row]
+            //Cannot delete players with matches
             if player.matches?.count != 0 {
                 let alert = Constants.Functions.createAlert(title: "Failure!", message: "You cannot delete player with matches. Delete matches first.")
                 let action = UIAlertAction(title: "Ok!", style: .cancel, handler: nil)
@@ -274,8 +280,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     }
     
     //MARK: - Editing
-    
-    //Update game name if text changes
+    //Update player name if text changes
     func textViewDidChange(_ textView: UITextView) {
         players[textView.tag].name = textView.text
         currentCell = textView.tag
@@ -283,7 +288,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
         tableView.endUpdates()
     }
     
-    //If there is no text in game name TextView, then display alert and do not allow to end editing
+    //If there is no text in player name TextView, then display alert and do not allow to end editing
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         textView.layoutIfNeeded()
         if textView.text == "" {
@@ -305,6 +310,7 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
     
     
     func reloadHeaderView() {
+        
         let playersSortedByActivity = players.sorted(by: { (firstPlayer, secondPlayer) -> Bool in
             if let firstPlayerCount = firstPlayer.matches?.count, let secondPlayerCount = secondPlayer.matches?.count {
                 return firstPlayerCount > secondPlayerCount
@@ -315,12 +321,16 @@ class AllPlayersViewController: UITableViewController, UITextViewDelegate {
             }
             })
         
+        //Create a mapped data set for BarChart
+        //i.e. dataSetMapped[i] is height of i'th bar
+        //and dataName[i] is name of i'th bar
         let dataSetMapped = playersSortedByActivity.map({$0.matches?.count ?? 0})
 
         let dataName = playersSortedByActivity.map({$0.name!})
 
         var viewsToAdd = [UIView]()
-
+        
+        //First header view just shows how many players are added
         let firstHeaderView = AllPlayersHeaderView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 80))
         firstHeaderView.label.text = "You played with \(players.count) friends! See their statistics below!"
         viewsToAdd.append(firstHeaderView)

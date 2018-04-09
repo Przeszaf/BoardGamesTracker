@@ -103,12 +103,14 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if segueKey == "Extended Points" {
+            //Create new View for section
             let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 60))
             let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
             label.textAlignment = .center
             view.backgroundColor = Constants.Global.backgroundColor
             view.addSubview(label)
             label.text = sectionNames[section].name!
+            //For 7 Wonders set appropriate colors
             if game.name == "7 Wonders" {
                 switch section {
                 case 0:
@@ -204,6 +206,7 @@ class AddNumsViewController: UITableViewController, UINavigationControllerDelega
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        //Update currentRow and currentSection
         currentRow = textField.tag % 100
         currentSection = textField.tag / 100
         return true

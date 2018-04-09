@@ -60,7 +60,7 @@ class AllPlayersHeaderView: UIView {
         shapeLayer.lineWidth = Constants.Header.lineWidth
         shapeLayer.position = CGPoint(x: 0, y: bounds.height - 5)
         self.layer.addSublayer(shapeLayer)
-        
+
     }
     
     //Creates bezier path of line at the bottom of view

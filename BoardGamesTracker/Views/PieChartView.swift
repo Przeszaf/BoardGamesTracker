@@ -27,6 +27,8 @@ class PieChartView: UIView {
     var lastAngle: CGFloat = 0
     var labels: [UILabel]!
     
+    
+    //MARK: - Initializers
     convenience init(dataSet: [Int], dataName: [String], dataLabels: [String]?, colorsArray: [UIColor]?, title: String?, radius: CGFloat, truncating: Int?, x: CGFloat, y: CGFloat, width: CGFloat) {
         let frame = CGRect(x: x, y: y, width: width, height: 2 * radius + 25 + 10)
         self.init(frame: frame)
@@ -49,10 +51,9 @@ class PieChartView: UIView {
         setup()
     }
     
-    override func layoutSubviews() {
-    }
     
     
+    //MARK: - Creating view
     func setup() {
         
         if let title = title {
@@ -141,6 +142,8 @@ class PieChartView: UIView {
         }
     }
     
+    
+    //MARK: - Bezier Paths
     //Creates sectir of pie chart
     func createPieChartPath(dataSetSum: Int, data: Int, offsetX: CGFloat, offsetY: CGFloat) -> UIBezierPath {
         let path = UIBezierPath()

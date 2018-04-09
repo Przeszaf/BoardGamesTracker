@@ -58,7 +58,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     var myView: AddMatchView!
     var imageView: UIImageView!
     
-    //MARK: - UIViewController
+    //MARK: - Lifecycle of ViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,6 +66,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         managedContest = appDelegate.persistentContainer.viewContext
         loadView()
         
+        //Fetch all players
         do {
             availablePlayers = try managedContest.fetch(Player.fetchRequest())
         } catch {
@@ -127,7 +128,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         myView.gameTextView.text = selectedGame?.name
-        
         
         //Update visibility of stack views
         myView.hideAllStackViews()
@@ -239,9 +239,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     }
     
     //MARK: - UITextView
-    
-    //Pressing the text view will perform a segue
-    
+    //Pressing on text view will perform a segue
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         //Set correct segueKey for chooser segue
         if textView == myView.playersTextView {
@@ -254,6 +252,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         //Workaround for double segues - if time between segues is lower than 0.1 second,
         //then do not perform segue
         if Float(dateSinceSegue.timeIntervalSinceNow) < -0.1 {
+            //Perform correct segue depending on textView
             if textView == myView.gameTextView {
                 performSegue(withIdentifier: "chooseGame", sender: self)
             } else if textView == myView.playersTextView || textView == myView.loosersTextView || textView == myView.winnersTextView {
@@ -332,7 +331,8 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     
     
-    //MARK: - Managing segue
+    //MARK: - Managing segues
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "chooseGame"?:
@@ -435,11 +435,13 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                 controller.winners = winners
                 controller.loosers = loosers
                 controller.availablePlayers = selectedPlayers
+                //If there are classes already chosen, then pass it to VC
                 if let classesDict = dictionary["Classes"] as? [Player: GameClass] {
                     controller.playersClasses = classesDict
                 }
                 if let classesArray = selectedGame?.classes?.allObjects as? [GameClass] {
                     controller.myPickerData = classesArray
+                    //Fetch all evil and good classes
                     let requestEvil = NSFetchRequest<GameClass>(entityName: "GameClass")
                     requestEvil.predicate = NSPredicate(format: "%K == %@ AND %K == %@", #keyPath(GameClass.type), ClassType.Evil, #keyPath(GameClass.game.name), (selectedGame?.name!)!)
                     let requestGood = NSFetchRequest<GameClass>(entityName: "GameClass")
@@ -448,8 +450,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
                         let evilClassesArray: [GameClass] = try managedContest.fetch(requestEvil)
                         let goodClassesArray: [GameClass] = try managedContest.fetch(requestGood)
                         if !evilClassesArray.isEmpty, !goodClassesArray.isEmpty {
-                            //Only Avalon have implementation how to distinguish evil classes from good classes
-                            //if winners.count < loosers.count then it means that winners are evil and loosers are good
+                            //Only Avalon have implementation how to distinguish evil classes from good classes, so we pass it
                             if selectedGame?.name == "Avalon" {
                                 controller.myPickerDataEvil = evilClassesArray
                                 controller.myPickerDataGood = goodClassesArray
@@ -612,13 +613,17 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         
         //Add info provided by additionalSwitches
-        if let boolArray = selectedGame?.additionalBools?.allObjects as? [AdditionalBool] {
-            for (i, additionalBool) in boolArray.enumerated() {
+        if let additionalBools = selectedGame?.additionalBools?.allObjects as? [AdditionalBool] {
+            var boolArray = [AdditionalBool]()
+            for (i, additionalBool) in additionalBools.enumerated() {
                 if i == 0 && myView.additionalSwitch.isOn {
-                    dictionary["Bools"] = additionalBool
+                    boolArray.append(additionalBool)
                 } else if i == 1 && myView.additionalSecondSwitch.isOn {
-                    dictionary["Bools"] = additionalBool
+                    boolArray.append(additionalBool)
                 }
+            }
+            if !boolArray.isEmpty {
+                dictionary["Bools"] = boolArray
             }
         }
         
@@ -629,11 +634,168 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         }
         createSuccessAlert(with: "Created \(game.name!)")
         Helper.addMatch(game: game, players: players, points: points, places: places, dictionary: dictionary, date: date!, time: time, location: location, image: image)
-        //sort player and gameStore by date
         return
     }
     
-    //MARK: - Custom functions
+    //MARK: - Alerts
+    //Success alert with given string that disappears after 1 second and pops to previous controller
+    func createSuccessAlert(with string: String) {
+        let alert = Constants.Functions.createAlert(title: "Success!", message: string)
+        self.present(alert, animated: true, completion: nil)
+        let time = DispatchTime.now() + 1
+        DispatchQueue.main.asyncAfter(deadline: time) {
+            alert.dismiss(animated: true, completion: {
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+        }
+    }
+    
+    //Failure alert with given string
+    func createFailureAlert(with string: String) {
+        let alert = Constants.Functions.createAlert(title: "Failure!", message: string)
+        alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: - Picker
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 1 {
+            return pickerDataNumbers.count
+        } else if pickerView.tag == 2 {
+            return pickerDifficulties.count
+        }
+        return 0
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
+        if picker.tag == 1 {
+            return String(pickerDataNumbers[row])
+        } else if picker.tag == 2 {
+            return pickerDifficulties[row].name!
+        }
+        return ""
+    }
+    
+    func pickerView(_ pickerView: UIPickerView,
+                    didSelectRow row: Int,
+                    inComponent component: Int) {
+        //When selected, then update dictionary and textView
+        if pickerView.tag == 1 {
+            dictionary["Rounds left"] = pickerDataNumbers[row]
+            myView.roundsLeftTextView.text = String(pickerDataNumbers[row])
+        } else if pickerView.tag == 2 {
+            dictionary["Difficulty"] = pickerDifficulties[row]
+            myView.difficultyTextView.text = pickerDifficulties[row].name!
+        }
+    }
+    
+    //MARK: - Pickers toolbars
+    //PickerView Toolbar button functions
+    
+    //Checks which picker mode is chosen and accordingly updates correct views and variables
+    //And resigns first responder
+    @objc func doneDatePicker() {
+        if datePicker.datePickerMode == .countDownTimer {
+            time = datePicker.countDownDuration
+            myView.timeTextView.text = time?.toString()
+            myView.timeTextView.resignFirstResponder()
+        } else if datePicker.datePickerMode == .dateAndTime {
+            date = datePicker.date
+            myView.dateTextView.text = date?.toStringWithHour()
+            myView.dateTextView.resignFirstResponder()
+        }
+    }
+    
+    //If cancel picker, then accordingly reverts correct views to default values
+    //And resigns first responder
+    @objc func cancelDatePicker() {
+        if datePicker.datePickerMode == .countDownTimer {
+            time = nil
+            myView.timeTextView.text = ""
+            myView.timeTextView.resignFirstResponder()
+        } else if datePicker.datePickerMode == .dateAndTime {
+            date = Date()
+            myView.dateTextView.text = date?.toStringWithHour()
+            myView.dateTextView.resignFirstResponder()
+        }
+        datePicker.resignFirstResponder()
+    }
+    
+    //If picker value is changed, then update views and variables
+    @objc func datePickerChanged(_ sender: UIDatePicker) {
+        if sender.datePickerMode == .countDownTimer {
+            myView.timeTextView.text = sender.countDownDuration.toString()
+            time = sender.countDownDuration
+        } else if sender.datePickerMode == .dateAndTime {
+            myView.dateTextView.text = sender.date.toStringWithHour()
+            date = sender.date
+        }
+    }
+
+    
+    //Takes care of roundsLeft and difficulty picker
+    @objc func donePicker() {
+        if picker.tag == 1 {
+            myView.roundsLeftTextView.resignFirstResponder()
+        } else if picker.tag == 2 {
+            myView.difficultyTextView.resignFirstResponder()
+        }
+    }
+
+    @objc func cancelPicker() {
+        if picker.tag == 1 {
+            myView.roundsLeftTextView.resignFirstResponder()
+            myView.roundsLeftTextView.text = ""
+            dictionary["Rounds left"] = nil
+        } else if picker.tag == 2 {
+            myView.difficultyTextView.resignFirstResponder()
+            myView.difficultyTextView.text = ""
+            dictionary["Difficulty"] = nil
+        }
+    }
+    
+    
+    //MARK: - Images
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let alert = UIAlertController(title: "Which source do you want to use?", message: nil, preferredStyle: .actionSheet)
+            let cameraButton = UIAlertAction(title: "Camera", style: .default) { (action) in
+                imagePicker.sourceType = .camera
+            }
+            let photoLibraryButton = UIAlertAction(title: "Photo Library", style: .default) { (action) in
+                imagePicker.sourceType = .photoLibrary
+            }
+            alert.addAction(cameraButton)
+            alert.addAction(photoLibraryButton)
+            present(alert, animated: true, completion: nil)
+        } else {
+            imagePicker.sourceType = .photoLibrary
+        }
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageView.image = image
+        dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - Location
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        location = locations.first
+        updateTextViews()
+    }
+    
+    //MARK: - Other functions
     
     //Removes players that were already choosen as winners/loosers from availablePlayers array
     func updateAvailablePlayers() {
@@ -702,7 +864,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
         for player in selectedPlayers {
             if addNumsSegueKey == "Points" || addNumsSegueKey == "Extended Points" {
                 if let points = playersPoints[player] {
-                     string.append("\(player.name!): \(points)")
+                    string.append("\(player.name!): \(points)")
                 }
             } else if addNumsSegueKey == "Places" {
                 if let place = playersPlaces[player] {
@@ -750,7 +912,7 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
     
     //Function sorts players by amount of points, either ascending or descending, returning the points array
     func sortPlayersPoints(players: inout [Player], pointsDict: [Player: Int], order key: String) -> [Int] {
-
+        
         var points = [Int]()
         for player in players {
             let point = pointsDict[player]
@@ -853,166 +1015,6 @@ class AddMatchViewController: UIViewController, UITextViewDelegate, CLLocationMa
             }
         }
         return true
-    }
-    
-    //MARK: - Alerts
-    
-    //Success alert with given string that disappears after 1 second and pops to previous controller
-    func createSuccessAlert(with string: String) {
-        let alert = Constants.Functions.createAlert(title: "Success!", message: string)
-        self.present(alert, animated: true, completion: nil)
-        let time = DispatchTime.now() + 1
-        DispatchQueue.main.asyncAfter(deadline: time) {
-            alert.dismiss(animated: true, completion: {
-                self.navigationController?.popToRootViewController(animated: true)
-            })
-        }
-    }
-    
-    //Failure alert with given string
-    func createFailureAlert(with string: String) {
-        let alert = Constants.Functions.createAlert(title: "Failure!", message: string)
-        alert.addAction(UIAlertAction(title: "Ok!", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    //MARK: - Picker
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView.tag == 1 {
-            return pickerDataNumbers.count
-        } else if pickerView.tag == 2 {
-            return pickerDifficulties.count
-        }
-        return 0
-    }
-    
-    func pickerView(_ pickerView: UIPickerView,
-                    titleForRow row: Int,
-                    forComponent component: Int) -> String? {
-        if picker.tag == 1 {
-            return String(pickerDataNumbers[row])
-        } else if picker.tag == 2 {
-            return pickerDifficulties[row].name!
-        }
-        return ""
-    }
-    
-    func pickerView(_ pickerView: UIPickerView,
-                    didSelectRow row: Int,
-                    inComponent component: Int) {
-        //When selected, then update dictionary and textView
-        if pickerView.tag == 1 {
-            dictionary["Rounds left"] = pickerDataNumbers[row]
-            myView.roundsLeftTextView.text = String(pickerDataNumbers[row])
-        } else if pickerView.tag == 2 {
-            dictionary["Difficulty"] = pickerDifficulties[row]
-            myView.difficultyTextView.text = pickerDifficulties[row].name!
-        }
-    }
-    
-    //MARK: - Pickers toolbar
-    
-    //PickerView Toolbar button functions
-    
-    //Checks which picker mode is chosen and accordingly updates correct views and variables
-    //And resigns first responder
-    @objc func doneDatePicker() {
-        if datePicker.datePickerMode == .countDownTimer {
-            time = datePicker.countDownDuration
-            myView.timeTextView.text = time?.toString()
-            myView.timeTextView.resignFirstResponder()
-        } else if datePicker.datePickerMode == .dateAndTime {
-            date = datePicker.date
-            myView.dateTextView.text = date?.toStringWithHour()
-            myView.dateTextView.resignFirstResponder()
-        }
-    }
-    
-    //If cancel picker, then accordingly reverts correct views to default values
-    //And resigns first responder
-    @objc func cancelDatePicker() {
-        if datePicker.datePickerMode == .countDownTimer {
-            time = nil
-            myView.timeTextView.text = ""
-            myView.timeTextView.resignFirstResponder()
-        } else if datePicker.datePickerMode == .dateAndTime {
-            date = Date()
-            myView.dateTextView.text = date?.toStringWithHour()
-            myView.dateTextView.resignFirstResponder()
-        }
-        datePicker.resignFirstResponder()
-    }
-    
-    //If picker value is changed, then update views and variables
-    @objc func datePickerChanged(_ sender: UIDatePicker) {
-        if sender.datePickerMode == .countDownTimer {
-            myView.timeTextView.text = sender.countDownDuration.toString()
-            time = sender.countDownDuration
-        } else if sender.datePickerMode == .dateAndTime {
-            myView.dateTextView.text = sender.date.toStringWithHour()
-            date = sender.date
-        }
-    }
-
-    
-    //Takes care of roundsLeft and difficulty picker
-    @objc func donePicker() {
-        if picker.tag == 1 {
-            myView.roundsLeftTextView.resignFirstResponder()
-        } else if picker.tag == 2 {
-            myView.difficultyTextView.resignFirstResponder()
-        }
-    }
-
-    @objc func cancelPicker() {
-        if picker.tag == 1 {
-            myView.roundsLeftTextView.resignFirstResponder()
-            myView.roundsLeftTextView.text = ""
-            dictionary["Rounds left"] = nil
-        } else if picker.tag == 2 {
-            myView.difficultyTextView.resignFirstResponder()
-            myView.difficultyTextView.text = ""
-            dictionary["Difficulty"] = nil
-        }
-    }
-    
-    
-    //MARK: - Image
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let alert = UIAlertController(title: "Which source do you want to use?", message: nil, preferredStyle: .actionSheet)
-            let cameraButton = UIAlertAction(title: "Camera", style: .default) { (action) in
-                imagePicker.sourceType = .camera
-            }
-            let photoLibraryButton = UIAlertAction(title: "Photo Library", style: .default) { (action) in
-                imagePicker.sourceType = .photoLibrary
-            }
-            alert.addAction(cameraButton)
-            alert.addAction(photoLibraryButton)
-            present(alert, animated: true, completion: nil)
-        } else {
-            imagePicker.sourceType = .photoLibrary
-        }
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        imageView.image = image
-        dismiss(animated: true, completion: nil)
-    }
-    
-    //MARK: - Location
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.first
-        updateTextViews()
     }
 }
 
